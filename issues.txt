@@ -1,166 +1,170 @@
-Array property is null if the element at 0 position is skipped
-**Affects:** Spring Boot Version - 2.2.2.RELEASE
----
-I have the following application.properties file:
-```
-metric.prefix=dev
-metric.kafka.report_period_ms=60000
-metric.kafka.clusters.0.groupstopics.0.group_id=test1
-metric.kafka.clusters.0.groupstopics.0.topics=test_topic1,test_topic2
-metric.kafka.clusters.0.groupstopics.1.group_id=test2
-metric.kafka.clusters.0.groupstopics.1.topics=test_topic3,test_topic4
-metric.kafka.clusters.0.groupstopics.2.group_id=test3
-metric.kafka.clusters.0.groupstopics.2.topics=test_topic5,test_topic6
-```
-In this case I have properly configured ConfigurationProperties, something like this:
-```
-{
-  "prefix":"dev",
-  "cluster":[
-    {
-      "groupstopics": [
-        {
-          "group_id": "test1",
-          "topics": "test_topic1,test_topic2"
-        },
-        {
-          "group_id": "test2",
-          "topics": "test_topic3,test_topic4"
-        },
-        {
-          "group_id": "test3",
-          "topics": "test_topic5,test_topic6"
-        }
-      ]
-    }
-  ]
-}
-```
-If I skip, for example, metric.kafka.clusters.0.groupstopics.1 completely, my properties file looks like this:
-```
-metric.prefix=dev
-metric.kafka.report_period_ms=60000
-metric.kafka.clusters.0.groupstopics.0.group_id=test1
-metric.kafka.clusters.0.groupstopics.0.topics=test_topic1,test_topic2
-metric.kafka.clusters.0.groupstopics.2.group_id=test3
-metric.kafka.clusters.0.groupstopics.2.topics=test_topic5,test_topic6
-```
-It's also properly mapped, I have the following ConfigurationProperties:
-```
-{
-  "prefix":"dev",
-  "cluster":[
-    {
-      "groupstopics": [
-        {
-          "group_id": "test1",
-          "topics": "test_topic1,test_topic2"
-        },
-        {
-          "group_id": "test3",
-          "topics": "test_topic5,test_topic6"
-        }
-      ]
-    }
-  ]
-}
-```
-However, if I skip the first element of metric.kafka.clusters.0.groupstopics, my properties file looks like this:
-```
-metric.prefix=dev
-metric.kafka.report_period_ms=60000
-metric.kafka.clusters.0.groupstopics.1.group_id=test2
-metric.kafka.clusters.0.groupstopics.1.topics=test_topic3,test_topic4
-metric.kafka.clusters.0.groupstopics.2.group_id=test3
-metric.kafka.clusters.0.groupstopics.2.topics=test_topic5,test_topic6
-```
-In this case, I have wrongly mapped ConfigurationProperties, groupstopics is set as null:
-```
-{
-  "prefix":"dev",
-  "cluster":[
-    {
-      "groupstopics": null
-    }
-  ]
-}
-```
-Is it expected behaviour? Can it be fixed?
-Thanks!###
-Action in the failure analysis for BeanCurrentlyInCreationException contains a typo
-<!--
-Thanks for contributing to Spring Boot. Please review the following notes before
-submitting a pull request.
-
-Please submit only genuine pull-requests. Do not use this repository as a GitHub
-playground.
-
-Security Vulnerabilities
-
-STOP! If your contribution fixes a security vulnerability, please do not submit it.
-Instead, please head over to https://spring.io/security-policy to learn how to disclose a
-vulnerability responsibly.
-
-Dependency Upgrades
-
-Please do not open a pull request for a straightforward dependency upgrade (one that
-only updates the version property). We have a semi-automated process for such upgrades
-that we prefer to use. However, if the upgrade is more involved (such as requiring
-changes for removed or deprecated API) your pull request is most welcome.
-
-Describing Your Changes
-
-If, having reviewed the notes above, you're ready to submit your pull request, please
-provide a brief description of the proposed changes. If they fix a bug, please
-describe the broken behaviour and how the changes fix it. If they make an enhancement,
-please describe the new functionality and why you believe it's useful. If your pull
-request relates to any existing issues, please reference them by using the issue number
-prefixed with #.
--->
-This PR fixes a typo.###
-Added details to failed SpringBootCondition
-It would appear, at least under some logging configurations, that the
-exception cause is not actually being logged in the shown stacktrace
-when the failed condition exception occurs (at least, in Spring Boot 2.5.2).
-This means when the condition throws an IllegalStateException, there is
-no details as to what actually went wrong. This change amends the logged
-message to include the cause exception name and the associated message
-to assist in debugging.###
-Avoid tests connecting using IPv4 when server's listening on IPv6
-When we create a test server we don't specify an address for it to listen on and we request an ephemeral port. When we connect to the server we often use `localhost`. This can, I think, lead to the server listening on IPv6 ::0 but the client prefers IPv4. Normally this wouldn't cause a problem as nothing would be listening on the port in the IPv4 stack so the client would then connect to the server being tested using the IPv6 stack. However, if another process was listening to the port in the IPv4 stack, the client would connect to the wrong server. I've seen failures locally when, for example, the test accidentally connects to an HTTP server running inside IntelliJ IDEA, causing it to fail. We made some changes in this area in the past (https://github.com/spring-projects/spring-boot/commit/fedc4647e185826d512a96aa720c7df38fdcbb8e and https://github.com/spring-projects/spring-boot/commit/e973eaf2c3552c1bba431d0d3e4aef75e3ca8995). We need to do so consistently across all of our tests. Alternatively, we could configure all test tasks to run with `-Djava.net.preferIPv4Stack=true` but this would not take effect when running tests in an IDE that doesn't delegate to Gradle.###
-Document that spring-boot-starter-parent configures Java compilation to use -parameters
-I am Chinese, please forgive me if my English is not good
-
-bug demo  project  
-
-[https://github.com/social-uni/spring-cache-bug](https://github.com/social-uni/spring-cache-bug)
-
-run TestcacheApplication
-
-input url in browser 
-
-https://localpc.qingchiapp.com:8097/app/hello?adCode=100000
-
-modify pom file
-
-## get success
-
-```
-//pom
-
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.4.9</version>
-        <relativePath/> <!-- lookup parent from repository -->
-    </parent>
-    
-    
-    <!--<dependencyManagement>
-        <dependencies>
-            &lt;!&ndash; https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-dependencies &ndash;&gt;
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <version>2.4.9</version>
-                &lt;!&ndash; 
+Editorial changes to the multi-page reference documentation's index
+ 
+Document how to parameterize output directory for REST Docs with WebTestClient
+Forward port of issue #27803 to 2.6.x.
+Document how to parameterize output directory for REST Docs with WebTestClient
+Forward port of issue #27755 to 2.5.x.
+Should SessionAutoConfiguration#addCandidateIfAvailable be polished?
+https://github.com/spring-projects/spring-boot/blob/f386ebe61df37f8b1c3077f273905421bec0de5b/spring-boot-project/spring-boot-autoconfigure/src/main/java/org/springframework/boot/autoconfigure/session/SessionAutoConfiguration.java#L241-L246
+
+
+
+As far as i know, Condition `candidate != null` is always `true`.
+
+
+
+A post regarding whether or not `Class.forName can return null` [here](https://stackoverflow.com/questions/430089/in-java-can-class-forname-ever-return-null) and everyone seems to think it can't (or wont).
+
+
+
+I'm very curious about why this judgment condition is needed here. Could it be that I have missed some points?
+server.tomcat.use-relative-redirects=true not honored when server.forward-headers-strategy=framework
+For a Spring Boot webmvc application, when the property `server.tomcat.use-relative-redirects` is set to `true` and the server returns a 302 redirect, the `Location` header should contain only the URI path, not a full URL ("/path" instead of "http://host/path").
+
+
+
+However, if the property `server.forward-headers-strategy` is also set to `framework` *and* the HTTP request contains a "forwarded" header like "X-Forwarded-Proto: http", the `Location` header contains a full URL, instead of only the URI path as expected.
+
+
+
+### Detected in versions
+
+
+
+Spring Boot: 2.5.4, 2.4.5
+
+Java: 11.0.6
+
+
+
+### Code Example
+
+
+
+Controller:
+
+
+
+```java
+
+import org.springframework.stereotype.Controller;
+
+import org.springframework.web.bind.annotation.GetMapping;
+
+import org.springframework.web.bind.annotation.ResponseBody;
+
+
+
+@Controller
+
+public class RedirectController {
+
+    @GetMapping("/redirect-to-foo")
+
+    public String getRedirect() {
+
+        return "redirect:/foo";
+
+    }
+
+
+
+    @GetMapping("/foo")
+
+    @ResponseBody
+
+    public String getFoo() {
+
+        return "This is a test";
+
+    }
+
+}
+
+```
+
+
+
+Controller Test:
+
+
+
+```java
+
+import org.junit.jupiter.api.Test;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
+
+import org.springframework.boot.test.context.SpringBootTest;
+
+import org.springframework.test.context.TestPropertySource;
+
+import org.springframework.test.web.reactive.server.WebTestClient;
+
+
+
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+
+@AutoConfigureWebTestClient
+
+@TestPropertySource(properties = {
+
+    "server.tomcat.use-relative-redirects=true",
+
+    "server.forward-headers-strategy=framework"
+
+})
+
+class RedirectControllerTest {
+
+    @Test
+
+    void testRedirect(@Autowired WebTestClient webClient) throws Exception {
+
+        webClient.get()
+
+            .uri("/redirect-to-foo")
+
+            .exchange()
+
+            .expectStatus().is3xxRedirection()
+
+            .expectHeader().location("/foo");
+
+        // Succeeds
+
+    }
+
+
+
+    @Test
+
+    void testRedirectWithForwardedHeaders(@Autowired WebTestClient webClient) throws Exception {
+
+        webClient.get()
+
+            .uri("/redirect-to-foo")
+
+            .header("X-Forwarded-Proto", "http")
+
+            .exchange()
+
+            .expectStatus().is3xxRedirection()
+
+            .expectHeader().location("/foo");
+
+        // Fails with error:
+
+        // java.lang.AssertionError: Response header 'Location' expected:</foo> but was:<http://localhost/foo>
+
+    }
+
+}
+
+```
+NullPointerException in RoutingDataSourceHealthContributor when a routing data source has a target with a null routing key
+Forward port of issue #27698 to 2.6.x.
+@MockBean combined with @Repeat results in "the field cannot have an existing value" error
+Forward port of issue #27798 to 2.6.x.
