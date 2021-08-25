@@ -1,170 +1,160 @@
+Configuration Processor does not support lombok @Builder.Default annotated values
+Hi,
+
+Spring Boot configuration processor does not set the default values for those that have the lombok `Builder.Default` annotation.
+
+Given the following class below, the default value for `foo` is present but not for `bar` in the generated configuration metadata.
+
+```
+@lombok.Data
+@lombok.NoArgsContructor
+@lombok.AllArgsContructor
+@ConfigurationProperties
+class MyProps { 
+  
+  String foo = "default value";
+  
+  @lombok.Builder.Default
+  String bar = "default value";
+}
+```
+
+Binder on kotlin.coroutines is not work well
+I compile a jar to provide coroutines for java, like 'kotlin-coroutines-java-support.jar'.
+
+It works well until `org.springframework.boot.context.properties.bind.Binder` used.
+
+I use binder like this:
+
+```java
+//custom properties
+Map<String, Object> map = new LinkedHashMap<>();
+map.put("demo.get", 1);
+map.put("demo.list", "1,2,3");
+map.put("demo.map.m1", true);
+map.put("demo.map.m2", false);
+map.put("demo.el", "el,${demo.get}");
+
+StandardEnvironment env = new StandardEnvironment();
+//remove default propertySources
+//......
+//add new
+OriginTrackedMapPropertySource propertySource = new OriginTrackedMapPropertySource("newEnv", map, true);
+env.getPropertySources().addFirst(propertySource);
+
+//class to bind
+@Data
+public static class DemoBinderToUse {
+
+  private int get;
+
+  private String el;
+
+  private List<Integer> list;
+
+  private Map<String, Boolean> map;
+}
+
+//finally run in coroutines concurrently
+Binder.get(env).bindOrCreate("demo", DemoBinderToUse.class);
+```
+
+List's value is wrong sometimes
+
+![image](https://user-images.githubusercontent.com/18523183/130726171-cc5442a9-7c55-4361-bf94-5244dfa1113f.png)
+Fix inconsistent devtools doc
+DevTools only log a message and doesn't set `logging.level.web` to `DEBUG`
+
+https://github.com/spring-projects/spring-boot/blob/dc5acb00191c2eac09907c39e4d890343bf9848d/spring-boot-project/spring-boot-devtools/src/main/java/org/springframework/boot/devtools/env/DevToolsPropertyDefaultsPostProcessor.java#L90-L94
+
+Tune pre-defined logging group `sql`
+add org.hibernate.type.descriptor.sql.BasicBinder to output binding parameters
+
+<!--
+Thanks for contributing to Spring Boot. Please review the following notes before
+submitting a pull request.
+
+Please submit only genuine pull-requests. Do not use this repository as a GitHub
+playground.
+
+Security Vulnerabilities
+
+STOP! If your contribution fixes a security vulnerability, please do not submit it.
+Instead, please head over to https://spring.io/security-policy to learn how to disclose a
+vulnerability responsibly.
+
+Dependency Upgrades
+
+Please do not open a pull request for a straightforward dependency upgrade (one that
+only updates the version property). We have a semi-automated process for such upgrades
+that we prefer to use. However, if the upgrade is more involved (such as requiring
+changes for removed or deprecated API) your pull request is most welcome.
+
+Describing Your Changes
+
+If, having reviewed the notes above, you're ready to submit your pull request, please
+provide a brief description of the proposed changes. If they fix a bug, please
+describe the broken behaviour and how the changes fix it. If they make an enhancement,
+please describe the new functionality and why you believe it's useful. If your pull
+request relates to any existing issues, please reference them by using the issue number
+prefixed with #.
+-->
+
+Remove @Persistent from CouchbaseDataConfiguration's entity scanning to re-align with Spring Data Couchbase
+Scanning for `@Persistent` was removed in https://github.com/spring-projects/spring-data-couchbase/commit/351370ba4d0f166a6c59c5a92bcd179bea97c688. We should update `CouchbaseDataConfiguration` to match.
+2.5.4 upgrade, issue with actuator/metrics/AutoTimer, blocks startup
+We have a Spring Boot application (webflux, r2dbc, spring data) using the version 2.5.3. After upgrading to 2.5.4 the application halts at startup. From the thread dump  it seems that a thread is blocked during the initialization of AutoTimer in metrics.
+
+```
+"reactor-tcp-epoll-1" #32 daemon prio=5 os_prio=0 cpu=122,91ms elapsed=8,35s tid=0x00007f8404f851e0 nid=0xa098 waiting for monitor entry  [0x00007f84747d8000]
+   java.lang.Thread.State: BLOCKED (on object monitor)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:217)
+	- waiting to lock <0x000000060ec1ef78> (a java.util.concurrent.ConcurrentHashMap)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:333)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:208)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:276)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1380)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory$DependencyObjectProvider.getObject(DefaultListableBeanFactory.java:1979)
+	at org.springframework.boot.actuate.autoconfigure.metrics.data.RepositoryMetricsAutoConfiguration$$Lambda$840/0x00000008011e8b20.get(Unknown Source)
+	at org.springframework.util.function.SingletonSupplier.get(SingletonSupplier.java:97)
+	- locked <0x000000061115e180> (a org.springframework.util.function.SingletonSupplier)
+	at org.springframework.boot.actuate.metrics.data.MetricsRepositoryMethodInvocationListener.lambda$afterInvocation$0(MetricsRepositoryMethodInvocationListener.java:87)
+	at org.springframework.boot.actuate.metrics.data.MetricsRepositoryMethodInvocationListener$$Lambda$1194/0x0000000801315700.accept(Unknown Source)
+	at org.springframework.boot.actuate.metrics.AutoTimer.apply(AutoTimer.java:109)
+	at org.springframework.boot.actuate.metrics.data.MetricsRepositoryMethodInvocationListener.afterInvocation(MetricsRepositoryMethodInvocationListener.java:86)
+	at org.springframework.data.repository.core.support.RepositoryInvocationMulticaster$DefaultRepositoryInvocationMulticaster.notifyListeners(RepositoryInvocationMulticaster.java:76)
+	at org.springframework.data.repository.core.support.RepositoryMethodInvoker$ReactiveInvocationListenerDecorator.lambda$decorate$7(RepositoryMethodInvoker.java:248)
+	at org.springframework.data.repository.core.support.RepositoryMethodInvoker$ReactiveInvocationListenerDecorator$$Lambda$1047/0x0000000801233a30.apply(Unknown Source)
+```
+	
+Drilling down a bit more, it seems that the problem is specifically with the AutoTimer support in spring data repositories, so if you disable that, the application starts normally.
+
+> management.metrics.data.repository.autotime.enabled= false
+
+Unfortunatelly i could not reproduce that in a clean project with the same depedencies. Also the same issue appears in similar applications that have spring data but with cassandra connectivity this time.
+Polish SessionAutoConfiguration#addCandidateIfAvailable
+Closing [gh-27802](https://github.com/spring-projects/spring-boot/issues/27802) 
+Gradle plugin: adding files to bootJar classpath breaks dependencies
+Using plugin `id 'org.springframework.boot' version '2.4.4'`
+
+Using the following code:
+```
+bootJar {
+    classpath += project(":web").packageWeb.outputs
+```
+breaks `bootJar` tasks dependencies, resulting in jar containing only dependency libs, but not current project code (missing `BOOT-INF/classes/`). The `classes` task is not called.
+
+The following works fine tho:
+```
+bootJar {
+    classpath project(":web").packageWeb.outputs
+```
+
+Consider if we want to add an additional asciidoctor block around source code for callouts
+See the discussion at https://github.com/spring-projects/spring-boot/pull/27759#discussion_r691636911
+
+We currently don't have any callouts, but if we did we should consider how we want them styled. We will also need to consider how they'll work with tab switches if we have Kotlin versions of the samples.
 Editorial changes to the multi-page reference documentation's index
  
 Document how to parameterize output directory for REST Docs with WebTestClient
 Forward port of issue #27803 to 2.6.x.
-Document how to parameterize output directory for REST Docs with WebTestClient
-Forward port of issue #27755 to 2.5.x.
-Should SessionAutoConfiguration#addCandidateIfAvailable be polished?
-https://github.com/spring-projects/spring-boot/blob/f386ebe61df37f8b1c3077f273905421bec0de5b/spring-boot-project/spring-boot-autoconfigure/src/main/java/org/springframework/boot/autoconfigure/session/SessionAutoConfiguration.java#L241-L246
-
-
-
-As far as i know, Condition `candidate != null` is always `true`.
-
-
-
-A post regarding whether or not `Class.forName can return null` [here](https://stackoverflow.com/questions/430089/in-java-can-class-forname-ever-return-null) and everyone seems to think it can't (or wont).
-
-
-
-I'm very curious about why this judgment condition is needed here. Could it be that I have missed some points?
-server.tomcat.use-relative-redirects=true not honored when server.forward-headers-strategy=framework
-For a Spring Boot webmvc application, when the property `server.tomcat.use-relative-redirects` is set to `true` and the server returns a 302 redirect, the `Location` header should contain only the URI path, not a full URL ("/path" instead of "http://host/path").
-
-
-
-However, if the property `server.forward-headers-strategy` is also set to `framework` *and* the HTTP request contains a "forwarded" header like "X-Forwarded-Proto: http", the `Location` header contains a full URL, instead of only the URI path as expected.
-
-
-
-### Detected in versions
-
-
-
-Spring Boot: 2.5.4, 2.4.5
-
-Java: 11.0.6
-
-
-
-### Code Example
-
-
-
-Controller:
-
-
-
-```java
-
-import org.springframework.stereotype.Controller;
-
-import org.springframework.web.bind.annotation.GetMapping;
-
-import org.springframework.web.bind.annotation.ResponseBody;
-
-
-
-@Controller
-
-public class RedirectController {
-
-    @GetMapping("/redirect-to-foo")
-
-    public String getRedirect() {
-
-        return "redirect:/foo";
-
-    }
-
-
-
-    @GetMapping("/foo")
-
-    @ResponseBody
-
-    public String getFoo() {
-
-        return "This is a test";
-
-    }
-
-}
-
-```
-
-
-
-Controller Test:
-
-
-
-```java
-
-import org.junit.jupiter.api.Test;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
-import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
-
-import org.springframework.boot.test.context.SpringBootTest;
-
-import org.springframework.test.context.TestPropertySource;
-
-import org.springframework.test.web.reactive.server.WebTestClient;
-
-
-
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-
-@AutoConfigureWebTestClient
-
-@TestPropertySource(properties = {
-
-    "server.tomcat.use-relative-redirects=true",
-
-    "server.forward-headers-strategy=framework"
-
-})
-
-class RedirectControllerTest {
-
-    @Test
-
-    void testRedirect(@Autowired WebTestClient webClient) throws Exception {
-
-        webClient.get()
-
-            .uri("/redirect-to-foo")
-
-            .exchange()
-
-            .expectStatus().is3xxRedirection()
-
-            .expectHeader().location("/foo");
-
-        // Succeeds
-
-    }
-
-
-
-    @Test
-
-    void testRedirectWithForwardedHeaders(@Autowired WebTestClient webClient) throws Exception {
-
-        webClient.get()
-
-            .uri("/redirect-to-foo")
-
-            .header("X-Forwarded-Proto", "http")
-
-            .exchange()
-
-            .expectStatus().is3xxRedirection()
-
-            .expectHeader().location("/foo");
-
-        // Fails with error:
-
-        // java.lang.AssertionError: Response header 'Location' expected:</foo> but was:<http://localhost/foo>
-
-    }
-
-}
-
-```
-NullPointerException in RoutingDataSourceHealthContributor when a routing data source has a target with a null routing key
-Forward port of issue #27698 to 2.6.x.
-@MockBean combined with @Repeat results in "the field cannot have an existing value" error
-Forward port of issue #27798 to 2.6.x.
