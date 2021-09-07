@@ -32,11 +32,10 @@ for issue in issues:
     i+=1
 
 
-x = ["--->"+issue.title + "\n" + issue.body for issue in issues_all]
+'''x = ["--->"+issue.title + "\n" + issue.body for issue in issues_all]
 with open('issues.txt', 'w',encoding='utf-8') as arquivo:
-    arquivo.writelines("\n---> nova linha\n".join(x))
+    arquivo.writelines("\n---> nova linha\n".join(x))'''
 
-print(remove_single_crase.clean(issues_all[0].body))
 
-print(issues_all[0], "   ", issues_all[1])
+
 
