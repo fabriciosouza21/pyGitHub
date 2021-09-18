@@ -6,6 +6,9 @@ __pycache__/
 # C extensions
 *.so
 
+#LOCAL_VARIABLES_IBM_WATSON
+watson-tone-analyzer/LOCAL_VARIABLES.py
+
 # Distribution / packaging
 .Python
 build/
