@@ -7,11 +7,12 @@ class Issues_whith_more_comments:
         largers = []
         for issue in all_issues:
             size_comments = len(issue.comments)
-            if (len(largers) < qtd_issues):
-                largers.append
+            if (len(largers) < self.qtd_issues):
+                largers.append(issue)
             else:
                 for larger in largers:
-                    if (size_comments > len(larger.comments):
-                        largers.remove(larger)
+                    if (size_comments > len(larger.comments)):
                         largers.append(issue)
+                        largers.remove(larger)                        
                         break
+        return largers
