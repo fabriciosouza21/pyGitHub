@@ -9,6 +9,9 @@ __pycache__/
 #LOCAL_VARIABLES_IBM_WATSON
 watson-tone-analyzer/LOCAL_VARIABLES.py
 
+#LOCAL_VARIABLES_IBM_WATSON
+LOCAL_VARIABLE.py
+
 # Distribution / packaging
 .Python
 build/
