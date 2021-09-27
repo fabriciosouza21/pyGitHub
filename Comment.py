@@ -10,7 +10,7 @@ class Comment:
         convert["id"] = self.id
         convert["author"] = self.author
         convert["body"] = self.body
-        convert["updated_at"]=self.updated_at
+        convert["updated_at"]=self.updated_at.strftime("%d %B, %Y")
         return convert
 
     def __str__(self) -> str:
