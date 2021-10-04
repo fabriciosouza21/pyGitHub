@@ -1,6 +1,6 @@
 from entities.Comment import Comment
 from util.writeCommentsJson import writeCommentsJson
-from LOCAL_VARIABLE.LOCAL_VARIABLE import token
+from LOCAL_VARIABLE.LOCAL_VARIABLES import token
 
 from github import Github
 
