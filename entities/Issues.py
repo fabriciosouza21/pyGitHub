@@ -11,7 +11,7 @@ class Issues:
     
     def empty(self,text):
         if not text:
-            return " "
+            return ""
         return text
 
     def to_dict(self):
