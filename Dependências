@@ -1,0 +1,4 @@
+Dependências 
+pip install --upgrade "ibm-watson>=5.3.0"
+pip install PyGithub
+

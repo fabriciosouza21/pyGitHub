@@ -1,6 +1,6 @@
 from entities.Comment import Comment
 from util.writeCommentsJson import writeCommentsJson
-from LOCAL_VARIABLE.LOCAL_VARIABLES import token
+from LOCAL_VARIABLE import token
 
 from github import Github
 
@@ -21,7 +21,7 @@ def InstantiateComments(issue):
 def getIssue():
     g = Github(token)
     repo = g.get_repo("spring-projects/spring-boot")
-    issue = repo.get_issue(number=10907)
+    issue = repo.get_issue(8115)
     result = InstantiateComments(issue)
     writeCommentsJson(result,nameFile="issue")
 

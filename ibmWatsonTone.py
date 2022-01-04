@@ -1,7 +1,7 @@
 
 from ibm_watson import ToneAnalyzerV3
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
-from LOCAL_VARIABLE.LOCAL_VARIABLES import url,apiKey
+from LOCAL_VARIABLE import url,apiKey
 from util.textComments import textCommensts
 from util.writeDictToJson import writeDictToJson
 

@@ -6,6 +6,6 @@ def writeCommentsJson(comments,nameFile="file"):
         commentslist.append(comment.to_dict())
     commentsjson["comments"] = commentslist
 
-    with open(f'database/{nameFile}.json', 'a', encoding='utf16') as f:
+    with open(f'database/{nameFile}.json', 'w', encoding='utf16') as f:
         json.dump(commentsjson, f, ensure_ascii=False,
                   sort_keys=True, indent=2, separators=(',', ':'))
