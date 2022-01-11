@@ -16,7 +16,7 @@ def authenticator():
 
 def requestIbmWatsonTone():
     tone_analyzer = authenticator() 
-    text = textCommensts(database = "database/issue")
+    text = textCommensts(database = "spring-boot-10907")
     tone_analysis = tone_analyzer.tone(
         {'text': text},
         content_type='application/json'

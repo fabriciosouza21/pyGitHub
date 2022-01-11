@@ -20,10 +20,11 @@ def InstantiateComments(issue):
 
 def getIssue():
     g = Github(token)
+    commentsTotal = []
     repo = g.get_repo("spring-projects/spring-boot")
-    issue = repo.get_issue(8115)
-    result = InstantiateComments(issue)
-    writeCommentsJson(result,nameFile="issue")
+    issues = repo.get_issue(10907)
+    comments = InstantiateComments(issues)
+    writeCommentsJson(comments,"spring-boot-10907")  
 
 if __name__ == '__main__':
     getIssue()
