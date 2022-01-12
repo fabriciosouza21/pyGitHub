@@ -6,7 +6,7 @@ def processText(result):
         text = f'{text}{comment["body"]}'
     return text
 
-def textCommensts(database="database/issue"):    
-    result =readJson(f"{database}.json")["comments"]
+def textComments(arquivo="issue",path="database/"):    
+    result =readJson(f"{path}{arquivo}.json")["comments"]
     return processText(result=result)    
     
