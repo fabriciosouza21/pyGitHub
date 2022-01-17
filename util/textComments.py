@@ -1,3 +1,4 @@
+from util.Process_text import Process_text
 from util.readJson import readJson
 
 def processText(result):
@@ -6,7 +7,8 @@ def processText(result):
         text = f'{text}{comment["body"]}'
     return text
 
-def textComments(arquivo="issue",path="database/"):    
+def textComments(filter:Process_text,arquivo="issue",path="database/")->str:    
     result =readJson(f"{path}{arquivo}.json")["comments"]
-    return processText(result=result)    
+    text = processText(result=result)
+    return filter.run_cleaner(text=text)
     
