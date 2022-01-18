@@ -1,9 +1,6 @@
-import os
-import sys
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from util import Process_text
-from util import Remove_single_crase
-from util import Remove_three_crase
+from filters.Process_text import Process_text
+from filters.Remove_single_crase import Remove_single_crase
+from filters.Remove_three_crase import Remove_three_crase
 
 def removerCode()-> Process_text:
     process = Process_text() 

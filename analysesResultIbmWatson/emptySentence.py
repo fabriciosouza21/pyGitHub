@@ -1,8 +1,8 @@
 
-def emptySentence(sentences:list)->int:
+def emptySentence(ibm:dict)->int:
     sum = 0
 
-    for sentence in sentences:
+    for sentence in ibm["sentences_tone"]:
         if  isEmpty(sentence):
             sum+=1
     return sum

@@ -1,4 +1,4 @@
-from util.Process_text import Process_text
+from filters.Process_text import Process_text
 from util.readJson import readJson
 
 def processText(result):
