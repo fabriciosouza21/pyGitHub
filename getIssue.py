@@ -2,6 +2,7 @@
 
 from math import ceil
 from entities.Comment import Comment
+from util.resquest.GitApiHearderResponse import GitApiHearderResponse
 #from util.writeCommentsJson import writeCommentsJson
 from util.writeCommentsJsonSomente import writeCommentsJson
 from github import Github
@@ -22,7 +23,7 @@ def InstantiateComments(issue):
     return all_comments
 
 
-def getIssue():
+def get_issue():
     token = os.environ["TOKEN"]
     g = Github(token)
     commentsTotal = []
@@ -32,49 +33,58 @@ def getIssue():
     writeCommentsJson(comments, "spring-boot-10907")
 
 
-def InstantiateCommentsDict(issue):
+def instantiate_comments_dict(issue):
     result = {}
-    result["number"] = issue.number
-    result["user"] = issue.user.name
-    result["created_at"] = issue.created_at.strftime("%d %B, %Y")
-    result["body"] = issue.body
+    result["number"] = issue["number"]
+    result["user"] = issue["user"]["login"]
+    result["created_at"] = issue["created_at"]
+    result["body"] = issue["body"]
     result["comments"] = []
-    comments = issue.get_comments()
-    global comentraios 
+
+    comments = issue["comments_list"]
     for comment in comments:
         custom_comment = {}
-        custom_comment["user"] = comment.user.name
-        custom_comment["created_at"] = comment.created_at.strftime("%d %B, %Y")
-        custom_comment["body"] = comment.body
+        custom_comment["user"] = comment["user"]["login"]
+        custom_comment["created_at"] = comment["created_at"]
+        custom_comment["body"] = comment["body"]
         result["comments"].append(custom_comment)
 
     return result
 
 
-def getPages():
-    global comentraios
+def get_pages() -> None:
     token = os.environ["TOKEN"]
-    g = Github(token)
     page = 0
     commentsTotal = []
-    issuesPages = []
-    try:
-        owner = "spring-projects"
-        repo = "spring-boot"
-        query_url = f"https://api.github.com/repos/{owner}/{repo}/issues"
-        params = {
-           "state": "all",
-           "per_page": 100,
-           "page": page
-        }
-        headers = {'Authorization': f'token {token}'}
-        r = requests.get(query_url, headers=headers, params=params)
-        link = r.headers.get('link')
-        query_url = proximaPagina(link)
-        limite = r.headers.get('X-RateLimit-Limit')
-        restante = r.headers.get('X-RateLimit-Remaining')
-    except Exception as e:
-        print(e)
+
+    owner = "spring-projects"
+    repo = "spring-boot"
+    query_url = f"https://api.github.com/repos/{owner}/{repo}/issues"
+    params = {
+        "state": "all",
+        "per_page": 100,
+        "page": page
+    }
+    headers = {'Authorization': f'token {token}'}
+    r = requests.get(query_url, headers=headers, params=params)
+
+    restante = r.headers.get('X-RateLimit-Remaining')
+    response_issue = r.json()
+    link = r.headers.get('link')
+    response_header = GitApiHearderResponse(link)
+
+    for issue in response_issue:
+        issue["comments_list"] = []
+        if issue["comments"] > 0:
+            r_comments = requests.get(
+                issue["comments_url"], headers=headers)
+            response_comments = r_comments.json()
+            issue["comments_list"] = response_comments
+        comments = instantiate_comments_dict(issue)
+        commentsTotal.append(comments)
+    page += 1
+    commentsTotal
+
 
 if __name__ == '__main__':
-    getPages()
+    get_pages()
