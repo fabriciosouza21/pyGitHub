@@ -6,9 +6,11 @@ from GitApiHearderResponse import GitApiHearderResponse
 
 class TestProximaPagina(unittest.TestCase):
     def test_deve_retornar_link_proxima_pagina(self):
-        link = '<https://api.github.com/repositories/6296790/issues?state=all&per_page=100&page=2>; rel="next", <https://api.github.com/repositories/6296790/issues?state=all&per_page=100&page=295>; rel="last"'
-        response = GitApiHearderResponse(link)
-        result = response.proximaPagina
+        header = {}
+        header["link"] = '<https://api.github.com/repositories/6296790/issues?state=all&per_page=100&page=2>; rel="next", <https://api.github.com/repositories/6296790/issues?state=all&per_page=100&page=295>; rel="last"'
+        header["X-RateLimit-Remaining"] = "60"
+        response = GitApiHearderResponse(header)
+        result = response.proxima_pagina
         expected = "https://api.github.com/repositories/6296790/issues?state=all&per_page=100&page=2"
         self.assertEqual(expected, result)
 

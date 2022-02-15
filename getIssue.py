@@ -1,5 +1,6 @@
 
 
+from email import header
 from math import ceil
 from entities.Comment import Comment
 from util.resquest.GitApiHearderResponse import GitApiHearderResponse
@@ -66,24 +67,23 @@ def get_pages() -> None:
         "page": page
     }
     headers = {'Authorization': f'token {token}'}
-    r = requests.get(query_url, headers=headers, params=params)
+    
+        r = requests.get(query_url, headers=headers, params=params)
+        response_issue = r.json()
+        header = r.headers.get()
+        response_header = GitApiHearderResponse(header)
 
-    restante = r.headers.get('X-RateLimit-Remaining')
-    response_issue = r.json()
-    link = r.headers.get('link')
-    response_header = GitApiHearderResponse(link)
+        for issue in response_issue:
+            issue["comments_list"] = []
+            if issue["comments"] > 0:
+                r_comments = requests.get(
+                    issue["comments_url"], headers=headers)
+                response_comments = r_comments.json()
+                issue["comments_list"] = response_comments
+            comments = instantiate_comments_dict(issue)
+            commentsTotal.append(comments)
 
-    for issue in response_issue:
-        issue["comments_list"] = []
-        if issue["comments"] > 0:
-            r_comments = requests.get(
-                issue["comments_url"], headers=headers)
-            response_comments = r_comments.json()
-            issue["comments_list"] = response_comments
-        comments = instantiate_comments_dict(issue)
-        commentsTotal.append(comments)
-    page += 1
-    commentsTotal
+
 
 
 if __name__ == '__main__':
