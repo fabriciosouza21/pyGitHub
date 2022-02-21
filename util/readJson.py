@@ -1,5 +1,10 @@
 import json
+import os
 
 def readJson(fileName,path="database"):
-    with open(f'{path}/{fileName}.json', 'r',encoding="utf-16") as f:
-        return json.load(f)
+    arquivo = os.path.exists(f'{path}/{fileName}.json')
+    if arquivo:
+        with open(f'{path}/{fileName}.json', 'r',encoding="utf-16") as f:
+            return json.load(f)
+    else:
+        return {}
