@@ -54,7 +54,7 @@ def instantiate_comments_dict(issue):
 
 
 def get_pages() -> None:
-    token = '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'
+    token = ''
     comments_total = []
     limite_requisicoes = False
     owner = "spring-projects"
