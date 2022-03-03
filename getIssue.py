@@ -23,7 +23,7 @@ def InstantiateComments(issue):
 
 
 def get_issue():
-    token = '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'
+    token = ''
     g = Github(token)
     repo = g.get_repo("spring-projects/spring-boot")
     issues = repo.get_issue(10907)
