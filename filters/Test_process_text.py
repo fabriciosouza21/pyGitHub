@@ -8,7 +8,7 @@ class Test_process_text(unittest.TestCase):
 
     def test_run_clean(self):
         tex_junk = 'Configuration Processor does not support```junk``` test1 https://github.com/fjakop/spring-boot-configuration-processor-description'
-        tex_clean = 'Configuration Processor does not support test1 '
+        tex_clean = 'Configuration Processor does not support test1 link'
         process = Process_text()
         remove_three_crase = Remove_three_crase()
         remove_url = Remove_url()
