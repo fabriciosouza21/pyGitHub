@@ -54,7 +54,8 @@ def instantiate_comments_dict(issue):
 
 
 def get_pages() -> None:
-    token = ''
+    token = os.environ["TOKEN"]
+
     comments_total = []
     limite_requisicoes = False
     owner = "spring-projects"
@@ -83,7 +84,8 @@ def get_pages() -> None:
         header = r.headers
         header["current_page"] = query_url
         response_header.set_header(header)
-        if(int(response_header.limit_estante) >100):
+
+        if(response_header.limit_estante >100):
             for issue in response_issue:
                 issue["comments_list"] = []
                 if issue["comments"] > 0:
