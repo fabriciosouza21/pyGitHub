@@ -1,5 +1,3 @@
-
-
 from email import header
 from math import ceil
 from entities.Comment import Comment
@@ -25,12 +23,12 @@ def InstantiateComments(issue):
 
 
 def get_issue():
-    token = os.environ["TOKEN"]
+    token = ''
     g = Github(token)
     repo = g.get_repo("spring-projects/spring-boot")
     issues = repo.get_issue(10907)
     comments = InstantiateComments(issues)
-    writeCommentsJson(comments, "spring-boot-10907")
+    writeCommentsJson(comments,"")  
 
 
 def instantiate_comments_dict(issue):
@@ -57,6 +55,7 @@ def instantiate_comments_dict(issue):
 
 def get_pages() -> None:
     token = os.environ["TOKEN"]
+
     comments_total = []
     limite_requisicoes = False
     owner = "spring-projects"
@@ -85,6 +84,7 @@ def get_pages() -> None:
         header = r.headers
         header["current_page"] = query_url
         response_header.set_header(header)
+
         if(response_header.limit_estante >100):
             for issue in response_issue:
                 issue["comments_list"] = []
