@@ -72,14 +72,18 @@ def get_pages() -> None:
     issues_repo_armazenada = readJson(f"{repo}-issues")
 
     page_armazenada = issues_repo_armazenada.get("page",None)
+    issues_armazenadas = issues_repo_armazenada.get("issues",None)
 
+    if not issues_armazenadas:
+        issues_repo_armazenada["issues"] = []
     if page_armazenada:
         query_url = page_armazenada
 
     print(f"Iniciando busca das issues {repo}...")
-    issues_repo_armazenada["issues"] = []
+    
     while query_url:
         print(query_url)
+        issues_repo_armazenada["page"] = query_url
         r = requests.get(query_url, headers=headers, params=params)
         response_issue = r.json()
         header = r.headers
@@ -100,12 +104,12 @@ def get_pages() -> None:
             issues_repo_armazenada["issues"].extend(comments_total)
             issues_repo_armazenada["page"] = query_url
             query_url = None
-            limite_requisicoes = True
-            
+            limite_requisicoes = True            
             break
         query_url = response_header.proxima_pagina
     if limite_requisicoes == False:  
         issues_repo_armazenada["issues"].extend(comments_total)
+        
     print(f"Iniciando write das issues {repo}...")
     writeCommentsJson(issues_repo_armazenada, f"{repo}-issues")
 
