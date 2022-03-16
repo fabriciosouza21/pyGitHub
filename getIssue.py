@@ -58,8 +58,8 @@ def get_pages() -> None:
 
     comments_total = []
     limite_requisicoes = False
-    owner = "spring-projects"
-    repo = "spring-boot"
+    owner = "cod3rcursos"
+    repo = "youtube"
     query_url = f"https://api.github.com/repos/{owner}/{repo}/issues"
     params = {
         "state": "all",

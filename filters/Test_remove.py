@@ -50,7 +50,8 @@ class Remover_test(unittest.TestCase):
         tex_junk = ["I'd like to know how I'd done that!"]
         tex_clean = ["I had like to know how I had done that!"]
         remove = Decompress_contractions()
-        self.assertEqual(tex_clean,remove.clean(tex_junk))
+        text_descontrations = remove.clean(tex_junk)
+        self.assertEqual(tex_clean,remove.clean(text_descontrations))
     
 if __name__ == '__main__':
     unittest.main()

@@ -7,10 +7,11 @@ class GitApiHearderResponse:
     
 
     def set_header(self, header):
-        self.link = header["link"]
+        self.link =  header.get("link",None)
         self.proxima_pagina = ""
         self.limit_estante = int(header["X-RateLimit-Remaining"])
-        self.process_header_response()
+        if(self.link):
+            self.process_header_response()
         
     def process_header_response(self)->str:
         headers = self.link.split(",")
