@@ -1,6 +1,5 @@
 Dependências 
 pip install --upgrade "ibm-watson>=5.3.0"
 pip install PyGithub
-pip install git+https://github.com/MCFreddie777/language-check.git
-pip install pycontractions
+pip install git+https://github.com/fabriciosouza21/pycontractions.git
 java 8 java version 8.0.322-zulu
