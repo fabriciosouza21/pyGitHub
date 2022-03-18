@@ -58,8 +58,8 @@ def get_pages() -> None:
 
     comments_total = []
     limite_requisicoes = False
-    owner = "cod3rcursos"
-    repo = "youtube"
+    owner = "vuejs"
+    repo = "router"
     query_url = f"https://api.github.com/repos/{owner}/{repo}/issues"
     params = {
         "state": "all",
@@ -104,12 +104,16 @@ def get_pages() -> None:
             issues_repo_armazenada["issues"].extend(comments_total)
             issues_repo_armazenada["page"] = query_url
             query_url = None
+            issues_repo_armazenada["finished"] = False
             limite_requisicoes = True            
             break
         query_url = response_header.proxima_pagina
     if limite_requisicoes == False:  
         issues_repo_armazenada["issues"].extend(comments_total)
-        
+
+    if(not query_url):
+        issues_repo_armazenada["finished"] = True
+         
     print(f"Iniciando write das issues {repo}...")
     writeCommentsJson(issues_repo_armazenada, f"{repo}-issues")
 
