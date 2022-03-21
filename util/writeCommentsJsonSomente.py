@@ -8,6 +8,6 @@ def writeCommentsJson(comments, nameFile="file"):
     commentsjson["comments"] = comments
 
     with open(f'database/{nameFile}.json', 'w', encoding='utf-8') as f:
-        json.dump(comments, f, ensure_ascii=False,
+        json.dump(comments, f, ensure_ascii=True,
 
                   sort_keys=True, indent=2, separators=(',', ':'))

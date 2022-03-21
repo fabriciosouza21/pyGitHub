@@ -58,8 +58,8 @@ def get_pages() -> None:
 
     comments_total = []
     limite_requisicoes = False
-    owner = "vuejs"
-    repo = "router"
+    owner = "kamranahmedse"
+    repo = "developer-roadmap"
     query_url = f"https://api.github.com/repos/{owner}/{repo}/issues"
     params = {
         "state": "all",

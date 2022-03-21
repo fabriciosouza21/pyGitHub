@@ -8,8 +8,6 @@ services:
       - "27017:27017"
 
   mongo-seed:
-    build: ./mongo-seed
-    links:
-      - mongodb
+    build: ./mongo-seed   
 
   
