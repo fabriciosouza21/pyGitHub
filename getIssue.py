@@ -8,12 +8,13 @@ import os
 import requests
 
 
-def instantiate_comments_dict(issue):
+def instantiate_comments_dict(issue, repositorio=None):
     result = {}
     result["number"] = issue["number"]
     result["user"] = issue["user"]["login"]
     result["created_at"] = issue["created_at"]
     result["body"] = issue["body"]
+    result["repository"] = repositorio
     result["comments"] = []
 
     comments = issue["comments_list"]
@@ -35,8 +36,8 @@ def get_pages() -> None:
 
     comments_total = []
     limite_requisicoes = False
-    owner = "kamranahmedse"
-    repo = "developer-roadmap"
+    owner = "micronaut-projects"
+    repo = "micronaut-core"
     query_url = f"https://api.github.com/repos/{owner}/{repo}/issues"
     params = {
         "state": "all",
@@ -74,7 +75,7 @@ def get_pages() -> None:
                         issue["comments_url"], headers=headers)
                     response_comments = r_comments.json()
                     issue["comments_list"] = response_comments
-                comments = instantiate_comments_dict(issue)
+                comments = instantiate_comments_dict(issue, repo)
                 comments_total.append(comments)
         else:
             print("Limite de requisições atingido")
