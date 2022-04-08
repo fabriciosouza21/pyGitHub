@@ -5,4 +5,5 @@ class Decompress_contractions():
     def clean(self,text):
         cont.load_models()
         text_filtering = list(cont.expand_texts([text]))
-        return text_filtering[0]
+        text_filtering = text_filtering[0]
+        return text_filtering
