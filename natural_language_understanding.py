@@ -6,8 +6,8 @@ from ibm_watson.natural_language_understanding_v1 import Features, EntitiesOptio
 from filters.textTestes.text_issue import text
 from util.writeDictToJson import writeDictToJson
 def authenticator():
-    apiKey = 's64nMgYUz9CPXTU9Icz5gc3pGd-Xs8RtB09-qpkcBisp'
-    url = 'https://api.us-south.natural-language-understanding.watson.cloud.ibm.com/instances/fe11b374-6b44-4a27-b12a-2672741bedb5'
+    apiKey = ''
+    url = ''
     authenticator = IAMAuthenticator(apiKey)
     natural_language_understanding = NaturalLanguageUnderstandingV1(
     version='2021-03-25',
