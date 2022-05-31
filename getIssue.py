@@ -36,8 +36,8 @@ def get_pages() -> None:
 
     comments_total = []
     limite_requisicoes = False
-    owner = "micronaut-projects"
-    repo = "micronaut-core"
+    owner = "RIAEvangelist"
+    repo = "cdnode-ipc"
     query_url = f"https://api.github.com/repos/{owner}/{repo}/issues"
     params = {
         "state": "all",
@@ -89,9 +89,9 @@ def get_pages() -> None:
     if limite_requisicoes == False:  
         issues_repo_armazenada["issues"].extend(comments_total)
 
-    if(not query_url):
+    if(not query_url and not limite_requisicoes):
         issues_repo_armazenada["finished"] = True
-         
+    issues_repo_armazenada["qtd_issues"] = len(issues_repo_armazenada["issues"])
     print(f"Iniciando write das issues {repo}...")
     writeCommentsJson(issues_repo_armazenada, f"{repo}-issues")
 
