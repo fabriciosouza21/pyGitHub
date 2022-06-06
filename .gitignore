@@ -3,6 +3,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+issues-privadas/issues
 # C extensions
 *.so
 
