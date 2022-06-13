@@ -4,7 +4,6 @@ import os
 from ibm_watson import NaturalLanguageUnderstandingV1
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 from ibm_watson.natural_language_understanding_v1 import Features, EntitiesOptions, KeywordsOptions, EmotionOptions, SentimentOptions, CategoriesOptions, ConceptsOptions, SemanticRolesOptions, RelationsOptions, SyntaxOptions, SummarizationOptions, TokenResult, SentenceResult
-from util.writeDictToJson import writeDictToJson
 
 
 def authenticator():
@@ -32,7 +31,7 @@ def request_ibm_watson_natural_language_understanding(text, repo):
 
               
         )).get_result()
-    writeDictToJson(response, fileName=f"{repo}_emotion_keywords_issue")
+    return response
 
 
 
