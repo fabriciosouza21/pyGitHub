@@ -1,4 +1,6 @@
 from urllib import response
+
+from numpy import number
 from util.readJson import readJson
 import os
 from util.readJson import readJson
@@ -37,6 +39,7 @@ def analyse_natural_language_comments():
         comments = issue["comments"]
         repo_name = issue["repository"]
         for comment in comments:
+            number_comment = 1
             text =  comment["comment"]
             user = comment["user"]
             print(text)
@@ -46,8 +49,10 @@ def analyse_natural_language_comments():
                 if not os.path.isdir(f"resultWatson/comments/{repo_name}/{user}"):
                     os.mkdir(f"resultWatson/comments/{repo_name}/{user}")
                 response = request_ibm_watson_natural_language_understanding(repo=repo_name, text= text)
-                writeDictToJson(response,f"{user}_{repo_name}",f"resultWatson/comments/{repo_name}/{user}/")
-            
+                if(os.path.isfile(f"resultWatson/comments/{repo_name}/{user}/{user}_{repo_name}_{number_comment}.json")):
+                    number_comment += 1
+                writeDictToJson(response,f"{user}_{repo_name}_{number_comment}",f"resultWatson/comments/{repo_name}/{user}/")
+
 
 if __name__ == '__main__':
     analyse_natural_language_comments()
