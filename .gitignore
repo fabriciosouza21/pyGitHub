@@ -137,3 +137,6 @@ dmypy.json
 LOCAL_VARIABLE.py
 LOCAL_VARIABLE.py
 LOCAL_VARIABLE.PY
+
+resultWatson/
+database-natural-language/
