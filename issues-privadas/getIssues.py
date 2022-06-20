@@ -28,18 +28,18 @@ def issue_instanciate(issue_uttil:IssueRepositoryUtils)->dict:
     issue = repo.get_issue(int(issue_uttil.get_issue_number()))
     comments_issue = [] 
     comment_dict = {}
-    comment_dict["user"] = issue.user.name
+    comment_dict["user"] = issue.user.login
     comment_dict["comment"] = issue.body
     comments_issue.append(comment_dict)
     comments = issue.get_comments()
     for comment in comments:
         comment_dict = {}
-        comment_dict["user"] = comment.user.name
+        comment_dict["user"] = comment.user.login
         comment_dict["comment"] = comment.body
         comments_issue.append(comment_dict)
     issue_dict["comments"] = comments_issue
     issue_dict["repository"] = issue_uttil.repo_name
-    issue_dict["user"] = issue.user.name
+    issue_dict["user"] = issue.user.login
     return issue_dict
 
 def create_dir(repo_name):

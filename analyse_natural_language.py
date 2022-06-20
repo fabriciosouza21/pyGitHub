@@ -42,7 +42,6 @@ def analyse_natural_language_comments():
             number_comment = 1
             text =  comment["comment"]
             user = comment["user"]
-            print(text)
             if(len(text) > 50):
                 if not os.path.isdir(f"resultWatson/comments/{repo_name}"):
                     os.mkdir(f"resultWatson/comments/{repo_name}")
