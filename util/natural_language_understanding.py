@@ -23,12 +23,7 @@ def request_ibm_watson_natural_language_understanding(text, repo):
         text=text,
         return_analyzed_text=True,
         features=Features(
-            emotion=EmotionOptions(),
-            entities=EntitiesOptions(mentions=True, sentiment=True, emotion=True),
-            keywords=KeywordsOptions(emotion=True, sentiment=True),
-            sentiment=SentimentOptions(),
-
-              
+            emotion=EmotionOptions()              
         )).get_result()
     return response
 

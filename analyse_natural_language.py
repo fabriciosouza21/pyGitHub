@@ -28,6 +28,9 @@ def analyse_natural_language():
         request_ibm_watson_natural_language_understanding(repo=issue["repository"], text= text)
 
 def analyse_natural_language_comments():
+    comments_autores_toxicos_arquivos = {}
+    issues_toxicos_arquivos_analizados = []
+
     autores_toxicos_dict = readJson("autores_toxico", f"database/autores")
     autores_toxicos = list(autores_toxicos_dict["autores_toxico"])
     comments_qtd = 0
@@ -53,19 +56,26 @@ def analyse_natural_language_comments():
                 text =  comment["comment"]
                 user = comment["user"]
                 comments_qtd+=1
-                # number_comment = save_result(text, repo_name, user, number_comment)     
+                issues_toxicos_arquivos.append(arquivo)
+                try:
+                    number_comment = save_result(text, repo_name, user, number_comment)
                 
-    print(comments_qtd)
+                except Exception as e:
+                    print(e)
+                    print(f"{arquivo} - {comment['user']}")
+                    
+
+
 def save_result(text, repo_name, user, number_comment):
     if(len(text) > 50):
-        if not os.path.isdir(f"resultWatson/comments/{repo_name}"):
-            os.mkdir(f"resultWatson/comments/{repo_name}")
-        if not os.path.isdir(f"resultWatson/comments/{repo_name}/{user}"):
-            os.mkdir(f"resultWatson/comments/{repo_name}/{user}")
+        if not os.path.isdir(f"resultWatson/comments-toxico/{repo_name}"):
+            os.mkdir(f"resultWatson/comments-toxico/{repo_name}")
+        if not os.path.isdir(f"resultWatson/comments-toxico/{repo_name}/{user}"):
+            os.mkdir(f"resultWatson/comments-toxico/{repo_name}/{user}")
         response = request_ibm_watson_natural_language_understanding(repo=repo_name, text= text)
-        if(os.path.isfile(f"resultWatson/comments/{repo_name}/{user}/{user}_{repo_name}_{number_comment}.json")):
+        if(os.path.isfile(f"resultWatson/comments-toxico/{repo_name}/{user}/{user}_{repo_name}_{number_comment}.json")):
             number_comment += 1
-        writeDictToJson(response,f"{user}_{repo_name}_{number_comment}",f"resultWatson/comments/{repo_name}/{user}/")
+        writeDictToJson(response,f"{user}_{repo_name}_{number_comment}",f"resultWatson/comments-toxico/{repo_name}/{user}/")
         return number_comment
 
 if __name__ == '__main__':
