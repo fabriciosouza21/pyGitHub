@@ -1,7 +1,7 @@
 import os
 from util.readJson import readJson
 from util.write_json_db import write_comments_json_db
-pasta = './database/issues'
+pasta = './resultWatson/comments-toxico'
 arquivos_local = []
 for diretorio, subpastas, arquivos in os.walk(pasta):
     for arquivo in arquivos:

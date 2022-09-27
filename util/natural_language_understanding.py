@@ -18,6 +18,7 @@ def authenticator():
 
 
 def request_ibm_watson_natural_language_understanding(text, repo):
+    print(text)
     natural_language_understanding = authenticator()
     response = natural_language_understanding.analyze(
         text=text,
