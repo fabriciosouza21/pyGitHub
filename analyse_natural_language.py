@@ -5,6 +5,7 @@ from numpy import number
 from filters.Process_text import Process_text
 from filters.Remove_three_crase import Remove_three_crase
 from filters.Remove_url import Remove_url
+from filters.Remove_single_crase import Remove_single_crase
 from util.readJson import readJson
 import os
 from util.readJson import readJson
@@ -52,13 +53,14 @@ def analyse_natural_language_comments():
 
     arquivos_analisados_dict = readJson(
         "issues_toxicos_arquivos", "resultWatson/control/")
-    print(arquivos_analisados_dict)
+    
     arquivos_analisados = list(
         arquivos_analisados_dict["issues_toxicos_arquivos"])
     arquivos_local = set(arquivos_local).difference(set(arquivos_analisados))
     list(arquivos_local)
     arquivos_local = sorted(arquivos_local)
     for arquivo in arquivos_local:
+        print(arquivo)
         projeto = arquivo.split("-")[:-1]
         projeto = "-".join(projeto)
 
@@ -77,8 +79,10 @@ def analyse_natural_language_comments():
 
                     try:
                         number_comment = save_result(
-                            text, repo_name, user, number_comment)
-
+                            text, repo_name, user, number_comment,arquivo)
+                        
+                        
+                                                
                     except Exception as e:
                         print(e)
                         print(f"{arquivo} - {comment['user']}")
@@ -90,26 +94,27 @@ def analyse_natural_language_comments():
                         erros["issues_toxicos_arquivos_erro"] = erros_arquivos
                         writeDictToJson(
                             erros, "issues_toxicos_erro", "resultWatson/control/")
-                        arquivos_analisados.extend(
-                            issues_toxicos_arquivos_analizados)
 
-                        comments_autores_toxicos_arquivos["issues_toxicos_arquivos"] = arquivos_analisados
-                        writeDictToJson(comments_autores_toxicos_arquivos,
+                        print("erro comentario ..............................................")
+                        time.sleep(1*20)
+                        continue
+        
+        arquivos_analisados.append(arquivo)
+        comments_autores_toxicos_arquivos["issues_toxicos_arquivos"] = arquivos_analisados
+        writeDictToJson(comments_autores_toxicos_arquivos,
                                         "issues_toxicos_arquivos", f"resultWatson/control/")
-                        return
-
-    comments_autores_toxicos_arquivos["issues_toxicos_arquivos"] = issues_toxicos_arquivos_analizados
-    comments_autores_toxicos_arquivos["comments_qtd"] = comments_qtd
-    writeDictToJson(comments_autores_toxicos_arquivos,
-                    "issues_toxicos_arquivos", f"resultWatson/control/")
+    
+    
 
 
-def save_result(text, repo_name, user, number_comment):
+def save_result(text, repo_name, user, number_comment,arquivo):
     process = Process_text()
     remove_three_crase = Remove_three_crase()
     remove_url = Remove_url()
+    remove_single_quote = Remove_single_crase()
     process.add_cleaner(remove_three_crase)
     process.add_cleaner(remove_url)
+    process.add_cleaner(remove_single_quote)
     text = process.run_cleaner(text)
     if(len(text) > 50):
         if not os.path.isdir(f"resultWatson/comments-toxico/{repo_name}"):
@@ -126,7 +131,7 @@ if __name__ == '__main__':
     while True:
         print("Analisando comentários......................................")
         analyse_natural_language_comments()
-        print("erro comentario ..............................................")
-        time.sleep(1*60)
+        
+
         
         
