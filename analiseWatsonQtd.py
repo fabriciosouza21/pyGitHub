@@ -17,7 +17,8 @@ def qtd_finalize_issues():
     total_caracteres = 0
     qtd_caracteres = set()
     arquivos_analisar = []
-    arquivos_analisar = get_arquivos_local_nao_analisados(DATABASE_PATH)
+    #arquivos_analisar = get_arquivos_local_nao_analisados(DATABASE_PATH)
+    arquivos_analisar = get_arquivos_local_analisados(DATABASE_PATH)
     for arquivo in arquivos_analisar:
         comments = get_comments(arquivo)
         issue_qtd += 1
@@ -42,6 +43,17 @@ def qtd_finalize_issues():
                     'frequencia': frequencia
                 }
             }
+
+def get_arquivos_local_analisados(path):
+    DATABASE_RESULT_PATH = 'resultWatson/control/'
+    arquivos_local = []
+    get_arquivos_local(path, arquivos_local)
+    arquivos_analisados_dict = readJson(
+        "issues_toxicos_arquivos", DATABASE_RESULT_PATH)
+    arquivos_analisados = list(
+        arquivos_analisados_dict["issues_toxicos_arquivos"])
+    return  arquivos_analisados
+
 
 def get_max(maior_comentario, len_text):
     if(maior_comentario<len_text):
