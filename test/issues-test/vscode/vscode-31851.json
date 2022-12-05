@@ -1,0 +1,46 @@
+{
+  "comments":[
+    {
+      "comment":"The description of `supportsDelayedStackTraceLoading` debug adapter capability stipulates that in order for delayed stack loading to work, the adapter must populate the `totalFrames` field of `StackTraceResponse`.    \r\n\r\nHowever, for native debuggers, this value is not so easy to compute.  For example, when FPO (frame pointer omission) optimization is in play, the debugger may need to load debug info for *all* modules currently on stack, even those at the very bottom which the user probably didn't care about.\r\n\r\nSince the total number of frames is never surfaced in the UI, I am wondering whether `totalFrames` is truly necessary.  Wouldn't VSCode know that it has reached bottom of the stack when it receives back less frames than the `levels` it requested?",
+      "user":"vadimcn"
+    },
+    {
+      "comment":"Valid question. We will discuss this...\r\n\r\n@isidorn you don't need this, right?",
+      "user":"weinand"
+    },
+    {
+      "comment":"Yes that is correct. However keep in mind the following case:\r\nThere are exactly 20 frames: vscode gets all of them since we fetch 20 and display the \"load more stack frame\" button. If the user clicks on that button no more frames will be loaded (since we already fetched all) -> just that button will disapear.\r\n\r\nI am fine with this corner case, but just to be aware of it.",
+      "user":"isidorn"
+    },
+    {
+      "comment":"And if anyone does care, you could ask for 21 frames, but display 20.",
+      "user":"vadimcn"
+    },
+    {
+      "comment":"@weinand do we want to do something here? Assigning to November and debt so we discuss.",
+      "user":"isidorn"
+    },
+    {
+      "comment":"Any plans for this? I'm trying to optimise something too, and knowing the full count of frames is more expensive than not. Including a boolean in the response to say the frame list was truncated is another way around the issue described above (to avoid asking for one more than required and letting the DA do it however it sees fit).",
+      "user":"DanTup"
+    },
+    {
+      "comment":"I noticed that VS Code updates its count from `totalFrames` each time it fetches a batch. So - although it's not to-spec - I found this can be worked around by always telling VS Code there are `n` more frames than the last one it asked for. When it asks for those next frames, add `n` again (setting `n` to `20` seems good since it matches the original batch size).\r\n\r\nThe only niggle is that the expand text says \"Fetch all stack frames\" when it only fetches the next batch - however it does render nicely and provide the fetch link again on the next round trip.\r\n\r\nSo potentially this issue could be resolved by just documenting this (that a client should always use the latest `totalFrames` it was given) and changing the \"Fetch all stack frames\" text to maybe say \"Fetch more stack frames\"?\r\n\r\n(I may ship this anyway, understanding it may break and need updating/reverting, as the gains from not having to compute the full stack length up-front can be significant in some scenarios).",
+      "user":"DanTup"
+    },
+    {
+      "comment":"I agree, we should relax the need for `StackTraceResponse.totalFrames` to be exact (because determining that value might be expensive).\r\nOn the other hand I do not want to introduce another backward compatible property or even a capability for this.\r\nAnd since we have recently changed the action's text to \"Load All Stack Frames\", I would like to keep it like this unchanged...\r\n\r\nSo the only remaining option is to document how the current properties and capabilities can be used in a way that results in the desired behavior.\r\n\r\nFirst let's describe the behavior observed in VS Code:\r\n- for the initial call of the `stackTrace` request VS Code passes the arguments `startFrame: 0, levels: 20`. If the DA returns a response without a `totalFrames` property, VS Code does not emit any further `stackTrace` requests and provides no UI to load the rest. This is a bug. IIRC, then previous versions of VS Code were probing for the total number of frames by passing `startFrame: 0, levels: 1`. Did we drop this?\r\n- setting `StackTraceResponse.totalFrames` to the actual number of frames in the stack makes VS Code emit exactly one additional request to emit the rest of the frames.\r\n- setting `StackTraceResponse.totalFrames` to a huge value (e.g. 100000), works almost identical like the previous case. Only difference is that always a \"Load All Stack Frames\" action is shown. This is another bug since the action could be easily suppressed if the number of returned frames is smaller that the requested number.\r\n- setting `StackTraceResponse.totalFrames` to the value `startFrame + levels + 20` works fine and results in a paged behavior even after VS Code's recent change to fetch the rest of the stack when pressing the \"Load All Stack Frames\" action once.\r\n\r\nAfter fixing the found issues from above the \"observed behaviour\" could be considered a \"valid and useful interpretation\" of the spec. We only have to improve the descriptions of the affected properties in the DAP spec so that the \"interpretation\" becomes more \"apparent\".\r\n \r\n@isidorn and @DanTup what do you think?\r\n\r\nI've added the 4 variations to Mock Debug: https://github.com/microsoft/vscode-mock-debug/commit/0090320aa62becfdb255c2aaf204e5b48136be12",
+      "user":"weinand"
+    },
+    {
+      "comment":"Makes sense to me. If we decide to go down this route, feel free to create a new issue and assign to me so I can look into fixing this issues.",
+      "user":"isidorn"
+    },
+    {
+      "comment":"I've created https://github.com/microsoft/debug-adapter-protocol/issues/162 with a proposal for improving the descriptions of the DAP `stackTrace` request and its `totalFrames` property.\r\n\r\nI've created these issues:\r\n- #111410: VS Code does not show full stack when `totalFrames` property is missing \r\n- #111413: VS Code should detect end of stack if returned number of frames is smaller than requested number \r\n",
+      "user":"weinand"
+    }
+  ],
+  "repository":"vscode",
+  "user":"vadimcn"
+}

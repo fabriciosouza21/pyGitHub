@@ -1,0 +1,38 @@
+{
+  "comments":[
+    {
+      "comment":"VSCode Version: Insider 1.14.0\r\n\r\n- debug simple program with mono-debug\r\n\r\nObserve: the stack frame is duplicated:\r\n\r\n![2017-06-15_13-06-08](https://user-images.githubusercontent.com/1898161/27178661-72674120-51cb-11e7-94c7-b11fde859ffa.png)\r\n\r\n\r\n\r\nFirst VS Code asks for stackframes with startFrame = 0 and levels = 1.\r\nThen mono-debug returns all frames (which happens to be exactly one).\r\nThen VS Code asks for stackframes with startFrame = 0 and levels = 20 (probably because the first result did not return the \"totalFrames\" attribute and VS Code falls back to the old behavior).\r\nThen mono-debug returns all frames again and VS Code adds them to the existing one instead of replacing the existing one.\r\n\r\nThen I tried a program where the stacktrace has one additional level but this doesn't make a difference:\r\n\r\n![2017-06-15_13-18-13](https://user-images.githubusercontent.com/1898161/27179127-894ea96c-51cd-11e7-938c-617fe7de406e.png)\r\n ",
+      "user":"weinand"
+    },
+    {
+      "comment":"VS Code 1.13 uses the following heuristic to decide whether a DA supports loading stack frames ranges: it request a single frame (startFrame: 0, levels: 1). If the DA returns more frames, VS Code assumes that the DA does not support ranges.\r\n\r\nThis heuristic fails if there is only one frame available or if the DA honours 'levels' but not 'startFrame'. This latter case is the reason for the mono-debug problem.\r\n\r\nSince we have not found a way to fix the heuristic in a robust way, we've decided to require that DAs opt-into the delayed loading of stack frames by introducing a new capability `supportsDelayedStackTraceLoading`.\r\n\r\n@roblourens please enable the `supportsDelayedStackTraceLoading` for the inspector protocol.",
+      "user":"weinand"
+    },
+    {
+      "comment":"@delmyers @gregg-miskelly @MSLaguana @DanTup @devoncarew @WebFreak001 @roblourens @andysterland @hbenl @lukaszunity @svaarala @ramya-rao-a @vadimcn @felixfbecker @daviwil @rkeithhill @DonJayamanne @MSLaguana @rebornix in order to benefit from delayed stack trace loading your adapters now need to explicitly specify this capability `supportsDelayedStackTraceLoading`.\r\n\r\n[This](https://github.com/Microsoft/vscode/issues/25605) is the original feature request, however we have now introduced a capability as @weinand mentions in the comment above. The capability is available in the preview version of the adapter npm module.",
+      "user":"isidorn"
+    },
+    {
+      "comment":"@ishanarora @weinand Do we need to target a specific Code version to use `supportsDelayedStackTraceLoading` and if so, is it one that's already shipped or is this currently only usable in Insiders?",
+      "user":"DanTup"
+    },
+    {
+      "comment":"VS Code will make use of `supportsDelayedStackTraceLoading` in the June release (that's the reason for the June 2017 \"milestone\" on this issue) or in current Insiders.\r\nBut as always you can use it in your debugAdapter already and it will just be ignored by older versions of VS Code.",
+      "user":"weinand"
+    },
+    {
+      "comment":"@weinand Do we need an updated `vscode-debugprotocol` to get `supportsDelayedStackTraceLoading`? The latest one on npm doesn't have these changes (apologies if this is a silly question; I haven't had to use anything that wasn't released yet). Thanks!",
+      "user":"DanTup"
+    },
+    {
+      "comment":"As Isi said: \"The capability is available in the preview version of the adapter npm module.\" So either load the \"pre\" version (like I do for node-debug: https://github.com/Microsoft/vscode-node-debug/blob/master/package.json#L31) or wait until I've released the final version of the npm module Wednesday next week.\r\n",
+      "user":"weinand"
+    },
+    {
+      "comment":"@weinand Apologies; I missed that but also didn't realise that the npm page doesn't show that there is a pre-release (it shows \"1.20.0 is the latest of 97 releases\" with seemingly no way to view a full list or pre-releases - I'm used to NuGet!). Everything's clear now, thanks! 👍 ",
+      "user":"DanTup"
+    }
+  ],
+  "repository":"vscode",
+  "user":"weinand"
+}

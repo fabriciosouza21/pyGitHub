@@ -1,0 +1,34 @@
+{
+  "comments":[
+    {
+      "comment":"<!-- ⚠️⚠️ Do Not Delete This! bug_report_template ⚠️⚠️ -->\r\n<!-- Please read our Rules of Conduct: https://opensource.microsoft.com/codeofconduct/ -->\r\n<!-- 🕮 Read our guide about submitting issues: https://github.com/microsoft/vscode/wiki/Submitting-Bugs-and-Suggestions -->\r\n<!-- 🔎 Search existing issues to avoid creating duplicates. -->\r\n<!-- 🧪 Test using the latest Insiders build to see if your issue has already been fixed: https://code.visualstudio.com/insiders/ -->\r\n<!-- 💡 Instead of creating your report here, use 'Report Issue' from the 'Help' menu in VS Code to pre-fill useful information. -->\r\n<!-- 🔧 Launch with `code --disable-extensions` to check. -->\r\nDoes this issue occur when all extensions are disabled?: Yes/No\r\n\r\n<!-- 🪓 If you answered No above, use 'Help: Start Extension Bisect' from Command Palette to try to identify the cause. -->\r\n<!-- 📣 Issues caused by an extension need to be reported directly to the extension publisher. The 'Help > Report Issue' dialog can assist with this. -->\r\n- VS Code Version:\r\n- OS Version:\r\n\r\nSteps to Reproduce:\r\n\r\n1. Install an extension\r\n2. Look at the readme page that includes the review stars\r\n\r\n![image](https://user-images.githubusercontent.com/11859881/134087061-5dc668c9-d1f0-4060-8d58-1797aac6b084.png)\r\n\r\nAccessibility requires the contrast to be 3:1, but is less.\r\n",
+      "user":"SteveL-MSFT"
+    },
+    {
+      "comment":"Similar issue with the greyed out star:\r\n\r\n![image](https://user-images.githubusercontent.com/11859881/134087926-ec4c824c-37d3-4b34-9bef-b80f16849144.png)\r\n",
+      "user":"SteveL-MSFT"
+    },
+    {
+      "comment":"I can tweak the colors so that they pass the 3:1 ratio. This would apply to both since they are non-text and I believe 4.5:1 is for text. ",
+      "user":"misolori"
+    },
+    {
+      "comment":"Thanks @misolori for taking care. Please let me know if there is anything I can help here.",
+      "user":"sandy081"
+    },
+    {
+      "comment":"@SteveL-MSFT when inspecting the rating star (orange), I'm seeing the color have a 3.6:1 color contrast ratio. Looking at your screenshot it appears that your star colors are different and am wondering if that's from a different theme or different VS Code version?\r\n\r\n<img width=\"400\" alt=\"CleanShot 2021-09-22 at 09 12 41@2x\" src=\"https://user-images.githubusercontent.com/35271042/134381909-3b31fb5a-b1c1-4d2c-a6b1-36f704ae9c3b.png\">\r\n\r\nSo I went in and updated the gray star to pass the 3:1 ratio:\r\n\r\n<img width=\"400\" src=\"https://user-images.githubusercontent.com/35271042/134383118-f0c48a96-6889-44f1-8741-2d81f3ff63ef.png\">\r\n",
+      "user":"misolori"
+    },
+    {
+      "comment":"> @SteveL-MSFT when inspecting the rating star (orange), I'm seeing the color have a 3.6:1 color contrast ratio. Looking at your screenshot it appears that your star colors are different and am wondering if that's from a different theme or different VS Code version?\r\n\r\nHi @misolori, maintainer of the PowerShell extension here. The contribution point of that icon is `extensionIcon.starForeground`, which is not set in [our theme](https://github.com/PowerShell/vscode-powershell/blob/master/themes/theme-psise/theme.json). Since both the default theme of VS Code (Light+) and our extension's contributed theme (ISE) both use the same background here (#FFFFFF, also not overridden), I believe your fix should take care of it for everyone that isn't explicitly overriding the start foreground. For what it's worth, we do not know which version of Code nor which theme was applied in the original screenshot, but the area of concern is using the defaults of Code either way. Thanks so much!",
+      "user":"andschwa"
+    },
+    {
+      "comment":"> but the area of concern is using the defaults of Code either way. Thanks so much!\r\n\r\nSorry if my question wasn't clear. Our default icon color passes the color contrast ratio right now, the original screenshot looked like an outdated version. I think we are all good now 👍 ",
+      "user":"misolori"
+    }
+  ],
+  "repository":"vscode",
+  "user":"SteveL-MSFT"
+}

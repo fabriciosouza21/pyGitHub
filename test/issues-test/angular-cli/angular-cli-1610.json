@@ -1,0 +1,410 @@
+{
+  "comments":[
+    {
+      "comment":"I have installed the webpack but the live reload is not working , it is building the modules and caching it. \n\nLinux 4.4.0-31-generic\nnode v6.2.2\nnpm  v3.10.5\n\nangular-cli: 1.0.0-beta.11-webpack\nnode: 6.2.2\nos: linux x64\n",
+      "user":"burdzand"
+    },
+    {
+      "comment":"Are you using the `ng serve` command or `ng build --watch`. \n\nBoth should work but I ask because we really need more information to accurately tackle this. \n",
+      "user":"TheLarkInn"
+    },
+    {
+      "comment":"I am using ng serve\n",
+      "user":"burdzand"
+    },
+    {
+      "comment":"10% building modules 1/1 modules 0 active  \n*\n*\n NG Live Development Server is running on http://localhost:4200.\n*\n4318ms building modules  \n38ms sealing\n0ms optimizing \n0ms basic module optimization \n16ms module optimization\n1ms advanced module optimization \n15ms basic chunk optimization  \n1ms chunk optimization \n0ms advanced chunk optimization \n0ms module and chunk tree optimization \n58ms module reviving\n5ms module order optimization \n4ms module id optimization \n3ms chunk reviving \n0ms chunk order optimization \n14ms chunk id optimization\n26ms hashing\n1ms module assets processing \n71ms chunk assets processing\n2ms additional chunk assets processing \n1ms recording \n0ms additional asset processing \n127ms chunk asset optimization\n864ms asset optimization\n25ms emitting\nHash: 3eaa2255197a9b5cb5fd\nVersion: webpack 2.1.0-beta.18\nTime: 5607ms\n              Asset       Size  Chunks             Chunk Names\n     main.bundle.js    2.18 MB    0, 2  [emitted]  main\npolyfills.bundle.js     227 kB    1, 2  [emitted]  polyfills\n          inline.js    4.96 kB       2  [emitted]  inline\n           main.map    2.59 MB    0, 2  [emitted]  main\n      polyfills.map     294 kB    1, 2  [emitted]  polyfills\n         inline.map    5.13 kB       2  [emitted]  inline\n         index.html  476 bytes          [emitted]  \n         .npmignore    0 bytes          [emitted]  \nChild html-webpack-plugin for \"index.html\":\n         Asset    Size  Chunks       Chunk Names\n    index.html  2.4 kB       0  \nwebpack: bundle is now VALID.\n",
+      "user":"burdzand"
+    },
+    {
+      "comment":"I'm seeing the live reload working myself. Can you give very exact repro steps so we can see if there's something missing?\n",
+      "user":"filipesilva"
+    },
+    {
+      "comment":"I am having the same issue after I cloned a project from my repo.\n\nOn my regular machine, I see a lot of something like `\"69% building modules 1054/1062 modules 8 active ..\"`, etc.\n\nBut on my other machine, I only see this - \n\n```\n ng serve\n 10% building modules 1/1 modules 0 active           \n*\n*\n NG Live Development Server is running on http://localhost:4200.\n*\n5134ms building modules                                                                   \n13ms sealing\n0ms optimizing \n0ms basic module optimization \n43ms module optimization\n1ms advanced module optimization \n9ms basic chunk optimization        \n0ms chunk optimization \n1ms advanced chunk optimization \n0ms module and chunk tree optimization \n89ms module reviving\n2ms module order optimization \n3ms module id optimization \n4ms chunk reviving \n0ms chunk order optimization \n19ms chunk id optimization\n19ms hashing\n0ms module assets processing \n56ms chunk assets processing\n3ms additional chunk assets processing \n0ms recording \n0ms additional asset processing \n131ms chunk asset optimization\n1059ms asset optimization\n22ms emitting\nHash: 101774096aac67c140a7\nVersion: webpack 2.1.0-beta.18\nTime: 6621ms\n              Asset       Size  Chunks             Chunk Names\n     main.bundle.js    3.75 MB    0, 2  [emitted]  main\npolyfills.bundle.js     232 kB    1, 2  [emitted]  polyfills\n          inline.js    4.96 kB       2  [emitted]  inline\n           main.map    4.42 MB    0, 2  [emitted]  main\n      polyfills.map     295 kB    1, 2  [emitted]  polyfills\n         inline.map    5.13 kB       2  [emitted]  inline\n         index.html  877 bytes          [emitted]  \n\nChild html-webpack-plugin for \"index.html\":\n         Asset     Size  Chunks       Chunk Names\n    index.html  2.83 kB       0       \nwebpack: bundle is now VALID.\n```\n\nNow, when I make any changes to my code, it doesn't reload. \n",
+      "user":"281330"
+    },
+    {
+      "comment":"If you can provide us with a repo where this behaviour happens, we can investigate. Otherwise I'm not really able to reproduce this behaviour.\n",
+      "user":"filipesilva"
+    },
+    {
+      "comment":"I'm having same issue. My ng version is: angular-cli: 1.0.0-beta.11-webpack.2\n\nng serve works without live reload and ng build --watch only build the app and then quit without even serving the app on localhost\n",
+      "user":"giovapanasiti"
+    },
+    {
+      "comment":"I'm having the issue for directories starting with '+'. `ng serve` and `ng build -w` works normally: they build the application and wait for changes. If I modify a file in a 'normal' directory (i.e. app.component.ts), the change is detected and `ng` rebuilds. If I modify a file in a directory whose name starts with '+', nothing happens. \nHowever it's working when I use gedit: when gedit saves a file, it creates a backup that triggers the reload. Reloads also works if I manually create a new file.\n",
+      "user":"osechet"
+    },
+    {
+      "comment":"I renamed my directories to remove the '+' and in fact the problem happens with any subdirectory of `app`. If I modify anything directly inside `src` (i.e. `index.html`, `main.ts`, ...) reload works. If I modify something in a subdirectory of `src` (i.e. `src/app/app.component.*`, `src/app/app.module.ts`, `src/assets`, `src/environments/environment.ts`, ...) reload works as well. But if I modify something in a subdirectory of `app` (i.e. `src/app/foo/foo.component.ts`), there is no reload.\n\nI'm on Ubuntu 14.04 and I can reproduce this with any repository. For example:\n\n```\nng new project\ncd project\nng g c foo\nng serve\n```\n\nThen open a browser on the application. Edit `app.component.html` as follow:\n\n```\n<h1>\n  {{title}}\n</h1>\n<app-foo></app-foo>\n```\n\nSave: ng reloads the app.\n\nEdit `foo/foo.component.html` as follow:\n\n```\n<p>\n  foo works! ng reloads?\n</p>\n```\n\nSave: ng does not reload.\n\n@filipesilva Do you confirm you cannot reproduce following these steps?\n",
+      "user":"osechet"
+    },
+    {
+      "comment":"I had the same issue, but managed to fix it. The problem might have to do with folder naming. At first, my main project folder (where I would navigate to before doing \"ng serve\") was named something like \"XX (Front)\". I renamed it to \"XX_Front\" (and flattened the folder structure) and live reload started working. \n",
+      "user":"FoodBuster"
+    },
+    {
+      "comment":"@osechet I followed your instructions and had a life reload be triggered when changing `foo/foo.component.html`.\n\nI'm using `beta.14` and VSCode as an editor, if that helps. Do you also get this in `beta.14`?\n",
+      "user":"filipesilva"
+    },
+    {
+      "comment":"I'm using vscode as well but I tested several editors to see if there was a difference. I'm not yet using beta.14. I will try during the week.\n",
+      "user":"osechet"
+    },
+    {
+      "comment":"I confirm the @FoodBuster naming problem. My project was in directory named like : \nc:\\SomeDir\\Some with space and (parenthesis)\\myapp\nReload was not triggered.\nMoving to : \nc:\\AnotherDirectory\nAnd reload works.\n",
+      "user":"AntoineViau"
+    },
+    {
+      "comment":"I'm on linux, the naming doesn't fix mine. My files are located at `~/git/my_codebase/ui/...`, so no spaces or parentheses. Live reload not working. Changing to files like `app.component.ts` also don't trigger a reload. \n",
+      "user":"dessalines"
+    },
+    {
+      "comment":"I fixed this by removing running `rm -rf node_modules` , and reinstalling angular-cli both globally and locally. \n",
+      "user":"dessalines"
+    },
+    {
+      "comment":"I just updated my project from 1.0.0-beta.11-webpack.8 to 1.0.0-beta.15. Everything has been cleaned (node_modules, node cache...). Problem is still here.\n\nI'm on Ubuntu 14.04.\n",
+      "user":"osechet"
+    },
+    {
+      "comment":"So as far as I can tell, there's two situations that can cause this issue:\n- a problem with folder paths having spaces, as described by @FoodBuster on https://github.com/angular/angular-cli/issues/1610#issuecomment-246259005\n- inotify reaching watcher max on linux, as described by and solved by @paillave on https://github.com/angular/angular-cli/issues/2389#issuecomment-250964095\n\nWe'll try to find a more permanent solution to these problems.\n",
+      "user":"filipesilva"
+    },
+    {
+      "comment":"@filipesilva I found the 3rd scenario where it doesn't live-reload - if you generate a component with the `-component` suffix; e.g.:\n\n```\nng generate component title-component\n```\n",
+      "user":"mgol"
+    },
+    {
+      "comment":"I can confirm doing ng serve doesn't watches for changes.\n\nhere is my `ng --version` log:\n\n```\nangular-cli: 1.0.0-beta.19-3\nnode: 6.9.1\nos: linux x64\n```\n\nI am currently running Ubuntu 16.04\n\nWhereas if I use the same files on my windows running system, changes appear fine.\n\nIf you wanna try out a repo just make a new app using `ng new app-name`\n\nTry changing `app.component.html` file. \n",
+      "user":"thesunnypro"
+    },
+    {
+      "comment":"I have greatly increased inotify limit and it resolved issue on Ubuntu 16.10\n\n08.11.2016 22:11 \"thesunnypro\" notifications@github.com napisał(a):\n\n> I can confirm doing ng serve doesn't watches for changes.\n> \n> here is my ng --version log:\n> \n> angular-cli: 1.0.0-beta.19-3\n> node: 6.9.1\n> os: linux x64\n> \n> I am currently running Ubuntu 16.04\n> \n> Whereas if I use the same files on my windows running system, changes\n> appear fine.\n> \n> If you wanna try out a repo just make a new app using ng new app-name\n> \n> Try changing app.component.html file.\n> \n> —\n> You are receiving this because you commented.\n> Reply to this email directly, view it on GitHub\n> https://github.com/angular/angular-cli/issues/1610#issuecomment-259260810,\n> or mute the thread\n> https://github.com/notifications/unsubscribe-auth/AAB5UkzA73bY28URzFqs8RNrteKNADBBks5q8OV3gaJpZM4JgIZF\n> .\n",
+      "user":"Namek"
+    },
+    {
+      "comment":"Found the solution for Ubuntu webpack rebuild issue.\n\nSeems it was indeed an problem with inotify max_user_watches as told by @Namek\n\n```\nsudo echo \"fs.inotify.max_user_watches=524288\" >> /etc/sysctl.conf\nsudo sysctl -p /etc/sysctl.conf\n```\n",
+      "user":"thesunnypro"
+    },
+    {
+      "comment":"Changing fs.inotify.max_user_watches to 16384 worked for me. The strange thing is that it used to work with 8k watches, anyone knows the reason for the increased number of watches in webpack ?\n",
+      "user":"nikoTM"
+    },
+    {
+      "comment":"I use Vagrant with shared folder to run angular-cli and changing fs.notify.max_user_watches didn't work for me. As I found here: https://github.com/webpack/webpack-dev-server/issues/155#issuecomment-159140735 one solution is to specify `--watch-poll` option for webpack-dev-server.\n\nSo when I change this line: https://github.com/angular/angular-cli/blob/master/packages/angular-cli/tasks/serve-webpack.ts#L83 to `poll: true`, the reloading starts to work. It's pretty slow though...\n",
+      "user":"dmikhaylov"
+    },
+    {
+      "comment":"@dmikhaylov thanks dear, worked for me\n\n```\n//poll: config_1.CliConfig.fromProject().config.defaults.poll\npoll: true\n```\n\nand for slow issue try increasing vb.memory to double the current value.\n",
+      "user":"muh-atta"
+    },
+    {
+      "comment":"I have the same issue on MacOS X. It seems to be a problem with just ng server - whereas ng build --watch seems to function as expected.\r\n\r\nng --version\r\nCould not start watchman; falling back to NodeWatcher for file system events.\r\nVisit http://ember-cli.com/user-guide/#watchman for more info.\r\nangular-cli: 1.0.0-beta.19-3\r\nnode: 6.5.0\r\nos: darwin x64\r\n\r\nI did notice something that may be a hint. It seems the outDir is being deleted and recreated. If I stay in the outDir and monitor the contents of main.bundle.js after a rebuild the directory is empty. If I cd up and back into the outDir the files have been recreated, but the contents are not correct - main.bundle.js does not contain the change that I made.\r\n\r\nWith ng build --watch I do not experience the same behavior. After a rebuild the outDir contents have been recreated, but not the directory itself. The directory continues to be valid and the contents reflect the change made.\r\n\r\nIt seems that there are 2 different things going on there ... but thought the additional info may help.\r\n\r\n",
+      "user":"klmcwhirter"
+    },
+    {
+      "comment":"I had the same problem. I fixed it by simply moving the folder. it was in my \"Dropbox (Personal)\" folder before. I suspect the reload is tripping over the parentheses. ",
+      "user":"kareljan"
+    },
+    {
+      "comment":"Thanks to @dmikhaylov , for Vagrant users, adding ```\"poll\":true``` in angular.cli.json file fixed the issue for me.",
+      "user":"ghost"
+    },
+    {
+      "comment":"I had the same problem with sub-modules. \r\nI guess it has to do with special symbols in path name.\r\n\r\nChanging dir name from mf-tracker to mfTracker worked for me.\r\n\r\n",
+      "user":"pyarun"
+    },
+    {
+      "comment":"For watching changed files I confirm that setting a higher max_user_watches for inotify worked for me. It was 8k by default. It now rebuilds the bundles on file save.\r\n\r\nHowever, I'm serving my website using Apache 2.4.25. The website reload functionality not working. Is it something that only \"ng serve\" does?",
+      "user":"papaiatis"
+    },
+    {
+      "comment":"Same issue, \r\nAngular CLI : 1.0.0-beta.28.3\r\nNode: 7.5.0\r\nOS : Win32 x64\r\n\r\nNo spaces to app  .. here's the path : c:\\dev\\myapp\r\n\r\n\r\nI reinstalled node and angular a couple of time but nothing worked.",
+      "user":"shoaib0077"
+    },
+    {
+      "comment":"Same issue after installing to latest CLI.\r\n\r\nAngular CLI : 1.0.0-beta.28.3\r\nNode: 7.5.0\r\nOS : Win10 x64\r\n\r\nNo spaces in path. \r\n",
+      "user":"medeirosrich"
+    },
+    {
+      "comment":"Same issue here.\r\n\r\nAngular-cli: 1.0.0-beta.28.3\r\nnode: 7.0.0\r\nOs: Win10 x64\r\n\r\nI reinstalled angular-cli in local and global also npm cache clean but didn't work. path is ok as well. \r\n",
+      "user":"jsalazar87"
+    },
+    {
+      "comment":"Same here,\r\nAngular-cli 1.0.0-beta.28.3,\r\nnode: 6.5.0\r\nOs: Win7 x64",
+      "user":"matze1234"
+    },
+    {
+      "comment":"Same issue after install beta.28.3\r\nOs: Windows 10 x64",
+      "user":"miguelcaravantes"
+    },
+    {
+      "comment":"the problem is the new version the @ngtools/webpack\r\ni solved it go back to beta26 and @ngtools/webpack@1.2.4\r\n\r\nthis command\r\nnpm install --save @ngtools/webpack@1.2.4\r\n\r\nmaybe work in beta 28\r\n",
+      "user":"miguelcaravantes"
+    },
+    {
+      "comment":"thanks @miguelcaravantes, that worked for me.",
+      "user":"matze1234"
+    },
+    {
+      "comment":"Thanks @miguelcaravantes  that worked for me too.",
+      "user":"shoaib0077"
+    },
+    {
+      "comment":"Thanks @miguelcaravantes that worked for me too.",
+      "user":"steveo99"
+    },
+    {
+      "comment":"Thanks @miguelcaravantes that worked for me too.",
+      "user":"silverfoxdev"
+    },
+    {
+      "comment":"Same problem here guys:\r\n\r\n```\r\nng --version\r\nangular-cli: 1.0.0-beta.28.3\r\nnode: 7.4.0\r\nos: darwin x64\r\n```",
+      "user":"rafaell-lycan"
+    },
+    {
+      "comment":"npm install --save @ngtools/webpack@1.2.4 this works @rafaell-lycan  give it a try\r\n",
+      "user":"MateenKadwaikar"
+    },
+    {
+      "comment":"@challe  try uninstall beta 26 \r\ninstall beta 30\r\nnpm install -g @angular/cli@1.0.0-beta.30\r\ninstall ngtools 1.2.7\r\nnpm install --save @ngtools/webpack@1.2.7\r\n\r\nthis to works for me\r\n",
+      "user":"miguelcaravantes"
+    },
+    {
+      "comment":"thanks man @miguelcaravantes, u saved my day.",
+      "user":"isuruplus"
+    },
+    {
+      "comment":"Some problem here in Archlinux with a fresh installation via _angular-cli_, I solved it changing the `fs.inotify.max_user_watches`, also I remember to have this problem previously _angular-cli_ with _gulp-watch_ but at this time I had an error message, so it was easy to figure what was going on.\r\n\r\nTo change it in archlinux follow these steps:\r\n```\r\n# Add this line to /usr/lib/sysctl.d/50-default.conf\r\n/usr/lib/sysctl.d/50-default.conf\r\n\r\n# Reload all system configurations\r\nsudo sysctl --system\r\n```",
+      "user":"xavadu"
+    },
+    {
+      "comment":"`max_user_watches` setting doesn't fix my problem. At first change it reloads well but after first it doesn't reload. Totally it's an file system cache issue. After I drop the page cache it works well.\r\n\r\n```\r\nsync;echo 1 > /proc/sys/vm/drop_caches;sync\r\n```\r\n**edit:**\r\n\r\njust `sync` works too. No need for `drop_caches`. Use sync after all save operation.\r\n\r\n",
+      "user":"firatkucuk"
+    },
+    {
+      "comment":"Same problem for me on Ubuntu 14.04 LTS, node: 6.9.2, I tried angular-cli 1.0.0-beta.28.3 / 1.0.0-beta.30 / 1.0.0-beta.31, and I tried the suggestions of this thread...\r\nNothing worked to solve the problem...",
+      "user":"sancaruso"
+    },
+    {
+      "comment":"@sancaruso **angular@2.4.7**, **angular/cli** and **1.0.0-beta.31** and **chrome browser** fixed my issue.",
+      "user":"firatkucuk"
+    },
+    {
+      "comment":"With angular@2.4.7, angular/cli 1.0.0-beta.31 and chrome browser it doesn't work for me.",
+      "user":"sancaruso"
+    },
+    {
+      "comment":"Oh! I found the problem... In fact I had a folder with parenthesis in the path of my project, but it was hidden by a symbolic link...",
+      "user":"sancaruso"
+    },
+    {
+      "comment":"Awesome @dmikhaylov . Adding poll : true solved the problem.",
+      "user":"karthiksundar"
+    },
+    {
+      "comment":"`max_user_watches` fix doesn't work for me, and I tried using `npm install @ngtools/webpack@1.2.4` as suggested in linked issues and then my project wouldn't even compile - I assume because I have @angular/cli rc.0 and it is too new for the older version of ngtools/webpack.\r\n\r\nI don't have any spaces or parenthesis or `+` in path names, what can I try now?",
+      "user":"instantepiphany"
+    },
+    {
+      "comment":"`ng serve --poll=2000`",
+      "user":"alexsaraiva"
+    },
+    {
+      "comment":"@alexsaraiva That did the trick for me, thanks a lot!",
+      "user":"filipegorges"
+    },
+    {
+      "comment":"@filipesilva  The inotify fix will not work in all cases. I recently ran into this issue and no matter how high I set the max, it did not fix it. I finally solved it when I figured out that Sublime Text 3 (popular text editor) was using up all available inotifies as soon as I created them. If I killed Sublime, suddenly  `ng serve` was correctly watching files again. The Sublime bug is still open:\r\n\r\nhttps://github.com/SublimeTextIssues/Core/issues/1195\r\n\r\nI recommend adding a warning or error-level output to `ng serve` that lets you know that all inotifies are used up and file watching is unavailable. I can research and submit a PR for this if you think it would be worthwhile.",
+      "user":"RPGillespie6"
+    },
+    {
+      "comment":"Hello, \r\nI have updated a project to angular 4, and i found this issue, in fact watcher is working, then compile is ok, but on the browser app remains on \"loading...\" with no console errors.\r\n\r\nthis my ng info:\r\n```\r\n@angular/cli: 1.0.0\r\nnode: 6.9.5\r\nos: darwin x64\r\n@angular/animations: 4.0.1\r\n@angular/common: 4.0.1\r\n@angular/compiler: 4.0.1\r\n@angular/compiler-cli: 4.0.1\r\n@angular/core: 4.0.1\r\n@angular/forms: 4.0.1\r\n@angular/http: 4.0.1\r\n@angular/material: 2.0.0-beta.3\r\n@angular/platform-browser: 4.0.1\r\n@angular/platform-browser-dynamic: 4.0.1\r\n@angular/platform-server: 4.0.1\r\n@angular/router: 4.0.1\r\n@angular/cli: 1.0.0\r\n```\r\nany suggestion?, Thanks.",
+      "user":"jorgedkoala"
+    },
+    {
+      "comment":"Hello!\r\nI got the same problem. But it works fine with Sublime Text when you press CTRL+S , but in PHPStorm it stops to work after few clicks CTRL+S.",
+      "user":"MykhailoDzedzei"
+    },
+    {
+      "comment":"I am seeing spurious errors more along the lines of what @klmcwhirter describes:\r\nA change _is_ being triggered, and the live reload refreshes in the browser, but the source changes are not reflected in the new page. This may be something as trivial as changing a string, and still seeing the old string shown after a refresh.\r\nThis could either be _compiling_ a wrong (cached) version of the file, or – more likely – _serving_ a stale version.\r\n\r\nI get the feeling we're seeing three different errors:\r\n\r\n1) Changes are not detected. This seems to be what the majority of this thread focuses on.\r\n2) Changes are detected, but a stale version still ends up in the browser after a refresh.\r\n3) Changes to footprint/interfaces are not correctly reloaded. (This seems to be quite consistent, and has some dedicated issue reports, but doesn't seem to be fully resolved).\r\n",
+      "user":"wulfsberg"
+    },
+    {
+      "comment":"@wulfsberg - what I observed could be explained by this (I have done this to myself years ago on UNIX):\r\n\r\n1. cd outDir\r\n2. rm -fr outDir/* outDir\r\n3. mkdir outDir\r\n\r\nAt this point outDir exists on the filesystem again (different inode) but so does the old one in the kernel (old inode that was removed from the parent dir). I suspect the main server process remains in the old outDir. This directory is empty. [ note in my example above I do not cd to a different dir after doing the deletes ]\r\n\r\nWhat I cannot explain, however, is why the new outDir directory contains the contents of the old .js bundles.\r\n\r\nI, too, suspect what @wulfsberg describes - old cached copy is placed into the new outDir instead of the newly compiled bundle(s). Although I cannot conceive of an implementation of ng server that would read the old bundles into memory, compile and build new bundles but then write out the old cached versions. That does not make sense to me. But it seems that indeed that is what is happening.\r\n\r\nI cannot explain this by any technique that uses dir rename and recreate even if a rollback is performed. The new outDir has a different inode. So what I am seeing cannot be due to a dir renaming scheme.\r\n\r\nI tested for and eliminated browser caching as a possibility (used chrome dev tools and turned cache off).\r\n\r\nFor now, I am just using ng build --watch. The issue may be fixed at this point. I simply haven't taken the time to find out.\r\n",
+      "user":"klmcwhirter"
+    },
+    {
+      "comment":"@wulfsberg I'm currently facing the same issue with the recompile working but the browser still serving the previous version.\r\nE.g. when changing a HTML file (\"a\" => \"abc\") the devtools show the reload, the page even reloads but still displays \"a\".\r\nWhen doing another change to the same file (\"abc\" => \"def\") it again reloads but now shows the first change (displaying \"abc\").\r\n\r\nWill investigate tomorrow, must be something with my setup which is an ng4-ejected, adapted config that worked well before ejecting and adapting it.",
+      "user":"actra-gschuster"
+    },
+    {
+      "comment":"To follow up on @filipesilva's comment in https://github.com/angular/angular-cli/issues/5831#issue-299191668, it does seem likely that the spurious stale results are related to IntelliJ's \"Safe write\".\r\n\r\nIt looks as if the Angular-CLI triggers on the first change in the folder (the write of the new, yet-to-be-renamed file), and then throttles further changes, likely in anticipation of a couple more changes to timestamps etc., rather than debouncing the changes and picking up the final result of the barrage.\r\n-This is based on some experiences I have with file change detection in other contexts, not the Angular-CLI code and dependencies, so this is just me guessing wildly.\r\n",
+      "user":"wulfsberg"
+    },
+    {
+      "comment":"@wulfsberg explanation makes a lot of sense considering https://github.com/angular/angular-cli/issues/6238 (any file change in `src/` triggers a rebuild).",
+      "user":"filipesilva"
+    },
+    {
+      "comment":"I'm consolidating https://github.com/angular/angular-cli/issues/5117 with this thread. If you're having this issue, make sure to check out #5117 for some more discussion (e.g. solution for vim users is listed there).",
+      "user":"filipesilva"
+    },
+    {
+      "comment":"Same thing here with Windows 7 and the most recent CLI.\r\n\r\nSteps when starting from a directory with node_modules from a previous CLI install:\r\n\r\nng new hello-world --skip-install=true\r\nmklink /j \"hello-world/node_modules\" \"./node_modules\"\r\ncd hello-world\r\nng build -aot -w\r\n\r\nI then proceed to edit some html in src/app/app.component.html. The change is detected by doesn't appear in the browser. \r\n\r\nHash: aa73a2645a976a8ce9f8\r\nTime: 3144ms\r\nchunk    {0} polyfills.bundle.js, polyfills.bundle.js.map (polyfills) 158 kB {3} [initial]\r\nchunk    {1} styles.bundle.js, styles.bundle.js.map (styles) 10.5 kB {3} [initial]\r\nchunk    {2} main.bundle.js, main.bundle.js.map (main) 1.13 MB [initial]\r\nchunk    {3} inline.bundle.js, inline.bundle.js.map (inline) 0 bytes [entry]\r\n\r\nWithout changing anything else in app.component.html I save again causing it to recompile and the changes are reflected:\r\n\r\nHash: ba4753ae6244f2bad1a8\r\nTime: 3258ms\r\nchunk    {0} polyfills.bundle.js, polyfills.bundle.js.map (polyfills) 158 kB {3} [initial]\r\nchunk    {1} styles.bundle.js, styles.bundle.js.map (styles) 10.5 kB {3} [initial]\r\nchunk    {2} main.bundle.js, main.bundle.js.map (main) 1.13 MB [initial] **[rendered]**\r\nchunk    {3} inline.bundle.js, inline.bundle.js.map (inline) 0 bytes [entry]\r\n\r\nI see the same behavior whether I use Visual Studio or Visual Studio Code.\r\n\r\n_edit: I'm pretty sure omitting the -aot switch fixes this so I'm using that as a temporary fix._",
+      "user":"czimmons"
+    },
+    {
+      "comment":"Same issue here, it works with vim due to the tmp backup files but it fails with visual studio and atom.\r\n\r\nI am using Arch Linux, node and angular version are posted below.\r\n\r\n@angular/cli: 1.0.6\r\nnode: 7.10.0\r\nos: linux x64\r\n@angular/animations: 4.1.3\r\n@angular/common: 4.1.3\r\n@angular/compiler: 4.1.3\r\n@angular/core: 4.1.3\r\n@angular/forms: 4.1.3\r\n@angular/http: 4.1.3\r\n@angular/platform-browser: 4.1.3\r\n@angular/platform-browser-dynamic: 4.1.3\r\n@angular/router: 4.1.3\r\n@angular/cli: 1.0.6\r\n@angular/compiler-cli: 4.1.3\r\n\r\n",
+      "user":"mrcl"
+    },
+    {
+      "comment":"i had same issue..i changed my directory name with no spaces and only letters..now it reload works fine",
+      "user":"ipula"
+    },
+    {
+      "comment":"Had this issue, my directory name had square brackets and spaces. Changed my directory name with no spaces then concatenated it with '-' and now it works.",
+      "user":"cerino-ligutom"
+    },
+    {
+      "comment":"@alexsaraiva, ng server --poll=2000 worked. Thanks ",
+      "user":"dmalikcs"
+    },
+    {
+      "comment":"**ng serve --poll=1000** works for me",
+      "user":"lro3818"
+    },
+    {
+      "comment":"Using ng server --aot has 1- change save lag:\r\nSave foo -> nothing\r\nSave bar -> foo\r\nSave foobar -> bar\r\n...\r\n\r\n--poll with any value is not working, changing folder name to simple is not working\r\n\r\nUsing ng-serve without --aot is working without problem\r\nBrowser reload is not working- the sources are not correct served.\r\n\r\n@angular/cli: 1.1.0\r\nnode: 6.11.0\r\nos: win32 x64\r\n@angular/animations: 4.2.5\r\n@angular/common: 4.2.5\r\n@angular/compiler: 4.2.5\r\n@angular/core: 4.2.5\r\n@angular/forms: 4.2.5\r\n@angular/http: 4.2.5\r\n@angular/platform-browser: 4.2.5\r\n@angular/platform-browser-dynamic: 4.2.5\r\n@angular/router: 4.2.5\r\n@angular/cli: 1.1.0\r\n@angular/compiler-cli: 4.2.5\r\n@angular/language-service: 4.2.5",
+      "user":"KrystianRos"
+    },
+    {
+      "comment":"@filipesilva Is there a chance to some fix in the near future? \r\nMaybe newer webpack version could fix that issues?",
+      "user":"KrystianRos"
+    },
+    {
+      "comment":"@KrystianRos - Use **ng serve --poll=1000** it works like a charm for below config:\r\n```\r\n\"dependencies\": {\r\n    \"@angular/animations\": \"^4.3.1\",\r\n    \"@angular/cdk\": \"^2.0.0-beta.8\",\r\n    \"@angular/common\": \"^4.0.0\",\r\n    \"@angular/compiler\": \"^4.0.0\",\r\n    \"@angular/core\": \"^4.0.0\",\r\n    \"@angular/forms\": \"^4.0.0\",\r\n    \"@angular/http\": \"^4.0.0\",\r\n    \"@angular/material\": \"^2.0.0-beta.8\",\r\n    \"@angular/platform-browser\": \"^4.0.0\",\r\n    \"@angular/platform-browser-dynamic\": \"^4.0.0\",\r\n    \"@angular/router\": \"^4.0.0\",\r\n    \"core-js\": \"^2.4.1\",\r\n    \"hammerjs\": \"^2.0.8\",\r\n    \"rxjs\": \"^5.4.1\",\r\n    \"zone.js\": \"^0.8.14\"\r\n  }\r\n```",
+      "user":"ghost"
+    },
+    {
+      "comment":"Some issue, second change will be picked up:\r\nng serve --poll=1000 or 5000 doesn't work for me. \r\n\r\nWhen I remove the -aot flag it does work properly.",
+      "user":"stefandroog"
+    },
+    {
+      "comment":"I had problems on Ubuntu 16.04 with ng build --watch running once and quitting. Adding the --poll=1000 flag solved the issue, thanks @alexsaraiva",
+      "user":"jhnoor"
+    },
+    {
+      "comment":"Poll doesn't stop Webstorm from writing to .idea settings or Sourcetree from writing to the .git index.  How do I stop ```ng serve``` from \"recompiling\" when these two things happen?\r\n\r\n",
+      "user":"briancullinan"
+    },
+    {
+      "comment":"When running `ng build -w` or `ng serve`, the reload only worked within the top directory \"src\" despite applying various fixes reported in this thread.\r\n\r\nI was running\r\n- Linux 4.12.5-gentoo #2 SMP PREEMPT Sun Sep 17 10:24:52 EDT 2017 x86_64\r\n- node 8.4.0\r\n- npm 5.4.2\r\n- @angular/cli 1.4.5\r\n- fs.inotify.max_user_watches=524288\r\n- using dashes into filenames and directories (but no other fancy characters)\r\n- .angular-cli.json contained:\r\n  ```\r\n  {\r\n    \"apps\": [\r\n      {\r\n        \"root\": \"src\",\r\n        \"outDir\": \"dist\"\r\n      }\r\n    ]\r\n  }\r\n  ```\r\n\r\nUpgrading @angular/cli resolved my issue:\r\n`npm i @angular/cli@v1.5.0-beta.4 --save-dev`\r\n",
+      "user":"EricGravel"
+    },
+    {
+      "comment":"See if any one is having this type of file name. I was having the same and I fixed it using this solution.\r\n\r\nMy folder was named as 'question' but when I imported it in app module, I did like this \r\n`import { QuestionModule } from './Question/Question.module';`\r\n\r\nNotice in the path there is 'Q'. My code was running perfectly on browser but webpack stopped tracking my files. I changed it to \r\n`import { QuestionModule } from './question/question.module';`\r\n\r\nAnd now webpack is also working",
+      "user":"irfaan008"
+    },
+    {
+      "comment":"I used tip @thesunnypro  and I had a solution\r\n\r\n**Tip:**\r\nsudo echo \"fs.inotify.max_user_watches=524288\" >> /etc/sysctl.conf\r\nsudo sysctl -p /etc/sysctl.conf\r\n\r\n**My version CLI:**\r\n@angular/cli: 1.4.9\r\n\r\n**My OS**\r\nFedora 23\r\n\r\n",
+      "user":"xola139"
+    },
+    {
+      "comment":"After trying multiple options, I solved the issue by reinstalling nodes_modules. Hope it helps.\r\n\r\nSteps\r\n- rm -rf nodes_modules/\r\n- npm update\r\n- npm install",
+      "user":"cabaleirog"
+    },
+    {
+      "comment":"ng serve --poll=1000 works for me fine\r\nThanks",
+      "user":"sergiyvoytovych"
+    },
+    {
+      "comment":"--poll=1000 saved me thanks !!",
+      "user":"PapyElGringo"
+    },
+    {
+      "comment":"This still happens, I've just installed angular cli and it doesn't work properly. \r\n\r\nI'm just following the [angular guide](https://angular.io/guide/quickstart#serve).\r\n\r\nThe error is the same. \r\n\r\nWhen you run `ng serve -o` and make some basic editing it won't reload automatically.\r\n\r\nSolution by @thesunnypro and @alexsaraiva work for me, but I'm still wondering why this happens.\r\n\r\n`ng -v` \r\n\r\n ```bash\r\nAngular CLI: 1.6.7\r\nNode: 6.10.1\r\nOS: linux x64\r\nAngular: 5.2.3\r\n\r\n@angular/cli: 1.6.7\r\n@angular-devkit/build-optimizer: 0.0.42\r\n@angular-devkit/core: 0.0.29\r\n@angular-devkit/schematics: 0.0.52\r\n@ngtools/json-schema: 1.1.0\r\n@ngtools/webpack: 1.9.7\r\n@schematics/angular: 0.1.17\r\ntypescript: 2.5.3\r\nwebpack: 3.10.0\r\n```\r\n\r\n`uname -rms`\r\n```bash\r\nLinux 4.14.16-200.fc26.x86_64 x86_64\r\n ```\r\n",
+      "user":"Crepu"
+    },
+    {
+      "comment":"Had the same problem when running the `ng serve` command (updating files had no effect what so ever) \r\nI solved the issue by re-installing `nodes_modules`, It also works with the `--poll` option without needing to re-install the `nodes_modules` (@alexsaraiva solution), So either one worked for me.\r\n\r\n**Steps for solution:**\r\n```\r\nrm -rf nodes_modules/\r\nnpm update\r\nnpm install\r\n```\r\nif still not working after re-installing the `node_modules` then try `ng serve --poll=1000`  or `ng serve --poll=2000`\r\n\r\n**This is my setup:**\r\n```\r\nAngular CLI: 1.7.0\r\nNode: 8.9.4\r\nOS: linux x64\r\nAngular: 5.2.5\r\n... animations, common, compiler, compiler-cli, core, forms\r\n... http, language-service, platform-browser\r\n... platform-browser-dynamic, router\r\n\r\n@angular/cli: 1.7.0\r\n@angular-devkit/build-optimizer: 0.3.1\r\n@angular-devkit/core: 0.3.1\r\n@angular-devkit/schematics: 0.3.1\r\n@ngtools/json-schema: 1.2.0\r\n@ngtools/webpack: 1.10.0\r\n@schematics/angular: 0.3.1\r\n@schematics/package-update: 0.3.1\r\ntypescript: 2.5.3\r\nwebpack: 3.11.0\r\n````",
+      "user":"YaronMiro"
+    },
+    {
+      "comment":"I am using Centos, and [increasing the amount of inotify watchers](https://github.com/guard/listen/wiki/Increasing-the-amount-of-inotify-watchers) worked for me.\r\n\r\nIt is also applicable to Ubuntu users.\r\n",
+      "user":"GeraldScott"
+    },
+    {
+      "comment":"--poll=1000 causes my cpu to spike insanely high when running docker / archlinux ",
+      "user":"rightisleft"
+    },
+    {
+      "comment":"I dont understand why this ticket was closed\r\n\r\nhttps://github.com/angular/angular-cli/issues/2748#issuecomment-349821610",
+      "user":"rightisleft"
+    },
+    {
+      "comment":"This is not an issue with low inotify watchers, the alpine node base image has the following:\r\n\r\n/app # sysctl -a | grep inotify\r\nfs.inotify.max_queued_events = 16384\r\nfs.inotify.max_user_instances = 128\r\nfs.inotify.max_user_watches = 524288\r\n\r\n",
+      "user":"rightisleft"
+    },
+    {
+      "comment":"Even if this issue is related to low inotify watchers, it is not an OS issue but an Angular issue.\r\nWe should not to hack our systems to run an Angular project!",
+      "user":"ghost"
+    },
+    {
+      "comment":"It would be great if the angular team and @filipesilva put together an official docker hub container with the angular client working in it. It would allow us to narrow the possibility space for whats failing across these numerous build approaches. ",
+      "user":"rightisleft"
+    },
+    {
+      "comment":"This is still a problem, same behaviour on a Fedora / Windows 10 machine",
+      "user":"virgil-av"
+    },
+    {
+      "comment":"i used `sudo ng serve` and it was working.",
+      "user":"kaushik-kumar-roy"
+    },
+    {
+      "comment":"@Kaushik-Roy that's right!\r\n`sudo ng serve` is the solution\r\nThe same issue: #11224",
+      "user":"chapultepec"
+    },
+    {
+      "comment":"> ng serve --poll=1000 works for me fine\r\n> Thanks\r\n\r\nIt's work with me. Thanks.",
+      "user":"doanthai"
+    },
+    {
+      "comment":"[Solution](https://github.com/angular/angular-cli/issues/1610#issuecomment-349663871) offered by @cabaleirog worked for me. (Ubuntu)\r\n\r\n> After trying multiple options, I solved the issue by reinstalling nodes_modules. Hope it helps.\r\n> \r\n> Steps\r\n> \r\n> * rm -rf nodes_modules/\r\n> * npm update\r\n> * npm install\r\n\r\nMy app.component changes were triggering the update. But all the other components I made to place within the app would not trigger any updates to the view of my app. This solution made any changes I made update the view, and it works accordingly now. ",
+      "user":"samuelzapote"
+    },
+    {
+      "comment":"> ng serve --poll=1000\r\n\r\nThis solved the issue on my Angular 7 project in Ubuntu. Thank you @sergiyvoytovych ",
+      "user":"narenkram"
+    },
+    {
+      "comment":"Looks like there's already a solution for the issue. It's strange that I cannot reproduce it at all though. Please try updating to the latest CLI version. In case you hit this problem again, please share a repository with a minimal demo so we can reproduce the bug and open a new issue.",
+      "user":"mgechev"
+    },
+    {
+      "comment":"\r\n\r\nYou just run following command it will work when you're did any changes. app will auto-deploy.\r\n\r\n**ng serve -o**\r\n",
+      "user":"karthicktkm"
+    },
+    {
+      "comment":"@narain96 - thanks, your solution works for me",
+      "user":"scorbin"
+    },
+    {
+      "comment":"I have been having the same issue. Only solution that works is the `--poll=1000` option.\r\n\r\nThe issue itself definitely appears to be Angular version dependent. I have a project folder with a local Angular version of 5.2.0 and the recompile and reload on saved changes works no problem. My global Angular 7 version does not allow for this. The `--poll=1000`, however, does spike my CPU (as @rightisleft mentions). This is also true for a brand new `ng new foobarapp`that I created. Nothing else in it, but the recompile & reload doesn't happen on saved changes without the `--poll=1000`\r\n\r\nMy Angular version info:\r\n```\r\nAngular CLI: 7.3.9\r\nNode: 10.15.2\r\nOS: darwin x64\r\nAngular: 7.2.15\r\n... animations, common, compiler, compiler-cli, core, forms\r\n... language-service, platform-browser, platform-browser-dynamic\r\n... router\r\n\r\nPackage                           Version\r\n-----------------------------------------------------------\r\n@angular-devkit/architect         0.13.9\r\n@angular-devkit/build-angular     0.13.9\r\n@angular-devkit/build-optimizer   0.13.9\r\n@angular-devkit/build-webpack     0.13.9\r\n@angular-devkit/core              7.3.9\r\n@angular-devkit/schematics        7.3.9\r\n@angular/cli                      7.3.9\r\n@ngtools/webpack                  7.3.9\r\n@schematics/angular               7.3.9\r\n@schematics/update                0.13.9\r\nrxjs                              6.5.2\r\ntypescript                        3.2.4\r\nwebpack                           4.29.0\r\n```",
+      "user":"emgillis"
+    },
+    {
+      "comment":"More or less the same issue here: all HTML and CSS files are properly watched, but not the TypeScript files. Whatever the solution applied (removing/reinstalling the `node_modules` folder, using the `--poll` parameter, changing the `inotify` watchers on Linux), nothing has worked. It's probably related to the layout of my project, or the contents of the `tsconfig.json` files, because `ng serve` works as expected on a minimal app generated with `ng new`.\r\n\r\nTested with Node.js 12.2.0 and 12.3.0 on Windows 10 and Ubuntu 19.04: in my case, the issue is clearly not OS-dependant.\r\n\r\n```\r\nAngular CLI: 7.3.9\r\nNode: 12.3.0\r\nOS: win32 x64\r\nAngular: 7.2.15\r\n... animations, common, compiler, compiler-cli, core, forms\r\n... http, language-service, platform-browser\r\n... platform-browser-dynamic, router\r\n\r\nPackage                           Version\r\n-----------------------------------------------------------\r\n@angular-devkit/architect         0.13.9\r\n@angular-devkit/build-angular     0.13.9\r\n@angular-devkit/build-optimizer   0.13.9\r\n@angular-devkit/build-webpack     0.13.9\r\n@angular-devkit/core              7.3.9\r\n@angular-devkit/schematics        7.3.9\r\n@angular/cli                      7.3.9\r\n@ngtools/webpack                  7.3.9\r\n@schematics/angular               7.3.9\r\n@schematics/update                0.13.9\r\nrxjs                              6.5.2\r\ntypescript                        3.2.4\r\nwebpack                           4.29.0\r\n```\r\n",
+      "user":"cedx"
+    },
+    {
+      "comment":"This issue has been automatically locked due to inactivity.\nPlease file a new issue if you are encountering a similar or related problem.\n\nRead more about our [automatic conversation locking policy](https://github.com/angular/angular/blob/67d80f/docs/GITHUB_PROCESS.md#conversation-locking).\n\n<sub>_This action has been performed automatically by a bot._</sub>",
+      "user":"angular-automatic-lock-bot[bot]"
+    }
+  ],
+  "repository":"angular-cli",
+  "user":"burdzand"
+}

@@ -1,0 +1,682 @@
+{
+  "comments":[
+    {
+      "comment":"I am using VS Code on a project at work that has hundreds of files and many layers of nested sub-directories. I frequently make changes that break many files, such as changing the call signature of a commonly used method. Since the project is entirely typescript, it is useful to be able to open the \"Problems\" view and see the errors and warnings my change caused in the files I have open. However, because of the size of the project, I still need to go to my terminal and run our own make commands to see the list of problems. I then need to perform the fun dance between my terminal and VS Code, searching for the right line in the right file before I can fix the problem.\n\nWhat I need is a way to tell the \"Problems\"  view to show me all errors and warnings across all open and closed files in my project. This would allow me to see all problems in a single list and quickly click through and fix them.\n",
+      "user":"kevinjreece"
+    },
+    {
+      "comment":"@waderyan this is a feature request for the builder work we discussed with the TS team.\n",
+      "user":"dbaeumer"
+    },
+    {
+      "comment":"For reference here is a link to the issue - https://github.com/Microsoft/TypeScript/issues/11229\n",
+      "user":"waderyan"
+    },
+    {
+      "comment":"Well, I just use a watching build task with `\"problemMatcher\": \"$tsc-watch\"` (see https://code.visualstudio.com/Docs/editor/tasks#_processing-task-output-with-problem-matchers) and all errors and warnings are properly shown in the Problems view. It is quite a nice workflow because changes in open files are noticed immediately due to language server, but save triggers incremental compilation (with `tsc --watch`) which still takes a while, but I can control that latency by saving/not saving yet.",
+      "user":"plievone"
+    },
+    {
+      "comment":"any ETA on this ? There's a lot of issues opened for that feature and not sure if I missed anything or not :smile: \r\n",
+      "user":"maxime1992"
+    },
+    {
+      "comment":"@maxime1992 thanks for the follow up. This is on our radar. No firm timeline yet. ",
+      "user":"waderyan"
+    },
+    {
+      "comment":"Something I didn't realize was that it's possible to do this with the Tasks infrastructure that VSCode has. All you have to do is put this into your tasks.json:\r\n\r\n```\r\n{\r\n  \"version\": \"0.1.0\",\r\n  \"command\": \"tsc\",\r\n  \"isShellCommand\": true,\r\n  \"args\": [\"-w\", \"-p\", \".\"],\r\n  \"showOutput\": \"silent\",\r\n  \"isBackground\": true,\r\n  \"problemMatcher\": \"$tsc-watch\"\r\n}\r\n```\r\n\r\nThen just run it and you'll get all of the errors across your entire project in the problems view. \r\n\r\nI'm a bit perplexed why this isn't displayed more prominently. It's super useful and cool.",
+      "user":"johnfn"
+    },
+    {
+      "comment":"@johnfn Great solution, thanks a lot. I would even add the \"--noEmit\" argument if the sole purpose of the task is to show the errors\r\n```json\r\n{\r\n  \"version\": \"0.1.0\",\r\n  \"command\": \"tsc\",\r\n  \"isShellCommand\": true,\r\n  \"args\": [\"-w\", \"-p\", \".\", \"--noEmit\"],\r\n  \"showOutput\": \"silent\",\r\n  \"isBackground\": true,\r\n  \"problemMatcher\": \"$tsc-watch\"\r\n}\r\n```",
+      "user":"WilliamChelman"
+    },
+    {
+      "comment":"@kevinjreece You can use the Semantic History feature of iTerm (https://www.iterm2.com/documentation-one-page.html) to prevent the \"fun dance between my terminal and VS Code\". When cmd clicking on the filename + line number it automatically opens the corresponding line in vscode!",
+      "user":"adius"
+    },
+    {
+      "comment":"Anyone know if it's possible to open files with errors/in the Problems panel with a keyboard shortcut? Real pain to keep switching between mouse and keyboard, even after running the task.",
+      "user":"pzuraq"
+    },
+    {
+      "comment":"You can open the Problems panel with `Ctrl+Shift+M` (or `Cmd+Shift+M`), it's under Keyboard Shortcuts as \"Show Problems\" - is that what you mean?",
+      "user":"peabnuts123"
+    },
+    {
+      "comment":"No, I'd like a shortcut to go to the next file that has an error, whether or not it's open.\r\n\r\nI was looking into making an extension to do it, but the API is locked down tight, commands don't have access to the MarkerService (tracks problems) in any way that I can see.",
+      "user":"pzuraq"
+    },
+    {
+      "comment":"Oh I see. That could be quite useful. Sounds like the `Problems` area of vscode in-general has a lot of opportunity to improve. ",
+      "user":"peabnuts123"
+    },
+    {
+      "comment":"anyone experiencing this issue https://github.com/Microsoft/vscode/issues/34412?\r\nif the exact same error occurs between subsequent builds it ignores it",
+      "user":"cloudkite"
+    },
+    {
+      "comment":"The trick with `tsc` into a debug task is not always possible, for example in a Vue project with custom Webpack loaders to handle .vue files (`tsc` can't parse Vue files out of the box).\r\n\r\nBut you can find a way to have all errors by watching and compiling your project into a VS Code terminal.\r\n\r\nFor example, I did this npm script:\r\n`\"live-check\": \"webpack --config ./build/webpack.dev.conf.js -w --display none\",`\r\n\r\nAnd I launch it via \"npm run live-check\" into a VS terminal and I have all errors in real time.",
+      "user":"cr0cK"
+    },
+    {
+      "comment":"even with the solution from @johnfn , I can only see errors from open files :(.\r\nI see the task running in the output tab, but does not show any error\r\n\r\ntasks.json:\r\n\r\n```\r\n{\r\n    \"version\": \"0.1.0\",\r\n    \"command\": \"tsc\",\r\n    \"isShellCommand\": true,\r\n    \"args\": [\"-w\", \"-p\", \".\", \"--noEmit\"],\r\n    \"showOutput\": \"silent\",\r\n    \"isBackground\": true,\r\n    \"problemMatcher\": \"$tsc-watch\"\r\n  }\r\n```\r\n\r\ntsconfig.json\r\n\r\n```\r\n{\r\n  \"compilerOptions\": {\r\n    /* Basic Options */\r\n    \"target\": \"es2015\",                       /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017', or 'ESNEXT'. */\r\n    \"module\": \"es2015\",                       /* Specify module code generation: 'commonjs', 'amd', 'system', 'umd' or 'es2015'. */\r\n    // \"lib\": [],                             /* Specify library files to be included in the compilation:  */\r\n    \"allowJs\": true,                          /* Allow javascript files to be compiled. */\r\n    // \"checkJs\": true,                       /* Report errors in .js files. */\r\n    \"jsx\": \"react-native\",                    /* Specify JSX code generation: 'preserve', 'react-native', or 'react'. */\r\n    // \"declaration\": true,                   /* Generates corresponding '.d.ts' file. */\r\n    \"sourceMap\": true,                        /* Generates corresponding '.map' file. */\r\n    // \"outFile\": \"./\",                       /* Concatenate and emit output to single file. */\r\n    \"outDir\": \"./build\",                      /* Redirect output structure to the directory. */\r\n    \"rootDir\": \"./src\",                       /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */\r\n    \"removeComments\": false,                  /* Do not emit comments to output. */\r\n    // \"noEmit\": true,                        /* Do not emit outputs. */\r\n    // \"importHelpers\": true,                 /* Import emit helpers from 'tslib'. */\r\n    // \"downlevelIteration\": true,            /* Provide full support for iterables in 'for-of', spread, and destructuring when targeting 'ES5' or 'ES3'. */\r\n    // \"isolatedModules\": true,               /* Transpile each file as a separate module (similar to 'ts.transpileModule'). */\r\n\r\n    /* Strict Type-Checking Options */\r\n    \"strict\": true,                           /* Enable all strict type-checking options. */\r\n    \"noImplicitAny\": true,                    /* Raise error on expressions and declarations with an implied 'any' type. */\r\n    \"strictNullChecks\": true,                 /* Enable strict null checks. */\r\n    \"noImplicitThis\": true,                   /* Raise error on 'this' expressions with an implied 'any' type. */\r\n    \"alwaysStrict\": true,                     /* Parse in strict mode and emit \"use strict\" for each source file. */\r\n\r\n    /* Additional Checks */\r\n    // \"noUnusedLocals\": true,                /* Report errors on unused locals. */\r\n    // \"noUnusedParameters\": true,            /* Report errors on unused parameters. */\r\n    // \"noImplicitReturns\": true,             /* Report error when not all code paths in function return a value. */\r\n    // \"noFallthroughCasesInSwitch\": true,    /* Report errors for fallthrough cases in switch statement. */\r\n\r\n    /* Module Resolution Options */\r\n    \"moduleResolution\": \"node\",               /* Specify module resolution strategy: 'node' (Node.js) or 'classic' (TypeScript pre-1.6). */\r\n    // \"baseUrl\": \"./\",                       /* Base directory to resolve non-absolute module names. */\r\n    // \"paths\": {},                           /* A series of entries which re-map imports to lookup locations relative to the 'baseUrl'. */\r\n    // \"rootDirs\": [],                        /* List of root folders whose combined content represents the structure of the project at runtime. */\r\n    // \"typeRoots\": [],                       /* List of folders to include type definitions from. */\r\n    // \"types\": [],                           /* Type declaration files to be included in compilation. */\r\n    \"allowSyntheticDefaultImports\": true      /* Allow default imports from modules with no default export. This does not affect code emit, just typechecking. */\r\n\r\n    /* Source Map Options */\r\n    // \"sourceRoot\": \"./\",                    /* Specify the location where debugger should locate TypeScript files instead of source locations. */\r\n    // \"mapRoot\": \"./\",                       /* Specify the location where debugger should locate map files instead of generated locations. */\r\n    // \"inlineSourceMap\": true,               /* Emit a single file with source maps instead of having a separate file. */\r\n    // \"inlineSources\": true,                 /* Emit the source alongside the sourcemaps within a single file; requires '--inlineSourceMap' or '--sourceMap' to be set. */\r\n\r\n    /* Experimental Options */\r\n    // \"experimentalDecorators\": true,        /* Enables experimental support for ES7 decorators. */\r\n    // \"emitDecoratorMetadata\": true,         /* Enables experimental support for emitting type metadata for decorators. */\r\n  },\r\n  \"include\": [\r\n    \"src/**/*\",\r\n    \"./node_modules/react-native-dev-kit/**/*\"\r\n  ],\r\n  \"exclude\": [\r\n    \"__tests__\",\r\n    \"index.android.js\",\r\n    \"index.ios.js\",\r\n    \"build\",\r\n    \"local_history\",\r\n    \"node_modules\"\r\n  ]\r\n}\r\n\r\n```\r\n\r\nWhy can't I see errors from closed files (I am sure that there are errors) ?",
+      "user":"apperside"
+    },
+    {
+      "comment":"👍 ",
+      "user":"chandanch"
+    },
+    {
+      "comment":"As @apperside said.. the task only show errors when the file has changed..",
+      "user":"eladcandroid"
+    },
+    {
+      "comment":"With the new feature that error are displayed in the workspace in the sidebar, for this working out of the box would be greatly appreciated.",
+      "user":"enko"
+    },
+    {
+      "comment":"Seems like the task format changed a bit in the latest versions of vscode. New format is:\r\n\r\n```\r\n\t\t{\r\n\t\t\t\"label\": \"Monitor TS Errors\",\r\n\t\t\t\"command\": \"./node_modules/.bin/tsc\",\r\n\t\t\t\"type\": \"shell\",\r\n\t\t\t\"args\": [\"--watch\", \"--project\", \".\"],\r\n\t\t\t\"presentation\": {\r\n\t\t\t\t\"echo\": true,\r\n\t\t\t\t\"reveal\": \"always\",\r\n\t\t\t\t\"focus\": false,\r\n\t\t\t\t\"panel\": \"shared\"\r\n\t\t\t},\r\n\t\t\t\"isBackground\": true,\r\n\t\t\t\"problemMatcher\": \"$tsc-watch\"\r\n\t\t}\r\n```",
+      "user":"ekulabuhov"
+    },
+    {
+      "comment":"Do you start the task each time you open VSCode? Or is there a way to automatically launch it?",
+      "user":"ekulabuhov"
+    },
+    {
+      "comment":"I guess the latest version of VS code shows the count of errors per file \r\n\r\n![capture](https://user-images.githubusercontent.com/8663552/36241378-fbfa2340-123b-11e8-9644-3e359ae780e1.JPG)\r\n\r\n",
+      "user":"chandanch"
+    },
+    {
+      "comment":"How can i disable this?",
+      "user":"pabloli"
+    },
+    {
+      "comment":"// Show Errors & Warnings on files and folder.\n\"problems.decorations.enabled\": true,\n\nSimply put this to false ;)\n\nOn Thu, Feb 15, 2018 at 1:36 AM, pabloli <notifications@github.com> wrote:\n\n> How can i disable this?\n>\n> —\n> You are receiving this because you are subscribed to this thread.\n> Reply to this email directly, view it on GitHub\n> <https://github.com/Microsoft/vscode/issues/13953#issuecomment-365838054>,\n> or mute the thread\n> <https://github.com/notifications/unsubscribe-auth/AAy0aayEHkVuxumJRuZz-mdWmBvBhdn9ks5tU9B2gaJpZM4KaH3J>\n> .\n>\n",
+      "user":"DblK"
+    },
+    {
+      "comment":"This is what I'm using \r\n\r\n```\r\n{\r\n  \"label\": \"TSCompileAll\",\r\n  \"type\": \"shell\",\r\n  \"command\": \"./node_modules/.bin/tsc --watch --noEmit --project .\",\r\n  \"problemMatcher\": [\"$tsc-watch\"]\r\n}\r\n```\r\n\r\nIt's invaluable, I wonder if it could be made default or at least a setting.\r\n\r\nIs it possible to autostart this task on a workspace or project ?",
+      "user":"jbrodriguez"
+    },
+    {
+      "comment":"I use this:\r\n```\r\n{\r\n    \"version\": \"2.0.0\",\r\n    \"tasks\": [\r\n        {\r\n            \"label\": \"tsc watch\",\r\n            \"type\": \"shell\",\r\n            \"command\": \"./node_modules/.bin/tsc\",\r\n            \"isBackground\": true,\r\n            \"args\": [\"--watch\", \"--noEmit\", \"--project\", \"www\"],\r\n            \"group\": {\r\n                \"kind\": \"build\",\r\n                \"isDefault\": true\r\n            },\r\n            \"presentation\": {\r\n                \"reveal\": \"never\",\r\n                \"echo\": false,\r\n                \"focus\": false,\r\n                \"panel\": \"dedicated\"\r\n            },\r\n            \"problemMatcher\": \"$tsc-watch\"\r\n        }\r\n    ]\r\n}\r\n```\r\nI use this extension to run the task on startup: https://marketplace.visualstudio.com/items?itemName=yukidoi.blade-runner\r\n\r\nI still don't know how to keep the errors of a file (in the Problems panel) when closing it.",
+      "user":"molinx"
+    },
+    {
+      "comment":"Having an option to keep the problems listed in the panel after you close a file would be very helpful.",
+      "user":"sillero"
+    },
+    {
+      "comment":"Does somebody have a workaround for this issue?  For medium to large projects it can be quite cumbersome to open every file to ensure no errors are present.\r\n\r\nIs there a way to open all files at once with one command?  That would be an acceptable workaround to me.",
+      "user":"daarong"
+    },
+    {
+      "comment":"@daarong I usually have [eslint-watch](https://github.com/rizowski/eslint-watch) running in the terminal while I'm coding in vscode to check the whole project. It's not quite as good as having all the linting info in vscode, but it's a decent fallback for seeing at a glance whether any files in your project have errors in them.",
+      "user":"Darkle"
+    },
+    {
+      "comment":"Does anyone have a workaround for this for java files?  \r\nI want to see all errors of all files in the problems panel at any time, not only the errors of open files.",
+      "user":"pahofmann"
+    },
+    {
+      "comment":"Is this a joke? I have about 2,000 files should I go and open all of them manually to search for lint errors???",
+      "user":"dakt"
+    },
+    {
+      "comment":"Is there a way to trigger ts lint in vs code? I could use e. `tslint` to display it in the console. \r\nIt would be great if I could trigger VS Code to scan all files in src folder for errors (syntax and linter)\r\nIn other words: How to open all files (ts) in src folder at the same time?\r\n\r\nDon't search in other folders like node_modules. ... Just for the protocol. 😄 \r\nMaybe a include / exclude path option would be nice? ...",
+      "user":"Domvel"
+    },
+    {
+      "comment":"About a month ago I had the little red icons next to my files in the workspace viewer. Now they're gone and I have no idea how I did it. Either a new version of VSCode changed the way it works or I installed an extension that broke it. How to get it working again? I've never even heard of tasks.json and the fact that it worked before suggests to me it is now the default behavior.",
+      "user":"simeyla"
+    },
+    {
+      "comment":"Here is how you can see all problems in less than 10 seconds.\r\n\r\nYou use a little trick.\r\n\r\nOpen replace all in files (Ctrl + Shift + H).\r\n\r\nReplace ; with ;\r\n\r\nHit replace all. That's it. Now, check Problems.\r\n\r\nThe assumption here is that all files have at least one semicolon. For bigger projects, if you get a warning  asking you to refine your search, just enter something that is common in all files but is not present a lot.",
+      "user":"ajayRaghav37"
+    },
+    {
+      "comment":"Any update on this?  Although Ajay's shortcut work it feels rather hacky.   Seem like this is an obvious and easy win for VSC.  A switch \"Show all errors / Show errors for open files\"  would be all that's required.  ",
+      "user":"KirilOkun"
+    },
+    {
+      "comment":"Another thought, instead of having this automatically happen on file change. I would be totally OK with having a button in the bottom bar or a command that I can explicitly run that would check all files.",
+      "user":"mateuscb"
+    },
+    {
+      "comment":"It is correct, I think that the issue has to do with coordinating TS service that checks all opened files and on the other hand checking the files that are closed and are not normally checked automatically, is that correct? So the easy solution is to ensure that problems pane recieves all TS problems from a single source, is that correct?\r\n\r\nSeeing how the problem is not solved by the vscode team (?), a proposal:\r\n\r\nShould it not be possible to solve this via an addon or via vscode task problem matcher? Because then you could ensure what and when the problems pane shows anyway all by yourself? Then you would just have to somehow disable vscode from showing its stuff? Can a vscode dev tell me if something like this would be workable?\r\n\r\nHowever I still think this basic stuff should be handled by vscode itsself. It's not like TS errors solve themselves when you close files... Just make TS server handle all files, open or not, should do the tricks. Should be an option of course, but an option it should be.",
+      "user":"neoncom"
+    },
+    {
+      "comment":"How can this not be the most critical of all issues to solve first? The IDE is broken until fixed.",
+      "user":"JonNeat"
+    },
+    {
+      "comment":"Okay so this is a hacky solution.\r\nUse @plievone's solution by making a task use $tsc-watch. Then get a plugin like AutoLaunch to run the task every time the Visual Studio Code is opened. (https://marketplace.visualstudio.com/items?itemName=philfontaine.autolaunch)",
+      "user":"JonNeat"
+    },
+    {
+      "comment":"to expand on @mateuscb's suggestion, maybe something in the context menu of the file explorer would be good where you could right click on a particular folder and do \"find problems in folder\" would be a good option, as it would allow the user to decide the trade off between scope versus speed.\r\n",
+      "user":"uglycoyote"
+    },
+    {
+      "comment":"Dont do @ajayRaghav37 suggestion, it will hang vscode.\r\nDamn, i will not gonna write ts code ever again in future)",
+      "user":"yyynnn"
+    },
+    {
+      "comment":"Any updates or ideas of when this will be put into the pipeline? Would be great to have this feature out of the box.",
+      "user":"matthewvolk"
+    },
+    {
+      "comment":"ES-Lint has introduced a new task in VS Code. You have to enable it in the workspace setings.\r\n\r\n`\"eslint.provideLintTask\": true`\r\n\r\nJust go to terminal menu and select run task, then choose\r\n\r\n> eslint: lint whole folder.\r\n\r\nYou can also auto-fix most problems by running the following command in the terminal:\r\n\r\n`.\\node_modules\\.bin\\eslint.cmd --fix .`\r\n\r\nReference: https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint\r\n\r\nWhile we still await the problem scanner in VS Code, this is a good enough alternative if you use eslint.",
+      "user":"ajayRaghav37"
+    },
+    {
+      "comment":"Much needed feature for larger projects indeed. Any updates?",
+      "user":"atkeranov"
+    },
+    {
+      "comment":"@ajayRaghav37, it looks like eslint isn't able to catch typing errors, just linting rules:\r\n\r\nhttps://github.com/typescript-eslint/typescript-eslint/issues/36#issuecomment-478820127",
+      "user":"IstoraMandiri"
+    },
+    {
+      "comment":"+1",
+      "user":"dipacs"
+    },
+    {
+      "comment":"Up this. I also think that it should be possible to disable the builtin TS checking and linting and just use the results from the build task.",
+      "user":"zen0wu"
+    },
+    {
+      "comment":"+1",
+      "user":"hasansaghir"
+    },
+    {
+      "comment":"I now run `tsc --noEmit -w` to solve this problem.\r\n\r\nBut I think it would be better to share a `ts-server` with VSCode.\r\n\r\nBut why hasn't it been implemented for so long?",
+      "user":"FishOrBear"
+    },
+    {
+      "comment":"Is anyone here familiar with the TS language server? Does the LSP API lack a way to communicate this to the IDE? Is this a performance concern? Clearly people are passionate about the lack of this feature (I am), so I think there would be interest in community help on getting this past the finish line.\r\n\r\nBut that is if the problem here is just the lack of manpower on the VS Code team.\r\n\r\nIf the issue is different (larger impact on the VS Code architecture, a change to LSP required, unclear performance impact, UX considerations), knowing this would help explain why this seemingly straightforward feature takes so much time.",
+      "user":"TomasHubelbauer"
+    },
+    {
+      "comment":"I see various comments in this issue about how the responsibility of this is on the TypeScript team and not the Visual Studio Code team. But this is also a problem with VS Code's built in '@ts-check' functionality. The workarounds mentioned in this post to use a task executing the 'tsc' command don't work for me because I don't have tsc installed (I'm only using @ts-check and jsdoc).\r\n\r\nBefore, I used to click every file in my project to find the errors. That was tedious, but at least the problems didn't disappear from the side bar once I closed the file. After one of the updates of the past few months, this problem was introduced: #73153.\r\n\r\n> How can this not be the most critical of all issues to solve first? The IDE is broken until fixed.\r\n\r\nI agree.",
+      "user":"martinog2"
+    },
+    {
+      "comment":"When?",
+      "user":"Bardimaswift"
+    },
+    {
+      "comment":"The 'accepted' solution above works, but some of the fields are deprecated.\r\n\r\n```js\r\n{\r\n      \"label\": \"Watch TS Errors\",\r\n      \"type\": \"shell\",\r\n      \"command\": \"tsc\",\r\n      \"args\": [\"-w\", \"-p\", \".\", \"--noEmit\"],\r\n      \"isBackground\": true,\r\n      \"problemMatcher\": \"$tsc-watch\"\r\n}\r\n```\r\n\r\nWorks for me.\r\n\r\nAlso see https://code.visualstudio.com/docs/editor/tasks for creating tasks.json file if you dont have one yet",
+      "user":"mattwills8"
+    },
+    {
+      "comment":"Is it possible to disable VS Code's built-in TS server when running `tsc` as a build task like this? The reason I ask is because otherwise we get two sets of errors: those from the built in TS server and those from the task, and sometimes they are out of sync.",
+      "user":"OliverJAsh"
+    },
+    {
+      "comment":"The IDE is broken and unusable for work on Typescript projects. So I have to stick to the version 1.28.2 and disable updates.\r\n\r\nStrange, but it worked somehow before. What's happened? And when will it work again? Already an year passed and there is no sign of change...",
+      "user":"fantaclaus"
+    },
+    {
+      "comment":"October 2019 and this is still at large.\r\n\r\n3 years for a feature which others IDE offer.... NNNNICCCEEEEEEEEEEEEEE",
+      "user":"Porkechebure"
+    },
+    {
+      "comment":"\r\n> \r\n> 3 years for a feature which others IDE offer.... NNNNICCCEEEEEEEEEEEEEE\r\n\r\nRemember that VSCode is not an IDE. It's something beetwen Editor and IDE.\r\nAnyway, I hope they do it",
+      "user":"kanlukasz"
+    },
+    {
+      "comment":"> > 3 years for a feature which others IDE offer.... NNNNICCCEEEEEEEEEEEEEE\r\n> \r\n> Remember that VSCode is not an IDE. It's something beetwen Editor and IDE.\r\n> Anyway, I hope they do it\r\n\r\nWho cares. Yet, I am not even able to put the damn task up and running to check the ts files.\r\n\r\nThe provided guide seems like learning a whole new fucking programming language.\r\nWe do work and produce, I don't have time to waste learning all the webpack (and similar tools) bandwagon of bullshit to put up a script that checks my ts files on a IDE (I CALL IT IDE ok?) that doesn't even supports the language the same creators of the IDE created correctly....\r\n\r\n\r\nwhat a bullshit",
+      "user":"Porkechebure"
+    },
+    {
+      "comment":"> what a bullshit\r\n\r\nFor a bit of perspective:\r\n\r\nMicrosoft made some software and gave it away for free.\r\nThis software is helpful to millions of people who are grateful for it.\r\nMicrosoft is not forcing you to use this software.\r\n\r\nYou are angry at them for giving you something for free because it is not as perfect as it theoretically could be.",
+      "user":"mjomble"
+    },
+    {
+      "comment":"Also, he uses that same \"IDE\"'s language, and the IDE is open source and accept pull requests...",
+      "user":"asfernandes"
+    },
+    {
+      "comment":"I've been watching this for a long time now, still waiting for a better way to track errors and warnings, and I've been using it since public launch.\r\n\r\nThat being said, VS Code is in my opinion undoubtedly the best IDE for JS/TS development - heck, it might even be the best MS product, second only to Github. There has definitely been improvements in features and performances, and the sheer amount of extensions makes me very happy. Yes, the docs could be better, but you can say that about every tech documentation out there.\r\n\r\nI'm sure the VS Code team is constantly working hard on bringing better tooling and integrations. \r\n\r\nAnd I believe we can still ask for new features or keep bumping this one up in a polite manner.",
+      "user":"sillero"
+    },
+    {
+      "comment":"Adding on to the workaround - It looks like there's now a pre-configured task to monitor the output of tsc -w. On a mac, Terminal -> Configure Tasks... -> tsc: watch - tsconfig.json. Then hit ctrl+shift+B and run the task.",
+      "user":"bscaspar"
+    },
+    {
+      "comment":"Three years later... Any news?",
+      "user":"alexgraddev"
+    },
+    {
+      "comment":"In the middle of large-scale refactoring. I didn't realize that by closing all affected files I will no longer see all the errors :-(",
+      "user":"genevpd"
+    },
+    {
+      "comment":"3 years and still open :dancer: ",
+      "user":"thinh105"
+    },
+    {
+      "comment":"> 3 years and still open\r\n\r\nYay, random downvotes from idiots.\r\n\r\nAnyway, this is an annoying issue come on!!! You realize one has hundreds of files in a serious business project right?\r\nHow we are supposed to keep track of them, by mind?\r\n\r\nIt's one of the basic functions for which people use IDEs.....\r\n\r\nAnd now it seems it's propagating also to visual studio and its intellisense from time to time\r\n\r\nBtw the task things seems at least to mitigate it, and for ts files it seems that there are also available some control scripts. I don't know if they get installed by all the angular/typescript extensions from the extension manager in vscode, but if u search in the task search bar (which is shown [here])(https://code.visualstudio.com/docs/editor/tasks) you can search something like the watch or something like that that does the trick everytime you compile (seems it does it along with the normal compilation process, which is another task too)",
+      "user":"Porkechebure"
+    },
+    {
+      "comment":"I find the problems tab useless because of this so I never use it. Instead I run some command in the terminal that actually gives me what I need. For example, if I all compiler errors for the project I run `tsc -w`. I either want to see all the problems in my project or none. I don't care if a file happens to be open or not. It's irrelevant.",
+      "user":"caseyhoward"
+    },
+    {
+      "comment":"Well, if it is so important for someone to see errors only for open files in `Problems` tab, let it be.\r\n\r\nBut could you please create another tab, say `Build Output` just like in Visual Studio.\r\n\r\nThis tab would show errors and warnings from the compiler as a simple one-line text and a double click on it would open the file and place the caret right on the line with the error.\r\n\r\nAlso `F4`/`Shift-F4` shortcuts would be great to jump to next/prev error (but this is not so crucial)\r\n\r\nJust clear this tab completely and fill it again after each compilation. That would be enough.\r\n\r\nOr maybe someone could create an extension for this?",
+      "user":"fantaclaus"
+    },
+    {
+      "comment":"I'm using an \"Open Matching Files\" extension to open all .ts files. It's a bit performance heavy, but at least it gets the job done.",
+      "user":"ricklove"
+    },
+    {
+      "comment":"I think it's because of typescript language server is single-threaded and don't behave like C#'s compiler\r\nStill waiting for this feature, because sometimes I opening file and trying to find type by name using command palete with #, and nothing happen 😞 ",
+      "user":"Artur2"
+    },
+    {
+      "comment":"For those who wish to live on the edge, the next VS Code insiders build introduces a `\"typescript.tsserver.experimental.enableProjectDiagnostics\"` setting that enables experimental project wide error reporting\r\n\r\n![Feb-06-2020 16-15-20](https://user-images.githubusercontent.com/12821956/73990425-ebe80a80-48fd-11ea-84ec-d7fc288db7ba.gif)\r\n\r\nNote that this is not production ready!  It has known perf issues for larger projects and may break your intellisense\r\n\r\n**If you experience a problem while using this setting, please open a new issue**",
+      "user":"mjbvz"
+    },
+    {
+      "comment":"> For those who wish to live on the edge, the next VS Code insiders build introduces a `\"typescript.tsserver.experimental.enableProjectDiagnostics\"` setting that enables experimental project wide error reporting\r\n> \r\n> ![Feb-06-2020 16-15-20](https://user-images.githubusercontent.com/12821956/73990425-ebe80a80-48fd-11ea-84ec-d7fc288db7ba.gif)\r\n> \r\n> Note that this is not production ready! It has known perf issues for larger projects and may break your intellisense\r\n> \r\n> **If you experience a problem while using this setting, please open a new issue**\r\n\r\ngood job~",
+      "user":"whatwg6"
+    },
+    {
+      "comment":"Where might we be able to check on the progress of this feature? I am eagerly awaiting its addition to the standard edition of VS code when it's ready.",
+      "user":"RobbieGM"
+    },
+    {
+      "comment":"\r\n> For those who wish to live on the edge, the next VS Code insiders build introduces a `\"typescript.tsserver.experimental.enableProjectDiagnostics\"` setting that enables experimental project wide error reporting\r\n> \r\n> ![Feb-06-2020 16-15-20](https://user-images.githubusercontent.com/12821956/73990425-ebe80a80-48fd-11ea-84ec-d7fc288db7ba.gif)\r\n> \r\n> Note that this is not production ready! It has known perf issues for larger projects and may break your intellisense\r\n> \r\n> **If you experience a problem while using this setting, please open a new issue**\r\n\r\nThank you all contributors to Visual Studio Code for your amazing work.",
+      "user":"maxpaj"
+    },
+    {
+      "comment":"> For those who wish to live on the edge, the next VS Code insiders build introduces a `\"typescript.tsserver.experimental.enableProjectDiagnostics\"` setting that enables experimental project wide error reporting\r\n\r\nHow does this work with other linters?",
+      "user":"spacesuitdiver"
+    },
+    {
+      "comment":"I've had an issue where any time I enable `\"typescript.tsserver.experimental.enableProjectDiagnostics\"`, the Typescript linter eventually goes down a rabbit hole of traversing `node_modules` and digging up hundreds of errors from distribution files, even when `\"exclude\"` in `tsconfig.json` contains `\"node_modules\"`. I can't quite figure out how to debug this.",
+      "user":"vdh"
+    },
+    {
+      "comment":"I also get the same effect as @vdh - my VSCode parses my entire node_modules folder, and runs eslint against each file.\r\n\r\nMy eslint/editor configuration is:\r\n```\r\n    \"editor.codeActionsOnSave\": {\r\n        \"source.fixAll.eslint\": true\r\n    },\r\n    \"eslint.validate\": [\r\n        \"javascript\",\r\n        \"javascriptreact\",\r\n        \"typescript\",\r\n        \"typescriptreact\"\r\n    ],\r\n    \"[javascript]\": {\r\n        \"editor.formatOnSave\": false\r\n    },\r\n    \"[javascriptreact]\": {\r\n        \"editor.formatOnSave\": false\r\n    },\r\n    \"[typescript]\": {\r\n        \"editor.formatOnSave\": false\r\n    },\r\n    \"[typescriptreact]\": {\r\n        \"editor.formatOnSave\": false\r\n    },\r\n    \"eslint.enable\": true\r\n```\r\n\r\nSeems like first order of business really should be that any file with node_modules in its path should be ignored, at least for on-save actions.",
+      "user":"martaver"
+    },
+    {
+      "comment":"This is a much appreciated feature. \r\nI got the same behaviour as @Martaver @vdh .\r\n\"Solved\" it for now by adding the filters \r\n\r\n`!*node_modules, !*.vscode`\r\n\r\nto the terminal view. (only visually different). In case someone is interested in playing with this.\r\n\r\n<img width=\"829\" alt=\"Annotation 2020-04-17 184432\" src=\"https://user-images.githubusercontent.com/12564081/79593574-f2ec7f80-80db-11ea-8f53-0568cffa0e37.png\">\r\n",
+      "user":"blackfan23"
+    },
+    {
+      "comment":"@blackfan23 seems a bit like sweeping the dust under a rug :D",
+      "user":"martaver"
+    },
+    {
+      "comment":"@Martaver Agreed.  Something like:\r\n\r\n```\r\n\"typescript.tsserver.experimental.enableProjectDiagnostics.ignores\": [\r\n  \"**/node_modules/**\"\r\n]\r\n```\r\n\r\nwould be ideal.  Its kind of shitty to see over 1k problems on a project when there are actually 0.",
+      "user":"SupremeTechnopriest"
+    },
+    {
+      "comment":"@blackfan23 That's not an option, due to all the excess CPU churn caused by the nosedive into `node_modules`",
+      "user":"vdh"
+    },
+    {
+      "comment":"@vdh I set [skipLibCheck](https://www.typescriptlang.org/tsconfig#skipLibCheck) to true in tsconfig and \"problems\" tab stopped showing errors from node_modules.\r\n\r\nHowever, based on [this stackoverflow thread](https://stackoverflow.com/questions/52311779/usage-of-the-typescript-compiler-argument-skiplibcheck), turning on this option degrades type checking. Appreciate if someone from VS code or typescript team can shed some light on the pros and cons of turning this option on.",
+      "user":"arisferyanto"
+    },
+    {
+      "comment":"@mjbvz \r\nWorks great! thanks!\r\nCan we execute \"Fix all\" for these errors with a one command?",
+      "user":"eladcandroid"
+    },
+    {
+      "comment":"What about other languages, not Typescript? For example, I have hundreds of PHP files in the project and I can see problems reported by Intellephense extension for individual file, but what I really want is to run diagnostic for the entire workspace.",
+      "user":"dmitryivashkin"
+    },
+    {
+      "comment":"Yes this also causes issues where ESLint is doing the same nosedive into `node_modules`(\"ESLint: Failed to load config\" as it trawls the directories in there). There really needs to be a blacklist or something instead of trying to patch this bug out per-linter.",
+      "user":"vdh"
+    },
+    {
+      "comment":"Excluding the node_modules would be a no1 fix :)",
+      "user":"patroza"
+    },
+    {
+      "comment":"This seems to work a boot, but - your millage may vary, and of course, no warranty:\r\n\r\nGiven you have typescript 3.9.2 in your package.json, and have selected that version from your workspace in VSCode:\r\n\r\n1. https://www.npmjs.com/package/patch-package\r\n\r\n2. : `./patches/typescript+3.9.2.patch`\r\n```\r\ndiff --git a/node_modules/typescript/lib/tsserver.js b/node_modules/typescript/lib/tsserver.js\r\nindex 2b6f035..ac6c9b4 100644\r\n--- a/node_modules/typescript/lib/tsserver.js\r\n+++ b/node_modules/typescript/lib/tsserver.js\r\n@@ -149353,7 +149353,7 @@ var ts;\r\n                     return;\r\n                 }\r\n                 // No need to analyze lib.d.ts\r\n-                var fileNamesInProject = fileNames.filter(function (value) { return !ts.stringContains(value, \"lib.d.ts\"); }); // TODO: GH#18217\r\n+                var fileNamesInProject = fileNames.filter(function (value) { return !ts.stringContains(value, \"lib.d.ts\") && !ts.stringContains(value, \"node_modules\"); }); // TODO: GH#18217\r\n                 if (fileNamesInProject.length === 0) {\r\n                     return;\r\n                 }\r\n```\r\n\r\n3. `npm install` or `yarn`\r\n4. Restart VSCode\r\n\r\n= profit?",
+      "user":"patroza"
+    },
+    {
+      "comment":"@mjbvz I tried enabling this, and I see pretty high CPU usage from the \"Code Helper (Renderer)\" process compared to when I turn it off. Does it seem likely this is related (\"Renderer\" in the process name suggests not, but I toggled it a few times). The project is not huge (it's https://github.com/Dart-Code/Dart-Code).\r\n\r\nIt doesn't last forever, but it spins my MacBook fans up enough that right now that I'd probably keep it off rather than on.",
+      "user":"DanTup"
+    },
+    {
+      "comment":"Has there been any investigations so far into why `\"typescript.tsserver.experimental.enableProjectDiagnostics\"` always dives into all the files inside `node_modules`, despite our various failed attempts at setting linter configs to avoid `node_modules`?\r\n\r\nIt's disappointing, because this potentially-awesome feature is completely killed by the excessive CPU churn caused by it iterating unwanted files & directories… 😢 ",
+      "user":"vdh"
+    },
+    {
+      "comment":"I've been seeing the same issues @vdh mentioned above with TypeScript errors from `node_modules` appearing in the `PROBLEMS` panel - wasn't sure whether to report a bug, or if it's just some mis-config issue I've caused.\r\n\r\nI've tried various `tsconfig.json` settings like:\r\n\r\n```js\r\n\"exclude\": [\"node_modules\", \"./node_modules/*\"],\r\n```\r\n\r\nI haven't quite figured out if there's a pattern to whether I see the issue or not.  Some things I suspect might be/were happening:\r\n\r\n* It seemed to randomly come and go, sometimes restarting vscode helped for a bit, but it would come back later.\r\n* Appeared to affect some projects more than others.  \r\n* I'm not seeing the issue right now, so perhaps a recent update fixed something?  I'm still running the Insiders edition.\r\n\r\nNot entirely sure about the points above, could just be me being confused.  Just adding another possibly relevant anecdote.  If there's a few of us still seeing the issue in current versions, may be worth filing a new issue.  Haven't done that yet seeing I'm not quite sure about any of it.",
+      "user":"hi2u"
+    },
+    {
+      "comment":"I had the same problem and my solution in #90430  was to use [typescript-tslint-plugin](https://github.com/Microsoft/typescript-tslint-plugin).",
+      "user":"enko"
+    },
+    {
+      "comment":"@enko TSLint has been [deprecated in favour of ESLint since 2019](https://medium.com/palantir/tslint-in-2019-1a144c2317a9), advocating a plugin for a deprecated linter is not a good solution to this issue.",
+      "user":"vdh"
+    },
+    {
+      "comment":"I had to disable `typescript.tsserver.experimental.enableProjectDiagnostics` because it made \r\n```\r\n\"editor.codeActionsOnSave\": {\r\n    \"source.fixAll.eslint\": true\r\n  }\r\n```\r\nextremely slow (2min to save a **single** file).\r\n\r\nI also noticed random TS errors from node_modules, which were appearing / disappearing.",
+      "user":"jgoux"
+    },
+    {
+      "comment":"There is a working workaround actually if you set your `applyTo` properly in tasks.\r\n\r\nA full working task that will watch compile and report problems to the Problems pane **even for files not currently in view** is shown below:\r\n\r\n```json\r\n{\r\n  \"version\": \"2.0.0\",\r\n  \"tasks\": [\r\n    {\r\n      \"label\": \"tsc watch\",\r\n      \"type\": \"shell\",\r\n      \"command\": \"tsc\",\r\n      \"isBackground\": true,\r\n      \"args\": [\"--build\", \"--watch\"],\r\n      \"group\": {\r\n        \"kind\": \"build\",\r\n        \"isDefault\": true\r\n      },\r\n      \"presentation\": {\r\n        \"reveal\": \"never\",\r\n        \"echo\": false,\r\n        \"focus\": false,\r\n        \"panel\": \"dedicated\"\r\n      },\r\n      \"problemMatcher\": {\r\n        \"base\": \"$tsc-watch\",\r\n        \"applyTo\": \"allDocuments\"\r\n      }\r\n    }\r\n  ]\r\n}\r\n```\r\n\r\n",
+      "user":"samesfahani-tuplehealth"
+    },
+    {
+      "comment":"@samesfahani-tuplehealth Please edit your comment to either say how this task relates directly to `enableProjectDiagnostics`, or else reword that it is a suggestion as a temporary _workaround_, **not** a fix. The distinction between workarounds and real actual fixes is an important one to make when commenting on issue threads.",
+      "user":"vdh"
+    },
+    {
+      "comment":"@vdh Fair enough, edited. Though I don't think this Issue in particular was around `enableProjectDiagnostics` either; the issue at hand was that we cannot view problems across the entire project even for files not currently in view.",
+      "user":"samesfahani-tuplehealth"
+    },
+    {
+      "comment":"Regarding the issue with the unwanted `node_modules` errors, I've created a new issue to specifically discuss that: https://github.com/microsoft/vscode/issues/103539\r\n\r\n@vhd / @martaver / @blackfan23 / @SupremeTechnopriest / @patroza / @jgoux / anyone else... If you could please add any more additional clues you might to that issue, it might help in getting this solved hopefully.",
+      "user":"hi2u"
+    },
+    {
+      "comment":"The same issue as @jgoux, it doesn't work with `\"source.fixAll.eslint\": true` - eslint starts to check every file in the project, not only open files, and it rechecks entire project on every single change. VSCode just hangs. No idea why does it modify default ESLint behavior, but that's really a blocker",
+      "user":"PinkaminaDianePie"
+    },
+    {
+      "comment":"\"typescript.tsserver.experimental.enableProjectDiagnostics\" really should be fixed and improved. It would make typescript way more powerful than already is.",
+      "user":"SrBrahma"
+    },
+    {
+      "comment":"The solution posted by @samesfahani-tuplehealth works super well. This is crucial for me when I move an imported type from one file to another and need to find everywhere the imports broke. I am not seeing high CPU use, but if so you could just run it when you need it.",
+      "user":"phatmann"
+    },
+    {
+      "comment":"@phatmann That's a **workaround**, _not_ a solution. Bypassing the feature and using _another entirely different feature_ instead is _not_ a way to fix the performance issues. I hate to be persistent about this but I would rather not have a bunch of noise drawing attention away from fixing this great (but experimental) feature. It could become something incredibly useful if it got the attention it deserves.",
+      "user":"vdh"
+    },
+    {
+      "comment":"@Vdh you are right of course. (And in fact a simpler version of the task, the built in tsk:watch task, works equally well for the workaround). My confusion is this: the workaround is so effective and efficient that I feel no need for the actual feature referenced in this issue. Am I missing something?",
+      "user":"phatmann"
+    },
+    {
+      "comment":"@phatmann If I wanted to run a Typescript watch task, I could already do that. This isn't *just* about running TS checks. It runs *all* of VSCode's checks on every project file. Typescript, ESLint, CSpell, etc… It's really powerful and useful to know that even if I forgot to open a file, I can find errors across the whole project (without running each linter manually across all files, maybe even having to resort to doing it externally in the terminal).\r\n\r\nThe only major flaw right now is that it goes overboard with running over *literally* every file, including normally-forbidden folders like `node_modules`.",
+      "user":"vdh"
+    },
+    {
+      "comment":"That moment when you search how to do something with vscode but what you get is a 4yo open issue... 😢 ",
+      "user":"ruimarques"
+    },
+    {
+      "comment":"How much money and where do I send?",
+      "user":"trusktr"
+    },
+    {
+      "comment":"For those having CPU issues or problems with this feature scanning node_modules, make sure you do NOT have a shared or \"workspace\" `tsconfig.json` somewhere like the root of your repository **unless** it includes:\r\n\r\n```JSON\r\n\"files\": []\r\n```\r\n\r\notherwise, the default is to include all TypeScript files located at or beneath the folder containing the tsconfig, which likely will cause it to analyze too many files.\r\n\r\nThis feature is working fine for me in a large monorepo using yarn workspaces and composite typescript \"projects\".",
+      "user":"dinofx"
+    },
+    {
+      "comment":"Great advice @dinofx. In addition, you can use `include` and `exclude`, instead of `files`, per the [docs](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html#examples).\r\n```\r\n      \"include\": [\"src/**/*\"],\r\n      \"exclude\": [\"node_modules\", \"test/**/*\"],\r\n```",
+      "user":"phatmann"
+    },
+    {
+      "comment":"That's correct, but there's no need to exclude something that doesn't match the \"include\" globs.\r\n\r\n`\"files\": []` is more succinct for a \"workspace\" tsconfig.json file (one that just references a bunch of other tsconfig.json files).  It's not well documented, but you need to name the config files for packages **and** the workspace `tsconfig.json`, or a lot of features won't work properly (this features, find references, refactoring, etc).\r\n\r\nFor a shared config that is extended, it's probably better to name it something like `tsconfig.browser.json`, `tsconfig.node.json`, etc.  That naming prevents anything from ever caring about the `\"files\"` or `\"includes\"`, so you can likely omit them.",
+      "user":"dinofx"
+    },
+    {
+      "comment":"@dinofx The file traversal issue isn't restricted to just Typescript. Additionally, not everyone uses a monorepo.",
+      "user":"vdh"
+    },
+    {
+      "comment":"hopefully saving someone else the trouble -- even if you are using typescript adding node_modules to the tsconfig exclude doesn't resolve the issue anyway. no matter what i try node_modules is included in the files scanned.\r\n\r\ni didn't try adding it to the list of files totally excluded by vscode (like **/.git) because... i need it. so...",
+      "user":"cmawhorter"
+    },
+    {
+      "comment":"As far as I can tell, all the imported node_module files get scanned even if node_modules is excluded.",
+      "user":"phatmann"
+    },
+    {
+      "comment":"> \r\n> \r\n> There is a working workaround actually if you set your `applyTo` properly in tasks.\r\n> \r\n> A full working task that will watch compile and report problems to the Problems pane **even for files not currently in view** is shown below:\r\n> \r\n> ```json\r\n> {\r\n>   \"version\": \"2.0.0\",\r\n>   \"tasks\": [\r\n>     {\r\n>       \"label\": \"tsc watch\",\r\n>       \"type\": \"shell\",\r\n>       \"command\": \"tsc\",\r\n>       \"isBackground\": true,\r\n>       \"args\": [\"--build\", \"--watch\"],\r\n>       \"group\": {\r\n>         \"kind\": \"build\",\r\n>         \"isDefault\": true\r\n>       },\r\n>       \"presentation\": {\r\n>         \"reveal\": \"never\",\r\n>         \"echo\": false,\r\n>         \"focus\": false,\r\n>         \"panel\": \"dedicated\"\r\n>       },\r\n>       \"problemMatcher\": {\r\n>         \"base\": \"$tsc-watch\",\r\n>         \"applyTo\": \"allDocuments\"\r\n>       }\r\n>     }\r\n>   ]\r\n> }\r\n> ```\r\n\r\nthanks for the updated task settings. is it possible to have a similar task for non-ts projects, where i only use type checking provided by vs code on behalf of ts (https://www.typescriptlang.org/docs/handbook/type-checking-javascript-files.html)?",
+      "user":"sKopheK"
+    },
+    {
+      "comment":"I recently inherited a large project that has a lot of misspellings, I am trying to find a way to use something like CSpell (the `streetsidesoftware.code-spell-checker` extension) to find them all in the entire project, since opening every single of the hundreds of files is going to be tedious. Unfortunately I haven't found anything yet except for this post :(",
+      "user":"larsendaniel"
+    },
+    {
+      "comment":"> \r\n> \r\n> I recently inherited a large project that has a lot of misspellings, I am trying to find a way to use something like CSpell (the `streetsidesoftware.code-spell-checker` extension) to find them all in the entire project, since opening every single of the hundreds of files is going to be tedious. Unfortunately I haven't found anything yet except for this post :(\r\n\r\nMaybe an extension like [Open Multiple Files](https://marketplace.visualstudio.com/items?itemName=fabiospampinato.vscode-open-multiple-files) could be useful here as a workaround? It's a bit of a kludge and I don't know how it will perform, but worth a try, maybe.",
+      "user":"mrwensveen"
+    },
+    {
+      "comment":"+1",
+      "user":"leoblum"
+    },
+    {
+      "comment":"The reason why this issue is still here is that there is no good way to implement it. It would require loading all the files into language service, with proportionally higher memory usage. JetBrains IDEs don't do this either for the same exact reason.\r\n\r\nI suppose it would require modifications to the whole language service infrastructure to make it viable. Nevertheless, I'd love to see this working at least in small projects, and that shouldn't be hard to do to anyone who knows vscode internals well. Unfortunately, that's neither me, nor (apparently) SrBrahma.",
+      "user":"polkovnikov-ph"
+    },
+    {
+      "comment":"> The reason why this issue is still here is that there is no good way to implement it. It would require loading all the files into language service\r\n\r\nJust wanted to clarify -- this feature **does exist** for typescript (typescript.tsserver.experimental.enableProjectDiagnostics) right now but is unusable in its current state (e.g. node/typescript).\r\n\r\nThe reason it's unusable is there is no way to prevent it from scanning some locations (node_modules) and the result is every issue for every dependency.  \r\n",
+      "user":"cmawhorter"
+    },
+    {
+      "comment":"Maybe someone with the knowledge can create an extension that opens all the files in the project and then closes them, so we get the same errors reporting that we get when we have all files open without the need to open them. If this dirty solution in theory is possible I don't understand why just a cleaner version of that is not possible",
+      "user":"fermmm"
+    },
+    {
+      "comment":"@fermmm This is a good extension for opening files based on a glob pattern. https://marketplace.visualstudio.com/items?itemName=bcanzanella.openmatchingfiles",
+      "user":"x4th"
+    },
+    {
+      "comment":"So, I'm following this discussion since I don't even know when, and all microsoft have been able to do is to let the discussion stem in a big discussion of who finds the best workaround?",
+      "user":"Porkechebure"
+    },
+    {
+      "comment":"@Porkechebure I’m not sure how closely Microsoft is associated with this product, maybe someone else on here can comment on that. To me it’s just an open source IDE with their name on it. As such the more complicated the feature request is the less likely it is to be implemented because the contributors do this in their spare time. So I’d say either we should just accept the current work arounds, come up with new ones, or set aside time to learn the code base and contribute. Personally, I’ll just accept the workarounds since I don’t have time to contribute.\r\n\r\nNot trying to be argumentative, just trying to set expectations appropriately here. VSCode is by far the best IDE and I’m guessing most people following this thread feel the same otherwise they’d be using something else. Let’s try to give their team a little slack when things aren’t perfect because nothing is ever perfect. \r\n\r\nCheers,\r\n-Collin  ",
+      "user":"collinmccarthy"
+    },
+    {
+      "comment":"this worked for me (although as stated [here](https://github.com/microsoft/vscode/issues/13953#issuecomment-883491863), if you close a file its errors will be removed from the problems panel):\r\n\r\n```\r\n{\r\n  \"version\": \"2.0.0\",\r\n  \"tasks\": [\r\n    {\r\n      \"label\": \"tsc\",\r\n      \"type\": \"shell\",\r\n      \"command\": \"./node_modules/typescript/bin/tsc\",\r\n      \"args\": [\"--noEmit\", \"--watch\"],\r\n      \"problemMatcher\": [\r\n        \"$tsc-watch\"\r\n      ],\r\n      \"isBackground\": true\r\n    }\r\n  ]\r\n}\r\n```",
+      "user":"nbaleli-w"
+    },
+    {
+      "comment":"> The reason why this issue is still here is that there is no good way to implement it. It would require loading all the files into language service, with proportionally higher memory usage. JetBrains IDEs don't do this either for the same exact reason.\r\n> \r\nI don't think this is an issue. You could scan files once, keep results in memory, even better in a cache file, then just re-analyze files that change + a heuristic tree of dependencies. Probably sounds a lot easier than done.\r\n",
+      "user":"rogerfar"
+    },
+    {
+      "comment":"> this worked for me:\r\n\r\nNo it didn't.  As soon as you open a file with an error and close it, the error disappears from the problems view.  Reopen the file, and it comes back.",
+      "user":"dinofx"
+    },
+    {
+      "comment":"> The reason why this issue is still here is that there is no good way to implement it. It would require loading all the files into language service, with proportionally higher memory usage. JetBrains IDEs don't do this either for the same exact reason.\r\n\r\nHonestly, I don't know what would be so terrible about just running tsc in the background and parsing the output. I'm not saying it's a good solution, but that's effectively what I want anyway: show me the errors tsc shows me in the terminal, but I want to be able to click on them to jump to the problem.\r\n\r\n",
+      "user":"BawdyInkSlinger"
+    },
+    {
+      "comment":"@AcademyOfF You're right. A better solution would be to have a dedicated editor that shows the errors for the whole project with the full error message and some surrounding context as separate blocks similar to the [search editor](https://code.visualstudio.com/updates/v1_43#_search-editors) that opens the file in a split window when clicked. I wonder if an extension for that already exists.",
+      "user":"joehillen"
+    },
+    {
+      "comment":"That's a huge topic but I don't see anyone ever mentioned this setting:\r\n\r\n```\r\n\"typescript.tsserver.experimental.enableProjectDiagnostics\": true\r\n```\r\n\r\nIt makes exactly this: VSCode is searching problems through all the project files, rather than just open ones.\r\n\r\nExpect much higher CPU/memory consumption, and also, honestly, this feature is hugely bugged, because sometimes it also shows sources of libraries rather than just project code:\r\n\r\n- https://github.com/microsoft/vscode/issues/117732\r\n\r\nBut in overall, it works.",
+      "user":"jerrygreen"
+    },
+    {
+      "comment":"does it work when TS compiler is not enabled? i.e. pure JS project\n\nEl sáb., 24 jul. 2021 8:36, Jerry Green ***@***.***> escribió:\n\n> That's a huge topic but I don't see anyone ever mentioned this setting:\n>\n> \"typescript.tsserver.experimental.enableProjectDiagnostics\": true\n>\n> It makes exactly this: VSCode is searching problems through all the\n> project files, rather than just open ones.\n>\n> Expect much higher CPU/memory consumption, and also, honestly, this\n> feature is kinda bugged, because sometimes it also shows sources of\n> libraries rather than just project code:\n>\n>    - #117732 <https://github.com/microsoft/vscode/issues/117732>\n>\n> But in overall, it works.\n>\n> —\n> You are receiving this because you commented.\n> Reply to this email directly, view it on GitHub\n> <https://github.com/microsoft/vscode/issues/13953#issuecomment-886008557>,\n> or unsubscribe\n> <https://github.com/notifications/unsubscribe-auth/ABMIXJMSJJAAV4XNBMGQTNDTZJNP7ANCNFSM4CTIPXEQ>\n> .\n>\n",
+      "user":"sKopheK"
+    },
+    {
+      "comment":"> That's a huge topic but I don't see anyone ever mentioned this setting:\r\n> \r\n> ```\r\n> \"typescript.tsserver.experimental.enableProjectDiagnostics\": true\r\n> ```\r\n\r\nHonestly, I thought this issue was about that feature, and when the future was ready for the general public, that would be when this issue was closed. That setting solves this issue, it's just buggy in its current state. \r\n\r\nIf this issue isn't about that setting, what is it about? Is this a duplicate? Is this issue about alternative ways of solving the problem? What's going to happen to this issue when `typescript.tsserver.experimental.enableProjectDiagnostics` has all its kinks ironed out? \r\n\r\n",
+      "user":"BawdyInkSlinger"
+    },
+    {
+      "comment":"@AcademyOfF look when this issue was created: 5 years ago. I guess back then there was no such setting at all. Idk why no one has ever mentioned this experimental feature till now but... Some day it should have happened, right?\r\n\r\nLater issue, about the bug that it is searching through library files sometimes, - it is more specific and it is only 1 year old:\r\n\r\n- https://github.com/microsoft/vscode/issues/117732",
+      "user":"jerrygreen"
+    },
+    {
+      "comment":"Update to the solutions by @johnfn and @WilliamChelman due to new syntax for tasks.json, and capability of using npm instead of native shell.\r\n\r\nIf you have a check-types script in package.json:\r\n```json\r\n{\r\n  \"scripts\":  {\r\n    \"check-types\": \"tsc -w --noEmit\"\r\n  }\r\n}\r\n```\r\n\r\nYou can add the following task to your tasks.json (note if you don't already have a tasks.json, it goes in the root folder/.vscode/tasks.json): \r\n```json\r\n{\r\n  \"version\": \"2.0.0\",\r\n  \"tasks\": [\r\n    {\r\n      \"label\": \"check types\",\r\n      \"detail\": \"Get all typescript errors in problems pane\",\r\n      \"script\": \"check-types\",\r\n      \"type\": \"npm\",\r\n      \"isBackground\": true,\r\n      \"problemMatcher\": \"$tsc-watch\",\r\n      \"presentation\": {\r\n        \"reveal\": \"silent\"\r\n      }\r\n    }\r\n  ]\r\n}\r\n```\r\n\r\nNow you can run this task any time you want project-wide type error checking in the problems pane rather than just in open files.",
+      "user":"Daynil"
+    },
+    {
+      "comment":"@Daynil yeah, but there are other extensions, like css-linters, markdown-linters, etc. And some people use other languages than JS/TS, too. The general solution is:\r\n\r\n```\r\n\"typescript.tsserver.experimental.enableProjectDiagnostics\": true\r\n```\r\n\r\nThis enables diagnostics for entire project, for whatever extensions which write errors/warnings/info into \"Problems\" pane.",
+      "user":"jerrygreen"
+    },
+    {
+      "comment":"This setting is making my PC lag a lot.\r\n\r\nIs there a way to just run a command that runs a diagnostic only once?",
+      "user":"baptisteArno"
+    },
+    {
+      "comment":"> This setting is making my PC lag a lot.\r\n> \r\n> Is there a way to just run a command that runs a diagnostic only once?\r\n\r\nYeah, just a separate command would be insanely useful.",
+      "user":"robertgornicki-codino"
+    },
+    {
+      "comment":"This issue is the only thing stopping me from switching from Jetbrains to VS Code. In Jetbrains one of the most common actions I take is running inspections on all my projects to find any known problems. I shouldn't have to open each and every file to get a list of all problems.",
+      "user":"niebloomj"
+    },
+    {
+      "comment":"> The reason why this issue is still here is that there is no good way to implement it. It would require loading all the files into language service, with proportionally higher memory usage. JetBrains IDEs don't do this either for the same exact reason.\r\n> \r\n> I suppose it would require modifications to the whole language service infrastructure to make it viable. Nevertheless, I'd love to see this working at least in small projects, and that shouldn't be hard to do to anyone who knows vscode internals well. Unfortunately, that's neither me, nor (apparently) SrBrahma.\r\n\r\nJetbrains IDEs actually all have this feature, and have for many years. You can run a multi project wide entire \"inspection\" and get a nice detailed report of all the quick fix problems and more. It is extremely customizable and while it definitely takes a lot of memory and compute to complete, the results have always been well worth the wait for me on any project.",
+      "user":"niebloomj"
+    },
+    {
+      "comment":"> This issue is the only thing stopping me from switching from Jetbrains to VS Code. In Jetbrains one of the most common actions I take is running inspections on all my projects to find any known problems. I shouldn't have to open each and every file to get a list of all problems.\r\n\r\nThis has been buried in this discussion by now, but this task will do exactly what you're looking for.\r\n\r\nOpen or create `.vscode/tasks.json`\r\n```json\r\n{\r\n  \"version\": \"2.0.0\",\r\n  \"tasks\": [\r\n    {\r\n      \"label\": \"Monitor TS Errors\",\r\n      \"command\": \"./node_modules/.bin/tsc\",\r\n      \"type\": \"shell\",\r\n      \"args\": [\"--watch\"],\r\n      \"presentation\": {\r\n        \"echo\": true,\r\n        \"reveal\": \"never\",\r\n        \"focus\": false,\r\n        \"panel\": \"shared\"\r\n      },\r\n      \"isBackground\": true,\r\n      \"problemMatcher\": \"$tsc-watch\",\r\n      \"runOptions\": {\r\n        \"runOn\": \"folderOpen\"\r\n      }\r\n    },\r\n  ]\r\n}\r\n```\r\n\r\nTo have this start on project open, use the commands:\r\n```\r\n> Manage Automatic Tasks in Folder\r\n> Allow Automatic Tasks in Folder\r\n```\r\n\r\nThis runs `tsc` quietly in the background. Any issues found end up in the \"Problems\" tab. It does this at the expense of extra resource usage for running an additional copy of TypeScript on top of the language service.\r\n\r\n(edit) Sorry, this is assuming you're talking specifically about TS errors! eslint has its own task built in. It would be ideal to have a generalized solution to this, but there are individual solutions for different checkers through the task system.",
+      "user":"threehams"
+    },
+    {
+      "comment":"> This has been buried in this discussion by now, but this task will do exactly what you're looking for.\r\n> Open or create .vscode/tasks.json\r\n\r\nYour solution continuously watches for changes, that is good to know, I was confused at first about that. Also you can add the task once for all projects, running these commands:\r\n\r\n```\r\n> Tasks: Open User Tasks\r\n> (Select first option)\r\n```\r\n\r\nAdd the task there instead.\r\nBut you still have to run these commands once per project folder:\r\n\r\n```\r\n> Manage Automatic Tasks in Folder\r\n> Allow Automatic Tasks in Folder\r\n```\r\n\r\nI don't know what happens when you open a non typescript project. Probably throws a silent error and no problem.",
+      "user":"fermmm"
+    },
+    {
+      "comment":"> ```json\r\n> {\r\n>   \"version\": \"2.0.0\",\r\n>   \"tasks\": [\r\n>     {\r\n>       \"label\": \"Monitor TS Errors\",\r\n>       \"command\": \"./node_modules/.bin/tsc\",\r\n>       \"type\": \"shell\",\r\n>       \"args\": [\"--watch\"],\r\n>       \"presentation\": {\r\n>         \"echo\": true,\r\n>         \"reveal\": \"never\",\r\n>         \"focus\": false,\r\n>         \"panel\": \"shared\"\r\n>       },\r\n>       \"isBackground\": true,\r\n>       \"problemMatcher\": \"$tsc-watch\",\r\n>       \"runOptions\": {\r\n>         \"runOn\": \"folderOpen\"\r\n>       }\r\n>     },\r\n>   ]\r\n> }\r\n> ```\r\n\r\nYeah my issue is this only works for one language, but I am regularly using many languages in the same vscode window. Jetbrains makes this really easy to just run an inspect whole project command and get a nice list of problems.",
+      "user":"niebloomj"
+    },
+    {
+      "comment":"![Screen Shot 2021-11-10 at 10 01 45 AM](https://user-images.githubusercontent.com/5156403/141137326-d796127c-c707-43c4-9d23-13acae7624a7.png)\r\n\r\nI have now been using workspace mode for python and this is exactly what I am looking for VS Code to have for the rest of the languages. In my opinion, this should be an IDE specific feature like it is for jetbrains as opposed to being only available for certain languages. As someone who uses many languages in the same project, its very unfortunate that I can only get a birds eye view of my python code. Thanks!",
+      "user":"niebloomj"
+    },
+    {
+      "comment":"So, it's years I'm following this thread and many thing have been said. I peeked on in a while and I saw a lot of heat here.\r\nIs there a real solution to this or the only viable hacks are injecting some script and configs around?",
+      "user":"Porkechebure"
+    },
+    {
+      "comment":"> So, it's years I'm following this thread and many thing have been said. I peeked on in a while and I saw a lot of heat here. Is there a real solution to this or the only viable hacks are injecting some script and configs around?\r\n\r\nThere is no solution without issues involved. I remember reading a comment from a VS Code dev that said they don't find a good way of implementing that, sounded like they don't have the programming skills to code this feature. ",
+      "user":"fermmm"
+    },
+    {
+      "comment":"It is quite satisfying to see `0 errors` somewhere in the screen, assuring you have no stupid format/syntax errors in you project.\r\n\r\nCome on Microsoft, it is your language and it is your code editor!",
+      "user":"enekonieto"
+    },
+    {
+      "comment":"I have finally hit the point where I want this feature badly enough that I am willing to code it myself. Does anyone have any clues as to how we can implement this? Any pointers for a first time contributor to the project? This seems like such a fundamental feature that I can't imagine VS Code not having it. Anyone want to partner up?",
+      "user":"niebloomj"
+    },
+    {
+      "comment":"@niebloomj https://github.com/microsoft/vscode/issues/13953#issuecomment-886008557",
+      "user":"jerrygreen"
+    },
+    {
+      "comment":"> @niebloomj [#13953 (comment)](https://github.com/microsoft/vscode/issues/13953#issuecomment-886008557)\r\n\r\n@jerrygreen This is only for the typescript server, not a native vs code solution for linting whole projects like jetbrains has.",
+      "user":"niebloomj"
+    },
+    {
+      "comment":"@niebloomj by some reason it falls under \"typescript.tsserver\" category in settings, probably because it’s implemented by TS team and they mindlessly put it there along with their other settings, but in practice this one is not TS-specific setting at all, it runs my other plugins like markdown-linter, css-linter, etc. - everything that writes into Problems pane. https://github.com/microsoft/vscode/issues/13953#issuecomment-886237859",
+      "user":"jerrygreen"
+    },
+    {
+      "comment":"@jerrygreen wow. Okay, I will definitely take a look at that then. In that case, we can close out this 5 year old feature request right? I'll test it out, but am I missing something? Does it work with extensions that write to the problem space?",
+      "user":"niebloomj"
+    },
+    {
+      "comment":"> @jerrygreen wow. Okay, I will definitely take a look at that then. In that case, we can close out this 5 year old feature request right? I'll test it out, but am I missing something? Does it work with extensions that write to the problem space?\r\n\r\nIt's full of issues, that is why this request is still here.",
+      "user":"fermmm"
+    },
+    {
+      "comment":"[**Solution exists.**](https://github.com/microsoft/vscode/issues/13953#issuecomment-886008557) It works with extensions. One crucial issue with it, - it sometimes shows errors not just from project code, but from node_modules (or even VSCode source itself sometimes, it seems):\r\n\r\n- https://github.com/microsoft/vscode/issues/117732\r\n\r\nQuite recently it was closed in favor of one more specific issue:\r\n\r\n- https://github.com/microsoft/TypeScript/issues/36664\r\n\r\n**The issue** is another long-running issue, created by original creator of the feature itself. The issue is almost 2 y.o. now, - it has some new posts a couple weeks ago though, but I don’t know what takes so long to resolve that. It seems it’s just more complex than to fix some config or something, and somehow it’s not a priority for VSCode team, that’s why.\r\n\r\n[**The workaround**](https://github.com/microsoft/vscode/issues/117732#issuecomment-792771628) exists. It is not a solution but it helps.\r\n\r\nOur issue here is even more old, 5 whole years now, we can send it to school soon. Since it’s about feature existence (feature request), - it is unrelated now because feature exists. Related issues with the feature are formulated and are on github, they just take too long to resolve by some reason. I would close our issue here if I could, in favor of more specific existing ones.\r\n\r\n**The best thing you can do** is probably go and nuke that opened specific issue with thumbs ups, lots and lots of thumbs ups. Please don’t flood messages in that issue though, that would be uncivilized, - people are working there, whilst all people doing here is just «wanting». For the rest who actually want to try to resolve the issue themselves, - it has the details (rather than our issue here which describes nothing other than «we want this»).",
+      "user":"jerrygreen"
+    },
+    {
+      "comment":"@jerrygreen I tested it out and it doesn't seem to work at all... I open a file and the problems pane fills up with issues. I close a file and all those problems go away... Tried with python, go, java, typescript, etc.",
+      "user":"niebloomj"
+    },
+    {
+      "comment":"@niebloomj do you open a folder with VSCode, or just a single file? You can open a whole folder which will be considered a project, and then it works. Or you can open a single file in which case VSCode won’t consider it part of your project, and work like normal (showing issues only when file is open).",
+      "user":"jerrygreen"
+    },
+    {
+      "comment":"I open a directory that has multiple projects in it. I do not use vs code in single file mode. Thank you. :)",
+      "user":"niebloomj"
+    },
+    {
+      "comment":"> @niebloomj by some reason it falls under \"typescript.tsserver\" category in settings, probably because it’s implemented by TS team and they mindlessly put it there along with their other settings, but in practice this one is not TS-specific setting at all, it runs my other plugins like markdown-linter, css-linter, etc. - everything that writes into Problems pane. [#13953 (comment)](https://github.com/microsoft/vscode/issues/13953#issuecomment-886237859)\r\n\r\nThis is incorrect: that setting is only for the typescript server and does not effect any other extensions/languages\r\n\r\nReporting errors in all workspace files must be implemented on a per-language basis (and it already can be implemented if a language/extension supports it). I've updated the issue title to make it clear that this issue tracks JavaScript and TypeScript support for reporting errors in unopened project files",
+      "user":"mjbvz"
+    },
+    {
+      "comment":"Since many of us thought this issue was tracking errors and warnings for all languages and not just ts/js, can we get a duplicate of this issue for that feature? If we already have a setting that does it for typescript, can we just revert the title to the way it was and this issue can track the feature request of making it work across languages like it does with jetbrains IDE?",
+      "user":"niebloomj"
+    },
+    {
+      "comment":"> can we just revert the title to the way it was and this issue can track the feature request of making it work across languages like it does with jetbrains IDE?\r\n\r\nThat cannot be implemented by VS Code, it must be implemented on a per language/extension basis. The APIs to implement this features already exist, but not every extension can implement it in an efficient way (and the expected behavior also varies between languages) \r\n\r\nIf you have want to see this feature in a given language, file a separate issue against that language's extension. We're keeping this one open to track JS/TS support for this since this issue has been focused on JS/TS from the start\r\n\r\n",
+      "user":"mjbvz"
+    },
+    {
+      "comment":"I was also following this issue because I also understood this was a new feature request for all languages.  I understand that this \"cannot be implemented by VS Code\", that's why I understood it was a new feature request.  I never read anywhere that said this feature was only for JS/Typescript.  I now realized that I waited years in the wrong issue.\r\n\r\nI think the tightly coupled JS/Typescript confuses many people.  One does not know what requests are for the global IDE, and what requests are just for JS/Typescript.  \r\n\r\n> @mjbvz The APIs to implement this features already exist\r\n\r\nCould you please share a link to that API documentation for anyone that would like to start a new issue in the respective language plugin?\r\n\r\nThank you.",
+      "user":"str"
+    },
+    {
+      "comment":"@str there are not specific APIs language extensions need to use to provide diagnostics for unopened files, they're just the same as for open files. Errors are currently pushed to VS Code by a language extension using the `set` method on [`DiagnosticCollection`](https://code.visualstudio.com/api/references/vscode-api#DiagnosticCollection) or by sending `textDocument/publishDiagnostics` notifications for all files if using an LSP server.\r\n\r\n\r\n\r\n",
+      "user":"DanTup"
+    },
+    {
+      "comment":"> @str there are not specific APIs language extensions need to use to provide diagnostics for unopened files, they're just the same as for open files. Errors are currently pushed to VS Code by a language extension using the `set` method on [`DiagnosticCollection`](https://code.visualstudio.com/api/references/vscode-api#DiagnosticCollection) or by sending `textDocument/publishDiagnostics` notifications for all files if using an LSP server.\r\n\r\nIf they are the same APIs for closed or open files, then how does a language server implement this feature? I assume VSCode itself does the removal of the issues in the problem tab when closing an opened file.",
+      "user":"niebloomj"
+    },
+    {
+      "comment":"> If they are the same APIs for closed or open files, then how does a language server implement this feature? I assume VSCode itself does the removal of the issues in the problem tab when closing an opened file.\r\n\r\nThat's not correct - VS Code does not clear the errors when a file is closed, it is all done by the extension. There are existing extensions (including Dart - which I work on) that work the way being requested here without any problems. You open a project, it shows all errors from the whole project, and as you open/close files they do not disappear.\r\n\r\nI would expect if you file an issue against a languages extension/LSP Server requesting this, they will understand how to implement it (although whether they can easily do so may depend on tools outside of the extension itself that they are using to provide the diagnostics).",
+      "user":"DanTup"
+    },
+    {
+      "comment":"@DanTup Thanks!\r\n\r\nAlso,\r\n\r\nI just wanted to bring this comment out to people's attention from another issue\r\n\r\n>  I don't think the tsserver provides an API for compiling the whole project. So before anything could be done here, the typescript project would have to add that first. Though I imagine that would have to run in a separate process so that it doesn't block all the existing functionality as it would likely require quite a bit of time to compile some projects.\r\n\r\nhttps://github.com/typescript-language-server/typescript-language-server/issues/358#issuecomment-1004867435",
+      "user":"niebloomj"
+    },
+    {
+      "comment":"Couldn't this potentially be fixed from VS Code by merely *telling* the language server that all the files have been opened?\r\n\r\nDo we need to wait for TS to fix this? It doesn't look like it's a priority.\r\n\r\nRefactoring without this feature is all trial-and-error - it feels *very* outdated. 😐\r\n",
+      "user":"mindplay-dk"
+    },
+    {
+      "comment":"For what it's worth, my solution to this has been:\r\n\r\n```bash\r\ntsc | awk -F '(' '/error TS/ {print $1}' | sort | uniq | xargs -n 1 code\r\n```\r\n\r\nit effectively runs the linter at least twice, and open files at a time via `code` is not exactly fast, but i've found this is the most effective way to find all of the type errors and view them in vscode.",
+      "user":"ianwremmel"
+    },
+    {
+      "comment":"I am working on a React Native project and I couldn't see any errors besides the current opened file.\r\nNow I can see all errors in the project by doing the following:\r\n\r\n1. create tsconfig.json\r\n2. hit **Control + Shift + P**\r\n3. select the following; Tasks: Configure Tasks\r\n4. scroll down to: tsc: watch - tsconfig.json\r\n5. hit **Control + Shift + P**\r\n6. Tasks: Run tasks \r\n7. select your created task \"tsc: watch - tsconfig.json\"\r\n\r\nMy tsconfig (you can also use the one that React Native has in their documentation)\r\n```\r\n{\r\n  \"compilerOptions\": {\r\n    \"experimentalDecorators\": true,\r\n    \"allowJs\": true,\r\n    \"allowSyntheticDefaultImports\": true,\r\n    \"esModuleInterop\": true,\r\n    \"isolatedModules\": true,\r\n    \"jsx\": \"react\",\r\n    \"lib\": [\"es6\"],\r\n    \"moduleResolution\": \"node\",\r\n    \"noEmit\": true,\r\n    \"strict\": true,\r\n    \"target\": \"esnext\",\r\n    \"useDefineForClassFields\": true\r\n  },\r\n  \"exclude\": [\"node_modules\", \"babel.config.js\", \"metro.config.js\", \"jest.config.js\"]\r\n}\r\n```\r\nI hope that I've helped somebody:)",
+      "user":"bartkoedijk"
+    },
+    {
+      "comment":"For a while my TS project was small enough that I just kept all the files open at once. Later it became big enough to warrant only keeping relevant files open. I made a small change, saw that there were no errors reported and switched over to cmd to run the program. I was quite surprised to see tsc report errors.\r\n\r\nIs there some point when we can expect to see project-level TS error reporting in VSC? I find it quite astonishing and more than a little frustrating that this isn't already a thing. It seems to me to be a fundamental feature of any development environment. The whole reason I use Typescript is to avoid programming in the dark ages of guesswork and trial-and-error. No one should have to suffer the tedium of switching to another program to find what methods are available or check for errors.\r\n\r\nVSC can already check inter-file dependencies and errors, so what's the difference between checking the whole project and only checking the open files? Experience tells me that things are never as simple as they seem but it _does_ seem simple. When I open a project, check all files (whether they're open or not). When some time has past since I made a change to a file, check that file and all dependent files (whether they're open or not).",
+      "user":"Clonkex"
+    },
+    {
+      "comment":"do vscode have a way to open and close file ? \r\nwe can maybe do a dirty script like \r\n```js\r\nconst files = ['a.ts, b.ts, c.ts' , '....ts'] \r\nfiles .forEach(path=> {\r\n\tconst tab = vscode.open(path)\r\n\ttab.focus()\r\n        tab.close()\r\n});\r\n```",
+      "user":"djmisterjon"
+    },
+    {
+      "comment":"> Later issue, about the bug that it is searching through library files sometimes, - it is more specific and it is only 1 year old:\r\n\r\nworking fine after test 20 min ! thanks ! \r\nand not so cpu killer!\r\n![image](https://user-images.githubusercontent.com/24865815/163680760-fa17f60c-46da-4523-8f58-02c3e6b3c4d4.png)\r\n\r\nit show only my project file\r\n```json\r\n  \"include\": [\r\n    \"src\",\r\n    \"global.d.ts\",\r\n  ],\r\n  \"exclude\": [\r\n    \"node_modules\",\r\n    \"plugins\",\r\n    \"public\"\r\n  ]\r\n```\r\n\r\nit the solution a wanted, your post should pinned ! ",
+      "user":"djmisterjon"
+    },
+    {
+      "comment":"> Couldn't this potentially be fixed from VS Code by merely _telling_ the language server that all the files have been opened?\r\n\r\nHow about a generic *option* to do this?\r\n\r\nLike a checkbox in the \"Problems\" tab: ✅ **Check entire project**.\r\n\r\nThis feature wouldn't need to be specific to TS either - if other language services benefit from VS code pretending to a language service that everything is open, that might work for other language services too?\r\n\r\nPresumably, language services are *designed* to be asked to open specific files? I'm guessing, but if the language service protocol offers the ability to scan/open specific files in the first place, presumably all language service implementations have this limitation, and would benefit from this feature?\r\n",
+      "user":"mindplay-dk"
+    },
+    {
+      "comment":"Just use WebStorm",
+      "user":"ArtemFrontendACTUM"
+    }
+  ],
+  "repository":"vscode",
+  "user":"kevinjreece"
+}

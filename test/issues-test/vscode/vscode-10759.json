@@ -1,0 +1,1114 @@
+{
+  "comments":[
+    {
+      "comment":"While VS Code is easily obtainable as it is, it still feels like VS Code could benefit from the standardized update procedure that comes with the Windows Store. Perhaps even something like the [Desktop App Convertor](https://developer.microsoft.com/en-us/windows/bridges/desktop) could be used.\n",
+      "user":"filiphsandstrom"
+    },
+    {
+      "comment":"As a related question\nWhat stops VS Code to be a UWP app in order to have it usable on the phone / xbox etc\nIs it the sandboxing limitations of UWP ?\n",
+      "user":"CoolGoose"
+    },
+    {
+      "comment":"VS Code on UWP  :+1: \n",
+      "user":"ikourfaln"
+    },
+    {
+      "comment":"Maybe useful: http://electron.atom.io/docs/tutorial/windows-store-guide/\nBut I do not think that a UWPed application has the permission to run an extension with EXE in it, like the “C/C++”.\n",
+      "user":"be5invis"
+    },
+    {
+      "comment":"It would be grate to have it on continuum! 👍 \n",
+      "user":"20design"
+    },
+    {
+      "comment":"Yeh, it will be more productive :scream: \n\n<img  alt=\"vscode mobile\" src=\"https://cloud.githubusercontent.com/assets/9744226/18791770/e7c3f60c-81ab-11e6-8a1e-e7b8a755f6e9.png\">\n",
+      "user":"ikourfaln"
+    },
+    {
+      "comment":"I'll switch from the iPhone+Macbook if you release that\n",
+      "user":"turowicz"
+    },
+    {
+      "comment":"Bringing Visual Studio Code to the Windows Store would help a lot to make coding more accessible and easier to get into. I always tell people how easy it is to code, but they usually won't even bother when it takes manual downloads and setups to even get started. A simple 1-click download from the store would remove this hurdle.\n",
+      "user":"bitapparat"
+    },
+    {
+      "comment":"Ok, we all know that its impossible, because before using IDE (vscode) we cant install dev environment(such as PHP, full .NET, ...) on OS that use .NET Standard such as Windows 10 mobile, so maybe we can just use it as an Cloud based IDE.\n",
+      "user":"ikourfaln"
+    },
+    {
+      "comment":"@ikourfaln why exactly would we need dev environments in that case. I'd be happy to remotely connect to a server in that case. \nEditing isn't strictly related to that. Sure we might loose intellisense, but maybe we're going to have a less restricted environment in that regard with the whole continuum push.\n",
+      "user":"CoolGoose"
+    },
+    {
+      "comment":"@ikourfaln Personally, I would be glad to only be able to \"edit\" files. Sometimes, you don't need to test directly on a server. And I don't know for you, but I don't use my machine as a test environment all the time... \n",
+      "user":"20design"
+    },
+    {
+      "comment":"@ikourfaln By the way, with a couple of scripts', you can remotely test your code on a distant server if you use GitLab... So, coding only from my phone could be grate! 😉 \n",
+      "user":"20design"
+    },
+    {
+      "comment":"I'm a .NET developer, so I look at this possibility from a .NET Core perspective, which would run on the windows phone.\n",
+      "user":"turowicz"
+    },
+    {
+      "comment":"We need a code editor, with proper intellisense and languages support, and this is sure possible.\nIn the store actually there are some code editors, like [Formula](https://www.microsoft.com/en-us/store/p/formula-universal-code-editor/9nblggh4wb6b), but they cannot be compared to Visual Studio Code in terms of features.\n\nSome projects can be run run directly in the application, for example pure Client web Apps (HTML5, javascript, CSS).\nOther projects, based on .NET Core or Typescript, probably cannot be directly compiled, or very tickly to achieve.\nFor sure we cannot have a full .NET, PHP, NodeJS, C++, etc... environment, but this doesn't mean we cannot use Visual Studio Code as a pure editor these type of projects.\nAlso the compiler can be remote (a compiler server, a LAN PC with complete enviroment, or a cloud service).\nI'm expecting something better than: [Ide7 ](https://www.youtube.com/watch?v=KNlACH_Blg4), with debug support.\n\nYou can also sell the cloud compiler as a service integrated with \"Visual Studio Team Services\".\n\nLocal source control probably is not easy to achieve, but it can be cloud based with Visual Studio Team Services, or with github, you can take inspiration from some applications: [SVN](https://www.microsoft.com/en-us/store/p/metro-svn/9wzdncrdcf0c), [Github](https://www.microsoft.com/en-us/store/p/codehub-a-client-for-github/9nblggh52tbd), [Bitbucket](https://www.microsoft.com/en-us/store/p/bitshark/9nblggh0fhtk)...\nBut we can have OneDrive synchronization and Local History Backups...\n\nPersonally I think porting Visual Studio Code to a UWP application, is not easy, but possible with some work and would give a great value to Continuum Platform.\n",
+      "user":"OrbintSoft"
+    },
+    {
+      "comment":"Visual Studio Code as an Universal Windows App would be so great! 👍\n",
+      "user":"mnsth"
+    },
+    {
+      "comment":"For some special reasons,it‘s hard to download the binary in China,but I can connect to the Windows Store stablely. So it would be great to have it over the Windows Store.\n",
+      "user":"zhcm"
+    },
+    {
+      "comment":"I upvote this so much ... Always having VS Code IDE in pocket would be lovely ...",
+      "user":"cdie"
+    },
+    {
+      "comment":"It would be excellent if windows 10 mobiles can be used as web development tool! ;)",
+      "user":"maiah"
+    },
+    {
+      "comment":"Please do this!!!! Come on Microsoft.\r\nWith git and ftp/sftp support. Also implement SSH if you can.\r\n",
+      "user":"alimuzzaman"
+    },
+    {
+      "comment":"Related- #15820\r\nIncluded in January 2017 milestone.",
+      "user":"gulshan"
+    },
+    {
+      "comment":"I hope that VS Code on UWP can also play a role as Git on UWP.",
+      "user":"Qinka"
+    },
+    {
+      "comment":"Do something for your company, you are Microsoft, right?\r\nJust like Nintendo should release its latest Mario on Switch.",
+      "user":"be5invis"
+    },
+    {
+      "comment":"Can Window Store Apps also sync settings? I know it can be done via some extension using gists, but official support would be neat.",
+      "user":"CoenraadS"
+    },
+    {
+      "comment":"@CoenraadS yes. Windows store app can access uwp API that allows to sync settings. But this is bad solution for cross platform application  \r\n",
+      "user":"ad1Dima"
+    },
+    {
+      "comment":"I came here to wonder why a brand new Microsoft product wasn't a Windows Store product. It really should be in there.",
+      "user":"SeanBlader"
+    },
+    {
+      "comment":"Do something for your new Surface.",
+      "user":"be5invis"
+    },
+    {
+      "comment":"Please package Code as a Windows Store app so that it can run on the Surface Laptop. I know it's not that simple, but it's an important goal.",
+      "user":"d1vanloon"
+    },
+    {
+      "comment":"With the recently announced Surface Laptop, now more than ever you should publish Code to the Windows Store.",
+      "user":"wilsenhc"
+    },
+    {
+      "comment":"@bpasero Any updates on this?\r\n\r\n>For those interested in the results of the investigation… We used the desktop app converter to convert VS Code to a UWP app that uses the Desktop Bridge (aka a “Centennial” application) that provides a Windows Store setup experience and access to a subset of the full UWP API. The conversion worked quite well and we were able to side load VS Code as a Windows Store application with no loss of functionality.\r\nSo, this closes the investigation for the product itself. The next investigation we would need to do is understand how to adapt our internal build systems to produce daily/monthly builds that can be published through the Store. Once that is understood, we will decide if and when it makes sense to move forward with this effort and actually put it on the backlog.\r\n\r\nNow that Microsoft is moving forward with a low-cost platform that only features applications from the Windows Store, the time has really come to address this. For me personally, Visual Studio Code is the only non-Store application I use on a regular basis. For the next generation of coders that will be teaching themselves the practice on these sub $300 machines, we owe it to them to have a solid code editor accessible to them.\r\n",
+      "user":"Mocuto"
+    },
+    {
+      "comment":"@Mocuto where did you see that comment? I don't see it in this discussion thread",
+      "user":"jcotton42"
+    },
+    {
+      "comment":"@jcotton42 In thread #15820",
+      "user":"Mocuto"
+    },
+    {
+      "comment":"@Mocuto thanks",
+      "user":"jcotton42"
+    },
+    {
+      "comment":"100 % agree that this NEEDS to happen - Win10S and HP Elite x3 would find this a vital choice for code changes - As to running the code we should be pushing that off elsewhere and use services like VSTS/Appveyor/travis for this as a kill able machine.\r\n\r\nI have discussed this with a few in the PowerShell Community but essentially this thread is where the discussion is https://twitter.com/ryanyates1990/status/860265487506264069",
+      "user":"kilasuit"
+    },
+    {
+      "comment":"Please bring us the UWP app for Windows S, we need it seriously!",
+      "user":"bdbch"
+    },
+    {
+      "comment":"It should be noted that the apps available to Win 10 S will be a subset of Windows Store Apps: they've added a few additional rules such that competing browsers are not allowed.  Where they draw the line seems uncertain at this point and could well change so it is hard to predict the impact on VSC.\r\n\r\nThey might do it in a way that allowed Electron apps that only used local content, but even that would not be ideal for VSC.\r\n\r\nBut maybe this isn't so terrible in the end.  VSC as an electron app was never ideal.  It would be much better if Windows 10 exposed API's that allowed Electron apps to use the platform's Edge browser engine rather then bundling its own browser components.  And as Edge gets closer to catching up with Chrome/V8 (leaving aside MS's seeming aversion to the Web Componenet API's) that ideal gets closer.  I've always assumed that that (and using VSC as a service from Azure) was part of the VSC 'master plan'.\r\n\r\nAnd that would provide an efficient way for all Electron apps (lets not forget about slack, after all) to reach 10 S.\r\n\r\nIf the need to make VSC available to Win10 S pushes that forward then VSC and 10 S are both the better for it IMO.",
+      "user":"GitTom"
+    },
+    {
+      "comment":"@GitTom \"It should be noted that the apps available to Win 10 S will be a subset of Windows Store Apps: they've added a few additional rules such that competing browsers are not allowed\"\r\nThis is common rule for store, not only for Win 10 S https://msdn.microsoft.com/en-us/library/windows/apps/dn764944.aspx\r\n\r\nBut there is apps like Slack and Telegram based on Electron. https://electron.atom.io/docs/tutorial/windows-store-guide/",
+      "user":"ad1Dima"
+    },
+    {
+      "comment":"@ad1Dima \r\nThe Windows Store Policies that you linked to is dated \"Document date: March 29, 2017\".  I don't think there is anything there which details the extra rules for Win 10 S.  As I noted above - they are not the same.\r\n\r\nSo, the fact that Slack & Telegram are in the Windows Store doesn't tell us that they (and other Electron apps) will be allowed for Windows 10 S. ",
+      "user":"GitTom"
+    },
+    {
+      "comment":"@GitTom there is one policy. All journalistic hysteria was based on 10.2.1 from this policy\r\n> 10.2.1\r\n>Apps that browse the web must use the appropriate HTML and JavaScript engines provided by the Windows Platform.\r\n\r\nHere is video showing slack app running in win 10 s https://www.youtube.com/watch?v=sPh3c0onaQo\r\n\r\nIf you have separate policy for win 10 s, please show us.\r\n",
+      "user":"ad1Dima"
+    },
+    {
+      "comment":"Oh yes, I can see Slack running, specifically at https://youtu.be/sPh3c0onaQo?t=2m5s ",
+      "user":"saschanaz"
+    },
+    {
+      "comment":"vscode project is owned by Microsoft, so I don't think store policies are a real issue.\r\nThe store policies are created for third party customers, only ensure maximum security to the users. Microsoft should only test and certify the vscode security.\r\n\r\n",
+      "user":"OrbintSoft"
+    },
+    {
+      "comment":"No, i have no other source.  Clearly the consensus is that I am wrong and that Electron apps are fine on Windows 10 S.  That certainly simplifies things for now.",
+      "user":"GitTom"
+    },
+    {
+      "comment":"I don't think the fact that Code is an Electron app is an issue here... as more than just a code editor, Code integrates with git (which can't run on 10 S), CMD/PowerShell (which are not available on 10 S), external compilers/intepreters/debugging utilities, etc (same, not available on 10 S). These issues would result in the 10 S version of Code being very stripped-down or simply a front-end to a cloud service. One other misconception is that Code could run on a phone if it is put in the Store. That's not the case. Only UWP apps specifically designed to target the mobile platform can run on phones. Desktop Bridge apps can only run on PCs.\r\n\r\nI'll bet the only way to run Code on the Surface Laptop will be to upgrade it to Pro.",
+      "user":"d1vanloon"
+    },
+    {
+      "comment":"@d1vanloon for me it would be great even if vscode can work only as an editor on windows 10 S and mobile.\r\nObviously it would be even better if vscode can work as a cloud based ide with git support and use cloud compiler like visual studio team services.\r\nHowever regardless of that, which would require a lot of work, I still do not understand what it blocks the release of vscode as a Desktop Bridge for windows 10 pro.",
+      "user":"OrbintSoft"
+    },
+    {
+      "comment":"I think this is a good candidate to bring over to the store via win32 bridge. There are no services, no COM, and doesn't require admin privileges. It is the stores policy to not use web technologies other than EdgeHtml and Charka, thus why we can't get chrome and Firefox in the store (for security reasons). However, if that can be ported to use them, I don't see how it violates store policy and should work assuming you have external tools (nodejs, etc) installed separately, it just a matter of piping commands around, and communicating with them. As for getting it to work in Windows 10 S, I see limited success, because all the languages services require node.js to run things like tsserver.js for TypeScript language support. However, who's to say that you can't have a client profile, where all your node.js services, etc are remotely executed and results are sent over the wire.",
+      "user":"wizarrc"
+    },
+    {
+      "comment":"For this to work with limited storage policy devices like Xbox, a integration with Onedrive is probably required. THUS my request is to extend this to make an online Visual studio code app in live.com apps (like already present word, excel online etc). That way you don't really need anything but a web browser and ms would be happy because more people will utilise Onedrive and other online office tools on live.com. Judging that MS would like to expand windows S like google it will probably rely on online apps like google with chrome OS which makes visual studio code online on live.com the most likely option. Since vscode is for mass adopters, in-app extension purchases for small fees (1-10$) integrated with ms store would probably be also most suitable model",
+      "user":"Kollerb04"
+    },
+    {
+      "comment":"@Kollerb04 after simple conversion by Desktop Bridge this app wouldn't be able to run on any device except PC. Neither on Xbox, Phone or HoloLens. ",
+      "user":"ad1Dima"
+    },
+    {
+      "comment":"@ad1Dima not talking about a simple conversion. Just a general idea. Xbox was just an example because I guess phones suffer similar limitations, although that changed recently with win10 mobile if I'm not mistaken. Btw. if this won't work on phone or other closed devices it is useless at the moment in microsoft store as if anyone can buy surface laptop... they can surely buy and use windows 10 pro and even visual studio 2017. I understand windows S in devices for 150$ but at this moment I don't think theres any market for pc exclusive microsoft store app that already has a javascript or whatever it is called counterpart for standard desktop. Still the onedrive integration would work for devices with the closed storage (I think), even if it is downloadable app only and not working in the cloud like the broader idea I have presented.",
+      "user":"Kollerb04"
+    },
+    {
+      "comment":"@ad1Dima I think putting dev tools themselves in containers aka windows store is interesting. I like to think of it as docker for client apps **(on Windows anyways).** It's clean install/uninstall, no custom third party installer logic, and it's safer to run everything in a compartmentalized, well partitioned sandboxes, unlike the current process where everything has access to just about anything on your system and can mess stuff up, even if well intentioned. I think one of the huge blockers to this is interop with node.js. But as far as being useless, I think that is a stretch. I think the goal here is to transition to secure by default. VS code is already cross platform, and adding to xbox and other very constrained platforms can only be considered after we first take care of the first part. Developer tools are probably the least progressed with running inside of constrained environments as it's themselves who want full control to offer a great programming experience for any project.",
+      "user":"wizarrc"
+    },
+    {
+      "comment":"For me the idea of publishing to the Windows Store **is not** to make the app available to Mobile devices, or Xbox; but most of all to provide developers an easier way to obtain a full text editor, and benefit from the Store auto-updating & extra feature from the UWP.\r\nNo one ever is going to use their Windows 10 phone, HoloLens or Xbox console to develop. The apps doesn't need to be adapted to a Mobile interface either.\r\n\r\nWhat can actually be done? Publish it for using on PCs (W10 Home, Pro & S) and for phones/tablets but _only in Continuum mode_ (or when there is a Mose+Keyboard available). That is what actually makes sense to me. ",
+      "user":"wilsenhc"
+    },
+    {
+      "comment":"Unfortunately, Windows Phone is dead. So I think it isn't worth it publishing it to the store, when there are about 10 models which supports them, although Microsoft doesn't want that mark anymore(for example they stop supporting Skype for Windows Phone on July 1st)...",
+      "user":"jens1o"
+    },
+    {
+      "comment":"@jens1o I actually agree with you on publishing to the store isn't really worth it when considering getting it into environments such as phone, HoloLens, or Xbox. There is one oddity though that isn't really talked about, the store vs distributing outside the store via .appx file type instead of .msi and .exe. I think all websites should offer .appx files for Windows 10 and .msi or .exe for Windows 8.1 and older. The benefits I mentioned above https://github.com/Microsoft/vscode/issues/10759#issuecomment-306465609 explains my reasoning; however, once it's distributable via .appx, there is little friction to go all the way and make it a store app, but allow people to get it outside the store in container (.appx) format as well. I'm not a big fan of the store, mostly because it's hard to roll back to a version that works when something breaks, and those times when an app gets discontinued and now I don't have a local copy I can install myself. As you can see there are really two concerns here, and I would argue that the store is the lesser concern.",
+      "user":"wizarrc"
+    },
+    {
+      "comment":"I want that the time they have to develop this (awesome) editor should go into the editor, and not into fixing bugs because of more, different environments. I see no problem of having to install this as a desktop app. Actually the opposite is true, because Windows apps do not have such large possibilities, nor I know an app which bases on Electron in the App Store. That would be too big for such a (compared) small team.",
+      "user":"jens1o"
+    },
+    {
+      "comment":"@OrbintSoft I know you want it in the store for Windows 10S, mobile, etc. I would argue that we should demand Microsoft let us install any .appx file on all our devices because it's sandboxed already and the store is more of a nicety than a requirement.",
+      "user":"wizarrc"
+    },
+    {
+      "comment":"Yes ,I really like to have on windows mobile with continuum, windows 10 s, etc\r\nAnd I believe with all that Microsoft is investing in universal applications, mobility and cloud, at least a long term analysis must be considered.\r\n\r\nHowever speaking realistically, currently is not possible to release vscode as uwp app (too huge work is needed).\r\n\r\nBut, as has already been analyzed, vscode works perfectly as centennial app on windows 10 pro, and **maybe** even on windows 10 s.\r\n\r\nRelease on windows store is not only a way to release an universal application, it's a standard way to release  a secure app, with a standard update/install/uninstall management.\r\n\r\nMicrosoft is investing so much in the store and vscode is a Microsoft product, only for coherence It would be natural expecting a release on the store.\r\nSo why not give some love to the store?\r\n\r\n\r\n",
+      "user":"OrbintSoft"
+    },
+    {
+      "comment":"@OrbintSoft Getting a little bit off topic here. The store is great when it works. That said, it often has problems, and I don't want my only way of getting and updating my dev tools to be reliant on the store. Nothing is wrong with vanilla .appx. It works better than click once deployment that existed back in the day for .Net development. If they put it in the store, sure, great, another way to get the product, but what I really want is full control over my deployment, updating, rolling back, identity. I feel like MS offers this awesome container technology and glosses right over it and simplifies it to using a managed service (the store). I would like to have choice to deploy how I want, because some things are not ready to be a service quite yet. I have had times where the new version of vscode broke my workflow. That would be a horrible experience if the store just updated it and I had no recourse but wait to get real work done till they fixed their problem.",
+      "user":"wizarrc"
+    },
+    {
+      "comment":"@OrbintSoft Oh, btw, .appx files have a great standard update/install/uninstall management already, it's called double clicking on a package and click install. Uninstall works the same as a store app. The updating can be automatic if it's in the store or the app chooses to, but there needs to be a whoa and go back mode. You get that with .appx files, just install the version you want and off to the races. It's dead simple.",
+      "user":"wizarrc"
+    },
+    {
+      "comment":"@wizarrc  appx can already be installed without store, you should simply enable \"Sideload apps\" or Developer mode\".\r\n\r\nAllow to everyone as default to install appx it's  dangerous for security, you can include malicious code in appx without passing the store's tests.\r\n\r\nHowever  no one is saying here to release vscode only in the store, vscode can be continue to be released as a standard setup as alternative for who doesn't trust the store.\r\n\r\nIn a company or in a school the update of visual studio code can be managed with Microsoft Store for Business or for Education.\r\nSo you you can test vscode before releasing a new version to your employs.\r\n",
+      "user":"OrbintSoft"
+    },
+    {
+      "comment":"@OrbintSoft That makes about as much sense as to go back and use Windows 7. Upgrading to Windows 10 is in large part for security. I believe you can still certify your appx file and having it cross signed by Microsoft and not deploy it in the store. I think it's a poor excuse to say if you don't want it in the store, then you can't use our container technology, and here is old fashioned .msi installer that will eventually break or at the very least clutter up your system. I don't have an Azure AD Business or Education account, nor do I want it or can afford it at this time, yet I would like to get the other benefits that the OS provides.\r\n\r\nEven if the .appx can't pass store certification, it's still better than an .msi installer. I feel that there should be no excuse for every single non-service or system driver based windows application running on Windows 10 to not be able to be containerized. Even those non-qualifying applications can be broken into two pieces; client containerized app, and the non-UI services and system drivers. This is about lowering your footprint for exploits, period.\r\n\r\nOn that note, if Microsoft really wanted to, they could analyze the .appx you just downloaded and pre-check it to make sure it can't use any capabilities that you did not specify in the manifest. That's what all those file system, object manager virtualization technologies allow, to intercept calls to the system and check to see if they are allowed. What this is really about is policy, and trying to get you to use their services, which isn't something that should be pushed but allow people to opt-in because it works for them. VS code is a good candidate not only because it's complex and has many moving parts that are all external to the project, but it allows Microsoft to figure out the best way to make user applications safe by default for all users, not just those on premium accounts.",
+      "user":"wizarrc"
+    },
+    {
+      "comment":"@jens1o  Microsoft DOES support Skype UWP on Windows 10 Mobile",
+      "user":"ad1Dima"
+    },
+    {
+      "comment":"Wait...\r\n\r\nOh, yeah. I got confused with all these versions. To clarify, Windows 8 Phone and Windows 8.1 Phone won't get any support starting on 1st July.\r\n\r\nWindows 10 Phones are not affected. (Source: https://www.golem.de/news/microsoft-ab-1-juli-kein-skype-mehr-fuer-windows-phone-geraete-1706-128261.html (German))",
+      "user":"jens1o"
+    },
+    {
+      "comment":"@jens1o and FYI Slack and Telegram are Elector apps in the store.",
+      "user":"ad1Dima"
+    },
+    {
+      "comment":"Please make it work with Windows 10 S",
+      "user":"ladas-larry"
+    },
+    {
+      "comment":"vscode should be published on mac store, in the microsoft Linux repository  (look at https://docs.microsoft.com/en-us/sql/linux/sql-server-linux-setup-ubuntu) and the windows store. It would simplify installation and automatic updates",
+      "user":"mictsi"
+    },
+    {
+      "comment":"Even Inkscape has been released on the store as an UWP app, even if it only works on PC, I don't think it would be too hard to just release it on the store too, I find it way easier to install and update.\r\nBtw, the Telegram on the Store is not an electron app: https://github.com/telegramdesktop/tdesktop",
+      "user":"ender-null"
+    },
+    {
+      "comment":"If I had to guess why Microsoft hasn't done it yet, I'd say its probably due to some limitations of the UWP framework. Things like the ability to reference libraries/files outside of the sandboxed UWP app folder isn't there, the terminal wouldn't work, and probably most importantly, VS Code is solely based on opening any folder in the file system - something that would be impossible in a UWP app due to the extra layer of security and again, the restriction to only access a single folder partitioned exclusively for UWP application. I'm not saying they wouldn't be able to support these features for a UWP app, it's just not there yet.\r\n\r\nWith great security comes great limitation.",
+      "user":"ChuckkNorris"
+    },
+    {
+      "comment":"@ChuckkNorris That might be the case but I still feel that Microsoft should inform us of that if so.\r\n\r\nWould it really too that hard to comment on this issue informing us about the possibility at the current state of UWP?",
+      "user":"filiphsandstrom"
+    },
+    {
+      "comment":"@filfat I completely agree - I'd love an official response as well.\r\nI didn't intend to sound like I was defending Microsoft's silence; I was simply speculating as to why a UWP app wasn't chosen for VS Code. I wouldn't be surprised if this is planned for when the UWP gains the feature parity required to make it feasible, which is probably why this issue hasn't been closed yet. UWP apps are (supposed to be) the future for Windows 10 after all.",
+      "user":"ChuckkNorris"
+    },
+    {
+      "comment":"To be in Windows store, vscode doesn't have to be a UWP app. It can just be a normal app packaged with Desktop bridge aka project centennial for store. This approach has already been tested by vscode team.",
+      "user":"gulshan"
+    },
+    {
+      "comment":"@gulshan I'm not aware of the VS Code team having tested that approach. A quick google search came up with nothing - Any source on that info?",
+      "user":"ChuckkNorris"
+    },
+    {
+      "comment":"@ChuckkNorris See https://github.com/Microsoft/vscode/issues/15820#issuecomment-273688385",
+      "user":"gulshan"
+    },
+    {
+      "comment":"Monaco is the editor portion of vscode. It run across the browsers and not dependent on Electron shell. The terminal, debuggers, extensions, workbench(not fully sure) etc are not included in it. It may be packaged as a pure UWP app, available to all type of devices. Javascript and Typescript got full intellisense support in monaco.",
+      "user":"gulshan"
+    },
+    {
+      "comment":"This seems like a great chance to promote UWP and lead by example, Microsoft. Why would someone else use a product that the owners dont use?",
+      "user":"bjuraga"
+    },
+    {
+      "comment":"@bpasero Wouldn't it be possible to automate using this npm script?https://blogs.msdn.microsoft.com/appconsult/2017/03/14/convert-your-electron-app-using-the-desktop-bridge/\r\nThis produces an AppX Package without having to use the Desktop App Packager, although I'm not sure about package Signing.\r\nYou could then collect it from your output, and publish it to the Windows Store.\r\n\r\nI was going to try and implement it myself, but Electron and NPM are far outside my expertise.",
+      "user":"WilliamABradley"
+    },
+    {
+      "comment":"Hey MS Team, any news? There is many improvements in Fall Creators Update SDK for Centennial apps. It's more than year since feature requested.",
+      "user":"ad1Dima"
+    },
+    {
+      "comment":"Now that I'm doing more in Mixed Reality (MR), it'd be nice to have a UWP version of VS Code so it integrated better with the virtual environment... though it can be used as a Desktop app in MR.",
+      "user":"marknoble"
+    },
+    {
+      "comment":"Agreed - now that it's been tested a year ago - why not release in the Store?",
+      "user":"rwiedower"
+    },
+    {
+      "comment":"MS even released WinDBGX in the store.\r\n**WHAT ARE YOU WAITING FOR ???**",
+      "user":"be5invis"
+    },
+    {
+      "comment":"I think this GitHub request and its comments need to be split into two requests:\r\n\r\nFeature 1. The request posted in the original post: \"While VS Code is easily obtainable as it is, it still feels like VS Code could benefit from the standardized update procedure that comes with the Windows Store.\"  This would be for the existing platforms that VS Code runs on like Windows 10 Home/Pro.\r\n\r\nFeature 2. Make VS Code cross-platform so it runs on mobile devices, surface, lower end devices, etc. and platforms that require UWP for applications.",
+      "user":"YasharF"
+    },
+    {
+      "comment":"Are there any official news on this request? \r\nAny progress / roadmap / ETA?",
+      "user":"petroemil"
+    },
+    {
+      "comment":"https://github.com/Microsoft/vscode/issues/15820#issuecomment-273688385 indicated that porting with the desktop app converter worked with no loss of functionality (a lot can happen over a year, so its worth checking again), leaving the only issue being how to orchestrate daily/monthly publishes to the ~Windows~ Microsoft Store.\r\n\r\nRegarding build orchestration, is there anything the community can do to help? Off the top of my head, emitting an `.appx` during build, and adjusting the built in update checker (link to store instead or simply don't check?) are 2 areas that would need addressed.",
+      "user":"Silic0nS0ldier"
+    },
+    {
+      "comment":"> how to orchestrate daily/monthly publishes to the Windows Microsoft Store.\r\n\r\nMicrosoft Store [has API for that ](https://docs.microsoft.com/en-us/windows/uwp/monetize/create-and-manage-submissions-using-windows-store-services)",
+      "user":"ad1Dima"
+    },
+    {
+      "comment":"As for daily/monthly builds, there is [Windows Application Packaging Project since VS 2017 15.4 ](https://docs.microsoft.com/en-us/visualstudio/releasenotes/vs2017-relnotes-v15.4#WAPPtemplate) so it can be build step in TFS, I guess\r\n",
+      "user":"ad1Dima"
+    },
+    {
+      "comment":"Maybe they will announce something at Build 2018? This shouldn't be so hard for a big company like Microsoft since they own both the software and the platform.",
+      "user":"nerocui"
+    },
+    {
+      "comment":"Over a year later and still no news?",
+      "user":"eluchsinger"
+    },
+    {
+      "comment":"Windows Dev Day keynote has announced the MSIX app packaging format which reportedly allows packing of apps with little to no modification. If I recall correctly, its toolchain supports Linux, MacOS and Windows. This changed anything regarding the issue?",
+      "user":"Silic0nS0ldier"
+    },
+    {
+      "comment":"After a little thinking, I have found this issue is **much more** complicated. VS code can be packed as appx format and be sent to store for download. However, that is not the end of the story. \r\n\r\nThe nature of a full featured editor implies that **extension** downloading is something has to be considered if this is to be sent to the store. Do they still live on the package manager and downloaded via the software itself or do we put them in the store as extensions since the store does support software add-on. If we allow them to be downloaded though the software, is that breaking the rule that software in the store should not be downloading software? If we move the extensions to the store, that is hell of a big project, and extension developers will have to learn another way to publish. \r\n\r\nAnother issue is that the use on **Windows 10 S, or S mode** in the future. As we know, S mode does not allow user to install **command line tool** as those tool are destructive to the file system. Then the integrated **terminal** in vs code is rendered useless and so is the whole purpose of the software. Now should this mean Windows 10 S/S mode is not supported? If so, what's the point of putting this in the store? If not, what should we do to the terminal and extensions?",
+      "user":"nerocui"
+    },
+    {
+      "comment":"Then, write a letter to WDG, tell them to add the ability to install command line tools via the Store.",
+      "user":"be5invis"
+    },
+    {
+      "comment":"Having it in the store makes it easier to update, install, etc. Having one place to download software is what everyone wants I think.",
+      "user":"nesl247"
+    },
+    {
+      "comment":"In a perfect world, a PWA version that lives on the cloud and uses the file system and command line tool on the Azure server side will be ideal for the store. User log in with their profile, what ever done to the file system and command line tool stays with the user profile. However I suppose that will imply a paid/subscription version of the software, be a part of office 365 or something.",
+      "user":"nerocui"
+    },
+    {
+      "comment":"Kodi is in the store and provides its own addon mechanism. This should not\nbe considered as a parameter in the decision IMO.\n\nOn Tue, Mar 13, 2018, 20:55 nerocui <notifications@github.com> wrote:\n\n> In a perfect world, a PWA version that lives on the cloud and uses the\n> file system and command line tool on the Azure server side will be ideal\n> for the store. User log in with their profile, what ever done to the file\n> system and command line tool stays with the user profile. However I suppose\n> that will imply a paid/subscription version of the software, be a part of\n> office 365 or something.\n>\n> —\n> You are receiving this because you commented.\n> Reply to this email directly, view it on GitHub\n> <https://github.com/Microsoft/vscode/issues/10759#issuecomment-372797335>,\n> or mute the thread\n> <https://github.com/notifications/unsubscribe-auth/AGs5-yaIvj9ORvseSX_4OIu3lZaYBz1sks5teCROgaJpZM4JpSOF>\n> .\n>\n",
+      "user":"bjuraga"
+    },
+    {
+      "comment":"Paint .NET is in the Store and provides an add-on mechanism.\r\n\r\nAlso, maybe access to commandline and ability to start and attach to (debug) new processes *might* be as easy as requiring elevated permissions for the app. There's an appx capability parameter for that, I believe.",
+      "user":"petroemil"
+    },
+    {
+      "comment":"Any update for this?",
+      "user":"xpirad"
+    },
+    {
+      "comment":"It's been years since this thread has opened and seemingly nothing has been done. Isn't there a simple way of packaging a traditional app as a centennial app to then be supplemented with UWP APIs later? Why can't this be done?",
+      "user":"Dr-Chronosphere"
+    },
+    {
+      "comment":"Still waiting for UWP version of VS Code for Windows. Microsoft?",
+      "user":"vxnsbir1ugsp"
+    },
+    {
+      "comment":"Microsoft, forget about releasing Andromeda in October without UWP VS Code...",
+      "user":"vxnsbir1ugsp"
+    },
+    {
+      "comment":"Paint .NET is in the Store and provides an add-on mechanism so there is nothing really preventing VS Code from being packaged via the windows store. It would be my preferred method of using it if I could.\r\n\r\nIt's been years since this thread has opened and seemingly nothing has been done. \r\n\r\nI really feel like this should be a primary goal.\r\n",
+      "user":"SirDragonClaw"
+    },
+    {
+      "comment":"@egamma @bpasero Can you give an update on this/assign someone to this? Is something blocking it or do you just have other priorities? Any kind of update would be nice!",
+      "user":"claell"
+    },
+    {
+      "comment":"I do not think there are some**thing** in the middle, but some**one**.\r\nSo, **WHO** is blocking you?",
+      "user":"be5invis"
+    },
+    {
+      "comment":"@be5invis I am not sure whether I understand what you mean. I just asked for some update what causes this to be open and unassigned for so long. I can understand when this is currently not a priority but some update would be nice.",
+      "user":"claell"
+    },
+    {
+      "comment":"I am just curious that why this long-waiting release channel has such a low priority.\r\n",
+      "user":"be5invis"
+    },
+    {
+      "comment":"It would be great to get an update on this from the primary developers.",
+      "user":"SirDragonClaw"
+    },
+    {
+      "comment":"maybe with the upcoming feature of installing command line tools in the windows store we will get this?",
+      "user":"bjuraga"
+    },
+    {
+      "comment":"@Danthekilla @claell apologies, but this feature request is currently not on our six month [roadmap](https://github.com/Microsoft/vscode/wiki/Roadmap). ",
+      "user":"egamma"
+    },
+    {
+      "comment":"@egamma thank you for an official update 🍺 . let the nagging restart in 6 months.",
+      "user":"CoolGoose"
+    },
+    {
+      "comment":"@egamma Thanks for the official statement, although you don't elaborate why it is not on the Roadmap.\r\nApparently this is not considered very important, although it seems easy to implement and has a huge demand (+ seems logical from a strategic point).\r\n\r\nBut ok, I don't use Windows often and there is a snap for Ubuntu, so I don't care much. I was just curious.",
+      "user":"claell"
+    },
+    {
+      "comment":"_Real_ programmers only use an Xbox controller. Keyboard and mouse are for sell-outs. #UWP",
+      "user":"stamminator"
+    },
+    {
+      "comment":"I don't know why this is still open. Having VS Code in Store does not make as much sense as you think it would. If you are on Windows 10 S, then you are limited to only Store apps, but you won't be able to run command lines any way (since S won't let you), so there is no benefit. If you are not running S, then there is not much point of having it in the store as nothing will really change and it takes a lot of work to make it possible. Another, VS Code uses it's own update machenism, changing it to store does not seem to improve the good UX that it has now, the effort will just be like in vein. Being a cross platform Electron app, VS Code should have a unified code base that the devs only need to develop once and push button to compile for diff platforms, having a vs solution is just another layer of complexity. ",
+      "user":"nerocui"
+    },
+    {
+      "comment":"@nerocui\r\n> then there is not much point of having it in the store as nothing will really change\r\n\r\nWhat changes is that I don't have to look for it in the web and then go through installation process, I can simply hit \"install\" in the Store. Makes configuring new machine much easier.\r\n\r\n> it takes a lot of work to make it possible\r\n\r\nIt doesn't. Packaging an Electron app for the Store is a matter of oneliner in PS. In fact, earlier in this thread some developer from the VS Code team said they already tried that.\r\n\r\n\r\n> VS Code uses it's own update machenism, changing it to store does not seem to improve the good UX that it has now\r\n\r\nExcept that with Store updating mechanism I won't see a single notification about new version in the editor itself, no reloading, etc, just quite update in the background. I mean no doubt, the speed of this team is impressive, but when I have to update Code on three machines every week it's a bit annoying.\r\n\r\n>  VS Code should have a unified code base that the devs only need to develop once and push button to compile for diff platforms\r\n\r\nTurning Code's own update mechanism can be implemented as a build flag and then it's literary one argument in the build pipeline to build and package a version for the Store.\r\n\r\nI won't even go into the fact that it's Microsoft product and Microsoft Store, not having Code in there is kind of embarrassing and certainly isn't encouraging for other devs.",
+      "user":"Syn-McJ"
+    },
+    {
+      "comment":"VS Code is a Code Editor at the first place. So it does have plenty of useful functionality even if you are using Windows 10 in S Mode. \r\n\r\nAs it was mentioned before me, installing something from the Store is easier and personally I trust it more than any developer's installer (and uninstaller) solution to not mess up my system or leave files/registry entries after itself once I want to uninstall it.\r\n\r\nThe update mechanism of the Store is also simpler, happens in the background, less disruption.\r\n\r\nWhen it comes to distribution for bigger companies, installing some selected Store apps is much simpler than distributing and running traditional installers.\r\n\r\nYou could consider building an MSIX package. It's cross platform, works on Linux, Mac, Windows 7, but gives all the good stuff like sandboxing and virtualised filesystem and registry on Windows 10 and also makes it trivial to publish it through the Store.",
+      "user":"petroemil"
+    },
+    {
+      "comment":"Have to agree with @nerocui. Enough tolerance for Microsoft's mediocracy. It is their product and Store is their product. It should have been there from the very beginning... not in the roadmap... then when? @nerocui is absolutely right - it is discouraging for devs to see how incapable MS' technologies are, then why should we bother with this ecosystem anymore. Personally Im sick of the whole Microsoft inconsistence.. just look at Windows 10, look at it... Let's make at least this happen!",
+      "user":"vxnsbir1ugsp"
+    },
+    {
+      "comment":"I had the completely exact idea, same use cases, as Andrey. The whole idea\nof logging in to a new/reinstalled machine with your MS id and having Code\nauto install/configure is something i expected MS to use as a marketing\ngold mine. I would preffer all my apps installed from the store for that\nmatter. And is it not a bit hypocritical expecting third party devs to\npublish apps to a store that the creators dont trust/support/promote?\n\nOn Mon, Jun 25, 2018, 18:09 Andrey Ashikhmin <notifications@github.com>\nwrote:\n\n> @nerocui <https://github.com/nerocui>\n>\n> then there is not much point of having it in the store as nothing will\n> really change\n> What changes is that I don't have to look for it in the web and then go\n> through installation process, I can simply hit \"install\" in the Store.\n> Makes configuring new machine much easier.\n>\n> it takes a lot of work to make it possible\n> It doesn't. Packaging an Electron app for the Store is a matter of\n> oneliner in PS. In fact, earlier in this thread some developer from the VS\n> Code team said they already tried that.\n>\n> VS Code uses it's own update machenism, changing it to store does not seem\n> to improve the good UX that it has now\n> Except that with Store updating mechanism I won't see a single\n> notification about new version in the editor itself, no reloading, etc,\n> just quite update in the background. I mean no doubt, the speed of this\n> team is impressive, but when I have to update Code on three machines every\n> week it's a bit annoying.\n>\n> VS Code should have a unified code base that the devs only need to develop\n> once and push button to compile for diff platforms\n> Turning Code's own update mechanism can be implemented as a build flag and\n> then it's literary one argument in the build pipeline to build and package\n> a version for the Store.\n>\n> I won't even go into the fact that it's Microsoft product and Microsoft\n> Store, not having Code in there is kind of embarrassing and certainly isn't\n> encouraging for other devs.\n>\n> —\n> You are receiving this because you commented.\n> Reply to this email directly, view it on GitHub\n> <https://github.com/Microsoft/vscode/issues/10759#issuecomment-400006748>,\n> or mute the thread\n> <https://github.com/notifications/unsubscribe-auth/AGs5-z9YZMWjfPC1fmEf4myfOMruHtJPks5uAQsogaJpZM4JpSOF>\n> .\n>\n",
+      "user":"bjuraga"
+    },
+    {
+      "comment":"Looks like my comment has caused quite some arguments. Look guys, this is Microsoft we are talking about. If you want them to be more like Apple, well, they won't. They don't integrate all their product together, and they just use what they feel right for the product. I would like things to be perfect too, but a developer like us has the ability to at least configure an editor every time we buy a new machine or reinstall the OS. I'm not saying it's perfect, I'm just saying that this is not the priority and Microsoft feels the same way. Their Visual Studio till this day is still 32bit, and uses an updater separate from the software itself. It too is not updated from the store, unlike xcode from Apple. ",
+      "user":"nerocui"
+    },
+    {
+      "comment":"I don't think VS Code is anywhere near as complex as the big VS. But to that argument, the Desktop Office apps are available through the Store...\r\n\r\nBut again, just at least start going to that direction, first by adopting **MSIX**.",
+      "user":"petroemil"
+    },
+    {
+      "comment":"Ok, I'm going to say it (again) because noone else is. Microsoft IS going to release a foldable device with mobile capabilities branded Surface in the second half of October and it is going to be positioned as a business device first. It will be powered by a modular version of Windows (Windows Core OS) and a composable responsive shell, dubbed CShell. Said so, if this device is incapable of running VS Code for writing and editing code and doing actual business work on it from day 1 on release - MASSIVE FAIL AND TARNISH THE SURFACE BRAND. On behalf of all devs here, Microsoft, I suggest you to reconsider your \"roadmap\"",
+      "user":"vxnsbir1ugsp"
+    },
+    {
+      "comment":"@vxnsbir1ugsp that's an unreasonable amount of speculation about an unannounced device running an unannounced OS with unknown capabilities.\r\n\r\nBut, S Mode can be easily turned off, so you are not limited to the Store...\r\nWindows on ARM can run pretty much any app that a desktop Windows can...\r\nSo I'm not afraid of those kind of limitations. If Andromeda will see the light, I'm pretty sure it will run VS Code even in its current form.",
+      "user":"petroemil"
+    },
+    {
+      "comment":"@petroemil want to bet?",
+      "user":"vxnsbir1ugsp"
+    },
+    {
+      "comment":"@vxnsbir1ugsp \r\nIn my opinion, I really don't think Andromeda will have coding features. I don't think it's positioned to developers or creators. I think it will be positioned to generation Z workers and used as a conjunction device alongside of HoloLens and Surface Hub. These will be edge device on the big cloud+edge computing that Microsoft is so big on. I think it will be like a mobile platform with Continuum ONLY FOR WINDOWS 10 S MODE for office workers. As of devs, I still think we need powerful computers and comfy mouse and keyboard. If we are going to settle for mobile+docking capability devices, we might as well use remote software and SSH. Or you may also hope for the industry to move to PWA IDE like a lot service already do.",
+      "user":"nerocui"
+    },
+    {
+      "comment":"@nerocui I only hope Andromeda runs VS Code from day 1 in whatever form the IDE is. Don't really care if it comes from the Store. That's it :)",
+      "user":"vxnsbir1ugsp"
+    },
+    {
+      "comment":"@vxnsbir1ugsp \r\nYou may want to check this out my friend.\r\nhttps://stackblitz.com/",
+      "user":"nerocui"
+    },
+    {
+      "comment":"@nerocui that web-editor is one excellent example of what VS Code is capable of inside a sandbox (you know, potentially running in S Mode). I'm pretty sure StackBlitz could easily be turned into a PWA and published to the Store.",
+      "user":"petroemil"
+    },
+    {
+      "comment":"@petroemil, yes, but let's not \"overWebify\" VS Code. It's Web enough as it is now... @nerocui I can also check Sublime, Brackets and of course WebStorm, but I'm afraid I might actually like them and Microsoft might not like that ;)",
+      "user":"vxnsbir1ugsp"
+    },
+    {
+      "comment":"also i forgot to mention the Arduino IDE which is in the store for a while, i have used it and its so seamless as experience that i forgot its a Store app altogether. That IDE actually compiles code, sends it to an Arduino over USB, uses Sockets to communicate, OTA software uploads over wifi... I am not proposing to rewrite any part of VS Code - just do what Arduino are doing - they do offer a separate installer aside from the Store one.",
+      "user":"bjuraga"
+    },
+    {
+      "comment":"Ok... so now we should be able to just Go and Code on the newly announced Surface, right? Pun intended :) ",
+      "user":"bjuraga"
+    },
+    {
+      "comment":"@bjuraga I see what you did there, but Andromeda is coming and MS better be prepared. They announced some portable version of VS Code, isn't this the first step to the Store?",
+      "user":"vxnsbir1ugsp"
+    },
+    {
+      "comment":"@nerocui perfect! I asked for this over a year ago! MS should buy stackblitz and incorporate it into live.com or outlook.com/visual studio toolset or make their own version. I see that there is no github repo support? It is not that necessary but would be an useful feature. Also more languages/frameworks would be welcome.  The MS store repo release is ok, but this goes way further.",
+      "user":"Kollerb04"
+    },
+    {
+      "comment":"All Windows insider knows, that MS can listen! This issue is open almost two years now! \r\n\r\nSo,\r\nis MS Store capable for MS Code? If not, what is MS doing? Is it important for MS, that MS Store is filled with great content? If not, what is MS doing? Does MS have an \"universal\" platform? If not, what is MS doing?\r\n\r\nIf yes, start working on this immediately!    ;)",
+      "user":"Scherlac"
+    },
+    {
+      "comment":"we DEMAND vscode in windows store!!!",
+      "user":"Haofei"
+    },
+    {
+      "comment":"It's 2018 now, and VS Code **not release** in the Microsoft Store like years ago. Now Microsoft Store have many Win32 applications such as HeideSQL, WinSCP, paint.net etc. And now we really want install VS Code in Windows Store and update it in store. ",
+      "user":"ghost"
+    },
+    {
+      "comment":"This should be a no-brainer if not only to show how easy it is to add a Win32 Electron app to the Microsoft Store....",
+      "user":"Bas-vanHarten"
+    },
+    {
+      "comment":"Are non-UWP apps even allowed in the Windows Store? I feel like meeting the requirements of the Windows Store would compromise cross-platform more that benefit it.",
+      "user":"jadenPete"
+    },
+    {
+      "comment":"@jadenPete \r\n\r\n>Are non-UWP apps even allowed in the Windows Store?\r\n\r\nThat's exactly what Desktop App Converter does.",
+      "user":"saschanaz"
+    },
+    {
+      "comment":"@jadenPete \r\n[iTunes](https://www.microsoft.com/store/productId/9PB2MZ1ZMB1S), [Spotify](https://www.microsoft.com/store/productId/9NCBCSZSJRSB), [Paint.net](https://www.microsoft.com/store/productId/9NBHCS1LX4R0), [WinZip](https://www.microsoft.com/store/productId/9P5FK8K82G11) and many others are Classic Win32 Apps\r\n",
+      "user":"ad1Dima"
+    },
+    {
+      "comment":"@saschanaz @ad1Dima I didn't realize this was possible, thank you for informing me.",
+      "user":"jadenPete"
+    },
+    {
+      "comment":"I find it a little ridiculous that Microsoft doesn't treat UWP as a first-class distribution platform for its own software:(",
+      "user":"cjbarth"
+    },
+    {
+      "comment":"From last month, user-level installers are available for Windows and it has been made the default distribution. This means no elevated/admin permission is required to install and use vscode. I think this is a big step for some app to be available in Windows store. I hope this is included in the next 6 month roadmap for vscode. If there are any difficulty/lack of support for certain features from the windows store/MSIX packaging side, this should be communicated between both teams within Microsoft. I think, there can be some initiatives from MSIX team also for this.",
+      "user":"gulshan"
+    },
+    {
+      "comment":"Cowards. Microsoft aren't we eligible enough for you to receive an official response from you what is the exact reason VS Code is not in the Store, not to mention a true UWP responsive app? Are your developer community not worth an official statement for a discussion that hot for years?",
+      "user":"vxnsbir1ugsp"
+    },
+    {
+      "comment":"@vxnsbir1ugsp according to the UWP part, it's simple, it's been built on top of a completely different tech stack with the aim to be cross-platform. VS Code is an Electron app.\r\n\r\nThe question about why it's not in the Store is a better one, we haven't really received any useful answer other than \"it's not on the roadmap\"...\r\n\r\nMaybe when MSIX will be available on Mac and Linux as well, they will migrate to that and after that publishing to the Store will be trivial.",
+      "user":"petroemil"
+    },
+    {
+      "comment":"> @vxnsbir1ugsp according to the UWP part, it's simple, it's been built on top of a completely different tech stack with the aim to be cross-platform. VS Code is an Electron app.\r\n> \r\n> The question about why it's not in the Store is a better one, we haven't really received any useful answer other than \"it's not on the roadmap\"...\r\n> \r\n> Maybe when MSIX will be available on Mac and Linux as well, they will migrate to that and after that publishing to the Store will be trivial.\r\n\r\nThe UWP part is simple, yes. A TRUE UWP RESPONSIVE app is not that trivial I guess.",
+      "user":"vxnsbir1ugsp"
+    },
+    {
+      "comment":"@vxnsbir1ugsp actually... but it's pretty off topic and heavily based on speculation... even the UWP part could be kindof possible.\r\n\r\nVS Code is a cross-platform app. It doesn't rely on any specific platform API, so there's no (direct) Win32 dependency either. I think, Microsoft could - in theory - build a version of Electron (the runtime/host for VS Code) that IS a pure UWP app and relies on only UWP APIs that can be found on any Windows 10 variant (including Mobile, Xbox, HoloLens, Surface Hub, IoT). After that it would be only up to the GUI developers to make the UI responsive as well.",
+      "user":"petroemil"
+    },
+    {
+      "comment":"> @vxnsbir1ugsp actually... but it's pretty off topic and heavily based on speculation... even the UWP part could be kindof possible.\r\n> \r\n> VS Code is a cross-platform app. It doesn't rely on any specific platform API, so there's no (direct) Win32 dependency either. I think, Microsoft could - in theory - build a version of Electron (the runtime/host for VS Code) that IS a pure UWP app and relies on only UWP APIs that can be found on any Windows 10 variant (including Mobile, Xbox, HoloLens, Surface Hub, IoT). After that it would be only up to the GUI developers to make the UI responsive as well.\r\n\r\nMan, I am talking about the GUI in particular. The second time I even needed to highlight it... The GUI is not meant to behave like UWP. The menu bar, full with all those commands and menus... Have you ever seen a TRUE UWP app to look like this? Open mail, calendar, OneNote whatever. They all have hamburger menus and touch friendly controls. That's what I am talking about. Leave this Electron stuff aside, we all know it's platform independent already. Yes the GUI developers have to be on board for this project.",
+      "user":"vxnsbir1ugsp"
+    },
+    {
+      "comment":"Any update on this? I am hanging on buying `Surface Go` because I need vscode in it.",
+      "user":"hyochan"
+    },
+    {
+      "comment":">           Any update on this? I am hanging on buying `Surface Go` because I need vscode in it.\r\n\r\nYou can just take it out of S Mode if you really need a development tool. Or for just pure code editing there's an excellent app called [Code Writer](https://www.microsoft.com/en-us/p/code-writer/9wzdncrfhzdt), it's a true UWP app. ",
+      "user":"petroemil"
+    },
+    {
+      "comment":"@petroemil Yes but then I am afraid if it lowers the performance of surface go dramatically since its hardware isn’t good enough.",
+      "user":"hyochan"
+    },
+    {
+      "comment":"Then why do you expect that VS Code on UWP will be any faster?",
+      "user":"jadenPete"
+    },
+    {
+      "comment":"@jadenPete  he obviously fears the Surface Go will take a performance hit if he switches S Mode off. Not that VS Code on UWP will be faster.",
+      "user":"eluchsinger"
+    },
+    {
+      "comment":"@eluchsinger Thank you. You exactly understood my problem.",
+      "user":"hyochan"
+    },
+    {
+      "comment":"Not only performance, but security would also decrease if you disable S Mode. This is one of the primary reasons why I run S Mode on my primary work device. Which means, VS Code is a no-go for me currently.",
+      "user":"pronichkin"
+    },
+    {
+      "comment":"You just updated the design of the title bar and is beautiful with large buttons and menus!!! Kudos! The overall UI needs a few more touches here and there to make absolutely everything touch friendly with big UI elements (just a few, not that much). Then make it responsive for every screen sizes (like phones, tablets, etc.) and release it in the store and I will be happy! It is ALMOST ready for Continuum, WCOS + CShell that is currently in development and ANDROMEDA 2019, that geared towards business and productivity! Come on, MS! 😜",
+      "user":"vxnsbir1ugsp"
+    },
+    {
+      "comment":"The problem described in the original post seems to have been resolved:\r\n`While VS Code is easily obtainable as it is, it still feels like VS Code could benefit from the standardized update procedure that comes with the Windows Store...`\r\n\r\nIt appears that with the new user-level installer that got released a couple of months ago if there are any updates they get applied automatically when the user closes VS code.",
+      "user":"YasharF"
+    },
+    {
+      "comment":"I wouldn't say it's resolved. It's improved for sure, but VS Code still doesn't update in the background like apps from the Store do.\r\nYou have to actively open it so it can run its own installer/updater, whereas normal Windows apps simply get updated in the background while your PC is idle. Even if you haven't used the respective Store app for the last two weeks, next time you'll open it, it will already be on the newest version.",
+      "user":"jonaskuske"
+    },
+    {
+      "comment":"Now Microsoft publish MSIX Packaging Tools, the official said that MSIX can support any installer. Could use that to release VS Code? It's a bad feeling to download a installer manually and run again just for update. ",
+      "user":"ghost"
+    },
+    {
+      "comment":"@WenqiangXie I have started experimenting with creating an AppX Package (Windows Store availability for MSIX isn't there yet, but it uses the same process).\r\n\r\nAn issue with Windows Store availability is that currently it is pretty crippled without right clicking the app tile and running as Administrator (Something that isn't allowed to be automatically elevated like traditional apps).\r\n\r\nTo fix this, we might need to use the WinRT Storage APIs, so we can make use of the new Access All Storage Permission in new versions of Windows 10, which requires WinRT Storage APIs to work.",
+      "user":"WilliamABradley"
+    },
+    {
+      "comment":"> An issue with Windows Store availability is that currently it is pretty crippled without right clicking the app tile and running as Administrator (Something that isn't allowed to be automatically elevated like traditional apps).\r\n\r\nWhen VS Code need elevated permissions?",
+      "user":"ad1Dima"
+    },
+    {
+      "comment":"@ad1Dima I think permissions are slightly different once containerised.\r\n\r\nYou can try out my branch, it appears that access Saving files, Powershell commands (Due to Powershell history), and git don't work, unless you Run as Administrator.",
+      "user":"WilliamABradley"
+    },
+    {
+      "comment":"Leave it already. It's pointless to ask for this. Microsoft just doesn't care about the rumored Andromeda device that is rumored to support Continuum and its alleged vision for productivity in the office space. I exit this thread and IMHO the time to close it has probably come. It's been two years and MS has done nothing. Let's keep our dignity",
+      "user":"vxnsbir1ugsp"
+    },
+    {
+      "comment":"I think as a first step, having an MSIX installer would be enough. An app packaged as MSIX doesn't have to be compliant with the Store rules, neither does it have to run on the UWP runtime (with all the permission/capability checks), but it can still benefit from file system and registry virtualisation. With an MSIX installer we would get a clean install (and uninstall) experience and also non-distrupting background app updates. ",
+      "user":"petroemil"
+    },
+    {
+      "comment":"Can we open a new issue for MSIX migration? Because MSIX is cross-platform and not limited to Microsoft Store.\r\n\r\n(This issue should change its title as Windows Store is now Microsoft Store)",
+      "user":"saschanaz"
+    },
+    {
+      "comment":"> Can we open a new issue for MSIX migration?\r\n\r\nYeah, was thinking about the same... I'm gonna start it and refer to this issue as the starter.",
+      "user":"petroemil"
+    },
+    {
+      "comment":"@petroemil I have already started this work, all that needs to be done is replace makeAppx with makeMsix",
+      "user":"WilliamABradley"
+    },
+    {
+      "comment":"Many people here still don't understand the difference between release in store and make an UWP application.\r\nMake an UWP would be great, I am the first to support the idea, but requires a too huge effort due UWP limitations, an effort that probably Microsoft will never do for a free application.\r\nFurthermore making VSCode UWP implies to maintain another project not compatible with other platforms.\r\nBut here we are just asking to release on store.\r\nThere aren't any particular issue to release on store, because all store limitations are intended only for third party developers, Microsoft is the owner of store and can release anything she wants on it.\r\nDo you remember the update from Windows 8.0 to 8.1? that can be installed from store, because Microsoft can even release windows updates on store.\r\nIf Microsoft wants can even release Visual studio professional on store, but that is a bad idea because installer depends on too much modules and third party components.\r\nIf VSCode is not still on store it is not for technical issues, but because Microsoft doesn't want or because Microsoft doesn't care about it.\r\nIn any case, release on store don't imply support on Windows S, xbox, windows mobile, windows on ARM, windows IOT, AndromedaOS or others platform.\r\nWindows store is just a standard way to install, update and uninstall an application.",
+      "user":"OrbintSoft"
+    },
+    {
+      "comment":"@petroemil I could not agree with you more. Getting away from msi/exe installers and using containerization is a great first step. I am a great fan of msix. You can read my thoughts of appx about 18 months ago on this thread before msix was announced. https://github.com/Microsoft/vscode/issues/10759#issuecomment-307196053",
+      "user":"wizarrc"
+    },
+    {
+      "comment":"I'd love to have VS Code in the store, maybe ti could run on a Samsung ARM based Galaxy Book 2 !\r\n\r\nWith lte in tablet factor (similar to Surface Pro 6), this would be pretty nice to catch up on some code in the plane",
+      "user":"erikrenaud"
+    },
+    {
+      "comment":"@tuath publishing the app to the Store has nothing to do with its support for ARM. Pretty much nothing is holding back the team to compile an ARM64 version to natively support Windows on ARM, even if they don't want to publish it to the Store.",
+      "user":"petroemil"
+    },
+    {
+      "comment":"Yes, please make Visual Studio Code available in the Windows Store so that it updates regularly.  Also, bring back windows phone!",
+      "user":"ghost"
+    },
+    {
+      "comment":"Windows Store is typically disabled in Enterprise environments and out of the box in LTSB versions. Distibuting this way does not help compared to MSI Installer. \r\n\r\nUsers are not allowed and should not allowed to install random software that stay unmaintained later, when the developer lost interrest. Than the security holes have been installed via store, but nobody is aware of it. Software is never automatically uninstalled, but stay on local disk with security bugs.",
+      "user":"alexhass"
+    },
+    {
+      "comment":"This is the worst argument against the Windows Store ever.\r\n\r\nFirst of all, Windows Store is likely by far the most secure source to install apps, generally speaking. Even if you install a Win32 desktop app from the Store, it can't mess up your registry and will never have admin right in its lifetime. It's almost impossible for these apps to be of any security risk for the user.\r\n\r\nCompanies have control to what they let employees download - they can blacklist/whitelist applications.\r\n\r\nIt's also significantly easier for sysadmins to manage apps installed from the Store than to remove random apps downloaded from the internet.",
+      "user":"petroemil"
+    },
+    {
+      "comment":"What exactly do you mean as worst argument?\r\n\r\nPeople cannot install every random software... they have no admin permissions. Only the sh** per user installers around somewhere.\r\n\r\nSpeaking generally. How are you able to make sure applicaction have no weak ciphers included or openssl version that have backdoors or other insecure components? How can such apps not cause a security issue for the personal customer data that the application use?\r\n\r\nPlease also expect that a developer has discontinued his project. Does an app gets marked by MS as having insecure components embedded and than auto-uninstalled? I guess not.\r\n\r\nWhere are there store apps saved? Local appdata? This gets deleted on user logoff. \r\n\r\nDo I like to have 20gb user home drives that all contain the same software? No! There should only be the data located.\r\n\r\nThe store as I know is a good additional distibution point for home users, but not for enterprise that need full controll.\r\n\r\nStore is the first that get‘s disabled or is not included in. LTSB for exacly all this reasons as nobody want people to install random software per user. Good luck with an Software Audit...",
+      "user":"alexhass"
+    },
+    {
+      "comment":"@alexhass Can't you use AppLocker to whitelist packaged apps from the store? Like @petroemil said:\r\n\r\n>Companies have control to what they let employees download - they can blacklist/whitelist applications.\r\n\r\n>Where are there store apps saved?\r\n\r\n`%PROGRAMFILES%/WindowsApps`. Only the user data will be saved in local app data. ",
+      "user":"saschanaz"
+    },
+    {
+      "comment":"We are currently on Windows 7, waiting every day that MS republishes the october win 10/2019 images. Only silence since ~6 weeks.\r\n\r\nNo user has requested an win 10 app yet. It is really new to me that these apps are virtualized in a vm to protect against an outbreak, but I’m willingly to learn. Our main plan was to use LTSB and that means there will be no app store. I may take a look into the whitelisting feature, but the Store has zero focus for us. No vendor is really using it exclusivly and we deploy everything via MSI files today. MSIX sounds nice, but is really more far future.\r\n\r\nAll 7 Electron apps we run have an MSI except - vscode - where I have written the installer for, but maintainer seems too much in love with exe setup that cannot deployed. Please do not forget that I‘m only looking for future windows versions. I cannot wait 5 years from now.\r\n\r\n„Only the user data will be saved in local app data.“\r\n\r\nI hope the software can use roaming appdata. Local app data get‘s deleted as this is excluded from roaming.",
+      "user":"alexhass"
+    },
+    {
+      "comment":">No user has requested an win 10 app yet.\r\n\r\nBecause no store-only killer Windows app exists yet, except OneNote.\r\n\r\nDistribution via Microsoft Store won't remove the current installer (just as InkScape and Paint.NET keep both), so IMO your enterprise policy is never a blocker.",
+      "user":"saschanaz"
+    },
+    {
+      "comment":"The blocker is the missing official MSI of vscode. An unofficial has been provide by me. But the vscode team seems to ignore it and like to keep EXE innosetups. This EXE cannot deployed in enterprise via AD and therefore makes it a blocker for win 7 until current windows 10.\r\n\r\nThe feature here is only for future windows versions. I cannot wait longer for officially msi.",
+      "user":"alexhass"
+    },
+    {
+      "comment":"Why would they provide an exe over an msi?",
+      "user":"jadenPete"
+    },
+    {
+      "comment":">The blocker is the missing official MSI of vscode.\r\n\r\n@alexhass ~~Understandable, you may want to track #61793.~~ Oops, you already do! Sorry for the noise.",
+      "user":"saschanaz"
+    },
+    {
+      "comment":"@jadePete: I do not know!!! They neglected my 1 week work with no reason except, we have no time in next year. Strange for open source as the code is ready. See https://github.com/Microsoft/vscode/pull/38008\r\n\r\nLooks like they do not understand Enterprise need and what a professional installer is. Since a short time the per User installer became the default download and system installer has been hidden in the download drop down. Everything goes into wrong direction about installers.\r\n\r\nA week ago I shared a more advanced installer that allow per machine and per user install in one MSI setup, see https://github.com/Microsoft/vscode/pull/62620. Closed again.\r\n\r\nMaybe the decission maker should change.",
+      "user":"alexhass"
+    },
+    {
+      "comment":"Now have a program named 'Kode Studio' published in MS store which based VSCode show that not a hard work. VSCode team, It's time to release VSCode to MS Store. In my opinion, all software those from MS should be release in MS Store. If the teams from MS not support MS store, how can we hope others team to support MS store. \r\nAs the problem of admin, I found that so many program form MS  in store can ask for UAC, it's not a problem. The other problem is add-in, but I found that the win32 office form MS store also can install add-in. All of those things show VSCode could publish in MS Store. ",
+      "user":"ghost"
+    },
+    {
+      "comment":">           We are currently on Windows 7, waiting every day that MS republishes the october win 10/2019 images. Only silence since ~6 weeks.\r\n> No user has requested an win 10 app yet. It is really new to me that these apps are virtualized in a vm to protect against an outbreak, but I’m willingly to learn. Our main plan was to use LTSB and that means there will be no app store. I may take a look into the whitelisting feature, but the Store has zero focus for us. No vendor is really using it exclusivly and we deploy everything via MSI files today. MSIX sounds nice, but is really more far future.\r\n> All 7 Electron apps we run have an MSI except - vscode - where I have written the installer for, but maintainer seems too much in love with exe setup that cannot deployed. Please do not forget that I‘m only looking for future windows versions. I cannot wait 5 years from now.\r\n> „Only the user data will be saved in local app data.“\r\n> I hope the software can use roaming appdata. Local app data get‘s deleted as this is excluded from roaming.\r\n\r\nBut more people use Windows10, yes, Windows10 is current of Windows. If more application in Ms Store, every one can make it easy to use computer, they can install application faster and secure. More than 700M users will be benefit form MS Store.\r\nAnd you say that not user has requested an win 10 app. It's worst, yes, you can see how may user ask for UWP VSCode application but just few people to against that in this issues. And now, you can see, so many import application publish in MS Store, such as MS office, iTunes, Telegram, WeChat etc. Now so many powerful and useful application publish to MS Store. Those team have hear the voice form their users but not just to fantasy that 'Year people not like windows10 and they just want a OS like Windows 7 and MS Store is bad, no one will like it'. But they hear the true voice form their users. And they follow the voice.\r\nWe always to criticize windows for that so many worst application to hurt users, and without a official software source make windows not good for general users. They can't find good application to finish their work, they get bad application form worst website or others. But now, MS Store can to fix it, why not to do this?!",
+      "user":"ghost"
+    },
+    {
+      "comment":"![image](https://user-images.githubusercontent.com/29414519/49681288-bc711000-fa64-11e8-8038-05faaf120aa7.png)\r\n![image](https://user-images.githubusercontent.com/29414519/49681324-8718f200-fa65-11e8-8919-94aa6cea41fe.png)\r\n![image](https://user-images.githubusercontent.com/29414519/49681350-03133a00-fa66-11e8-9752-80a68cd42bf2.png)\r\n\r\n\r\nWell, did it first. Using Advanced Installer Express Edition (which is free), VS Code functions perfectly as an AppX (haven't tried MSIX). It could be easily submitted to the Store from here. AFAIK everything works fine - only concern is I didn't try to remove the auto-updater from VSCode. 😃 \r\n\r\nOnly things that need work:\r\n- [x] Deletion of uninstaller\r\n- [ ] Adding of Store Icon (only appears in installer [thus the generic package logo in the screenshots] and in the MS Store)\r\n- [ ] Adding of File Extensions it can open (so you can double click a .php file in File Explorer and have it open from there)\r\n- [ ] Removal of auto-updater for obvious reasons\r\n\r\n@WilliamABradley @petroemil @filfat ",
+      "user":"gjsman"
+    },
+    {
+      "comment":"@hansmbakker @be5invis @filfat I can't work on this for another ~2 weeks (extremely busy), but I have uploaded my AppX and Certificate here for your testing (if you should so wish). No guarantees or anything, but it should \"Just work\" minus the concerns on the checklist.\r\n\r\nTo install, you must first enable Developer Mode in Windows 10. Then, you must download the \"exportedmycert.cer\" file and install it to \"Local Machine\" > \"Custom Store\" > \"Trusted People.\" Finally, you can download and install the AppX.\r\n\r\nOther than the things on the checklist, please feel free to give me some feedback. Of course, convincing MS to adopt this as a packaging method might be the difficult part...\r\n\r\nhttps://1drv.ms/f/s!AvH2EtXBNSjun1v2o4a6TgK-MgK8\r\n\r\nTheoretically, you could get rid of installing the certificate step, but I don’t have a code signing certificate :( .",
+      "user":"gjsman"
+    },
+    {
+      "comment":"How about now? I can't wait to download VSCode in Store. Now I could get most programs in store, such as Office suit , TeamViewer Lite, Python and more. ",
+      "user":"ghost"
+    },
+    {
+      "comment":"Does it any new information?",
+      "user":"ghost"
+    },
+    {
+      "comment":"Vote 32 thumbs for this! VSCode is almost the last app I must install on my Windows 10 PC.\r\nAll others such as Office 365, Power BI Desktop, WSL(Linux),  Wechat, VCL, Remote Desktop, TreeSize, etc. are in Microsoft Store now! Waiting for VSCode comming and it will be good chance to promote UWP with performance and safety in the modern desktop.",
+      "user":"wbpluto"
+    },
+    {
+      "comment":"Upvoting this: I've been wanting VSCode in the store for years now. Any update?",
+      "user":"claudiuslollarius"
+    },
+    {
+      "comment":"@alexandrudima @egamma could you please comment on this?\r\n\r\nThis issue is open for ~2.5 years, has lots of upvotes and duplicates ( = similar requests). People even started to try packaging VS Code themselves - see https://github.com/Microsoft/vscode/issues/10759#issuecomment-445425735.",
+      "user":"hansmbakker"
+    },
+    {
+      "comment":"Now available on Snap for Linux. Seriously, Microsoft managed to release to Ubuntu, a _non-Windows Operating System_, before they could release on Windows. ",
+      "user":"gjsman"
+    },
+    {
+      "comment":"I don't know why Microsoft give less foces in MS Store. So many teams refuse release their products to their store, yes, their store. I have to download new Edge installer and have a UAC windows, I have to download VSCode with every update. And I ask for MOR teams bring MOR to store, it seems they don't know what's that. As apple, XCode could found in app store, but in windows, if I want to build a program, I have to download installers such as VS and others. MS Store can accept Win32 applications many years, but it  take so few foces and just like their 'father' MS not like her too.\r\n**I JUST DON'T WANT TO FOUND A INSTALLER AND UPDATE A SORTWARE EVERY TIME BY MY HANDS.**",
+      "user":"ghost"
+    },
+    {
+      "comment":"> Now available on Snap for Linux. Seriously, Microsoft managed to release to Ubuntu, a _non-Windows Operating System_, before they could release on Windows.\r\n\r\nMaybe we can find VSCode in Mac App Store soon but not in MS Store. Just have a Mac next time.\r\n",
+      "user":"ghost"
+    },
+    {
+      "comment":"> @alexandrudima @egamma could you please comment on this?\r\n> \r\n> This issue is open for ~2.5 years, has lots of upvotes and duplicates ( = similar requests). People even started to try packaging VS Code themselves - see [#10759 (comment)](https://github.com/Microsoft/vscode/issues/10759#issuecomment-445425735).\r\n\r\nYes, and I have found a version in MS store but named with other. But if not official support, it will not update with release version fix problems. Just like that one in store, with a long time doesn't update and not support any add-in.",
+      "user":"ghost"
+    },
+    {
+      "comment":"Can you send link to that version\r\n",
+      "user":"FireCubeStudios"
+    },
+    {
+      "comment":"+1 for ms store implementation. Seriously just what the hell Microsoft?!",
+      "user":"acidofil"
+    },
+    {
+      "comment":"This just came for me: Has it struck anyone as odd, at all, that Microsoft Edge (the new Chromium-based version) isn't available in the Store? The new Chromium-based Edge has no ties to the OS at all - nothing prevents it from being distributed in the Store, unlike classic Edge.\r\n\r\nThis means Microsoft doesn't really care to release their own projects to the Store. At all. We've been asking for Visual Studio in the Store for years. We've been asking for Microsoft Edge in the Store also for years, and when they are now able to do it, they aren't. We've been asking for VSCode in the Store, and even though I showed 4 months ago https://github.com/Microsoft/vscode/issues/10759#issuecomment-445425735 that it could be done, nothing.\r\n\r\nMicrosoft teams themselves think the Store is a waste of resources.\r\n\r\nEDIT: And while I am at it, why were the plans to put MS Paint in the Store scrapped? It could have been a pre-installed Store app. Why isn't Windows Media Player, Windows Fax and Scan, etc. pre-loaded Store apps at this point? ",
+      "user":"gjsman"
+    },
+    {
+      "comment":"Yeah, it's been baffling to me why pretty much none of Microsoft's developer tools are distributed via the Store by now - even small ones like Azure Storage Explorer and Azure Data Studio.  Maybe there's certain features that still won't work with the store? Maybe there's another blocking issue, like managing beta/insider releases?  I wish we could hear from the teams about what's blocking Store distribution and the timeline on fixing it.  I thought with VS Code, perhaps they were just wanting to use the same updating mechanism cross-platform, but since it's available via snap, that theory went out the window.\r\n\r\nI started a discussion on the Edge Insider forum about distributing Chromium Edge via the Store, and am still waiting to hear back from someone on the Edge team.  One unofficial theory that was floating around was suggesting that the final, production version might be distributed via the Store and that the beta/insider editions would be installed/updated via the installer.  \r\n\r\nIf Microsoft is going to be pushing for developers to publish Win32 applications to the store, they really should lead by example. Otherwise, it sends a mixed message.",
+      "user":"NateB2"
+    },
+    {
+      "comment":"> Yeah, it's been baffling to me why pretty much none of Microsoft's developer tools are distributed via the Store by now - even small ones like Azure Storage Explorer and Azure Data Studio. Maybe there's certain features that still won't work with the store? Maybe there's another blocking issue, like managing beta/insider releases? I wish we could hear from the teams about what's blocking Store distribution and the timeline on fixing it. I thought with VS Code, perhaps they were just wanting to use the same updating mechanism cross-platform, but since it's available via snap, that theory went out the window.\r\n> \r\n> I started a discussion on the Edge Insider forum about distributing Chromium Edge via the Store, and am still waiting to hear back from someone on the Edge team. One unofficial theory that was floating around was suggesting that the final, production version might be distributed via the Store and that the beta/insider editions would be installed/updated via the installer.\r\n> \r\n> If Microsoft is going to be pushing for developers to publish Win32 applications to the store, they really should lead by example. Otherwise, it sends a mixed message.\r\n\r\nThis is super off topic for one. Also for two, Edge technically powers the store irrc so you cant put the Edge in itself. \r\n\r\nIf you are manually installing software and complain that the store is the best way I'd argue above all that MSI is the primary and best way to manage more than one users machines since it is enterprise ready. It looks like MSIX when ready will get everyone what they want including enterprise installers and store installers, so sit tight.",
+      "user":"hypercube33"
+    },
+    {
+      "comment":"> This is super off topic for one. Also for two, Edge technically powers the store irrc so you cant put the Edge in itself.\r\n\r\nWrong. We were referring to Chromium-based Edge, which is _entirely_ different under the hood than classic Edge. There is _nothing_ preventing Chromium-based Edge from being in the Store, as it even runs on Windows 7. Chromium-based Edge doesn't power _anything_ in Windows 10. We were commenting on how Microsoft _could_ distribute \"Chredge\" in the Store, but _isn't_ for weird reasons.",
+      "user":"gjsman"
+    },
+    {
+      "comment":"> Edge technically powers the store irrc so you cant put the Edge in itself\r\n\r\nThe Store likely contains a `WebView` control to render web pages (which the old Edge app also uses) but not the whole Edge app.",
+      "user":"hansmbakker"
+    },
+    {
+      "comment":"Store policy would need to change first. The same rules that prevent submitting Chrome, Firefox, Opera, Maxthon, etc to the Store apply. And not adhering to their own rules would likely have legal complications. They are going to have to change the rules before anything can be done, and since Chrome and Chromium Edge share engines it's not an easy change.\r\n\r\nActually, on the not of browser engines, I believe VS Code uses Chromium for the UI. Taking into consideration how it's used (extensions can show web content in VS Code) I think it would violate store policy. So while from a technical standpoint getting VS Code onto the store is achievable, Store policy would likely prevent submission. At least that's my understanding of the situation.",
+      "user":"Silic0nS0ldier"
+    },
+    {
+      "comment":"That makes sense.  If that is the case, I hope it can be sorted out!",
+      "user":"NateB2"
+    },
+    {
+      "comment":"@ChuckkNorris being chromium rendered app has nothing to do with store policy, there are plenty of electron based app in the store.",
+      "user":"nerocui"
+    },
+    {
+      "comment":"Facebook for Windows shows web content with Chromium based engine and there hasn't been any policy conflict.",
+      "user":"saschanaz"
+    },
+    {
+      "comment":"The clause I was referring to is at https://docs.microsoft.com/en-us/legal/windows/agreements/store-policies (10.2.1).\r\n\r\nMost Electron apps only show content that is internally hosted, and as such do not browse the web. In the case of VS Code however some extensions (and perhaps even some part of VS Code I am not aware of) introduce web browser functionality in some shape or form (be it an actual embedded browser that uses the Electron Chromium instance directly to render, or using HTML from arbitrary sources).\r\n\r\nAs for Facebook for Windows, it looks like it actually uses Webkit based on https://twitter.com/Martijn_Cuppens/status/1015169981368225793 and honestly I don't know what to make of that since it is a fully fledged browser (there are ways to provide it specific links). Maybe it has diplomatic immunity or something, considering how hard MS has fought to get a Facebook backed Facebook app on their platforms.\r\n\r\nPersonally I think the policy is silly, hopefully in time we will see it vanish with Chromium soon being baked into Windows. Maybe a few other potential issues will be addressed as part of it as well. That is, assuming it eventually comes to the Store.",
+      "user":"Silic0nS0ldier"
+    },
+    {
+      "comment":"> Store policy would need to change first. The same rules that prevent submitting Chrome, Firefox, Opera, Maxthon, etc to the Store apply. And not adhering to their own rules would likely have legal complications. They are going to have to change the rules before anything can be done, and since Chrome and Chromium Edge share engines it's not an easy change.\r\n> Actually, on the not of browser engines, I believe VS Code uses Chromium for the UI. Taking into consideration how it's used (extensions can show web content in VS Code) I think it would violate store policy. So while from a technical standpoint getting VS Code onto the store is achievable, Store policy would likely prevent submission. At least that's my understanding of the situation.\r\n\r\nThey just don't care about it and don't want to do that. So many software based Electron can be publish in MS Store. And a tool in NodeJS be given to build UWP based NodeJS. And a third VS Code named Kode Studio in store. Nothing stop them but they just don't want do this or they hate do this.",
+      "user":"ghost"
+    },
+    {
+      "comment":"> Can you send link to that version\r\n\r\nIt's named Kode Studio based VS Code but some features are disable. The store link is https://www.microsoft.com/store/productId/9NXDMCLN8P1X\r\n\r\nThis is Kodi Studio, extensions and some other features are disable.\r\n![Annotation 2019-04-26 235840](https://user-images.githubusercontent.com/12346333/56820760-4f2d1280-687f-11e9-8d70-5cb83d78c69a.png)\r\n",
+      "user":"ghost"
+    },
+    {
+      "comment":"[Microsoft and Kano are launching a build-your-own Windows 10 PC kit](https://www.theverge.com/2019/6/19/18628321/microsoft-kano-pc-windows-10-diy-building-kit-kids)\r\n\r\nThe Kano PC is to teach kids how to build their own touchscreen laptops and to learn to code etc.\r\nIt runs on Windows 10 S, meaning Microsoft Store only.\r\nWould be great if it could run Visual Studio code!\r\n\r\n",
+      "user":"connorads"
+    },
+    {
+      "comment":"It seems there will be a browser-only version of vscode in future in url- https://online.visualstudio.com\r\nProbably it will depend on the SSH remote for execution.\r\nWhich will run in all these restrictive devices also. But the code and vscode remote servers have to run somewhere else in capable devices (currently linux). Let's see how things happens.",
+      "user":"gulshan"
+    },
+    {
+      "comment":"[The new Windows Terminal will be distributed through the Store](https://www.microsoft.com/en-us/p/windows-terminal-preview/9n0dx20hk701).\r\n\r\nSo tell me again how is it not possible to do the same thing with VS Code? It's just a pretty UI on top of a bunch of CLI tools. And the Windows Terminal proves that those CLI tools can be accessed from a UWP/Store app.",
+      "user":"petroemil"
+    },
+    {
+      "comment":"I'm surprised that after 2 years the core development team's input is absent on this. C'mon guys, at least mention what's hindering you from doing this.",
+      "user":"sudomann"
+    },
+    {
+      "comment":"> \r\n> \r\n> I'm surprised that after 2 years the core development team's input is absent on this. C'mon guys, at least mention what's hindering you from doing this.\r\n\r\nThis what hindering them from doing this is thousands more important things. Does the release in the MS Store improve the programming in any way? I dont thinks so",
+      "user":"kanlukasz"
+    },
+    {
+      "comment":"Not to minimize anybody's effort, but certainly publishing on the store is not a gargantuan task is it ? ",
+      "user":"sudomann"
+    },
+    {
+      "comment":"It's so ridiculous. I run VS Code once in a whille, week - two and every time it prompts about updates. So I can't start my work but wait to download, install update and restart application. I want to have VS Code always up to date, before I start them, not after. Why doesn't Microsoft Store do this? It's 2019 for god sake.",
+      "user":"lastonpl"
+    },
+    {
+      "comment":"> It's so ridiculous. I run VS Code once in a whille, week - two and every time it prompts about updates. So I can't start my work but wait to download, install update and restart application. I want to have VS Code always up to date, before I start them, not after. Why doesn't Microsoft Store do this? It's 2019 for god sake.\r\n\r\nIt is possible, but VS Code is **not** in the Store ...",
+      "user":"Styxxy"
+    },
+    {
+      "comment":"I have a weird thought tho.\r\n\r\nSince Edge is now getting extensions from \"Extensions for Edge\" tab in Microsoft Store, is it possible that the VS Code team is working towards this direction as well? After all, if the biggest blocker of moving VS Code to MS Store is extension, maybe the \"Extension for Edge\" pattern could be a solution?",
+      "user":"tclzcja"
+    },
+    {
+      "comment":"if some policy keeps vscode from being uploaded to the microsoft store then obv the policy is wrong.\r\nI have told microsoft a million times already to fire evryone that is working on that project.\r\n\r\n",
+      "user":"NicTanghe"
+    },
+    {
+      "comment":"Or let me guess, are you guys secretly pushing the whole VS Code onto Web, and then further more PWA the hell out of it, and then since there's PWA in MS Store now, this long lasting hopeless issue can finally be done in a second?\r\n\r\nBut since Edge is moving to Chromium on full speed, all above can not be done until Edge on Chromium officially get released and replace the old Edge, which will happen on early 2020. Is that the plan big M?\r\n\r\nI mean if that's the case, it's quite exciting! That means [this issue](https://github.com/microsoft/vscode/issues/70764) too can finally be solved after the long waiting.",
+      "user":"tclzcja"
+    },
+    {
+      "comment":"If it's a sandbox or extensions marketplace issue, at least can there be an release with the remote extensions installed so it can be used for remote development?",
+      "user":"AkazaRenn"
+    },
+    {
+      "comment":"Please, consider making Visual Studio Code available to install from the Microsoft Store or at least consider publishing it [as MSIX](https://github.com/microsoft/vscode/issues/61793). Thanks!",
+      "user":"AsciiWolf"
+    },
+    {
+      "comment":"> It would be excellent if windows 10 mobiles can be used as web development tool! ;)\r\n\r\nIt is outdated: https://support.microsoft.com/en-us/help/4485197/windows-10-mobile-end-of-support-faq\r\n\r\nAnd... why programming on a Mobile device?",
+      "user":"Mr-Markus"
+    },
+    {
+      "comment":"> > It would be excellent if windows 10 mobiles can be used as web development tool! ;)\r\n> \r\n> It is outdated: https://support.microsoft.com/en-us/help/4485197/windows-10-mobile-end-of-support-faq\r\n> \r\n> And... why programming on a Mobile device?\r\n\r\nI'd like to code during traveling. I'd like to code with [Surface Neo](https://www.youtube.com/watch?v=fssZICsV4Rg). I'd like to code in Window S mode. I also like to code in such devices like [Samsung Galaxy Tab S6](https://www.samsung.com/global/galaxy/galaxy-tab-s6/).",
+      "user":"hyochan"
+    },
+    {
+      "comment":"The news on how the new Edge would be released gave me some idea. Can VS Code be an optional system component and updated through Windows Update as well? ",
+      "user":"AkazaRenn"
+    },
+    {
+      "comment":"@filfat No this is a terrible idea.",
+      "user":"nerocui"
+    },
+    {
+      "comment":"Has it ever occur to anyone that it's probably that the Store is so horrible, which it is, that it's considered a joke internally? I heard that the Store team is not very much inline with the modern Microsoft. The Store strategy has also failed dramatically so much so that Microsoft announced open store strategy for all Windows based systems with even old Microsoft critics Tim Sweeney standing behind. They also blogged about a new update mechanism that sounds exactly like Chrome OS. Maybe the new employees are just used to do things this way. Maybe no one likes the Store. Maybe we shouldn't even like the Store because we are biased Microsoft fans. There hasn't been any, any new feature or announcement about the Store or new exciting apps coming to the Store for the past two years now. (Since Terry Myerson left) It is truly a wasteland. All the projects from Terry's era are being killed. 3D initiatives, focus on creator, people bar, groove, old edge and much much more. Heck, even till this day, DotNet Core 3.0 and C# 8 are still not available for UWP. Xamarin Form support for UWP has always been subpar. What does that tell you?",
+      "user":"nerocui"
+    },
+    {
+      "comment":"\"The Store\" and \"UWP\" are 2 very different technologies (even though they started off conjoined, neither of them need the other anymore). It's off-topic for this issue, but I believe these points need to be addressed. You're right that UWP is _probably_ going away, and that will _most likely_ be in favour of .NET Core (just my opinion, no insider knowledge). XAML islands and other features mean that the ideas of UWP will still live on (in the same way that the ideas of Silverlight still lived on in UWP).\r\n\r\nThe Store as a distribution model is great. The [Terminal](https://github.com/Microsoft/Terminal) team are using it as their primary distribution merchanism. The [Powershell](https://github.com/powershell/powershell) team are considering it. Both of those projects have required changes to the store to make happen, so to say that there's been no new features is just plain wrong. I don't doubt what you've heard (there's nearly 150,000 employees in Microsoft, so they won't all have the same opinion) but to ship things that are fundamental to the OS through this mechanism (not to mention all of the out-of-box apps) would suggest that it's still evolving, not being killed off.\r\n\r\nThe Store has also brought us [MSIX](https://docs.microsoft.com/en-us/windows/msix/overview) technologies, which is the deployment model and sandboxing behind the Store but without the centralised distribution.\r\n\r\nGranted there aren't any big named apps in the Store (apart from Adobe and a bunch of games) but it's still useful. Our IT department deploys more than a dozen external (and some internal) apps through the Store, that our users don't have to find, install, update or maintain in any way shape or form. If we could add VSCode and some of the [other](https://github.com/Microsoft/azuredatastudio/) [Azure](https://github.com/Microsoft/AzureStorageExplorer) [utilities](https://github.com/Azure/BatchExplorer) then that would be fewer things we need to rely on users to maintain",
+      "user":"MatthewSteeples"
+    },
+    {
+      "comment":"> C# 8 are still not available for UWP\r\n\r\nC# 8 is partly available for UWP\r\nYou can set `<LangVersion>8.0</LangVersion>` in your project file",
+      "user":"ad1Dima"
+    },
+    {
+      "comment":"Terminal app and Python being distributed in the store demonstrates this is a worthwhile idea.  Dev tools are the last domain of apps that haven't been containerized, so accomplishing this would be very impressive and beneficial.\r\n\r\nWindows should just ship with a stripped down version of Docker, then language servers could run in docker containers with Hyper-V isolation.  It would also be nice if you could open a git repo in VS Code and it would get its own dev container, also leveraging the isolated containerization.\r\n",
+      "user":"chriskuech"
+    },
+    {
+      "comment":"**+1**",
+      "user":"MikaCinc"
+    },
+    {
+      "comment":"What's the progress on this issue? Will it ever be released???",
+      "user":"xpirad"
+    },
+    {
+      "comment":"@xpirad Almost certainly completely dead now, just like the Windows Store. \r\n\r\nAnd this isn't a FUD assumption either. Every tech commentator I've read has said that the writing's been on the wall for the Store for quite a while now. Take a look at recent events: Ad monetization is getting shut down, there was a desperate 90/10 pricing split to try to attract new developers, and Microsoft Edge recently dropped support for both UWP and the Store. MSIX works outside the Store and is primarily targeting outside the Store with it's marketing and target audience.\r\n\r\nYou might say, oh, the new Terminal is in the Store. Yeah, because the Terminal is a UWP app, a format which is dead to literally every major company outside of Microsoft. (Facebook just pulled their app last week.) VS Code is not a UWP app, and even though it could be distributed in the Store, it's unlikely to happen, especially as Microsoft has been promising that core components like Paint and Fax & Scan would be distributed in the Store for _years_ and still hasn't done it and still has no recent plan to do it.",
+      "user":"gjsman"
+    },
+    {
+      "comment":"Facebook messenger https://www.microsoft.com/store/productId/9WZDNCRF0083\r\nand instagram was recently updated https://www.microsoft.com/store/productId/9NBLGGH5L9XT\r\nApple directs to the store for downloading iTunes https://www.microsoft.com/store/productId/9PB2MZ1ZMB1S\r\nTelegram https://www.microsoft.com/store/productId/9NZTWSQNTD0S\r\nSlack https://www.microsoft.com/store/productId/9WZDNCRDK3WP\r\nNice Sketch compatible app Lunacy https://www.microsoft.com/store/productId/9PNLMKKPCLJJ\r\nGreatest Paint.Net https://www.microsoft.com/store/productId/9NBHCS1LX4R0\r\nWindows 10x emulator image https://www.microsoft.com/store/productId/9PD8VQGN8015\r\nSpotify https://www.microsoft.com/store/productId/9NCBCSZSJRSB\r\nAdobe, Corel, Twitter, Intel drivers, more and more parts of the system.\r\n\r\nSo dead :)",
+      "user":"ad1Dima"
+    },
+    {
+      "comment":"Ubuntu https://www.microsoft.com/store/productId/9NBLGGH4MSV6\r\npython https://www.microsoft.com/store/productId/9NJ46SX7X90P\r\nMicrosoft Emulator https://www.microsoft.com/store/productId/9N0TN65P5BF6\r\nArduino IDE https://www.microsoft.com/store/productId/9NBLGGH4RSD8\r\nDebian https://www.microsoft.com/store/productId/9MSVKQC78PK6",
+      "user":"behroozbc"
+    },
+    {
+      "comment":"We use it for business apps like powerbi too and it's awesome since we don't have to deal with updating it in Configuration Manager\n\nGet Outlook for Android<https://aka.ms/ghei36>\n\n________________________________\nFrom: behroozbc <notifications@github.com>\nSent: Thursday, March 5, 2020 10:39:01 AM\nTo: microsoft/vscode <vscode@noreply.github.com>\nCc: hypercube33 <hypercube33@hotmail.com>; Comment <comment@noreply.github.com>\nSubject: Re: [microsoft/vscode] Release in the Microsoft Store (#10759)\n\n\nUbuntu https://www.microsoft.com/store/productId/9NBLGGH4MSV6\npython https://www.microsoft.com/store/productId/9NJ46SX7X90P\nMicrosoft Emulator https://www.microsoft.com/store/productId/9N0TN65P5BF6\nArduino IDE https://www.microsoft.com/store/productId/9NBLGGH4RSD8\nDebian https://www.microsoft.com/store/productId/9MSVKQC78PK6\n\n—\nYou are receiving this because you commented.\nReply to this email directly, view it on GitHub<https://github.com/microsoft/vscode/issues/10759?email_source=notifications&email_token=ACCT3YVPOLR5CO2ONZZGGXDRF7ISLA5CNFSM4CNFEOC2YY3PNVWWK3TUL52HS4DFVREXG43VMVBW63LNMVXHJKTDN5WW2ZLOORPWSZGOEN57FSY#issuecomment-595325643>, or unsubscribe<https://github.com/notifications/unsubscribe-auth/ACCT3YQWLAGMEE6OXHGKYBDRF7ISLANCNFSM4CNFEOCQ>.\n",
+      "user":"hypercube33"
+    },
+    {
+      "comment":"Will it be possible to at least release it in MSIX bundles? It happens for PowerToys already.",
+      "user":"AkazaRenn"
+    },
+    {
+      "comment":"If teams of Microsoft do not support technology from Microsoft, it's time all of us move to Linux. PowerToys not release MSIX of new version, and PowerShell 7 doesn't have a MSIX package. But VSCode release in snapcraft store, PowerShell and .Net Core release as APT, may Microsoft want to tell us, if you want to use a good and modern package manager, choose Linux, it's time, NOW.",
+      "user":"wenqiangx325"
+    },
+    {
+      "comment":"> Will it be possible to at least release it in MSIX bundles? It happens for PowerToys already.\r\n\r\nNope, PowerToys changed their mind, and we have to use a old Windows, not model Windows 10. Also, PowerShell 7 stable also doesn't have a MSIX installer or store version. May it's the mind of Microsoft for that not support new technology of Windows 10.",
+      "user":"wenqiangx325"
+    },
+    {
+      "comment":"@wenqiangxie if you take a look at the issue list you will see a bunch of problems using MSIX, I believe that's why they stop delivering MSIX packages for now",
+      "user":"AkazaRenn"
+    },
+    {
+      "comment":"> @wenqiangxie if you take a look at the issue list you will see a bunch of problems using MSIX, I believe that's why they stop delivering MSIX packages for now\r\n\r\nwhy dont tell us ???",
+      "user":"behroozbc"
+    },
+    {
+      "comment":"> @wenqiangxie if you take a look at the issue list you will see a bunch of problems using MSIX, I believe that's why they stop delivering MSIX packages for now\r\n\r\nSo they should fix those problems, but doesn't abandon MSIX installer or Microsoft store version. They are the team of Microsoft, they should to be a leader who use the new technology of Windows 10. If they don't do that, how could we can ask other developer to support Windows 10, and the model Windows just is a slide and daydream. And now I can't find the feature of Windows 10 as those Microsoft show us, Windows 10 is just a old and out of date Windows like Windows XP or ME, because the team of Microsoft not support new and model technology of Windows.",
+      "user":"wenqiangx325"
+    },
+    {
+      "comment":"This is cross-platform application. So why to waste time in another deployment which is just for Window.",
+      "user":"ram3shyadav"
+    },
+    {
+      "comment":"> This is cross-platform application. So why to waste time in another deployment which is just for Window.\r\n\r\nThis argument can be used for everything... from Snaps to Homebrew Casks.",
+      "user":"felipecrs"
+    },
+    {
+      "comment":"> This is cross-platform application. So why to waste time in another deployment which is just for Window.\r\n\r\nBecause this is a software from Microsoft, and Microsoft Store is from Microsoft and very important of Windows 10, the most important system of personal user, millions user ask VSCode team to do this and help Windows to be better and better. Windows / Windows 10 is the most important system of personal/work system, not MacOS, not Linux, that's fact, and now users of Windows 10 ask Microsoft to make Windows 10 modern and better than any time.",
+      "user":"wenqiangx325"
+    },
+    {
+      "comment":"And we have background updates with Microsoft Store :-) ",
+      "user":"felipecrs"
+    },
+    {
+      "comment":"> And we have background updates with Microsoft Store :-)\r\n\r\nVSCode Team are working to package a MSIX installer(#61793), when that done, that is a big landmark of the target of \"Release in the Microsoft Store(#10759)“, four years later, we have the first light of this issue.",
+      "user":"wenqiangx325"
+    },
+    {
+      "comment":"What is the status here? What is the next step?",
+      "user":"seilermi"
+    },
+    {
+      "comment":"The annoying thing is that Windows 10 S mode is a joke. You can only use apps that are either pure Microsoft or in store. And Microsoft sells devices that use S mode from get go. For what? Writing Word documents and browsing? Be serious.\r\n\r\nStore doesn't even contain MS Teams. Maybe a good sign that Store is the least of their minds. Which is pity, because store offers a unique update process. No more need for developers writing their own update programs. For some odd reason, THAT is not a priority. It would secure and simplify app deployment kazillion times.\r\n\r\nThat ends my rant.\r\n\r\nNow, can you please, either sign VS Code or put in the store, so that I have something better to do on Surface Go 2 tablet, than browsing and using RDP to connect to proper dev machines?\r\n\r\nMAybe this is why? https://visualstudio.microsoft.com/services/github-codespaces/",
+      "user":"vkocjancic"
+    },
+    {
+      "comment":"@vkocjancic\r\n\r\n> Surface Go 2 comes with:\r\n> * Windows 10 Home edition in S mode (consumer customers)\r\n> * Windows 10 Pro edition (commercial customers)\r\n>\r\n> You can switch from Windows 10 S to Windows 10 at no additional charge. Once you switch out of S mode, you can't switch back.\r\n\r\nhttps://support.microsoft.com/en-my/help/4557207/surface-go-2-features#section-2\r\n\r\nhttps://support.microsoft.com/en-my/help/4456067/windows-10-switch-out-of-s-mode",
+      "user":"teohhanhui"
+    },
+    {
+      "comment":"@vkocjancic \r\nI guess nothing stops you from bringing your own version of VSC to the store. For example, here is an  installation of Visual Studio Code that was tailored to some programming language I don't know:\r\nhttps://www.microsoft.com/store/productId/9NXDMCLN8P1X\r\n\r\n@teohhanhui \r\nThere are use cases for Windows 10 S. I also have been running my laptop in S mode for over a year now. I guess switching out is not his preferred option 😉",
+      "user":"JensMertelmeyer"
+    },
+    {
+      "comment":"@teohhanhui Maybe you misunderstood me. S mode is pointless with useless Microsoft Store. On top of that, apps installed from store are not guaranteed to run in S mode. Other than that, I love fast boot up time, I love battery performance. Basically, I don't want to switch out unless absolutely necessary.\r\n\r\n@JensMertelmeyer There are two reasons:\r\n1. There is nothing I hate more than an app in an app store from XY provider. Take Putty for example. Someone got source code, rebuild it for store and is now charging for otherwise free software. Not a great thing for store. And...\r\n2. I have a life. ;-)",
+      "user":"vkocjancic"
+    },
+    {
+      "comment":"> \r\n> \r\n> @teohhanhui Maybe you misunderstood me. S mode is pointless with useless Microsoft Store. On top of that, apps installed from store are not guaranteed to run in S mode. Other than that, I love fast boot up time, I love battery performance. Basically, I don't want to switch out unless absolutely necessary.\r\n> \r\n> @JensMertelmeyer There are two reasons:\r\n> \r\n>     1. There is nothing I hate more than an app in an app store with XY provider. Take Putty for example. Someone got source code, rebuild it for store and is now charging for otherwise free software. Not a great thing for store. And...\r\n> \r\n>     2. I have a life. ;-)\r\n(not a fan of windows)\r\nI disagree s mode makes sense for companies.\r\nYou remove your dumbass employees ability to install anything on your companies property. Your dumbass employees will probably install a lot of viruses if you don't ban them from using anything.\r\n\r\nIf they change smote to allow installing stuff from admin selected/hosted repos using winget it would be where it needs to be.\r\n\r\nIt took to long for windows to realize they need a package manager.\r\nI hope they figure out what they need to do with it for the good of their service and costumers.\r\n",
+      "user":"NicTanghe"
+    },
+    {
+      "comment":"> * Someone got source code, rebuild it for store and is now charging for otherwise free software. Not a great thing for store. And...\r\n> * I have a life. ;-)\r\n\r\nSo the process of going through the packaging process and keeping a store version up to date is not even worth a few cents from you. And neither is it worth your time for doing it yourself, because you have better things to do.\r\n\r\nFascinating.",
+      "user":"JensMertelmeyer"
+    },
+    {
+      "comment":"@JensMertelmeyer it's not about the money in our case, it's about trust. If Microsoft package up VSCode then I know it'll be the right build. You don't know if the build of PuTTY in the store is taking a copy of all of your private keys and connections and sending them off to the developer. Even if it was free I'd be wary of using it!",
+      "user":"MatthewSteeples"
+    },
+    {
+      "comment":"What is the progress of this issue? It's been 4 years and it's still open? Can't believe this is true. 🤦‍♂️",
+      "user":"tuananh-le"
+    },
+    {
+      "comment":"> What is the progress of this issue? It's been 4 years and it's still open? Can't believe this is true. 🤦‍♂️\r\n\r\nI’m sure they’re aware of this issue and there’s probably a very good reason why it hasn’t been resolved yet. Bumping it will not make it go faster.",
+      "user":"filiphsandstrom"
+    },
+    {
+      "comment":"It was probably not intended to bump this only to make it go faster but also to ask about information on this.\r\n\r\nThere hasn't been an update on this in a long time. And if there are good reasons for it not to happen people probably would like to know them, maybe they can even help making it happen. From a communication perspective that is pretty bad.",
+      "user":"claell"
+    },
+    {
+      "comment":"Please add this feature request. The Microsoft Store currently lacks true, powerful desktop apps, and the addition of the full Visual Studio Code would undoubtedly be a gamechanger. I wouldn’t be surprised if other companies followed suit, porting their programs to the Microsoft Store. This would also be a gamechanger for students whose schools rely on Windows 10 S, they would finally have a full-featured IDE!",
+      "user":"VladPutinEu"
+    },
+    {
+      "comment":"Yes but do not forget Mac app store too.\r\nBecause install third party app (i mean by that external from store in général) must be discarded to push the user to accustom themself to install app only by store (on microsoft/mac) to reduce the malware installed by the user himself !",
+      "user":"BirdInFire"
+    },
+    {
+      "comment":"The MS Store, along with winget command line tool for installing/managing packages on Windows should make it possible to not rely on the downloadable executable method of installation anymore. Please add this feature already, it's ironic that Microsoft products integrate better with workflows on Linux than Windows, which should be constantly keeping ahead of the curb and not lagging behind as it is a commercial product. Jeez, community software is now way better than these \"better\" commercial software, its become a joke now.",
+      "user":"dreaddr"
+    },
+    {
+      "comment":"interesting...",
+      "user":"zhangenming"
+    },
+    {
+      "comment":"I am now testing Intune / Microsoft Endpoint Manager and I was really surprised that many common apps, including VS Code, are not available on MS Store. As a sysadmin, it's very hard to trust a workflow / framework when authors are not eating their own food.",
+      "user":"CarlosDomingues"
+    },
+    {
+      "comment":"So...Visual Studio Code is still not available in the Microsoft Store/Mac OS App Store but it is available in Ubuntu's Snap Store? Why is it not available for the other two operating systems that are more widely used, i wonder.",
+      "user":"Hans03430"
+    },
+    {
+      "comment":"VS Code spotted in Microsoft Store in the Windows 11 livestream",
+      "user":"Susko3"
+    },
+    {
+      "comment":"VS Code will be in the Microsoft Store with the advent of traditional Win32 apps. You can now close this issue.",
+      "user":"VladPutinEu"
+    },
+    {
+      "comment":"I believe there is already another issue for MSIX. So this issue can be closed (after we confirm it's there in the store)",
+      "user":"just1a-person"
+    },
+    {
+      "comment":"![image](https://user-images.githubusercontent.com/1330321/123296056-e1f19680-d548-11eb-9443-598bd7bd59c4.png)\r\n",
+      "user":"yume-chan"
+    },
+    {
+      "comment":"How did Zoom get into the store before Visual Studio Code? As of writing, it still isn't in the store. I would have thought that many Microsoft Products would have been added to the store first. ",
+      "user":"MattBDev"
+    },
+    {
+      "comment":"Incompetence. ",
+      "user":"gjsman"
+    },
+    {
+      "comment":"🎉  https://github.com/microsoft/vscode/issues/130410",
+      "user":"Igorgro"
+    },
+    {
+      "comment":"Finally it is available in store\r\n\r\n![image](https://user-images.githubusercontent.com/22526247/130192349-b39af0e4-c255-4725-9b7a-17c8e8c2ee92.png)\r\n\r\n\r\nhttps://github.com/microsoft/vscode-winsta11er/releases\r\n\r\nAbove installer they are using for store",
+      "user":"sheikalthaf"
+    },
+    {
+      "comment":"Only on Win11 and this won't use MS Store as an updater, still relaying on the one built into the app. ",
+      "user":"revanmj"
+    },
+    {
+      "comment":"> http://github.com/microsoft/vscode/issues/10759#issuecomment-902486573\r\n\r\nThat is sad.",
+      "user":"BEEDELLROKEJULIANLOCKHART"
+    },
+    {
+      "comment":"I feel sad about the state of the Store with each iteration. Now it kind of looks like it'll turn into a simple directory where anything is allowed, instead of tackling the issues and short comes.\r\n\r\nThat doesn't mean I'm not happy about VSCode in the Store. I just don't like the way the store is being treated and used.\r\n\r\nApps from the store used to mean safety, reliability, stability, thorough uninstall and centralized control over apps and updates. Allowing any installer to work could mean a break of every item I just listed. I doesn't mean all installers and apps are evil and do things wrong, but it mean they can. Back to square one I guess, regards how much I like and trust the Windows Store.\r\n",
+      "user":"kelps"
+    },
+    {
+      "comment":"@kelps The problem is that developers (including certain Microsoft apps!) are reluctant to move to the [MSIX/MSIX Core* packaging standard](https://github.com/microsoft/msix-packaging)\r\n\r\n*Note that MSIX Core supports even Windows 7",
+      "user":"just1a-person"
+    },
+    {
+      "comment":"How about moving to msi now? I already shared a per user and per machine installer in one msi.",
+      "user":"alexhass"
+    },
+    {
+      "comment":"> http://github.com/microsoft/vscode/issues/10759#issuecomment-903125453\r\n\r\nI am believing that [bothering to convert the installer to MSI instead of MSIX is foolish](http://github.com/microsoft/vscode/issues/10759#issuecomment-902815973).",
+      "user":"BEEDELLROKEJULIANLOCKHART"
+    },
+    {
+      "comment":"Nope. Msi is the only installer I can deploy in enterprise via ad. Other installers are not supported for ad deployment. It is the defacto standard from microsoft. The current installer is not deployable.\r\n\r\nMsix is a different techology that is very limitiong.",
+      "user":"alexhass"
+    },
+    {
+      "comment":"> ... this won't use MS Store as an updater, ...\n\nIn other words this issue is now partly resolved.",
+      "user":"filiphsandstrom"
+    },
+    {
+      "comment":"Looks like the Store installer is blocked by Windows Defender on my machine.\r\n\r\n![image](https://user-images.githubusercontent.com/8758566/131277013-1c33c6a2-45b9-41a0-a4e6-765154103eb5.png)\r\n\r\n![image](https://user-images.githubusercontent.com/8758566/131277110-1a8f3ba1-4795-46d0-b36d-d2e07af87fe6.png)\r\n\r\n\r\n\r\n\r\n",
+      "user":"stdgeodesic"
+    },
+    {
+      "comment":"VSCode in Microsoft Store doesn't add \"Open With Code\" action to context menu. ",
+      "user":"nguyenduyminhthong"
+    },
+    {
+      "comment":"> VSCode in Microsoft Store doesn't add \"Open With Code\" action to context menu.\r\n\r\nNeither does the VS Code Coding Packs as this is a feature that is not set by default in the installer.",
+      "user":"VladPutinEu"
+    },
+    {
+      "comment":"Given `Open with Code` not enabled by default (and Windows Store installation is essentially an unattended install), it sounds like this would be better treated as an altogether separate issue since currently outside of the installer there doesn't appear to be a way to enable this.\r\n\r\nhttps://github.com/microsoft/vscode/issues/134470",
+      "user":"Silic0nS0ldier"
+    },
+    {
+      "comment":"The page returned from searching https://apps.microsoft.com/store/apps for \"vscode\" or \"visual studio code\" is https://apps.microsoft.com/store/detail/visual-studio-code/XP9KHM4BK9FZ7Q but it has no content populated due to JS errors.\r\n\r\nSuch errors are not present on other pages. ex: https://apps.microsoft.com/store/detail/python-39/9P7QFQMJRFP7\r\n\r\nSeparate Issue created https://github.com/microsoft/vscode/issues/147710",
+      "user":"RichardBronosky"
+    }
+  ],
+  "repository":"vscode",
+  "user":"filiphsandstrom"
+}

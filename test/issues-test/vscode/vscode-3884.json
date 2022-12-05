@@ -1,0 +1,662 @@
+{
+  "comments":[
+    {
+      "comment":"Config is stored in `~/.config/Code[ - <quality>]/User`. To match platform conventions (lowercase and hyphens for everything) as well as to keep consistency with the cli `code[-<quality>]` I propose we change the settings directory one of:\r\n- `~/.config/code[-<quality>]/user`\r\n- `~/.vscode[-<quality>]` (see https://github.com/Microsoft/vscode/issues/3883)\r\n- `~/.code[-<quality>]` (to prevent using 'vs' showing up in the OSS build as it is now)\r\n\r\nIf we moved this it would probably require some discovery/migration on first launch of a newer version.\r\n\r\n---\r\n\r\nThe below is a living document.\r\n\r\n## Proposed folder structure\r\n\r\nNotes:\r\n\r\n- I don't think we should be encouraging the use of admin rights within vscode, instead a permissions elevation dialog would probably be better than allowing a specific place for root user data #5561\r\n- I want to clean up the whole `code` vs `vscode` thing in this change; only official builds should carry the visual studio branding, that should carry over to the config directories consistently as well.\r\n- The CLI args `--user-data-dir` and `--extensions-dir` will need to be adjusted for this, something like `--config-dir` and `--cache-dir` would probably be better.\r\n\r\n### Windows\r\n\r\n**Old**\r\n\r\n```\r\nSettings:                %APPDATA%\\Code[ - Variant]\\User\\settings.json\r\nKeybindings:             %APPDATA%\\Code[ - Variant]\\User\\keybindings.json\r\nSnippets:                %APPDATA%\\Code[ - Variant]\\User\\snippets\\\r\nWorkspace storage:       %APPDATA%\\Code[ - Variant]\\User\\workspaceStorage\\\r\nChromium user data:      %APPDATA%\\Code[ - Variant]\\\r\nExtensions:              %USERPROFILE%\\.vscode[-variant]\\extensions\\\r\n```\r\n\r\n**New**\r\n\r\n```\r\nSettings:                %APPDATA%\\Microsoft\\[Visual Studio ]Code[ - Variant]\\settings.json\r\nKeybindings:             %APPDATA%\\Microsoft\\[Visual Studio ]Code[ - Variant]\\keybindings.json\r\nSnippets:                %APPDATA%\\Microsoft\\[Visual Studio ]Code[ - Variant]\\snippets\\\r\nWorkspace storage:       %LOCALAPPDATA%\\Microsoft\\[Visual Studio ]Code[ - Variant]\\workspaceStorage\\\r\nChromium user data:      %LOCALAPPDATA%\\Microsoft\\[Visual Studio ]Code[ - Variant]\\userdata\\\r\nExtensions:              %LOCALAPPDATA%\\Microsoft\\[Visual Studio ]Code[ - Variant]\\extensions\\\r\n```\r\n\r\nNotes:\r\n\r\n- Note that `%APPDATA%` is roaming and `%LOCALAPPDATA%` is local, meaning extensions ***will not*** be carried across multiple machines until a solution is devised for #15442. An extension manifest, eg. `%APPDATA%\\Microsoft\\[Visual Studio ]Code[ - Variant]\\extensions.json` which automatically installs extensions is my thinking of solving this problem.\r\n\r\n### Linux\r\n\r\n**Old**\r\n\r\n```\r\nSettings:                $HOME/.config/Code[ - Variant]/User/settings.json\r\nKeybindings:             $HOME/.config/Code[ - Variant]/User/keybindings.json\r\nSnippets:                $HOME/.config/Code[ - Variant]/User/snippets/\r\nWorkspace storage:       $HOME/.config/Code[ - Variant]/User/workspaceStorage/\r\nChromium user data:      $HOME/.config/Code[ - Variant]/\r\nExtensions:              $HOME/.vscode[-variant]/extensions/ (not moving)\r\n```\r\n\r\n**New**\r\n\r\n\r\n```\r\nSettings:                $XDG_CONFIG_HOME/[vs]code[-variant]/settings.json\r\nKeybindings:             $XDG_CONFIG_HOME/[vs]code[-variant]/keybindings.json\r\nSnippets:                $XDG_CONFIG_HOME/[vs]code[-variant]/snippets/\r\nWorkspace storage:       $XDG_CACHE_HOME/[vs]code[-variant]/workspaceStorage/\r\nChromium user data:      $XDG_CACHE_HOME/[vs]code[-variant]/userdata/\r\nExtensions:              $XDG_CACHE_HOME/[vs]code[-variant]/extensions/\r\n```\r\n\r\nNotes:\r\n\r\n- Thanks to @ollie27 and others for calling out the [XDG Base Directory Specification](https://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html), see that document for fallbacks to the environment variables.\r\n- `$XDG_CACHE_HOME` would be best for extensions provided there is an extensions manifest in `$XDG_CONFIG_HOME` #15442.\r\n- Maybe extensions should live in `$XDG_DATA_HOME`?\r\n\r\n### Mac\r\n\r\n**Old**\r\n\r\n```\r\nSettings:                $HOME/Library/Application Support/Code[ - Variant]/User/settings.json\r\nKeybindings:             $HOME/Library/Application Support/Code[ - Variant]/User/keybindings.json\r\nSnippets:                $HOME/Library/Application Support/Code[ - Variant]/User/snippets/\r\nWorkspace storage:       $HOME/Library/Application Support/Code[ - Variant]/User/workspaceStorage/\r\nChromium user data:      $HOME/Library/Application Support/Code[ - Variant]/\r\nExtensions:              $HOME/.vscode[-variant]/extensions/ (not moving)\r\n```\r\n\r\n**New**\r\n\r\n```\r\nSettings:                $HOME/Library/Application Support/[Visual Studio ]Code[ - Variant]/settings.json\r\nKeybindings:             $HOME/Library/Application Support/[Visual Studio ]Code[ - Variant]/keybindings.json\r\nSnippets:                $HOME/Library/Application Support/[Visual Studio ]Code[ - Variant]/snippets/\r\nWorkspace storage:       $HOME/Library/Application Support/[Visual Studio ]Code[ - Variant]/workspaceStorage/\r\nChromium user data:      $HOME/Library/Application Support/[Visual Studio ]Code[ - Variant]/userdata/\r\nExtensions:              $HOME/Library/Application Support/[Visual Studio ]Code[ - Variant]/extensions/\r\n```\r\n\r\nNotes:\r\n\r\n- Is there a similar standard for dividing cache and config files on Mac? http://stackoverflow.com/a/5084892/1156119",
+      "user":"Tyriar"
+    },
+    {
+      "comment":"I wonder if we should do this before GA. Besides the summary, I also do not like that we have 2 folders, one for application data and one for extensions. Ideally we have one folder for both.\n",
+      "user":"bpasero"
+    },
+    {
+      "comment":"It was a little confusing when I was writing my script that automates my config to discover there were 2 config folders. If this is going to be done I vote for `~/.code[-<quality>]` so that it matches the executable name.\n",
+      "user":"Tyriar"
+    },
+    {
+      "comment":"I am more worried about the migration than finding a name :)\n",
+      "user":"bpasero"
+    },
+    {
+      "comment":"I also don't get why there are two folders. Afaik `.vscode` only includes one subfolder, `extensions`. Why not simply put settings in `.vscode` aswell?\n\nI also like `.vscode` more than `.code`, Visual Studio stuff is also in `.vs` and it is less ambiguous.\n",
+      "user":"felixfbecker"
+    },
+    {
+      "comment":"While fiddling with the config directories it might be worth tackling a portable version at the same time https://github.com/Microsoft/vscode/issues/329\n",
+      "user":"Tyriar"
+    },
+    {
+      "comment":"Not for GA.\n",
+      "user":"bpasero"
+    },
+    {
+      "comment":"Btw the largest chunk of stuff in app date is created by Chrome itself and is used for local storage, index db, etc. It would be easy to migrate and move our settings out of that folder, I am worried about migrating the rest...\n",
+      "user":"bpasero"
+    },
+    {
+      "comment":"@bpasero what are your thoughts on getting this in for April? My experience with playing around with user data to date is that it seems fairly contained and can be moved without any issues.\n\nThe reason I want to do this soon is I'd like to have a set root user data dir as one is required to run under `sudo` (https://github.com/Microsoft/vscode/issues/5561). That would mean that instead of:\n- `~/.vscode`\n- `~/.config/Code`\n- `~/.config/Code-Root`\n\nWe could have\n- `~/.vscode`\n- `~/.vscode/user-data`\n- `~/.vscode/user-data-root`\n\nFor migration something like this should work in `main.js`:\n\n```\nif the regular config dir does not exists\n  if the old config dir does exist\n    copy the old config dir to the new location\n```\n",
+      "user":"Tyriar"
+    },
+    {
+      "comment":"@Tyriar happy to accept a PR on such a change and migration.\n",
+      "user":"bpasero"
+    },
+    {
+      "comment":"@Tyriar ah nice, did not see your PR until now!\n",
+      "user":"bpasero"
+    },
+    {
+      "comment":"Given my feedback, I am not suggesting to do this so late in the milestone.\n",
+      "user":"bpasero"
+    },
+    {
+      "comment":"@Tyriar any update on the current status? Thanks!\n",
+      "user":"sarbbottam"
+    },
+    {
+      "comment":"@sarbbottam still planned for May release.\n",
+      "user":"Tyriar"
+    },
+    {
+      "comment":"Going to push back to July as I was too busy with Linux packaging improvements early this month.\n",
+      "user":"Tyriar"
+    },
+    {
+      "comment":"eagerly waiting for this ... 🐱  \n",
+      "user":"sarbbottam"
+    },
+    {
+      "comment":"**Below is out of date, please see [the top comment](https://github.com/Microsoft/vscode/issues/3884#issue-139391403) for the latest**\n\nSo I'm going to move forward with this as:\n\n```\n<root_settings>/settings.json\n<root_settings>/keybindings.json\n<root_settings>/snippets/\n<root_settings>/extensions/\n<root_settings>/userdata/\n<root_settings>/rootuserdata/\n<root_settings>/workspaceStorage/\n```\n\nWhere `<root_settings>` is the parent of the [extension directory]:\n- Windows*: `%APPDATA%\\Microsoft\\Visual Studio Code[ - Variant]`\n- Linux**: `$HOME/.vscode[- variant]`\n- Mac**: `$HOME/.vscode[- variant]`\n\n\\* The folder name used is actually `nameLong` from the `product.json` (eg. `Code - OSS`, `Visual Studio Code`, `Visual Studio Code - Insiders`, etc.)\n\n*\\* The folder name used is actually `dataFolderName` from the `product.json` (eg. `.vscode-oss`, `.vscode`, `.vscode-insiders`, etc.)\n\nRelated issues:\n- Windows roaming improvements will be partially done, moving extensions to %LOCALAPPDATA% but not creating an extension manifest of anything, meaning extensions will not carry across different machines on a corporate network.\n- Automatic selection of the root user data directory (#5561) will be included with the `rootuserdata` directory\n- I want to clean up the whole `code` vs `vscode` thing in this change.\n\nHere is the complete picture:\n\n### Windows\n\n**Old**\n\n```\nSettings:                %APPDATA%\\Code[ - Variant]\\User\\settings.json\nKeybindings:             %APPDATA%\\Code[ - Variant]\\User\\keybindings.json\nSnippets:                %APPDATA%\\Code[ - Variant]\\User\\snippets\\\nWorkspace storage:       %APPDATA%\\Code[ - Variant]\\User\\workspaceStorage\\\nChromium user data:      %APPDATA%\\Code[ - Variant]\\\nChromium root user data: (manually specified)\nExtensions:              %USERPROFILE%\\.vscode[-variant]\\extensions\\\n```\n\n**New**\n\nNote that `%APPDATA%` is roaming and `%LOCALAPPDATA%` is local, meaning extensions **_will not**_ be carried across multiple machines until a solution is devised for #7035.\n\n```\nSettings:                %APPDATA%\\Microsoft\\[Visual Studio ]Code[ - Variant]\\settings.json\nKeybindings:             %APPDATA%\\Microsoft\\[Visual Studio ]Code[ - Variant]\\keybindings.json\nSnippets:                %APPDATA%\\Microsoft\\[Visual Studio ]Code[ - Variant]\\snippets\\\nWorkspace storage:       %LOCALAPPDATA%\\Microsoft\\[Visual Studio ]Code[ - Variant]\\workspaceStorage\\\nChromium user data:      %LOCALAPPDATA%\\Microsoft\\[Visual Studio ]Code[ - Variant]\\userdata\\\nChromium root user data: %LOCALAPPDATA%\\Microsoft\\[Visual Studio ]Code[ - Variant]\\rootuserdata\\\nExtensions:              %LOCALAPPDATA%\\Microsoft\\[Visual Studio ]Code[ - Variant]\\extensions\\\n```\n\n### Linux\n\n**Old**\n\n```\nSettings:                $HOME/.config/Code[ - Variant]/User/settings.json\nKeybindings:             $HOME/.config/Code[ - Variant]/User/keybindings.json\nSnippets:                $HOME/.config/Code[ - Variant]/User/snippets/\nWorkspace storage:       $HOME/.config/Code[ - Variant]/User/workspaceStorage/\nChromium user data:      $HOME/.config/Code[ - Variant]/\nChromium root user data: (manually specified)\nExtensions:              $HOME/.vscode[-variant]/extensions/ (not moving)\n```\n\n**New**\n\nThanks to @ollie27 and others for calling out the [XDG Base Directory Specification](https://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html), see that document for fallbacks to the environment variables.\n\n```\nSettings:                $XDG_CONFIG_HOME/[vs]code[-variant]/settings.json\nKeybindings:             $XDG_CONFIG_HOME/[vs]code[-variant]/keybindings.json\nSnippets:                $XDG_CONFIG_HOME/[vs]code[-variant]/snippets/\nWorkspace storage:       $XDG_CACHE_HOME/[vs]code[-variant]/workspaceStorage/\nChromium user data:      $XDG_CACHE_HOME/[vs]code[-variant]/userdata/\nChromium root user data: $XDG_CACHE_HOME/[vs]code[-variant]/rootuserdata/\nExtensions*:             $XDG_CACHE_HOME/[vs]code[-variant]/extensions/\n```\n\n\\* `$XDG_DATA_HOME` may be a better candidate for extensions, my thinking is putting it in `$XDG_CACHE_HOME` and eventually having an `extensions.json` in `$XDG_CONFIG_HOME` which details a list of extensions to be installed.\n\n### Mac\n\n**Old**\n\n```\nSettings:                $HOME/Library/Application Support/Code[ - Variant]/User/settings.json\nKeybindings:             $HOME/Library/Application Support/Code[ - Variant]/User/keybindings.json\nSnippets:                $HOME/Library/Application Support/Code[ - Variant]/User/snippets/\nWorkspace storage:       $HOME/Library/Application Support/Code[ - Variant]/User/workspaceStorage/\nChromium user data:      $HOME/Library/Application Support/Code[ - Variant]/\nChromium root user data: (manually specified)\nExtensions:              $HOME/.vscode[-variant]/extensions/ (not moving)\n```\n\n**New**\n\n```\nSettings:                $HOME/Library/Application Support/[Visual Studio ]Code[ - Variant]/settings.json\nKeybindings:             $HOME/Library/Application Support/[Visual Studio ]Code[ - Variant]/keybindings.json\nSnippets:                $HOME/Library/Application Support/[Visual Studio ]Code[ - Variant]/snippets/\nWorkspace storage:       $HOME/Library/Application Support/[Visual Studio ]Code[ - Variant]/workspaceStorage/\nChromium user data:      $HOME/Library/Application Support/[Visual Studio ]Code[ - Variant]/userdata/\nChromium root user data: $HOME/Library/Application Support/[Visual Studio ]Code[ - Variant]/rootuserdata/\nExtensions:              $HOME/Library/Application Support/[Visual Studio ]Code[ - Variant]/extensions/\n```\n",
+      "user":"Tyriar"
+    },
+    {
+      "comment":"@Tyriar This was probably a typo within the GitHub reply and you may have already noticed this, but within the \"complete picture\" the snippets and extensions paths have been swapped for all platforms:\n\nSnippets: %USERPROFILE%.vscode[-variant]\\extensions\\\nExtensions: %LOCALAPPDATA%.vscode[-variant]\\snippets\\\n\nJust making sure...\n",
+      "user":"QuietusPlus"
+    },
+    {
+      "comment":"@QuietusPlus thanks, I posted a little early. I just fixed up a few issues including this one. I also changed the format of the Windows setting directory to match platform standards.\n",
+      "user":"Tyriar"
+    },
+    {
+      "comment":"I'd appreciate any feedback on the above proposal. The main open questions I have currently are:\n- Where is the standard place for application config on OS X? Should we use `$HOME/Library/Application Support/Visual Studio Code[ - Variant]/` instead of `$HOME/.vscode[-variant]`? (As per @joaomoreno's comment https://github.com/Microsoft/vscode/issues/7035#issuecomment-222618737, I'm using application support above)\n- Should we take this opportunity to cull the 'vs' from `.vscode[-variant]` in the open source builds? ie. change:\n  \n  ``` json\n  \"dataFolderName\": \".vscode-oss\",\n  \"win32MutexName\": \"vscodeoss\", // This too?\n  ```\n  \n  to \n  \n  ``` json\n  \"dataFolderName\": \".code-oss\",\n  \"win32MutexName\": \"codeoss\",\n  ```\n- Whether everything else sounds good.\n\n/cc @joaomoreno @bpasero @rebornix \n",
+      "user":"Tyriar"
+    },
+    {
+      "comment":"```\nWorkspace storage:       %APPDATA%\\Microsoft\\Visual Studio Code[ - Variant]\\workspaceStorage\\\nChromium user data:      %APPDATA%\\Microsoft\\Visual Studio Code[ - Variant]\\userdata\\\nChromium root user data: %APPDATA%\\Microsoft\\Visual Studio Code[ - Variant]\\rootuserdata\\\n```\n\nWhat is in these folders?  Can they grow unboundedly or are they basically just \"settings\" type things?  If they can grow unboundedly (e.g., a cache folder, a build output directory, plugins folder, etc.) then they should probably go in `%LOCALAPPDATA%`.\n\nI'm curious why the names are different on Linux?  In Linux, is there a convention to not use spaces in folder names?  If so, then I support the difference.\n",
+      "user":"MicahZoltu"
+    },
+    {
+      "comment":"Thanks @Zoltu, I changed user data folders to be `%LOCALAPPDATA%` as they are Chromium's data dirs and contain a bunch of files. My `Cache` directory inside the user data directory is 187mb for example. Workspace storage is just a few small json files. The only problem with this is that local storage will no longer roam, not sure all the implications of this but popups that the user told to not show again will show up again on a new machine.\n\nIn Linux for user-specific configurations it's common practice to keep them in a dir with a dot on the front which means they will be hidden by default. All lowercase with hyphens is also standard for files/folders on Linux.\n",
+      "user":"Tyriar"
+    },
+    {
+      "comment":"Here is to hoping that the Chromium stuff behaves well when its folders randomly disappear between runs.  :)\n",
+      "user":"MicahZoltu"
+    },
+    {
+      "comment":"One thing I find weird is that you nest the `Visual Studio Code` folder under a `Microsoft` folder. The big Visual Studio simply installs to `C:\\Program Files\\Microsoft Visual Studio`, I think VS Code should do it the same way (don't nest, but prefix).\n\nI really really like this whole clean-up, especially with moving to appdata on Windows and dropping the `User` folder (as this is already in the user's personal folder)\n",
+      "user":"felixfbecker"
+    },
+    {
+      "comment":"cc @Microsoft/vscode: please review @Tyriar's proposal\n",
+      "user":"joaomoreno"
+    },
+    {
+      "comment":"+100 for moving data from `$HOME/.vscode*`to `$HOME/Library/Application Support/Visual Studio Code*`.\n\nFiles and folders starting with a '.' are by default not visible in the OS X Finder and need special treatment when navigating into them whereas `$HOME/Library/Application Support/` is just a normal folder (after making it visible once).\n",
+      "user":"weinand"
+    },
+    {
+      "comment":"@felixfbecker I'm on my phone at the moment so finding a link is difficul but I believe that the Microsoft recommendation is to nest in a vendor folder (`Microsoft` in this case).  I believe Visual Studio (full) is doing it wrong by not nesting.  There is an article on MSDN somewhere that specifies best practice for this stuff.\n",
+      "user":"MicahZoltu"
+    },
+    {
+      "comment":"@Tyriar not sure if roaming is Windows only, but Workspace storage should be in local app data and not room. We don't room the workspace so additional data associated with a workspace in workspace storage shouldn't room either.\n",
+      "user":"dbaeumer"
+    },
+    {
+      "comment":"@dbaeumer thanks, moved workspace storage to `%LOCALAPPDATA%`.\n",
+      "user":"Tyriar"
+    },
+    {
+      "comment":"Another open question for @bpasero: what is `%APPDATA%\\Code - Insiders\\storage.json` and why isn't that using localStorage? It just looks like yet another place for PC-specific settings to be dumped. Is this where localStorage is moving?\n",
+      "user":"Tyriar"
+    },
+    {
+      "comment":"@Tyriar There are two other processes that don't have access to local storage: the main and the shared process.\n\nI also have to suggest to not call `workspaceStorage` but simply `storage`. There is a need to have global storage that can be accessed globally, not just scoped by workspaces. Global storage currently is a big mess, but we should build a foundation upon which to proceed.\n",
+      "user":"joaomoreno"
+    },
+    {
+      "comment":"@joaomoreno but there is also a storage.json which will likely be going into the same folder as workspaceStorage.json. Cleaning up that side of things after this would be good.\n",
+      "user":"Tyriar"
+    },
+    {
+      "comment":"Pushing out to August as the start of this month was largely spent gathering requirements. Please comment if you have any concerns with the direction before then.\n",
+      "user":"Tyriar"
+    },
+    {
+      "comment":"This is getting pushed out beyond August due to relative low priority compared to my other issues.\n",
+      "user":"Tyriar"
+    },
+    {
+      "comment":"On Linux I think we should continue to follow the [XDG Base Directory Specification](https://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html). So use `$XDG_CONFIG_HOME` (`~/.config/`), `$XDG_CACHE_HOME` (`~/.cache/`) and `$XDG_DATA_HOME` (`~/.local/share/`). I'm not completely sure how best to separate the directories but something like the following might work:\n\n```\nSettings:                $XDG_CONFIG_HOME/vscode[-variant]/settings.json\nKeybindings:             $XDG_CONFIG_HOME/vscode[-variant]/keybindings.json\nSnippets:                $XDG_CONFIG_HOME/vscode[-variant]/snippets/\nWorkspace storage:       $XDG_DATA_HOME/vscode[-variant]/workspaceStorage/\nChromium user data:      $XDG_CACHE_HOME/vscode[-variant]/userdata/\nChromium root user data: $XDG_CACHE_HOME/vscode[-variant]/rootuserdata/\nExtensions:              $XDG_DATA_HOME/vscode[-variant]/extensions/\n```\n",
+      "user":"ollie27"
+    },
+    {
+      "comment":"100% agree with ollie27. Dumping stuff in the home directory is bad. Please use XDG directories.\n",
+      "user":"ghost"
+    },
+    {
+      "comment":"Well for Windows settings might get saved in the registry then instead 😄 \n",
+      "user":"felixfbecker"
+    },
+    {
+      "comment":"Why is it being proposed to move away from the XDG Base Directory standard on Linux environments? I agree with @ollie27 .\n",
+      "user":"kaleb"
+    },
+    {
+      "comment":"@ollie27 `$XDG_CONFIG_HOME` is not actually set on Ubuntu 16.04, where would you expect to be used in this case?\n",
+      "user":"Tyriar"
+    },
+    {
+      "comment":"@Tyriar like is currently done (https://github.com/Microsoft/vscode/blob/746f66a6e7c164a6b920b439c23865f16b9a9b03/src/paths.js#L14) it would fall back to `~/.config`. The defaults are described on https://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html.\n",
+      "user":"ollie27"
+    },
+    {
+      "comment":"I think we should use electron's [`app.getPath('appData')`](https://github.com/electron/electron/blob/master/docs/api/app.md#appgetpathname)\n\nwhich resolves to:\n- `appData` Per-user application data directory, which by default points to:\n  - `%APPDATA%` on Windows\n  - `$XDG_CONFIG_HOME` or `~/.config` on Linux\n  - `~/Library/Application Support` on macOS\n",
+      "user":"octref"
+    },
+    {
+      "comment":"@octref vscode defines that, the result of the discussion will determine what to set `appData` as. https://github.com/Microsoft/vscode/blob/2f76c44632b0d47ba97f66fbc158c763628e30b3/src/paths.js#L10\n",
+      "user":"Tyriar"
+    },
+    {
+      "comment":"Guys, I would like to vote to see this issue resolved . Specifically, having User/workspaceStorage being pulled from User.. This will enable users to share the same settings among multiple workstations using dropbox or similar cloud clients. Today this is hard to do because  workspaceStorage  takes hundreds of megabytes and it's also specific per workstation.\n",
+      "user":"romange"
+    },
+    {
+      "comment":"@romange there is an extension that syncs your settings and extensions.\n",
+      "user":"felixfbecker"
+    },
+    {
+      "comment":"@romange After the eventual change, `settings.json` will still be a sibling of `workspaceStorage` and the user data directory, etc. So that wouldn't help either. I suggest trying out the sync extension or writing some scripts to manage it yourself.\n",
+      "user":"Tyriar"
+    },
+    {
+      "comment":"Thanks for the tip - using sync extension is great, thanks!\n",
+      "user":"romange"
+    },
+    {
+      "comment":"Would rather not use an extension - I have a system for syncing my stuff (especially configs inside XDG_CONFIG_HOME) and would prefer that it fits into that system. Also, glad that the conversation moved away from using the folder `.code` - please, keep it `.vscode` or something equally descriptive. We don't have namespaces here so it's up to application developers to be responsible.\n\nI don't see why it wouldn't just use `$XDG_CONFIG_HOME` if set and than fall back to the `$HOME`, the way that Git and various other applications handle the situation.\n",
+      "user":"jcrben"
+    },
+    {
+      "comment":"I moved the proposal to the original issue comment and updated:\n- The Linux structure\n- The fact that `vs` and `Visual Studio` may be optional depending on the build type\n- Removed the root data directory all together as a permission elevation prompt is a better way of solving that problem\n",
+      "user":"Tyriar"
+    },
+    {
+      "comment":"To clarify, I would be happiest if my macOS also placed the configs into XDG_CONFIG_HOME if I set the variable.\n\nIf not, can there be custom environment variables so that I use to make my configs the same location on Linux and macOS?\n\nXDG_CONFIG_HOME (and other xdg directory variables) is a neat way to make your apps behave more nicely cross-platform.\n",
+      "user":"jcrben"
+    },
+    {
+      "comment":"@jcrben you can already set this using the CLI:\n\n```\n  --user-data-dir <dir>       Specifies the directory that user data is kept\n                              in, useful when running as root.\n  --extensions-dir <dir>      Set the root path for extensions.\n```\n\nSo you could do:\n\n```\ncode --user-data-dir $XDG_CONFIG_HOME --extensions-dir $XDG_CONFIG_HOME\n```\n\nThis will currently lump all files (even non-config files) into the directory though which may not be desirable. I'll call out in the original comment that the CLI will also need to be amended, we would definitely want to align with [whatever the platform recommends](http://stackoverflow.com/a/5084892/1156119) by default though.\n",
+      "user":"Tyriar"
+    },
+    {
+      "comment":"Note that Git respects XDG_CONFIG_HOME when set on macOS just fine - there is no disadvantage to respecting the environment variable if set.\r\n\r\nI see that there's a CLI way to customize the location, but how about an an environment variable? That seems more typical and less clunky.",
+      "user":"jcrben"
+    },
+    {
+      "comment":"@Tyriar I went ahead and use the CLI flags. of course it's not ideal - it means that I have to be careful not to open the editor through the Finder or Spotlight - I use the terminal 95% of the time anyhow so that's not a huge deal. this is why an environment variable is superior.",
+      "user":"jcrben"
+    },
+    {
+      "comment":"Could I turn your attention to files in ``~/.config/VSCode/Cache/*``? If I understand XDG specification correctly, then these should be under ``$XDG_CACHE_HOME/vscode``, which translates on my Linux to ``~/.cache/vscode``. Separation of caches and true configuration was one of the main motivations behind XDG specification at all (because of backups; cache is defined as something which doesn’t need to be backed up).",
+      "user":"mcepl"
+    },
+    {
+      "comment":"@mcepl in my proposal above the cache dir would be under here:\r\n\r\n```\r\nChromium user data:      $XDG_CACHE_HOME/[vs]code[-variant]/userdata/\r\n```",
+      "user":"Tyriar"
+    },
+    {
+      "comment":"@tyriar It makes no sense calling\r\n\r\n```\r\ncode --user-data-dir $XDG_CONFIG_HOME --extensions-dir $XDG_CONFIG_HOME\r\n```\r\n\r\nWe need to just write `code` and it opens.\r\nThis config should be somehow global.",
+      "user":"giggio"
+    },
+    {
+      "comment":"> @mcepl in my proposal above the cache dir would be under here:\r\n\r\nYes, that’s correct, I just felt it somehow got lost in other proposals.",
+      "user":"mcepl"
+    },
+    {
+      "comment":"Current situation (default clean install):\r\n\r\n- `~/.vscode` is used for extensions.\r\n- `~/.config/Code/` is created and everything else is stored in there; the problem is that `CachedData` and `Cache` are quickly filled with MBs of cache data. `GPUCache` is also annoying there. This makes it tedious to make back-ups.\r\n\r\nProposed changes, in order of importance:\r\n\r\n- Do NOT save extensions in `~/.vscode` (maybe use `$XDG_DATA_HOME` or `$XDG_CONFIG_HOME` ?)\r\n- Move `CachedData`, `Cache` and `GPUCache` to `.cache` (i.e. `$XDG_CACHE_HOME`)\r\n- Maybe rename `Code` to `vscode` to avoid confusion (this is not very necessary, IMHO).\r\n- In particular, use the following schema (proposed by @ollie27 and others):\r\n```\r\nSettings:                $XDG_CONFIG_HOME/vscode[-variant]/settings.json\r\nKeybindings:             $XDG_CONFIG_HOME/vscode[-variant]/keybindings.json\r\nSnippets:                $XDG_CONFIG_HOME/vscode[-variant]/snippets/\r\nWorkspace storage:       $XDG_DATA_HOME/vscode[-variant]/workspaceStorage/\r\nChromium user data:      $XDG_CACHE_HOME/vscode[-variant]/userdata/\r\nChromium root user data: $XDG_CACHE_HOME/vscode[-variant]/rootuserdata/\r\nExtensions:              $XDG_DATA_HOME/vscode[-variant]/extensions/\r\n```",
+      "user":"japm48"
+    },
+    {
+      "comment":"Why not just specify a settings.json file on the command line that specifies all these folder paths?",
+      "user":"Arlen22"
+    },
+    {
+      "comment":"@Arlen22 Because that would not work when opened with the default icons, it would create a mess with simultaneous duplicate configs (this is a problem on every platform). Also, it would have to be done manually after every install.",
+      "user":"japm48"
+    },
+    {
+      "comment":"There would be a default file included in the program files, I suppose, which would be loaded if nothing is specified on the command line, and would contain the defaults. Not sure what you mean by simultaneous duplicate configs, but I thought that was the point. \r\n\r\nActually, this would be very useful for portable installs and would allow the user to customize which caches and settings he wants in which directories. I should add that it should allow paths relative to the `settings.json` file. ",
+      "user":"Arlen22"
+    },
+    {
+      "comment":"Can we have something like https://github.com/atom/atom/issues/6349 ?\r\n\r\nI work at a company where our `$HOME` is mounted on a shared NFS and its limited to 200mb. VS Code takes up all that space (Cache + Config). \r\n\r\nI don't know if there are other people with this same issue, but might still be a good solution (once and for all settling this debate)\r\n",
+      "user":"sysarcher"
+    },
+    {
+      "comment":"Hey there!\r\n\r\nFor anybody who is trying to set all the VSCode stuff to use a different `--user-data-dir` and/or `--extensions-dir` on Windows, you need to change a few things:\r\n\r\n-  \\<InstallDir>\\bin\\code.cmd --> change the call from \r\n`call \"%~dp0..\\Code.exe\" \"%~dp0..\\resources\\app\\out\\cli.js\" %*`\r\nto e.g. `call \"%~dp0..\\Code.exe\" \"%~dp0..\\resources\\app\\out\\cli.js\" --user-data-dir O:\\VSCodeData\\ --extension-dir O:\\VSCodeExtensions\\ %*`\r\n-  Edit the shortcut in the start menu via right click --> Properties --> Details --> Target and change it to\r\n    `\"C:\\Program Files\\Microsoft VS Code\\Code.exe\" --user-data-dir \"O:\\VSCodeData\" --extensions-dir \"O:\\VSCodeExtensions\"`\r\n- edit the registry at\r\n    - HKEY_CLASSES_ROOT\\\\*\\shell\\VSCode\\command --> Default to `\"C:\\Program Files\\Microsoft VS Code\\Code.exe\" \"%1\" --user-data-dir \"O:\\VSCodeData\" --extensions-dir \"O:\\VSCodeExtensions\"`\r\n      ![image](https://user-images.githubusercontent.com/4921147/37820614-803ce1ea-2e81-11e8-9c51-990c7b440851.png)\r\n      This change is used for right clicking any file in Windows Explorer and having the \"Open with Code\" context menu entry\r\n\r\n    - HKEY_CLASSES_ROOT\\Directory\\background\\shell\\VSCode\\command --> Default to `\"C:\\Program Files\\Microsoft VS Code\\Code.exe\" \"%V\" --user-data-dir \"O:\\VSCodeData\" --extensions-dir \"O:\\VSCodeExtensions\"`\r\n      ![image](https://user-images.githubusercontent.com/4921147/37820737-e0e5b1ca-2e81-11e8-9f78-65a0217fa036.png)\r\n      this change affects right clicking on a directoy in Windows Explorer\r\n\r\n    - HKEY_CLASSES_ROOT\\Directory\\shell\\VSCode\\command --> Default to `\"C:\\Program Files\\Microsoft VS Code\\Code.exe\" \"%V\" --user-data-dir \"O:\\VSCodeData\" --extensions-dir \"O:\\VSCodeExtensions\"`\r\n      ![image](https://user-images.githubusercontent.com/4921147/37820685-b98535e2-2e81-11e8-872e-0949e1027b1d.png)\r\n      This change affects right clicking the blank background of a directory openend in Windows Explorer\r\n\r\nThis way you get VSCode to recon you `--user-data-dir` and `--extensions-dir` when calling from the command line, via right-clicking and from the start menu.\r\n\r\nThose customizations need to be redone after each update of VSCode unfortunately.",
+      "user":"vuchl"
+    },
+    {
+      "comment":"~/.vscode still exists as as a storage space for extentions. This should be changed to the corresponding XDG location.",
+      "user":"ghost"
+    },
+    {
+      "comment":"I have run ``sudo code --user-data-dir=~/.vscode/data-root``, but after that i tried to fun ``sudo code .``, and that tip showed agian。\r\nThen I tried ``sudo code --user-data-dir=~/.vscode/data-root .``, nothing happend.\r\n\r\n**OS**: Ubuntu\r\n**OS Verstion**: 17.10\r\n**VSCode Verstion**: 1.19.1\r\n",
+      "user":"shockw4ver"
+    },
+    {
+      "comment":"Does anyone have an update on the status of this? \r\nTo add my 2 cents: We use network based Linux home areas, so being able to separate the different _types_ of data to local disk (cache) and home area (config) by simply defining environment variables would be very useful. This separation is important for both performance & (limiting) data backup.",
+      "user":"bdeeming"
+    },
+    {
+      "comment":"@vuchl \r\nor someone else who knows .... \r\n\r\ni try to distribiute VSCode with SCCM, and i am searching a solution to hold down the Roaming Profile, because it's restricted.\r\n\r\nyour suggestions for --user-data-dir and/or --extensions-dir to a unresticted Homedirectory seams quite nice, but i don't find the regestry Keys in Win7.\r\nThe RegKeys you mentiond are basing on whitch WinOS?\r\n\r\nyour Keys:\r\nHKEY_CLASSES_ROOT*\\shell\\VSCode\\command\r\nHKEY_CLASSES_ROOT\\Directory\\background\\shell\\VSCode\\command\r\nHKEY_CLASSES_ROOT\\Directory\\shell\\VSCode\\command\r\n\r\ni have got:\r\nHKEY_CLASSES_ROOT\\vscode\\shell\\open\\command\r\nHKEY_CLASSES_ROOT\\VSCodeSourceFile\\shell\\open\\command\r\nHKEY_CURRENT_USER\\Software\\Classes\\vscode\\shell\\open\\command\r\nHKEY_LOCAL_MACHINE\\SOFTWARE\\Classes\\VSCodeSourceFile\\shell\\open\\command\r\n\r\nwhich regkeys should i change for the distributionpackage\r\n\r\nWin7 Enterprise SP1 64bit\r\n\r\nwith kind regards\r\nTottobauer",
+      "user":"TheBauerShell"
+    },
+    {
+      "comment":"@tottobauer1972 \r\nI updated my comment and added some screenshots. Go check it out",
+      "user":"vuchl"
+    },
+    {
+      "comment":"@vuchl \r\nOK, i cleand my regestry from all entries for vscode.\r\nI Installed vscode Version 1.21.1 and .. \r\nyeppee ... i found your entrys, ...\r\noh.. and some more.\r\n\r\n\r\n[HKEY_CLASSES_ROOT\\Drive\\shell\\VSCode\\command]\r\n+\r\neach language is registred for VSCode in the Regestry - omg\r\nmore than 100 entries.\r\n\r\nI have to correct them too???\r\n\r\n\r\nA way much more easy could be to add a installparameter for the Product. \r\nso everybody can choose a diffrent Folder to store the user-datas and extentions.\r\n\r\nPerhabs a new feature for VSCode?\r\n\r\nwith kind regards\r\nTottobauer\r\n\r\n\r\n\r\n\r\n\r\n",
+      "user":"TheBauerShell"
+    },
+    {
+      "comment":"Ich find The regestry entries. Bitte after instaling Version 1.21 Theresa are a lot of more entries for vscode. Have ich total Edith thease too?\n\nFreundlichen Gruß\nThorsten Bauer\n\n________________________________\nFrom: Sebastian <notifications@github.com>\nSent: Friday, March 23, 2018 10:12:18 AM\nTo: Microsoft/vscode\nCc: tottobauer1972; Mention\nSubject: Re: [Microsoft/vscode] Revisit VS Code folder structure for app data, settings, extensions (#3884)\n\n\n@tottobauer1972<https://github.com/tottobauer1972>\nI updated my comment and added some screenshots. Go check it out\n\n—\nYou are receiving this because you were mentioned.\nReply to this email directly, view it on GitHub<https://github.com/Microsoft/vscode/issues/3884#issuecomment-375588503>, or mute the thread<https://github.com/notifications/unsubscribe-auth/Aj6dyiOVui8e_mBLhn-PGxgmHVnm6FCKks5thLxygaJpZM4HsJQN>.\n",
+      "user":"TheBauerShell"
+    },
+    {
+      "comment":"@tottobauer1972 nice try qwith the german 🤣 \r\n\r\nI actually don't know. Where do I find the entries?",
+      "user":"vuchl"
+    },
+    {
+      "comment":"@vuchl \r\nSorry ... i am german, but the spellchecker/autocorrector on my phone was not changed to english. so i sent a terrible text. :)\r\nit would be much easyer for me to write my questions in german ;)\r\n\r\n\r\ni can find the entries for example here:\r\n\r\n[HKEY_CLASSES_ROOT\\VSCode.ascx\\shell\\open\\command]\r\n[HKEY_CLASSES_ROOT\\VSCode.markdown\\shell\\open\\command]\r\n[HKEY_CLASSES_ROOT\\VSCode.jsp\\shell\\open\\command]\r\n[HKEY_CLASSES_ROOT\\VSCode.mdtxt\\shell\\open\\command]\r\n\r\n\r\n\r\n",
+      "user":"TheBauerShell"
+    },
+    {
+      "comment":"@tottobauer1972 \r\nI do not have those registry keys here. But I have those two:\r\n```\r\nHKEY_CLASSES_ROOT\\vscode\\*\r\nHKEY_CLASSES_ROOT\\VSCodeSourceFile\\*\r\n```\r\n![image](https://user-images.githubusercontent.com/4921147/38080577-2b0705c8-3342-11e8-9fd2-b5ef100fa1e7.png)\r\n\r\nI don't know if the keys you mentioned are maybe relicts from old versions or some thing. Or from file associations.\r\n\r\n",
+      "user":"vuchl"
+    },
+    {
+      "comment":"@tottobauer1972, It seems like those registry keys should be related to VSCode being set as the default program for those file types, although I'm not sure. But that is what \"shell\\open\\command\" usually means.",
+      "user":"Arlen22"
+    },
+    {
+      "comment":"The ~/.config/Code/Cache, ~/.config/Code/CachedData and ~/.config/Code/User/workspaceStorage directories are  3 GB large for me, and it's being backed up for no reason. Would be great to move it to XDG_CACHE_DIR (or at least add a [CACHEDIR.TAG](http://www.brynosaurus.com/cachedir/spec.html) file)",
+      "user":"phiresky"
+    },
+    {
+      "comment":"It is sad to see this issue abandoned like that.",
+      "user":"giggio"
+    },
+    {
+      "comment":"@giggio it would be closed if it was abandoned, it's just other things are more important right now, this issue is a lot of work relatively and the team's resources are limited.",
+      "user":"Tyriar"
+    },
+    {
+      "comment":"@Tyriar I get the priorization, but we have 44 👍 and this issue is already 2 years old. It would be nice to at least plan for it. People coming from other editors are used to have this just working.",
+      "user":"giggio"
+    },
+    {
+      "comment":"@giggio 44 👍puts it on the 6th page of the ordered query https://github.com/Microsoft/vscode/issues?page=6&q=is%3Aissue+is%3Aopen+sort%3Areactions-%2B1-desc\r\n\r\nAlso I've already outlined a rough plan above which I think is still mostly relevant, it just needs more 👍's and/or someone on the team to free up for it.",
+      "user":"Tyriar"
+    },
+    {
+      "comment":"This issue should be a higher priority. VS Code is not following the XDG Directory Specification. Configuration files must go in `$XDG_CONFIG_HOME` or `$XDG_DATA_HOME`. VS Code should not create or use any folders in the root of the home directory (such as `~/.vscode`).",
+      "user":"aaronfranke"
+    },
+    {
+      "comment":"In my opinion, all 3 locations should be used. The extensions folder in .vscode should be moved to `$XDG_DATA_HOME` (default: `~/.local/share`) and user-editable configuration to `$XDG_CONFIG_HOME` (default: `~/.config`). Chromium data can be left in `$XDG_CACHE_HOME` (default: `~/.cache`).",
+      "user":"abhnvkmr"
+    },
+    {
+      "comment":"@abhnvkmr added a note in the proposal",
+      "user":"Tyriar"
+    },
+    {
+      "comment":"@Tyriar we are on the second page now, on the ordered query for 👍 .\r\nIs it time now to schedule someone to work on it?\r\n\r\nhttps://github.com/Microsoft/vscode/issues?page=2&q=is%3Aissue+is%3Aopen+sort%3Areactions-%2B1-desc\r\n",
+      "user":"giggio"
+    },
+    {
+      "comment":"@giggio it certainly helps, there's plenty still ahead of it though.",
+      "user":"Tyriar"
+    },
+    {
+      "comment":"@Tyriar is there any chance your PR gets a second look maybe after the summer? You had already put in a lot of the work it seemed, or is this issue back into the voting pool.",
+      "user":"tristan957"
+    },
+    {
+      "comment":"@tristan957 oh I never had a PR, just a bunch of investigation and discussion. Some clean up is going to happen in https://github.com/microsoft/vscode/issues/76590, but I don't think this will get on the plan for a while at least because it's a bunch of work to setup migration and make sure nothing breaks as that would be very bad.",
+      "user":"Tyriar"
+    },
+    {
+      "comment":"Up - any progress on this?",
+      "user":"kiprasmel"
+    },
+    {
+      "comment":"Any Update on this? Our company needs to regulate the user's roaming profile size, but the Roaming/Code/ takes a lot of space.  Thanks",
+      "user":"raytangRT"
+    },
+    {
+      "comment":"vscode does not follow microsofts recommendation, not linux recommendation, not macosX recommendation, and is for developers who should follow recommendations :)\r\n\r\nfor linux:\r\n- https://wiki.archlinux.org/index.php/XDG_Base_Directory\r\n- https://wiki.archlinux.org/index.php/XDG_user_directories\r\n",
+      "user":"soloturn"
+    },
+    {
+      "comment":"the seemingly random places VSCode and its extension will place cache data is really annoying for backups. I've already added these to my backup excludes:\r\n\r\n```\r\n~/.config/Code*/Cache\r\n~/.config/Code*/CachedData\r\n~/.config/Code*/GPUCache\r\n```\r\n\r\nBecause they contained gigabytes of \"trash\".\r\n\r\nBut yesterday my backup size increased by 1.2GB because of more random stuff in\r\n~/.config/Code*/User/workspaceStorage/*/ms-vscode.cpptools/.browse.VC.db\r\n\r\nI have no idea whether workspaceStorage might include useful stuff (like unsaved files or workspace configurations?) or just caches, so I don't know whether I can exclude it or not.\r\n\r\nThen there's more stuff that's put into `~/.vscode-oss` instead of `~/.config/Code - OSS` for some reason.\r\n",
+      "user":"phiresky"
+    },
+    {
+      "comment":"A note on [flatpak](https://flatpak.org/):\r\n\r\nSimply put, flatpak sandbox the filesystem so the home folder appears to be `XDG_HOME/.var/app/com.visualstudio.code.oss/` however because flatpak also provides/implements XDG base directory even the flatpak version of VS Code would benefit from respecting the specification. Tools like [Déjä Dup](https://wiki.gnome.org/Apps/DejaDup) (the default backup software on Ubuntu) already exclude flatpak aplications caches. See https://gitlab.gnome.org/World/deja-dup/issues/51#note_636161\r\n\r\nMeanwhile you might want to exclude\r\n\r\n```\r\n~/.var/app/com.visualstudio.code*/config/Code*/Cache\r\n~/.var/app/com.visualstudio.code*/config/Code*/GPUCache\r\n~/.var/app/com.visualstudio.code*/config/Code*/CachedData\r\n~/.var/app/com.visualstudio.code*/config/Code*/Code\\ Cache\r\n~/.var/app/com.visualstudio.code*/config/Code*/CachedExtensions\r\n```\r\n\r\nShould work with both [Visual Studio Code](https://flathub.org/apps/details/com.visualstudio.code.oss) and [Visual Studio Code OSS](https://flathub.org/apps/details/com.visualstudio.code.oss) flatpaks.\r\n\r\n",
+      "user":"sonnyp"
+    },
+    {
+      "comment":"**This should not be considered as it goes against the standard and is just from one of the DAU 😆**\r\n\r\nTLDR: On Windows, the config (`settings.json`) should be moved to the user directory (`C:\\Users\\<Username>\\.vscode`) instead of being buried somewhere else ( `C:\\User\\<Username>\\AppData\\Roaming\\Code\\User`)\r\n\r\nI just want to add my thought from a windows PC. I recently moved to a new PC and wanted to copy my settings. \r\nNormally every program with some user-specific settings creates its own folder (e.g. under `C:\\Users\\<Username>\\.vscode`, there are also folders and files like `.ssh`, `docker`, `.gitconfig`). So does VSCode and I happily copied the folder to the new PC - I thought. \r\n\r\nBut as I discovered after purging my old PC the `.vscode` folder only contains the `extensions` folder that seems to cache only the installed extensions. But VSCode saves the settings in `C:\\User\\<Username>\\AppData\\Roaming\\Code\\User` (Why?). \r\nPlease get this fixed, it doesn't make any sense. ",
+      "user":"DanielHabenicht"
+    },
+    {
+      "comment":"@DanielHabenicht Just because everyone else pees in the pool doesn't mean VSCode should also pee in the pool.  😄\r\n\r\nWindows has _very clear_ conventions on where the proper place to store things is and the roaming profile system _depends_ on people following those conventions to work correctly.  You are correct that many applications, especially those ported from Linux without giving any thought to Windows conventions, violate these conventions and this causes problems with roaming profiles (and other things).\r\n\r\nVSCode should _do the right thing_ rather than _do what other poorly ported Linux apps do_.",
+      "user":"MicahZoltu"
+    },
+    {
+      "comment":"@MicahZoltu ok, thanks for the information. I will rightfully withdraw my request. (Someone can mark it as offtopic if they want) :) \r\n\r\nBut there still is a `.vscode` folder in my user directory, so that should be removed then? ",
+      "user":"DanielHabenicht"
+    },
+    {
+      "comment":"@DanielHabenicht Yeah, this issue is for fixing that (among other things) and making VSCode correctly follow conventions on all platforms (it behaves badly on just about every platform).",
+      "user":"MicahZoltu"
+    },
+    {
+      "comment":"What's up with argv.json and why is it placed in `~/.vscode-oss/argv.json`?  https://github.com/microsoft/vscode/issues/84808",
+      "user":"billop"
+    },
+    {
+      "comment":"@billop argv.json exists so we can read it instead of loading the entire settings.json file as launching VS Code is blocked on reading this file. As for why it was decided to be put at .vscode-oss/ and not user data I don't know, maybe because we relying on Chromium creating the user data dir and it doesn't launch yet?",
+      "user":"Tyriar"
+    },
+    {
+      "comment":"I just closed my ticket reference above, but I'd like to know on any recommended convention on where to store user-managed (! extension-managed) data for each extension.\r\n\r\nI'm asking this as I believe AppData, 'Application Support' or XDG-defined folders are mostly managed by each app, without expecting direct access by users. I wish I can use ~/.vscode/extensions/<name>/ for user-managed files for clarity. I do see the 'pee in the pool' comment above, but there are good reasons why this tradition survived and still ongoing, I believe.",
+      "user":"tai"
+    },
+    {
+      "comment":"@Tyriar \r\n\r\nI am facing the folder structure. \r\n\r\n1. I went to `C:\\Users\\gusbe\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\VSCode Insiders\\Visual Studio Code - Insiders`, which is a shortcut/symlink.\r\n2. I open the file properties and modified from the original target `\"D:\\gusbe\\Applications\\VSCode Insiders\\Code - Insiders.exe\"` to `\"D:\\gusbe\\Applications\\VSCode Insiders\\Code - Insiders.exe\" --extensions-dir=\"D:\\gusbe\\.vscode-insiders\\extensions\" --user-data-dir=\"D:\\gusbe\\.vscode-settings\"`\r\n\r\nIt works if I open normally.\r\n\r\nBut if I open any file or folder, clicking with the right button of the mouse to select \"Open with VSCode Insiders\", it will open with different something, i.e., it does not open with that option `extensions-dir=\"D:\\gusbe\\.vscode-insiders\\extensions\" --user-data-dir=\"D:\\gusbe\\.vscode-settings\"`.\r\n\r\nAlso observe that after each update, it will restore VSCode's shortcut to original target. ",
+      "user":"gusbemacbe"
+    },
+    {
+      "comment":"@gusbemacbe \r\n\r\n> But if I open any file or folder, clicking with the right button of the mouse to select \"Open with VSCode Insiders\", it will open with different something\r\n\r\nThe open with shortcut doesn't include the paths you configured in the main shortcut?\r\n\r\n> Also observe that after each update, it will restore VSCode's shortcut to original target.\r\n\r\nYou'd be better off creating your own separate shortcuts if you want to avoid this.",
+      "user":"Tyriar"
+    },
+    {
+      "comment":"> The open with shortcut doesn't include the paths you configured in the main shortcut?\r\n\r\nYes, it is.\r\n\r\n> You'd be better off creating your own separate shortcuts if you want to avoid this.\r\n\r\nOK, I will try to use `mklink`.\r\n\r\nIs it possible to set Remote WSL as default run option without depending on the workspace?",
+      "user":"gusbemacbe"
+    },
+    {
+      "comment":"> Is it possible to set Remote WSL as default run option without depending on the workspace?\r\n\r\nYou could always launch vscode from a WSL terminal which would do this?",
+      "user":"Tyriar"
+    },
+    {
+      "comment":"> You could always launch vscode from a WSL terminal which would do this?\r\n\r\nYes, I do, but I want to open VSCode with Remote WSL automatically and normally **_without_** from terminal. ",
+      "user":"gusbemacbe"
+    },
+    {
+      "comment":"@gusbemacbe I'm not aware of a way then.",
+      "user":"Tyriar"
+    },
+    {
+      "comment":"I made `mklinks`, symlinking from D: (`.vscode-insiders/extensions` and `Code - Insiders` to C:, and open the file with it, and it worked. \r\n\r\n```\r\nmklink /D %USERPROFILE%\\.vscode-insiders \"D:\\gusbe\\.vscode-insiders\"\r\nmklink /D %USERPROFILE%\\AppData\\Roaming\\\"Code - Insiders\" \"D:\\gusbe\\.vscode-settings\"\r\n```\r\n\r\n> @gusbemacbe I'm not aware of a way then.\r\n\r\nToo bad. With the option `\"window.restoreWindows\": \"one\"` enabled, the workspace automatically open Remote WSL but it does not open any folders or files I click and open with. ",
+      "user":"gusbemacbe"
+    },
+    {
+      "comment":"I can't believe this hasn't been fixed in over FOUR YEARS.",
+      "user":"Alumniminium"
+    },
+    {
+      "comment":"Can this be re-revisited? I feel this is not taken seriously enough",
+      "user":"AlexAegis"
+    },
+    {
+      "comment":"@Alumniminium Not saying it's good, but it's very common for this to happen. Most open source projects still have bugs open from the year they were released... IMO it's pretty sad.",
+      "user":"aaronfranke"
+    },
+    {
+      "comment":"Really? Four years? Dotfile clutter is so annoying, and an application as new as this should have followed XDG from the beginning.\r\n\r\nI don't care if I have to set an environment variable to move it like the extensions directory, but that .vscode/argv.json is extremely annoying.",
+      "user":"praetorxyn"
+    },
+    {
+      "comment":"> Exactly. A new application should follow the regulations since it was first built, but VS Code didn't... Furthermore, this issue will be harder and harder to fix as more Components are being added...\r\n> \r\n> Actually, applications of JetBrains also had similar problem before, but they solved at the beginning of 2020 (version 2020.1), although they used couple of years as well. Hopefully, I will see this issue is solved one day before I have a girlfriend.😂\r\n\r\nRight there with you with the lack of girlfriend at least.\r\n\r\nThe odd thing is, I don't think this would be that hard to fix. I took a look at the latest code, and in src/main.js:232 we have this function:\r\n```js\r\nfunction readArgvConfigSync() {\r\n\r\n  // Read or create the argv.json config file sync before app('ready')\r\n  const argvConfigPath = getArgvConfigPath();\r\n  let argvConfig;\r\n  try {\r\n    argvConfig = JSON.parse(stripComments(fs.readFileSync(argvConfigPath).toString()));\r\n  } catch (error) {\r\n    if (error && error.code === 'ENOENT') {\r\n      createDefaultArgvConfigSync(argvConfigPath);\r\n    } else {\r\n      console.warn(`Unable to read argv.json configuration file in ${argvConfigPath}, falling back to defaults (${error})`);\r\n    }\r\n  }\r\n\r\n  // Fallback to default\r\n  if (!argvConfig) {\r\n    argvConfig = {\r\n      'disable-color-correct-rendering': true // Force pre-Chrome-60 color profile handling (for https://github.com/Microsoft/vscode/issues/51791)\r\n    };\r\n  }\r\n\r\n  return argvConfig;\r\n}\r\n```\r\nThe pertinent bits are line 235:\r\n```js\r\n  const argvConfigPath = getArgvConfigPath();\r\n```\r\nand line 241:\r\n```js\r\ncreateDefaultArgvConfigSync(argvConfigPath);\r\n```\r\nThis call actually creates the directory that is annoying us, as far as I can tell, so what we need to do is change the directory it's creating.\r\n\r\nSo let's take a look at getArgvConfigPath, line 316:\r\n```js\r\nfunction getArgvConfigPath() {\r\n  const vscodePortable = process.env['VSCODE_PORTABLE'];\r\n  if (vscodePortable) {\r\n    return path.join(vscodePortable, 'argv.json');\r\n  }\r\n\r\n  let dataFolderName = product.dataFolderName;\r\n  if (process.env['VSCODE_DEV']) {\r\n    dataFolderName = `${dataFolderName}-dev`;\r\n  }\r\n\r\n  return path.join(os.homedir(), dataFolderName, 'argv.json');\r\n}\r\n```\r\nSo we have the home directory joined with dataFolderName, which is product.dataFolderName.\r\n```js\r\n  let dataFolderName = product.dataFolderName;\r\n```\r\nThen, in product.json:5 we have:\r\n```json\r\n  \"dataFolderName\": \".vscode-oss\",\r\n```\r\nThis explains why with Code OSS you'd get ~/.vscode-oss/argv.json; I'm not sure where it gets modified into ~/.vscode/argv.json for the VS Code build.\r\nSo it looks like it would be sufficient to change the os.homedir to the proper XDG one:\r\nin main.js:\r\n```js\r\n  return path.join(process.env[\"XDG_DATA_HOME\"], dataFolderName, \"argv.json\")\r\n```\r\nObviously except with a proper check for the variable and a default if not there, equivalent to the shell expression ${XDG_DATA_HOME:-$HOME/.local/share}, which I haven't done here.\r\nNot that I've done a build on it, but that's what I found after looking for 5 minutes.",
+      "user":"praetorxyn"
+    },
+    {
+      "comment":"The hard part isn't changing the path.  The hard part is figuring out what the migration path for existing users is, and coding that up in a way that is robust and well tested in all scenarios.",
+      "user":"MicahZoltu"
+    },
+    {
+      "comment":"My go to way for backwards compatibility is to check the old location first and use that if some files exist there. It can make the code a bit messy when some files that were at one single location are spread over three folders now, but apart from that I don't see any real downsides.",
+      "user":"piegamesde"
+    },
+    {
+      "comment":"> The hard part isn't changing the path. The hard part is figuring out what the migration path for existing users is, and coding that up in a way that is robust and we'll tested in all scenarios.\r\n\r\nThat's a non-issue, and a frequent excuse for \"won't fix\" on XDG compliance in older programs. There are multiple solutions:\r\n1. First check if the older directory exists, and if it does, use that; this way, people that don't care can simply go about their day, but people who do care can move the directory to .local/share and have it still work without cluttering their $HOME.\r\n2. Always default to the old location, but use the new one if it exists. I think this is what git does; Normally if you run ```git config --global user.name <Name>``` on a new system, it will create ~/.gitconfig, but if you run ```mkdir ~/.config/git && touch ~/.config/git/config``` before running the same, it will use that instead.\r\n3. Just leave the code as is on the older dir, but put in a new if check for an environment variable. This is what GPG does, for instance; if $GNUPGHOME is defined, your GPG keys and such will go there, but if not the default is still ~/.gnupg.\r\n4. Default to the new location, and then let VS Code do exactly what it does now on first run: if it can't find the directory / file there, have it create them. This way, the new directory is still there in the right place, but the old one would be there, and either need to be removed as part of the same creation process or manually deleted by the user.\r\n5. Have it check if the old directory exists, and if it does, move it to ${XDG_DATA_HOME:-$HOME/.local/share}.\r\n\r\nThe code I posted above isn't exactly full proof either. Really we'd need to check if ${XDG_DATA_HOME:-$HOME/.local/share} exists, and use that if it does, but otherwise (like on Windows) keep using os.homedir, or maybe move it to wherever settings are kept on Windows.\r\n\r\nOverall, number 5 there would be the best solution, and the one that would require extensive testing as you said. But if they aren't going to invest much time, any of the other 4 would work and barely require testing at all in comparison.",
+      "user":"praetorxyn"
+    },
+    {
+      "comment":"> I just closed my ticket reference above, but I'd like to know on any recommended convention on where to store user-managed (! extension-managed) data for each extension.\r\n> \r\n> I'm asking this as I believe AppData, 'Application Support' or XDG-defined folders are mostly managed by each app, without expecting direct access by users. I wish I can use ~/.vscode/extensions// for user-managed files for clarity. I do see the 'pee in the pool' comment above, but there are good reasons why this tradition survived and still ongoing, I believe.\r\n\r\nEh, not really. The \"tradition\" became a thing because there was no XDG specification on Unix/Linux, and somebody just came up with the idea of dumping things under ~, and everyone started copying that behavior. Some of the oldest ones, like CUPS and SSH, are still like that to this day with \"won't fix\" on the Issues people have created asking for XDG compliance because the developers simply don't care about this (and in the case of ~/.ssh, so many other things expect your SSH keys to be there it would probably break some stuff unless all those were updated first). Then, when these get ported to Windows they just go into the same place without regard to Windows' standards for where configuration settings / user data should go.\r\n\r\nThere isn't really a good reason at all to just hard-code ~/.anything for a path. Nor should configuration and data be mixed, as for example, you'd have to exclude the data portion from dotfile repositories in git or backups because you don't want extra Gigabytes of data in those places, etc. I'm in alignment with the comment above saying there should just be an extension manifest extensions.json (similar to package.json for npm) saved in configuration that would just install the extensions you had before if you moved to a new machine and ran for the first time.",
+      "user":"praetorxyn"
+    },
+    {
+      "comment":"Note I added XDG compliance to vscode-restclient. The pattern that I used for the problem could probably work quite well for VSCode, which has already been mentioned in this thread. The hardest part is just determining what should go in cache and what should go in config.",
+      "user":"tristan957"
+    },
+    {
+      "comment":"> Note I added XDG compliance to vscode-restclient. The pattern that I used for the problem could probably work quite well for VSCode, which has already been mentioned in this thread. The hardest part is just determining what should go in cache and what should go in config.\r\n\r\nI'd say it's determining what should go in cache and what should go in data, but yes. Config seems pretty straightforward; if it's a text file storing configuration, put it in config; otherwise it doesn't belong there.",
+      "user":"praetorxyn"
+    },
+    {
+      "comment":"Don't forget out XDG_DATA_HOME.\r\n\r\nAs a rule of thumb, everything that the user can freely delete goes to XDG_CACHE_HOME / %TEMP%. Stuff that is not set by the program, (or at max defaults it), like settings go to XDG_CONFIG_HOME / %APPDATA% so the user can persist it (copy over, git, whatever), everything else: XDG_DATA_HOME / %LOCALAPPDATA%.",
+      "user":"AlexAegis"
+    },
+    {
+      "comment":"> Don't forget out XDG_DATA_HOME.\r\n> \r\n> As a rule of thumb, everything that the user can freely delete goes to XDG_CACHE_HOME / %TEMP%. Stuff that is not set by the program, (or at max defaults it), like settings go to XDG_CONFIG_HOME / %LOCALAPPDATA% so the user can persist it (copy over, git, whatever), everything else: XDG_DATA_HOME. Sadly on windows there isn't a straight equivalent but you can just use a different subdirectory under %LOCALAPPDATA%\r\n\r\nI thought %APPDATA% was the equivalent of XDG_CONFIG_HOME and %LOCALAPPDATA% was the equivalent to XDG_DATA_HOME?\r\n\r\nAppdata/roaming seems appropriate for configuration (roaming profiles), and Appdata/local seems appropriate for data (stuff that a user may or may not want to transfer to new machines).",
+      "user":"praetorxyn"
+    },
+    {
+      "comment":"Corrected!",
+      "user":"AlexAegis"
+    },
+    {
+      "comment":"> ---8<---8<---\r\n> The odd thing is, I don't think this would be that hard to fix. I took a look at the latest code, and in src/main.js:232 we have this function:\r\n> This call actually creates the directory that is annoying us, as far as I can tell, so what we need to do is change the directory it's creating.\r\n> \r\n> So let's take a look at getArgvConfigPath, line 316:\r\n> \r\n> ```js\r\n> function getArgvConfigPath() {\r\n>   const vscodePortable = process.env['VSCODE_PORTABLE'];\r\n>   if (vscodePortable) {\r\n>     return path.join(vscodePortable, 'argv.json');\r\n>   }\r\n> \r\n>   let dataFolderName = product.dataFolderName;\r\n>   if (process.env['VSCODE_DEV']) {\r\n>     dataFolderName = `${dataFolderName}-dev`;\r\n>   }\r\n> \r\n>   return path.join(os.homedir(), dataFolderName, 'argv.json');\r\n> }\r\n> ```\r\n> \r\n> So we have the home directory joined with dataFolderName, which is product.dataFolderName.\r\n> \r\n> ```js\r\n>   let dataFolderName = product.dataFolderName;\r\n> ```\r\n> \r\n> Then, in product.json:5 we have:\r\n> \r\n> ```json\r\n>   \"dataFolderName\": \".vscode-oss\",\r\n> ```\r\n> \r\n> This explains why with Code OSS you'd get ~/.vscode-oss/argv.json; I'm not sure where it gets modified into ~/.vscode/argv.json for the VS Code build.\r\n> ---8<---8<---\r\n\r\nJust to find out if anything \"bad\" will happen I've manually edited the `...\\Local\\Programs\\Microsoft VS Code\\resources\\app\\product.json` `dataFolderName` to point to the `%AppData%\\code` path in my installed stable branch VSCode to go along with my `VSCODE_EXTENSIONS` variable which also points there.\r\nUsed it for a good part of the evening, making a few workspace and doing remote sessions to WSL and no VSCode garbage in my Windows home path and no odd or strange things so far with extensions and file handling. 🤞 I'd guess if this works out that similar manipulations could work on other builds and setup for helping to identify possible issues with changing (to help alleviate some concerns with \"backward compatibility\").",
+      "user":"Thell"
+    },
+    {
+      "comment":"@Thell Can you provide more detailed instructions?  I tried following the instructions you provided and it didn't appear to do anything.",
+      "user":"MicahZoltu"
+    },
+    {
+      "comment":"Edit: See comment below this one.\r\n\r\n~~I spoke too soon, just make sure to quit VSCode first, and use `\\\\` for path separator (need to escape it since it is part of a JSON string).~~\r\n\r\n~~This is what I changed my entry to:~~\r\n```json\r\n\t\"dataFolderName\": \"%APPDATA%\\\\Code\\\\data\",\r\n\t\"serverDataFolderName\": \"%APPDATA%\\\\Code\\\\server-data\",\r\n```",
+      "user":"MicahZoltu"
+    },
+    {
+      "comment":"@MicahZoltu \r\nI didn't use a full path expansion on it since there is a `path.join` being done with `\"%USERPROFILE%\"` for the return value, so mine is `: \"AppData/Roaming/code\"`",
+      "user":"Thell"
+    },
+    {
+      "comment":"> > ---8<---8<---\r\n> > The odd thing is, I don't think this would be that hard to fix. I took a look at the latest code, and in src/main.js:232 we have this function:\r\n> > This call actually creates the directory that is annoying us, as far as I can tell, so what we need to do is change the directory it's creating.\r\n> > So let's take a look at getArgvConfigPath, line 316:\r\n> > ```js\r\n> > function getArgvConfigPath() {\r\n> >   const vscodePortable = process.env['VSCODE_PORTABLE'];\r\n> >   if (vscodePortable) {\r\n> >     return path.join(vscodePortable, 'argv.json');\r\n> >   }\r\n> > \r\n> >   let dataFolderName = product.dataFolderName;\r\n> >   if (process.env['VSCODE_DEV']) {\r\n> >     dataFolderName = `${dataFolderName}-dev`;\r\n> >   }\r\n> > \r\n> >   return path.join(os.homedir(), dataFolderName, 'argv.json');\r\n> > }\r\n> > ```\r\n> > \r\n> > \r\n> > So we have the home directory joined with dataFolderName, which is product.dataFolderName.\r\n> > ```js\r\n> >   let dataFolderName = product.dataFolderName;\r\n> > ```\r\n> > \r\n> > \r\n> > Then, in product.json:5 we have:\r\n> > ```json\r\n> >   \"dataFolderName\": \".vscode-oss\",\r\n> > ```\r\n> > \r\n> > \r\n> > This explains why with Code OSS you'd get ~/.vscode-oss/argv.json; I'm not sure where it gets modified into ~/.vscode/argv.json for the VS Code build.\r\n> > ---8<---8<---\r\n> \r\n> Just to find out if anything \"bad\" will happen I've manually edited the `...\\Local\\Programs\\Microsoft VS Code\\resources\\app\\product.json` `dataFolderName` to point to the `%AppData%\\code` path in my installed stable branch VSCode to go along with my `VSCODE_EXTENSIONS` variable which also points there.\r\n> Used it for a good part of the evening, making a few workspace and doing remote sessions to WSL and no VSCode garbage in my Windows home path and no odd or strange things so far with extensions and file handling. 🤞 I'd guess if this works out that similar manipulations could work on other builds and setup for helping to identify possible issues with changing (to help alleviate some concerns with \"backward compatibility\").\r\n\r\nThis is an interesting approach as well; it could work, but if the idea is to have this behave correctly on Windows and Linux I don' t think we can hard-code two different values for that directory there. I still think what I proposed seems more \"correct\" if Microsoft actually wanted to address this or someone wanted to submit a Pull Request for it (I would have, but I am barely familiar with the code and not familiar at all with the build / testing process, or how the VS Code pulls updates from updates to Code OSS, etc., and don't really have time to test it properly. I spent a bit of time looking at it and that's what jumped out at me, I figured someone familiar with the code would be better to test.",
+      "user":"praetorxyn"
+    },
+    {
+      "comment":"So, just had the latest update and, as expected, the `C:\\Users\\username\\AppData\\Local\\Programs\\Microsoft VS Code\\resources\\app\\product.json` was replaced _but_ during the whole time of using it it worked just fine so my opinion on it is that the `\"dataFolderName\"` (and `\"serverDataFolderName\"`?) would work just fine being picked up as either Env variables or from the installations respective `\"C:\\Users\\username\\AppData\\Roaming\\Code\\User\\settings.json\"` (`XDG_CONFIG_HOME` Code path).\r\n\r\nInterestingly enough, with Git for Windows if you set a windows Env variable as `XDG_CONFIG_HOME: %APPDATA%` and make a `Git` folder and put your config in there then `git config --global` will use it just fine. :)",
+      "user":"Thell"
+    },
+    {
+      "comment":"What seems to be the problem with moving `.vscode` out of the user profile root folder on Windows?",
+      "user":"duzenko"
+    },
+    {
+      "comment":"Can this be revisited @MicahZoltu ? It seems to be an important feature for many.",
+      "user":"Volatus"
+    },
+    {
+      "comment":"This issue should be resolved.",
+      "user":"nilscript"
+    },
+    {
+      "comment":"Sorry, but I'm tired of trash in my home directory",
+      "user":"ZerdoX-x"
+    },
+    {
+      "comment":"https://github.com/microsoft/vscode/issues/3884#issuecomment-633381238\r\n\r\n> … The hard part is figuring out what the migration path for existing users is, and coding that up in a way that is robust and well tested in all scenarios.\r\n\r\n👍 to the **test in all scenarios** aspect, which I should **not** assume will be _easy_. ",
+      "user":"grahamperrin"
+    },
+    {
+      "comment":"https://github.com/microsoft/vscode/issues/3884#issuecomment-633593223\r\n\r\n> … determining what should go in cache and what should go in config.\r\n\r\nhttps://github.com/microsoft/vscode/issues/3884#issuecomment-633657700\r\n\r\n> I'd say it's determining what should go in cache and what should go in data, but yes. …\r\n\r\n### Backups\r\n\r\nTrying to get my head around this. \r\n\r\nIf (say) a text file representation of an _UNSAVED_ file is removed (or lost) from the `~/.config/Code\\ -\\ OSS/Backups` directory, then can the unsaved data be found within `state.vscdb`? \r\n\r\n```text\r\n$ uname -sri\r\nFreeBSD 13.0-CURRENT GENERIC-NODEBUG\r\n$ cd ~/.config/Code\\ -\\ OSS/Backups/1579922206882/untitled\r\n$ ls -hl\r\ntotal 59\r\n-rw-r--r--  1 grahamperrin  grahamperrin   652B 19 Dec 11:24 0ea542ac1d82a4ad63b68365c0270c53\r\n-rw-r--r--  1 grahamperrin  grahamperrin   1.6K 19 Dec 11:24 109fbbd2da4537c9ab3475d44131d9f8\r\n-rw-r--r--  1 grahamperrin  grahamperrin   2.5K 19 Dec 11:24 2f0c80a5829bd778936522620f8dc240\r\n-rw-r--r--  1 grahamperrin  grahamperrin   317B 19 Dec 11:24 387795c86765346eca0c041bac00348b\r\n-rw-r--r--  1 grahamperrin  grahamperrin   902B 19 Dec 11:24 3e42341b68b5e3d2ec3af201cdb461a0\r\n-rw-r--r--  1 grahamperrin  grahamperrin   242B 19 Dec 11:24 5a4df22f62baaaa5684aacc5372f2b14\r\n-rw-r--r--  1 grahamperrin  grahamperrin   115B 19 Dec 11:24 8526d8318dcbce336eae5b633e7f2b20\r\n-rw-r--r--  1 grahamperrin  grahamperrin   4.4K 19 Dec 11:24 85a25ec2bf655a740ef43253dcde2851\r\n-rw-r--r--  1 grahamperrin  grahamperrin   329B 19 Dec 12:17 8b94e31373eaeb21bf3801f84812540a\r\n-rw-r--r--  1 grahamperrin  grahamperrin   551B 19 Dec 11:24 b2bd717a77da570a5c596af6934cadc7\r\n-rw-r--r--  1 grahamperrin  grahamperrin   538B 19 Dec 11:24 bba55dec34aadf10f7d0655859dd3ade\r\n-rw-r--r--  1 grahamperrin  grahamperrin   238B 19 Dec 11:24 d45b5ea50824ae45a6f3cae14bb85e07\r\n-rw-r--r--  1 grahamperrin  grahamperrin   184B 19 Dec 11:24 e5e5e2d9b68c3afbc119011b57046d5a\r\n$ grep -R BOOT_FRAMEBUFFER_MODE .\r\n./3e42341b68b5e3d2ec3af201cdb461a0:BOOT_FRAMEBUFFER_MODE=yes\r\n$ find ../../.. -name 3e42341b68b5e3d2ec3af201cdb461a0 -print\r\n../../../Backups/1579922206882/untitled/3e42341b68b5e3d2ec3af201cdb461a0\r\n$ find ../../.. -name 1579922206882 -print\r\n../../../Backups/1579922206882\r\n../../../User/workspaceStorage/1579922206882\r\n$ cd ../../../User/workspaceStorage/1579922206882/\r\n$ ls -hl\r\ntotal 73\r\n-rw-r--r--  1 grahamperrin  grahamperrin   140K 19 Dec 12:28 state.vscdb\r\n-rw-r--r--  1 grahamperrin  grahamperrin   140K 19 Dec 08:50 state.vscdb.backup\r\n$ grep -R BOOT_FRAMEBUFFER_MODE .\r\n$ strings state.vscdb | grep BOOT_FRAMEBUFFER_MODE\r\n$ strings state.vscdb | less\r\nSQLite format 3\r\n…\r\n```",
+      "user":"grahamperrin"
+    },
+    {
+      "comment":"I came to this issue via the referenced one above, and have this thought to add:\r\nWhile I don't know what the cache files entail (going to assume parsed header files), couldn't there be some savings by having caches for common/shared headers?\r\n\r\nFor example, if I create an STM32/Arduino project, making use of the STM32Cube/Arduino framework containing the drivers (headers included), cpptools will parse all the headers in the \"includes\" path ((common path) including the workspace (not common path)). That'll amount to hundreds of MB if not GB (1.1GB in particular for me for just one).\r\n\r\nThe workspace headers being parsed would not be common and would have their own cache, but the frameworks would be used among other projects and be considered \"common\" among them all and should have their own cache that is shared among the other projects referencing the same framework.",
+      "user":"vindicatorr"
+    },
+    {
+      "comment":"Any folder that is writable by multiple users must not be *trusted* by any user.  This makes shared writable directories fairly limited in utility unless you have some secondary mechanism for validating their contents (e.g., store a hash of the files on a per-user bases).  With the generally low cost of disks these days, most applications generally just duplicate the data in most cases.\r\n\r\nIf you do need a shared writable, I believe `ProgramData` meets that requirement?  Personally, I doubt it'll be worth the effort for the VSCode team to implement the necessary checks to securely utilize shared folders on a system though.",
+      "user":"MicahZoltu"
+    },
+    {
+      "comment":"I think you misunderstand.\r\nI'm not referring to \"shared\" as-in among other people, but shared frameworks used among different projects.\r\n\r\nTake the ~/.config/Code - Insiders/User/workspaceStorage/ path.\r\nEvery time, you start a new project (adding \"includePath\"s), a new workspace folder is generated, and the discovery/parsing for intellisense begins (I presume).\r\nIt's fine for that folder to be only for that project if there are no other common/shared includePaths used like /usr/include or whatever the path is to the STM32 framework. Also if that project is not a library for other projects.\r\nBut when you include a large framework which can increase the size of that workspace storage to 1GB+, then it lacks efficiency.\r\nI'm saying you create ANOTHER folder for that STM32/Arduino/large framework, do your magic for that in there.\r\nThen whenever any project needs to include that framework, the magic is already done in that large workspaceStorage folder, and doesn't need to be recreated in that new project workspaceStorage folder. And that new project's folder can simply reference that large parsed framework's folder.\r\n\r\nI hope that cleared up any confusion (and not added any more).",
+      "user":"vindicatorr"
+    },
+    {
+      "comment":"I'm probably still misunderstanding, but what you are describing sounds like a problem that would need to be solved at the language level, not the VSCode level?  That is, if you are building a TS app then it is TSC that would need to do cross-project caching, and similarly if you are building a Rust project then it is the Rust compiler that would need to do that caching.",
+      "user":"MicahZoltu"
+    },
+    {
+      "comment":"@vindicatorr Shared build artifacts are complex and a project on their own. I'd consider them out of scope for this issue, which is simply about moving a few things in order to honor the XDG basedir specification.\r\n\r\nWhat @MicahZoltu says; look at `sccache` for Rust for example.",
+      "user":"piegamesde"
+    },
+    {
+      "comment":"I thought https://github.com/microsoft/vscode-cpptools/issues/6725 was thinking this issue was a part of the scope. Maybe the issue I'm presenting is a bit more than just about folder location (issue with copied/unnecessary size, rather than .config/.cache), so I'll present it over it there.",
+      "user":"vindicatorr"
+    },
+    {
+      "comment":"Really need 2 simple things:\r\n\r\n- do not clutter  ` $HOME/`  with dofile (move ` ~/.vscode`  in any ` $XDG_...` )\r\n- do not clutter  ` $HOME/.config/`  I need to backup it :-) \r\n\r\nOK, looks like environment variable `VSCODE_PORTABLE` is doing what I want. I just set it to `~/.local/share/vscode`. Might not be the best idea, but still a satisfying improvement. \r\n\r\nWell, actually it is kind of a hack,  `VSCODE_PORTABLE` is not designed for that and User configuration should be in `~/.config`  as before.  I can do a link  ` ln -s ~/.config/Code/User $VSCODE_PORTABLE/user-data/User` but ...\r\n\r\nStill need a proper solution!",
+      "user":"BrunoVernay"
+    },
+    {
+      "comment":"Is this still being worked on?",
+      "user":"DeerSpotter"
+    },
+    {
+      "comment":"Could not launch vscode because it wants to store extensions in my home directory (which is write protected)\r\n![image](https://user-images.githubusercontent.com/49815452/119547324-674d2400-bdae-11eb-9529-e5af6f1f80f3.png)\r\n",
+      "user":"ZerdoX-x"
+    },
+    {
+      "comment":"@ZerdoX-x \r\n\r\nDoes this work? \r\n```bash\r\n# zshrc\r\n...\r\n\r\n# prevents vscode from storing extensions in the home directory (make sure the directory exists)\r\nexport VSCODE_EXTENSIONS=\"$XDG_CACHE_HOME/code/extensions\" \r\n# mkdir -p $VSCODE_EXTENSIONS\r\n\r\n# fix extensions icon not showing up in the Side Bar\r\nalias='code --extensions-dir $VSCODE_EXTENSIONS'\r\n\r\n...\r\n```",
+      "user":"ANGkeith"
+    },
+    {
+      "comment":"Could a sensible file storage please be the default so that screwing around with env variables and stuff is not needed. Following the XDG directory standard isn't that hard :unamused: ",
+      "user":"MazeChaZer"
+    },
+    {
+      "comment":"It would also be nice if string values of `WorkspaceConfiguration` automatically had environment variables recursively substituted by `vscode.workspace.getWorkspaceConfiguration`.\r\n\r\nFor example, `%USERPROFILE%` will expand to the Windows user's home directory (allowing 1 setting file for multiple usernames)\r\n\r\nRight now, I have hardcoded a number of environment variables in my settings.json",
+      "user":"ghost"
+    },
+    {
+      "comment":"For Linux, just to add, there's also $XDG_STATE_HOME for state files, .i.e. logs, history etc.\r\n\r\nAnd in my opinion extensions should go into $XDG_DATA_HOME instead of $XDG_CACHE_HOME\r\n\r\nYou don't want all extensions to start downloading again when you delete the contents of $XDG_CACHE_HOME (~/.cache).\r\n",
+      "user":"erlisdhima"
+    },
+    {
+      "comment":"It would be great if VSCode would support XDG_{DATA,CONFIG}_DIRS too, so that a package manager can be used to install configurations and extensions.\r\nIn particular this could enable, with nix, per project extensions",
+      "user":"pasqui23"
+    },
+    {
+      "comment":"Also extensions should be taken from $XDG_DATA_HOME/[vs]code[-variant]/extensions/ and from $XDG_DATA_DIRS/[vs]code[-variant]/extensions/\r\n\r\nSimilarly consider taking settings,keybindings and snippets from $XDG_CONFIG_DIRS/[vs]code[-variant]/ too.\r\n\r\n",
+      "user":"pasqui23"
+    },
+    {
+      "comment":"How is there not an environment variable to set this? This should be trivial no?",
+      "user":"mayurankv"
+    },
+    {
+      "comment":"There is --extension-dors,but it replace your default extensions dir and cannot be setted more than once",
+      "user":"pasqui23"
+    },
+    {
+      "comment":"If I'm understanding correctly that would need vscode to be started via commandline every time with this argument as opposed to an environment variable that could be set once in your shell profile and forgotten about? Forgive my ignorance as I'm not completely familiar with this type of thing but why wouldn't this be as simple as just replacing instances of ~/.vscode with $VSCODE_HOME or some other variable? It was done for VSCODE_EXTENSIONS if I'm not wrong?",
+      "user":"mayurankv"
+    },
+    {
+      "comment":"No the problem is that VSCODE_EXTENSIONS can only take one directory and vscode cannot use a list of directory for its extension dir",
+      "user":"pasqui23"
+    },
+    {
+      "comment":"As part of this, `argv.json` should also be moved out of `%USERPROFILE%/.vscode/argv.json` and into somewhere reasonable like everything else.",
+      "user":"MicahZoltu"
+    },
+    {
+      "comment":"I think there's a misunderstanding there - VSCODE_HOME sounds like a useful addition (if only for consistency) but wouldn't necessarily resolve this issue for all users at all? If I've understood this correctly (#84808)",
+      "user":"ghost"
+    },
+    {
+      "comment":"I think @mayurankv was suggesting that a `VSCODE_HOME` environment variable be added as a *far* simpler fix that would address the annoyance that many users feel at VS Code cluttering their filesystem and not respecting OS defaults.  The reason such a solution is far simpler is because it is opt-in and thus doesn't require any sort of migration strategy.  The solution proposed in this issue is certainly the right long term solution, but since it will be a change to default locations it requires a migration strategy which is likely the bulk of the work.",
+      "user":"MicahZoltu"
+    },
+    {
+      "comment":"> I think @mayurankv was suggesting that a `VSCODE_HOME` environment variable be added as a _far_ simpler fix that would address the annoyance that many users feel at VS Code cluttering their filesystem and not respecting OS defaults. The reason such a solution is far simpler is because it is opt-in and thus doesn't require any sort of migration strategy. The solution proposed in this issue is certainly the right long term solution, but since it will be a change to default locations it requires a migration strategy which is likely the bulk of the work.\r\n\r\nMigration is a lame excuse. I outlined multiple ways to deal with this in a comment that's since been hidden.\r\nWhile an environment variable is one of the strategies I suggested in a now-hidden comment to deal with migration, as a developer I don't really see how \"if CODE_HOME then use XDG locations\" is any more difficult than \"if $HOME/.vscode then move things to XDG locations.\"\r\n\r\nIt's also worth asking how big a deal migration is in the first place. VS Code could at least use the proper locations for new installs, and just respect the old locations if the user already has stuff there. That would be the least amount of work while making most people happy.",
+      "user":"praetorxyn"
+    },
+    {
+      "comment":"This is still an ongoing issue that we'd like to see some kind of resolution for.",
+      "user":"Volatus"
+    },
+    {
+      "comment":"> … existing …\r\n\r\nI should prefer subscribers to refrain from stating the obvious. The more space that is wasted – \r\n\r\n![image](https://user-images.githubusercontent.com/192271/147579874-d4e395b5-da46-4198-abf5-86942c626425.png)\r\n\r\n– the less attractive issues such as this become to people who might be prepared to resolve things. \r\n\r\nI'll eat my own words and hide this comment after posting. \r\n\r\nThank you",
+      "user":"grahamperrin"
+    },
+    {
+      "comment":"See #144028 for CACHEDIR.TAG ",
+      "user":"bohni"
+    },
+    {
+      "comment":"It's six years later, and the Windows version of Visual Studio Code is not following the rules for Windows applications. \r\n\r\nIt still dumping folders in the user's profile folder, rather than the correct %appdata% folder.\r\n\r\nAlong with every other piece of garbage:\r\n\r\n![image](https://user-images.githubusercontent.com/4681474/158599552-5e121386-be67-4d26-83f2-dea3b59001a2.png)\r\n",
+      "user":"JackTrapper"
+    },
+    {
+      "comment":"Fully agree.",
+      "user":"alexhass"
+    },
+    {
+      "comment":"> It's six years later, and the Windows version of Visual Studio Code is not following the rules for Windows applications.\r\n\r\nIt's really refreshing to see some equal-opportunity user hostility from Microsoft applications, usually I'm in the oft-ignored group of Linux pariahs complaining about basic functionality not working (*cough* Teams still can't reliably deliver messages to me in 2022 :roll_eyes: ).",
+      "user":"lhanson"
+    },
+    {
+      "comment":"> > It's six years later, and the Windows version of Visual Studio Code is not following the rules for Windows applications.\r\n> \r\n> It's really refreshing to see some equal-opportunity user hostility from Microsoft applications, usually I'm in the oft-ignored group of Linux pariahs complaining about basic functionality not working (_cough_ Teams still can't reliably deliver messages to me in 2022 🙄 ).\r\n\r\nIn past MS was really one of the most reliable vendors that had a very good QA process and quality. But since they started with the cloud - nothing works reliable anymore. It seems all to be beta/alpha quality products in a permanent change from one bug to the next. Software quality became a real mess.",
+      "user":"alexhass"
+    },
+    {
+      "comment":"And it looks like nobody at MS understands anymore how to build a good MSI setup that can be deployed in Enterprise. Same with roaming profiles... one idiot started to publish something wrong - he has not fully understood (e.g. redirected app data folders) and all developers followed this half broken documentation and do not listen to correct the half baked documentation.",
+      "user":"alexhass"
+    },
+    {
+      "comment":"Guys, other people (me included) are subscribed to this issue to get actual updates on the issue and not some random rant. So it's really annoying to get an e-mail about this issue, and when you go read it, it's oftentimes just people complaining.\r\n\r\nAnd just a reminder that this is an open-source project, so feel free to contribute if this is really important to you. Nobody is entitled to anything.",
+      "user":"guihkx"
+    },
+    {
+      "comment":"You mean an open source project where the project manager refuses to commit pulls like my full-fledged MSI setup required for enterprise customers - for now valid reason. He simply seems not understand how setups need to work for mass deployment. What happens additionally - all other project that seems to rely on this vscode project also refused the MSI pull only because it is not inside vscode and need to be added upstream first. Cool if there are hundreds of project that rely on vscode and wrong decission are causing than issues to hundreds of projects.\r\n\r\nThis project is NOT what we both understand under open source. You can give thumbs down to the project manager who think - it is only vscode he judges about - what is not the case.",
+      "user":"alexhass"
+    },
+    {
+      "comment":"I got a little tired of doing the settings reset manually after each update so...\r\n\r\n-  Installed the [Auto Run Command](https://marketplace.visualstudio.com/items?itemName=gabrielgrinberg.auto-run-command) extension\r\n-  Added a task to my vscode `settings.json`:\r\n```json\r\n     \"auto-run-command.rules\": [\r\n        {\r\n            \"condition\": \"always\",\r\n            \"command\": \"pwsh /c 'Invoke-Expression fix-dataFolders.ps1'\",\r\n            \"message\": \"Update data folder names to AppData/Roaming/code\",\r\n            \"shellCommand\": true\r\n        }\r\n    ],\r\n```\r\n- Created a powershell script `$env:LOCALAPPDATA\\Programs\\Microsoft VS Code\\bin\\fix-dataFolders.ps1` containing\r\n```ps1\r\n$doFix = Test-Path \"$env:USERPROFILE\\.vscode\"\r\nif ($doFix) {\r\n    $path = \"$env:LOCALAPPDATA\\Programs\\Microsoft VS Code\\resources\\app\\product.json\"\r\n    $settings = Get-Content $path | ConvertFrom-Json\r\n    $settings.dataFolderName = \"AppData/Roaming/code\"\r\n    $settings.serverDataFolderName = \"AppData/Roaming/code-server\"\r\n    ConvertTo-Json $settings | Set-Content $path\r\n    Remove-Item -Recurse -Force -Path \"$env:USERPROFILE\\.vscode\"\r\n}\r\n```\r\n<edit: changed my user path to the generic `$env:USERPROFILE`>\r\n\r\nAfter this all I should need to do is restart vscode after an update.\r\nThe `Set-Content` doesn't do formatting so the `product.json` file will look messier if/when it is opened but that is easily fixed with auto-format in vscode.\r\n\r\nAlso, I'm sure there must be a way to have the auto-run-command do the check for the `.vscode` path but I couldn't see how it would expand the environment variable so I just went with the powershell check.",
+      "user":"Thell"
+    }
+  ],
+  "repository":"vscode",
+  "user":"Tyriar"
+}

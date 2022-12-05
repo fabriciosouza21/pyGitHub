@@ -1,0 +1,14 @@
+{
+  "comments":[
+    {
+      "comment":"### Describe the bug\n\nI need a way to alias Buffer for the browser.\r\n\r\nNot sure which module requires this but its probably crypto related.\r\n\r\n\r\n```\r\n500\r\n\r\nBuffer is not defined\r\n\r\n@http://localhost:3000/_app/pages/index.svelte-2478ade3.js:1:111754\r\n\r\n```\r\n\r\nProblem is using Torus node library.\r\n\r\nHere is a repo: https://github.com/ralyodio/torus-bufer\r\n\r\n```\r\nnpm i\r\nnpm run build\r\nnpm run preview\r\n```\r\n\r\n...you will see error. `npm run dev` works fine since node handles requests. Its the browser only environment that is the issue.\r\n\r\nThe polyfill in `svelte.config.js` appears to not work: https://github.com/ralyodio/torus-bufer/blob/master/svelte.config.js\n\n### Reproduction\n\nSee above\n\n### System Info\n\n```shell\nLinux\n```\n\n\n### Used Package Manager\n\nnpm\n\n### Logs\n\n```shell\nSee above\n```\n\n\n### Validations\n\n- [X] Follow our [Code of Conduct](https://github.com/vitejs/vite/blob/main/CODE_OF_CONDUCT.md)\n- [X] Read the [Contributing Guidelines](https://github.com/vitejs/vite/blob/main/CONTRIBUTING.md).\n- [X] Read the [docs](https://vitejs.dev/guide).\n- [X] Check that there isn't [already an issue](https://github.com/vitejs/vite/issues) that reports the same bug to avoid creating a duplicate.\n- [X] Make sure this is a Vite issue and not a framework-specific issue. For example, if it's a Vue SFC related bug, it should likely be reported to https://github.com/vuejs/core instead.\n- [X] Check that this is a concrete bug. For Q&A open a [GitHub Discussion](https://github.com/vitejs/vite/discussions) or join our [Discord Chat Server](https://chat.vitejs.dev/).\n- [X] The provided reproduction is a [minimal reproducible example](https://stackoverflow.com/help/minimal-reproducible-example) of the bug.",
+      "user":"ralyodio"
+    },
+    {
+      "comment":"duplicate of #7384 ",
+      "user":"sapphi-red"
+    }
+  ],
+  "repository":"vite",
+  "user":"ralyodio"
+}

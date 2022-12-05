@@ -1,0 +1,914 @@
+{
+  "comments":[
+    {
+      "comment":"1. OS?  Windows 7, 8 or 10. Linux (which distribution). Mac OSX (Yosemite? El Capitan?)\n   Windows 10\n2. Versions. Please run `ng --version`. If there's nothing outputted, please run\n   in a Terminal: `node --version` and paste the result here:\n   angular-cli: 1.0.0-beta.11-webpack.8\n   node: 6.3.0\n   os: win32 x64\n3. Repro steps. Was this an app that wasn't created using the CLI? What change did you\n   do on your code? etc.\n   app created with 1.0.0-beta.11-webpack.2 and later on upgraded to 1.0.0-beta.11-webpack.8 with appropriate changes.\n4. The log given by the failure. Normally this include a stack trace and some\n   more information.\n   The slow behavious is observed when upgraded from 1.0.0-beta.11-webpack.2 to 1.0.0-beta.11-webpack.8\n5. Mention any other details that might be useful.\n   Slow behavious reproduceable in following repo:\n   https://github.com/asadsahi/ng2fb-bootstrap\n   \n   > ---\n\nI have experience this on two operating systems, windows 7 and windows 10. Has anyone else experieced this? For me rebuilds are dramatically slow, taking roughly 7-8 seconds which on same machine with cli version webpack.2 was taking rougly 2-3 seconds.\n",
+      "user":"asadsahi"
+    },
+    {
+      "comment":"+1 Rebuilds are extremely slow for me on OSX 10.11.6\n",
+      "user":"stellasoft-george"
+    },
+    {
+      "comment":"+1 also quite slow on linux x64 after I moved my assets from the app folder to the appropriate assets folder, it now optimizes the assets folder every time I make a change to any of the code which seems to be the reason for the added delay.\n",
+      "user":"RicardoVaranda"
+    },
+    {
+      "comment":"@TheLarkInn can you weigh in? It seems related with `CopyWebpackPlugin`.\n",
+      "user":"filipesilva"
+    },
+    {
+      "comment":"I also have a very slow \"chunk assert optimization\" step (~8s all the time even for small changes in one file). looking at https://github.com/webpack/webpack/issues/539#issuecomment-111275792 it seems it could be due to the source-map configuration chosen. \n",
+      "user":"ghost"
+    },
+    {
+      "comment":"Would DLL loading for vendor items help here? They must be 90% of bundle size\n",
+      "user":"intellix"
+    },
+    {
+      "comment":"+1 build/rebuilds extremely slow, as well as the update/recompiling in the browser.\n as well as ng test\n",
+      "user":"dasAnderl"
+    },
+    {
+      "comment":"+1, new to angular2. I really like how it was easy to get started, sadly, keeping going is much harder. Every time I modify a file and save, it takes more than 10 seconds before I can reload the browser and see my update. For web development, I can't do this. Maybe I'll switch to Angular2 JS. \n\nHere is what I see in my shell on ubuntu:\n\n```\nwebpack: bundle is now VALID.\nwebpack: bundle is now INVALID.\n1337ms building modules                                                       \n19ms sealing\n1ms optimizing \n0ms basic module optimization \n468ms module optimization\n3ms advanced module optimization \n56ms basic chunk optimization       \n0ms chunk optimization \n0ms advanced chunk optimization \n51ms module and chunk tree optimization\n900ms module reviving\n8ms module order optimization \n11ms module id optimization\n9ms chunk reviving \n2ms chunk order optimization \n44ms chunk id optimization\n212ms hashing\n1ms module assets processing \n0ms chunk assets processing \n11ms additional chunk assets processing\n0ms recording \n1ms additional asset processing \n0ms chunk asset optimization \n1618ms asset optimization\n1ms emitting \nHash: 8e4aceb7595d757b77f1\nVersion: webpack 2.1.0-beta.22\nTime: 12081ms\n           Asset     Size  Chunks       Chunk Names\n  main.bundle.js  4.04 MB    0, 2       main\nstyles.bundle.js  10.2 kB    1, 2       styles\n       inline.js  5.53 kB       2       inline\n        main.map  4.31 MB    0, 2       main\n      styles.map    14 kB    1, 2       styles\n      inline.map  5.59 kB       2       inline\nChild html-webpack-plugin for \"index.html\":\n         Asset     Size  Chunks       Chunk Names\n    index.html  3.69 kB       0  \n```\n",
+      "user":"guiomie"
+    },
+    {
+      "comment":"Same issue here.\n",
+      "user":"thorsten"
+    },
+    {
+      "comment":"https://github.com/angular/angular-cli/pull/2570 moved away from `CopyWebpackPlugin` to a simpler glob copy. This should help with @RicardoVaranda's issue.\n",
+      "user":"filipesilva"
+    },
+    {
+      "comment":"@asadsahi with `beta.17` I registered a 6633ms second rebuild time, is this in line with your experience?\n\n```\nwebpack: bundle is now INVALID.\n406ms building modules\n15ms sealing\n1ms optimizing\n1ms basic module optimization\n133ms module optimization\n58ms advanced module optimization\n49ms basic chunk optimization\n1ms chunk optimization\n0ms advanced chunk optimization\n36ms module and chunk tree optimization\n167ms module reviving\n4ms module order optimization\n9ms module id optimization\n6ms chunk reviving\n2ms chunk order optimization\n39ms chunk id optimization\n58ms hashing\n4ms module assets processing\n78ms chunk assets processing\n5ms additional chunk assets processing\n1ms recording\n1ms additional asset processing\n1992ms chunk asset optimization\n532ms asset optimization\n53ms emitting\nHash: ee2a562c10e2a5133f8d\nVersion: webpack 2.1.0-beta.25\nTime: 6633ms\n                                 Asset     Size  Chunks             Chunk Names\n                      styles.bundle.js   173 kB    7, 9             styles\n  25a32416abee198dd821b0b17a198a8f.eot  76.5 kB\n  1dc35d25e61d819a9c357074014867ab.ttf   153 kB\n c8ddf1e5e5bf3682bc7bebf30f394148.woff  90.4 kB\ne6cf7c6ec7c2d6f670ae9d762604cb0b.woff2  71.9 kB\n                            0.chunk.js    36 kB    0, 9\n                            1.chunk.js  16.9 kB    1, 9\n                            2.chunk.js  21.8 kB    2, 9\n                            3.chunk.js  9.87 kB    3, 9\n                            4.chunk.js  14.5 kB    4, 9\n                            5.chunk.js  11.9 kB    5, 9\n                        main.bundle.js  4.42 MB    6, 9  [emitted]  main\n  d7c639084f684d66a1bc66855d193ed8.svg   392 kB\n                     scripts.bundle.js   466 kB    8, 9             scripts\n                             inline.js  5.53 kB       9             inline\n                                 0.map  30.7 kB    0, 9\n                                 1.map    15 kB    1, 9\n                                 2.map  18.8 kB    2, 9\n                                 3.map  7.45 kB    3, 9\n                                 4.map  13.3 kB    4, 9\n                                 5.map  9.82 kB    5, 9\n                            styles.map   236 kB    7, 9             styles\n                           scripts.map   576 kB    8, 9             scripts\n                            inline.map  5.59 kB       9             inline\n                              main.map  4.66 MB    6, 9  [emitted]  main\nChild html-webpack-plugin for \"index.html\":\n         Asset    Size  Chunks       Chunk Names\n    index.html  3.8 kB       0\nwebpack: bundle is now VALID.\n```\n",
+      "user":"filipesilva"
+    },
+    {
+      "comment":"@filipesilva I also noticed rebuilds are about two times faster when I upgraded from beta.16 to beta.17; with average of 4 seconds. \n\nI'm still new to webpack world, so I don't yet really understand how things work internally, but after a quick search I found https://github.com/TypeStrong/ts-loader/issues/78. Is this what's slowing down CLI's build process? I used custom gulp build process few months ago and had average 250ms rebuild times, so even 3-6 seconds with CLI is quite a setback ;(\n\nAlso, bit off topic, is it possible to isolate app code from vendor code in dev builds? Would that speed things up?\n",
+      "user":"sasxa"
+    },
+    {
+      "comment":"250ms would be like a dream!\n\n@filipesilva if I add all the ms in your run extract, we get: 3651ms total. There is still a 3 seconds missing right?\n\nWhen I run ng-serve, change some code, save my file, the change from \"webpack: bundle is now VALID\" to \"webpack: bundle is now INVALID\", takes a few second. Could this be optimized also? \n",
+      "user":"guiomie"
+    },
+    {
+      "comment":"@sasxa we don't use `ts-loader`, but I skimmed the issue and didn't find anything we could apply to the CLI.\n\n@guiomie I am not too sure of how the numbers add up. All of that is handed over to webpack.\n\nI also asked @TheLarkInn and there seem to be some incoming Webpack 2 optimizations that would help with speed.\n",
+      "user":"filipesilva"
+    },
+    {
+      "comment":"@filipesilva  yes I can confirm that rebuilds are somewhere taking same amount of time and I also suspect its somewhere in webpack because I am having similar rebuild times in another non-cli based project based on webpack 2.\n\n@sasxa webpack dll is for the purpose of separating vendor from application files for speeding up rebuilds.\n",
+      "user":"asadsahi"
+    },
+    {
+      "comment":"I see the similar issue and \"ng serve\" on any small sccs change reports these optimizations steps. It is very very slow.  See the output:\n\n```\nwebpack: bundle is now VALID.\nwebpack: bundle is now INVALID.\n536ms building modules\n6ms sealing\n0ms optimizing\n1ms basic module optimization\n126ms module optimization\n1ms advanced module optimization\n25ms basic chunk optimization\n0ms chunk optimization\n0ms advanced chunk optimization\n13ms module and chunk tree optimization\n79ms module reviving\n2ms module order optimization\n5ms module id optimization\n4ms chunk reviving\n1ms chunk order optimization\n16ms chunk id optimization\n47ms hashing\n1ms module assets processing\n1ms chunk assets processing\n4ms additional chunk assets processing\n0ms recording\n0ms additional asset processing\n0ms chunk asset optimization\n825ms asset optimization\n5ms emitting\n```\n\nng version:\n\n```\nangular-cli: 1.0.0-beta.16\nnode: 4.5.0\nos: darwin x64\n```\n",
+      "user":"ipassynk"
+    },
+    {
+      "comment":"same here , it's too slow!\n\n```\nangular-cli: 1.0.0-beta.17\nnode: 6.6.0\nos: darwin x64\n\nVersion: webpack 2.1.0-beta.25\nTime: 8100ms\n            Asset       Size  Chunks             Chunk Names\n   main.bundle.js    3.12 MB    0, 2  [emitted]  main\n styles.bundle.js    10.2 kB    1, 2  [emitted]  styles\n        inline.js    5.53 kB       2  [emitted]  inline\n         main.map    3.19 MB    0, 2  [emitted]  main\n       styles.map    14.2 kB    1, 2  [emitted]  styles\n       inline.map    5.59 kB       2  [emitted]  inline\n       index.html  480 bytes          [emitted]  \nassets/.npmignore    0 bytes          [emitted]  \nChild html-webpack-plugin for \"index.html\":\n         Asset     Size  Chunks       Chunk Names\n    index.html  2.81 kB       0       \nwebpack: bundle is now VALID.\n\n```\n",
+      "user":"mhadaily"
+    },
+    {
+      "comment":"See #2651\n",
+      "user":"JanStureNielsen"
+    },
+    {
+      "comment":"@JanStureNielsen, that's not related to rebuild times but instead to initial npm installs.\n\nI'm also experiencing the invalidation delay that @guiomie reported.  As well as files not being marked as changed.\n@TheLarkInn, is there a plan to integrate watchman within webpack?  It is highly effective at what it does.\n",
+      "user":"clydin"
+    },
+    {
+      "comment":"Should this be bumped as critical? It seems to impede peoples productivity and maybe scare new comers to angular-cli.\n",
+      "user":"guiomie"
+    },
+    {
+      "comment":"to chime in here with some data of a fairly small angular2 project using scss: \n\n```\nangular-cli: 1.0.0-beta.17\nnode: 6.3.0\nos: darwin x64\n\nwebpack: bundle is now VALID.\nwebpack: bundle is now INVALID.\n526ms building modules                                                             \n5ms sealing \n0ms optimizing \n0ms basic module optimization \n155ms module optimization\n1ms advanced module optimization \n6ms basic chunk optimization        \n0ms chunk optimization \n0ms advanced chunk optimization \n10ms module and chunk tree optimization\n77ms module reviving\n1ms module order optimization \n3ms module id optimization \n2ms chunk reviving \n0ms chunk order optimization \n11ms chunk id optimization\n81ms hashing\n1ms module assets processing \n106ms chunk assets processing\n4ms additional chunk assets processing \n0ms recording \n0ms additional asset processing \n3427ms chunk asset optimization\n596ms asset optimization\n51ms emitting\nHash: 20f361734232b0bd829f\nVersion: webpack 2.1.0-beta.25\nTime: 6997ms\n           Asset     Size  Chunks             Chunk Names\n  main.bundle.js  3.32 MB    0, 2  [emitted]  main\nstyles.bundle.js   138 kB    1, 2             styles\n       inline.js  5.53 kB       2             inline\n      styles.map   182 kB    1, 2             styles\n      inline.map  5.59 kB       2             inline\n        main.map  3.39 MB    0, 2  [emitted]  main\nChild html-webpack-plugin for \"index.html\":\n         Asset     Size  Chunks       Chunk Names\n    index.html  2.81 kB       0       \n```\n\nThe most time is spent on chunk asset optimization, so that looks like a worthwhile target. \n",
+      "user":"JohannesRudolph"
+    },
+    {
+      "comment":"Running `ng test` is excruciatingly slow. It takes quite some time to detect there are changes and then re-run them. \n\nNew project with 79 tests:\n\n**Single/first run:** ~90s\n**Changes:**: ~12s\n**Changes after using for some time before it crashes:**: ~20s\n\nAs @guiomie said, the numbers don't add up for serving either: `638+10+1+3+200+1+17+121+149+3+6+18+78+83+3+6+1047 = 2384ms` but says `6080ms` so seems to be `3696ms` going somewhere else.\n",
+      "user":"intellix"
+    },
+    {
+      "comment":"Just using the default `ng new` app takes about 3 seconds to reload.  Is there a way to limit the munging wepback is doing to speed this up?  Even if just for live reload scenarios.\n",
+      "user":"cetra3"
+    },
+    {
+      "comment":"5269 ms to reload on simple changes on OS X El Capitan with clean `ng new`\n\n![screen shot 2016-10-21 at 5 31 55 am](https://cloud.githubusercontent.com/assets/6171149/19593673/be028b26-974f-11e6-87f3-72d29fc18235.png)\n",
+      "user":"ihorskyi"
+    },
+    {
+      "comment":"Same here. Just write to subscribe to the thread.\nEnvironment: Intel i7, SSD Disk, Windows 10 => Initial Hello World compilation 15 seconds aprox. Recompilation after minimum changes: 6 seconds what makes it unpractial for agile development.\n\nUsing angular quickstart project from github without webpack gives me times of 300 ms for live-reloading. There must to be a way to choose not compiling during development and use bundling and minification only for production in my opinion. \n",
+      "user":"YagoLopez"
+    },
+    {
+      "comment":"@YagoLopez , if I look in the models/webpack-build-developement.js , it looks like minification is disabled:\n\n```\nplugins: [\n            new webpack.LoaderOptionsPlugin({\n                options: {\n                    minimize: false,\n                    tslint: {\n                        emitErrors: false,\n                        failOnHint: false,\n                        resourcePath: path.resolve(projectRoot, appConfig.root)\n                    },\n                }\n            })\n        ],\n```\n",
+      "user":"guiomie"
+    },
+    {
+      "comment":"@guiomie we reserve critical for stuff like release bugs, or wholly broken commands. Stuff that usually needs a new release ASAP or no one can do anything.\n\nWe recognise that the slowness is crippling and are looking to solutions for it. It's one of the things we want to address before RC1.\n",
+      "user":"filipesilva"
+    },
+    {
+      "comment":"Also thanks to all that are posting their numbers, it's very useful to get a benchmark. @intellix's report is specially worrying imho.\n",
+      "user":"filipesilva"
+    },
+    {
+      "comment":"@filipesilva thanks for your work, i undertand the complexities of the problem. I guess it is question of time.\n\n@guiomie thanks for the info, but then, source map files should't be created in the process of compilation. If I'm not wrong they do are created. Anyway with minification or not its too much time in my opinion. I guess this problems will be solved in future versions. Cheers.\n",
+      "user":"YagoLopez"
+    },
+    {
+      "comment":"@intellix https://github.com/angular/angular-cli/pull/2840 should help with `ng test`. It makes code coverage and linting optional. On a test project with 100 component tests, total time went down from 90s to 30s.\n",
+      "user":"filipesilva"
+    },
+    {
+      "comment":"@filipesilva that sounds useful, at least as it makes a lot of sense to (optionally) skip coverage reporting when running `ng test --watch=true` \n\nI'm still not sure though why webpack spends so much time in \"chunk assets optimization\". Might be a webpack related issue after all.\n",
+      "user":"JohannesRudolph"
+    },
+    {
+      "comment":"@filipesilva \nBrand new to all-things Angular. I  just installed the Angular CLI and am going through the free introductory Angular 2 course on egghead.io. I've literally made 1 change to a component file, and the rebuilds are slow (not to be too redundant from everything in this thread): \n\n```\nangular-cli: 1.0.0-beta.18\nnode: 6.5.0\nos: darwin x64\n\nBootingup ng serve I get...\nTime: 8973ms\n\nIf I save index.html, I get...\nTime: 3329ms \n\nWhich isn't necessarily bad, but I haven't actually done anything with files yet:) \n```\n\nI know this is still in beta, so please don't take this negatively, but coming from Ember and React, I've never seen builds/reloads this slow. Should I hold off on using CLI for learning NG 2 until the process is a bit faster? I'm looking more for guidance than I am trying to criticize the project. Thanks! \n",
+      "user":"rdwatters"
+    },
+    {
+      "comment":"Excuse me if this is not the right place to post this, but does webpack use hot module reloading with \"ng serve\" on Windows? I've seen videos on youtube about angular 2 where only the file edited is reloaded instead of rebuilding all files, (in a Mac computer).\n\n@rdwatters you could try this https://github.com/angular/quickstart. It's a bit faster in my experience. It does not use angular-cli but could be appropiated for testing purposes\n\nAlso this could be of interest for anyone reading this:\n\nWorking with editors/IDEs supporting “safe write”\n\nNote that many editors support “safe write” feature and have it enabled by default, which makes dev server unable to watch files correctly. “Safe write” means changes are not written directly to original file but to temporary one instead, which is renamed and replaces original file when save operation is completed successfully. This behaviour causes file watcher to lose the track because the original file is removed. In order to prevent this issue, you have to disable “safe write” feature in your editor.\n\nVIM - set :set backupcopy=yes (see documentation)\nIntelliJ - Settings ▶︎ System Settings ▶︎ Synchronization ▶︎ disable safe write (may differ in various IntelliJ IDEs, but you can still use the search feature)\n\nSOURCE:\nhttps://webpack.github.io/docs/webpack-dev-server.html\n",
+      "user":"YagoLopez"
+    },
+    {
+      "comment":"Some additional info from me. Updating takes 20 seconds for me.\n\n```\nwebpack: bundle is now INVALID.\n 50% building modules 2/3 modules 1 active ...sers\\user-edit\\user-edit.component.tsweb\npack: wait until bundle finished: /settings\n1339ms building modules\n1457ms sealing\n0ms optimizing\n1ms basic module optimization\n100ms module optimization\n3269ms advanced module optimization\n24ms basic chunk optimization\n0ms chunk optimization\n0ms advanced chunk optimization\n530ms module and chunk tree optimization\n384ms module reviving\n3ms module order optimization\n48ms module id optimization\n129ms chunk reviving\n1ms chunk order optimization\n503ms chunk id optimization\n110ms hashing\n1ms module assets processing\n142ms chunk assets processing\n12ms additional chunk assets processing\n0ms recording\n1ms additional asset processing\n6849ms chunk asset optimization\n1570ms asset optimization\n397ms emitting\nHash: 9db8a41caee5835af84d\nVersion: webpack 2.1.0-beta.25\nTime: 20520ms\n           Asset     Size  Chunks             Chunk Names\n           0.map   117 kB   0, 30\n      0.chunk.js  95.5 kB   0, 30\n      2.chunk.js   210 kB   2, 30\n      3.chunk.js  1.16 MB   3, 30\n      4.chunk.js  18.4 kB   4, 30\n      5.chunk.js  20.6 kB   5, 30\n      6.chunk.js   115 kB   6, 30\n      7.chunk.js  70.6 kB   7, 30\n      8.chunk.js  96.1 kB   8, 30\n      9.chunk.js    13 kB   9, 30\n     10.chunk.js  54.2 kB  10, 30\n     11.chunk.js  40.1 kB  11, 30\n     12.chunk.js   177 kB  12, 30\n     13.chunk.js  15.8 kB  13, 30\n     14.chunk.js  11.8 kB  14, 30\n     15.chunk.js  19.4 kB  15, 30\n     16.chunk.js  9.67 kB  16, 30\n     17.chunk.js  34.8 kB  17, 30\n     18.chunk.js  16.7 kB  18, 30\n     19.chunk.js  18.9 kB  19, 30\n     20.chunk.js  66.2 kB  20, 30\n     21.chunk.js  11.4 kB  21, 30\n     22.chunk.js  56.3 kB  22, 30\n     23.chunk.js   410 kB  23, 30\n     24.chunk.js  64.7 kB  24, 30\n     25.chunk.js  2.44 kB  25, 30\n     26.chunk.js  33.2 kB  26, 30\n     27.chunk.js   238 kB  27, 30\n  main.bundle.js  6.75 MB  28, 30  [emitted]  main\nstyles.bundle.js  12.9 kB  29, 30             styles\n       inline.js  5.53 kB      30             inline\n      1.chunk.js   315 kB   1, 30\n           1.map   415 kB   1, 30\n           2.map   248 kB   2, 30\n           3.map  1.26 MB   3, 30\n           4.map  22.3 kB   4, 30\n           5.map  24.6 kB   5, 30\n           6.map   146 kB   6, 30\n           7.map  91.1 kB   7, 30\n           8.map   118 kB   8, 30\n           9.map  18.4 kB   9, 30\n          10.map  69.8 kB  10, 30\n          11.map  46.3 kB  11, 30\n          12.map   217 kB  12, 30\n          13.map  20.5 kB  13, 30\n          14.map  14.8 kB  14, 30\n          15.map  23.3 kB  15, 30\n          16.map  12.6 kB  16, 30\n          17.map  40.4 kB  17, 30\n          18.map    20 kB  18, 30\n          19.map  22.1 kB  19, 30\n          20.map  79.1 kB  20, 30\n          21.map  13.8 kB  21, 30\n          22.map  66.7 kB  22, 30\n          23.map   494 kB  23, 30\n          24.map  77.2 kB  24, 30\n          25.map  3.16 kB  25, 30\n          26.map  41.5 kB  26, 30\n          27.map   295 kB  27, 30\n      styles.map  17.6 kB  29, 30             styles\n      inline.map  5.59 kB      30             inline\n        main.map  7.31 MB  28, 30  [emitted]  main\nChild html-webpack-plugin for \"index.html\":\n         Asset     Size  Chunks       Chunk Names\n    index.html  6.11 kB       0\nwebpack: bundle is now VALID.\n```\n",
+      "user":"sharok"
+    },
+    {
+      "comment":"Just wanna add some information to help others with testing:\n`fdescribe`, `fit`, `xdescribe`, `xit` are your friends for only running particular tests :) http://jasmine.github.io/2.1/focused_specs.html\n",
+      "user":"intellix"
+    },
+    {
+      "comment":"First of all, thanks for the great work all. Was hoping Node 7 upgrade might help, but it was only marginal. Would love to see this sped up as well. For example, the following similar project is on the React side, but rebuilds in about 1/4 the time. https://github.com/davezuko/react-redux-starter-kit\n",
+      "user":"jmlivingston"
+    },
+    {
+      "comment":"I experience the same Problems on my mac with OSX 10.11.6. Updates take 13secs for me. \nWhat is your idea on solving this? With plain webpack I'd probably try to improve performance by separating the build of the libraries and the build of my own files using the dll approach.\n\nMy numbers are btw. the following:\n\n```\nwebpack: bundle is now INVALID.\n354ms building modules                                                             \n5ms sealing \n0ms optimizing \n0ms basic module optimization \n119ms module optimization\n0ms advanced module optimization \n13ms basic chunk optimization       \n0ms chunk optimization \n0ms advanced chunk optimization \n38ms module and chunk tree optimization\n172ms module reviving\n1ms module order optimization \n3ms module id optimization \n7ms chunk reviving \n0ms chunk order optimization \n47ms chunk id optimization\n67ms hashing\n1ms module assets processing \n98ms chunk assets processing\n4ms additional chunk assets processing \n1ms recording \n0ms additional asset processing \n3092ms chunk asset optimization\n7742ms asset optimization\n69ms emitting\nHash: 8065f4ec0d2feed80685\nVersion: webpack 2.1.0-beta.25\nTime: 13361ms\n                                 Asset     Size  Chunks             Chunk Names\n  f24134ff542a345f5af1c3e616872d8b.svg  12.8 kB                     \n  f4769f9bdb7466be65088239c12046d1.eot  20.1 kB                     \n  c3572dbbb07e826429824fe22f049c73.eot    48 kB                     \n  55ed4dcca47c6b224f2ed1536524f6ed.svg  71.7 kB                     \n 78bb38012b6093e39a98a8a5270f81f6.woff  55.2 kB                     \n  89889688147bd7575d6327160d64e760.svg   109 kB                     \n  e18bbf611f2a2e43afc071aa2f4e1512.ttf  45.4 kB                     \n fa2772327f55d8198301fdb8bcfc8158.woff  23.4 kB                     \n  ff22e7b0d9516041df8efa602e806bfc.eot  3.62 kB                     \n448c34a56d699c29117adc64c43affeb.woff2    18 kB                     \n                        main.bundle.js  4.97 MB    0, 2  [emitted]  main\n                      styles.bundle.js   228 kB    1, 2             styles\n                             inline.js  5.53 kB       2             inline\n                            styles.map   289 kB    1, 2             styles\n                            inline.map  5.59 kB       2             inline\n                              main.map  5.28 MB    0, 2  [emitted]  main\nChild html-webpack-plugin for \"index.html\":\n         Asset     Size  Chunks       Chunk Names\n    index.html  3.83 kB       0       \nwebpack: bundle is now VALID.\n```\n",
+      "user":"paweloque"
+    },
+    {
+      "comment":"Not sure how it would be implemented, or if it's already possible? but If I could exclude rebuilding all node_modules/\\* from the 'ng-build' command, and just 'compile' my changed partials/js/css files I think that would reduce my build-time considerably. It's not often I'd need to rebuild the node_modules.\n",
+      "user":"samthomson"
+    },
+    {
+      "comment":"Hi!\nI have implemented the dll option for faster rebuilds. Check my fork to try it: https://github.com/kondi/angular-cli\nI have more than two times faster rebuild for the default empty project.\n",
+      "user":"kondi"
+    },
+    {
+      "comment":"@kondi tried linking your repo to one of [playground project](https://github.com/asadsahi/ng2fb-bootstrap), but cannot see reasonable difference of rebuilds, here are the stats:\n\nBefore:\n\n```\nVersion: webpack 2.1.0-beta.25\nTime: 4127ms\n                                 Asset     Size  Chunks             Chunk Names\n                      styles.bundle.js   183 kB    7, 9             styles\n  25a32416abee198dd821b0b17a198a8f.eot  76.5 kB                     \n  1dc35d25e61d819a9c357074014867ab.ttf   153 kB                     \n c8ddf1e5e5bf3682bc7bebf30f394148.woff  90.4 kB                     \ne6cf7c6ec7c2d6f670ae9d762604cb0b.woff2  71.9 kB                     \n                            0.chunk.js   456 kB    0, 9             \n                            1.chunk.js  36.4 kB    1, 9             \n                            2.chunk.js  21.9 kB    2, 9             \n                            3.chunk.js  9.89 kB    3, 9  [emitted]  \n                            4.chunk.js  14.5 kB    4, 9             \n                            5.chunk.js  11.9 kB    5, 9             \n                        main.bundle.js  3.81 MB    6, 9             main\n  d7c639084f684d66a1bc66855d193ed8.svg   392 kB                     \n                     scripts.bundle.js   461 kB    8, 9             scripts\n                             inline.js  5.53 kB       9             inline\n                                 0.map   570 kB    0, 9             \n                                 1.map  31.4 kB    1, 9             \n                                 2.map  18.8 kB    2, 9             \n                                 4.map  13.3 kB    4, 9             \n                                 5.map  9.82 kB    5, 9             \n                              main.map  3.97 MB    6, 9             main\n                            styles.map   248 kB    7, 9             styles\n                           scripts.map   570 kB    8, 9             scripts\n                            inline.map  5.59 kB       9             inline\n                                 3.map  7.45 kB    3, 9  [emitted]  \nChild html-webpack-plugin for \"index.html\":\n         Asset    Size  Chunks       Chunk Names\n    index.html  3.8 kB       0       \nwebpack: bundle is now VALID.\n\n\n```\n\nAfter:\n\n```\nersion: webpack 2.1.0-beta.25                                                                                                                        \nTime: 3508ms                                                                                                                                          \n                                 Asset     Size  Chunks             Chunk Names                                                                       \n                      styles.bundle.js   186 kB    7, 9             styles                                                                            \n  25a32416abee198dd821b0b17a198a8f.eot  76.5 kB                                                                                                       \n  1dc35d25e61d819a9c357074014867ab.ttf   153 kB                                                                                                       \ne6cf7c6ec7c2d6f670ae9d762604cb0b.woff2  71.9 kB                                                                                                       \n c8ddf1e5e5bf3682bc7bebf30f394148.woff  90.4 kB                                                                                                       \n                            0.chunk.js   458 kB    0, 9                                                                                               \n                            1.chunk.js  36.3 kB    1, 9                                                                                               \n                            2.chunk.js  21.7 kB    2, 9                                                                                               \n                            3.chunk.js  9.84 kB    3, 9  [emitted]                                                                                    \n                            4.chunk.js  14.4 kB    4, 9                                                                                               \n                            5.chunk.js  11.8 kB    5, 9                                                                                               \n                        main.bundle.js  1.06 MB    6, 9             main                                                                              \n  d7c639084f684d66a1bc66855d193ed8.svg   392 kB                                                                                                       \n                     scripts.bundle.js   461 kB    8, 9             scripts                                                                           \n                      inline.bundle.js  5.53 kB       9             inline                                                                            \n                                 0.map   577 kB    0, 9                                                                                               \n                                 1.map  31.6 kB    1, 9                                                                                               \n                                 2.map    19 kB    2, 9                                                                                               \n                                 4.map  13.4 kB    4, 9                                                                                               \n                                 5.map  9.95 kB    5, 9                                                                                               \n                              main.map   1.2 MB    6, 9             main                                                                              \n                            styles.map   252 kB    7, 9             styles                                                                            \n                           scripts.map   570 kB    8, 9             scripts                                                                           \n                            inline.map   5.6 kB       9             inline                                                                            \n                                 3.map  7.57 kB    3, 9  [emitted]                                                                                    \nChild html-webpack-plugin for \"index.html\":                                                                                                           \n         Asset    Size  Chunks       Chunk Names                                                                                                      \n    index.html  3.8 kB       0                                                                                                                        \nwebpack: bundle is now VALID.        \n\n```\n\nTime is lesser after linking, but sometimes with original angular-cli its roughly same.\n",
+      "user":"asadsahi"
+    },
+    {
+      "comment":"For me in a freshly created `ng new` project the rebuild time is around 5000 ms without dll, 2000 ms using dll.\n\n@asadsahi  I checked your repository on my laptop. Without dll the rebuild time is around 11500 ms, with dll I am getting 6600 ms. I can get 5200 ms if I move more libraries to the dll (angularfire2, ng-bootstrap, ng2-translate). Your numbers look much better by default already. Maybe because I am testing on windows? Or slow computer?\n",
+      "user":"kondi"
+    },
+    {
+      "comment":"@kondi you might be right, I am just mentioning following times, as rebuild times.\nTime: 4127ms\nTime: 3508ms                                                                                                                                          \n\nAnother thing I was just keeping an eye on was how quickly browser gets refreshed after rebuild, and couldn't see significant differences. It might be something my head doesn't want to accept or illusion becasue I have another project based on webpack 1 with dll and that project's rebuild is 200-300 milliseconds, which I am hoping webpack 2 to have same stats one day :)\n\n> Your numbers look much better by default already. Maybe because I am testing on windows? Or slow computer?\n\nIts definitely becasue testing I did was on my work machine which is and 8 core beefy machine. On my home laptop it comes down to same numbers (around 10+ seconds). Both work and personal machines are on windows BTW.\n",
+      "user":"asadsahi"
+    },
+    {
+      "comment":"I just discovered that the awesome-typescript-loader `forkChecker` option isn't being passed properly, so it's not forking and type checking is happening inline. Changing `useForkChecker` to `forkChecker` in the webpack config drops reload time on a pristine project from ~4sec to ~1.5sec for me. I'll prepare a PR right now.\n",
+      "user":"texel"
+    },
+    {
+      "comment":"@texel whoa that's impressive, great find! Let me know when that PR is up so I can review.\n",
+      "user":"filipesilva"
+    },
+    {
+      "comment":"Funny that the whole reason of typescript is to not have this type of mistakes.\nSimilar improvement for me as well. From 5.5 sec to 2.2 sec. If you combine with dll option, ends up at 1.2 sec.\n",
+      "user":"kondi"
+    },
+    {
+      "comment":"@filipesilva https://github.com/angular/angular-cli/pull/3008\n\nJust getting the CLA sorted.\n",
+      "user":"texel"
+    },
+    {
+      "comment":"Just did a few numbers to check everything with 19-3 using forkChecker:\n\nreload:\n- 6s -> 4s\n- 3s -> 1.7s\n- 3s -> 1.7s\n\nng test reloads with 133 tests:\n- 9s -> 6s\n- 6.5s -> 5s\n- 6.5s -> 4.15s\n\nWould love to know the lowdown on using DLLs. To me it seems an obvious fix with the various frameworks being huge but haven't heard anything from anyone about why it's not used. Any ideas @TheLarkInn?\n",
+      "user":"intellix"
+    },
+    {
+      "comment":"I haven't tested the DLL, but have tested https://github.com/mzgoddard/hard-source-webpack-plugin and noticed no improvement almost.\n",
+      "user":"filipesilva"
+    },
+    {
+      "comment":"https://github.com/mzgoddard/hard-source-webpack-plugin shouldn't be an improvement from an in-memory reload, but it should significantly reduce initial compile times.\n",
+      "user":"texel"
+    },
+    {
+      "comment":"@texel does this mean it'd always be notable in `ng build`?\n",
+      "user":"Meligy"
+    },
+    {
+      "comment":"DLL potentially complicates building the bundle (it has to be done in two steps, and the main bundle needs to be told how to reference the DLL) and it may slightly increase initial build time, but in my experience it's a win for dev speed and hopefully makes caching libs easier as well.\n",
+      "user":"texel"
+    },
+    {
+      "comment":"Yes, https://github.com/mzgoddard/hard-source-webpack-plugin seems like it improves builds _after_ initial build.\n",
+      "user":"Meligy"
+    },
+    {
+      "comment":"The DLL option also severely limits webpack's tree-shaking ability.  So for production builds it's probably not the best option.\nI've been experimenting with moving angular into a DLL as well.  While there is additional complexity, it seems an overall win for at least the _dev serve_ use case.\n",
+      "user":"clydin"
+    },
+    {
+      "comment":"@texel \n\n> Changing useForkChecker to forkChecker in the webpack config \n\nCan we somehow test this in an existing cli based project?\n\nIs this setting something we can try in a non-cli, webpack 2 based project? I have similar slow rebuilds issue in [another project](https://github.com/asadsahi/AspNetCoreSpa).\n",
+      "user":"asadsahi"
+    },
+    {
+      "comment":"@texel's tweak effectively cuts my build time in half and this is on a larger project. Well done!\n",
+      "user":"jmlivingston"
+    },
+    {
+      "comment":"@asadsahi certainly! If you're using awesome-typescript-loader you just need to make sure that `forkChecker: true` is passed in its query params. You'll also need to make sure to instantiate a new `ForkCheckerPlugin` and add it to the plugins array of your webpack config.\n",
+      "user":"texel"
+    },
+    {
+      "comment":"Opened a new PR to satisfy the googlebot: https://github.com/angular/angular-cli/pull/3011\n",
+      "user":"texel"
+    },
+    {
+      "comment":"@texel unfortunately this isnt't making any difference. Here is [my repo](https://github.com/asadsahi/AspNetCoreSpa):\n\nThis is my configuration:\n\nforkChecker parameter:\n\n```\nmodule.exports = merge({\n    resolve: {\n        extensions: ['.js', '.ts']\n    },\n    module: {\n        rules: [\n            { test: /\\.ts$/, exclude: [/\\.(spec|e2e)\\.ts$/], loaders: ['awesome-typescript-loader?forkChecker=true ', 'angular2-template-loader'] },\n            { test: /\\.html$/, loader: \"html\" },\n            { test: /\\.css/, loader: extractCSS.extract(['css']) },\n            { test: /\\.scss$/, loaders: ['raw-loader', 'sass-loader?sourceMap'] },\n            { test: /\\.json$/, loader: 'json-loader' },\n            {\n                test: /\\.woff(\\?v=\\d+\\.\\d+\\.\\d+)?$/,\n   ............for brevity\n```\n\nPlugin added:\n\n```\n  plugins: [\n        extractCSS,\n        new webpack.DllReferencePlugin({\n            context: __dirname,\n            manifest: require('../wwwroot/dist/vendor-manifest.json')\n        }),\n        // To eliminate warning\n        // https://github.com/AngularClass/angular2-webpack-starter/issues/993\n        new webpack.ContextReplacementPlugin(\n            /angular(\\\\|\\/)core(\\\\|\\/)(esm(\\\\|\\/)src|src)(\\\\|\\/)linker/,\n            __dirname\n        ),\n        /*\n            * Plugin: ForkCheckerPlugin\n            * Description: Do type checking in a separate process, so webpack don't need to wait.\n        */\n        new ForkCheckerPlugin(),\n        new webpack.DefinePlugin({\n            'process.env': {\n                'ENV': JSON.stringify(process.env.ASPNETCORE_ENVIRONMENT)\n            }\n        })\n\n```\n\nCan you see any obvious mistake?\n",
+      "user":"asadsahi"
+    },
+    {
+      "comment":"#3011 merged which should help with build/rebuild times. Many thanks to @texel for finding this bug!\n",
+      "user":"filipesilva"
+    },
+    {
+      "comment":"@asadsahi that should work for a Webpack 1 project- does Webpack 2 still support query params using the url-style syntax?\n",
+      "user":"texel"
+    },
+    {
+      "comment":"@texel not sure. But I also tried with following settings with no luck. Are these correct settings?\n\n```\n{\n              loader: 'awesome-typescript-loader',\n              query: {\n                forkChecker: true\n              }\n            },\n```\n\nBesides this project, how can I test the merged PR change for fast rebuilds in an angular-cli based project right now? (any way I can target my project using latest version of cli codebase?)\n",
+      "user":"asadsahi"
+    },
+    {
+      "comment":"@asadsahi of that I'm not sure. I tested it by manually editing the `webpack-build-typescript.js` file in my angular-cli installed in node_modules. Which version of awesome-typescript-loader do you have installed? If you can't get it working you might want to ask or open a ticket in that repo.\n",
+      "user":"texel"
+    },
+    {
+      "comment":"I've noticed some progress on this issue. @filipesilva Could you please update npm package? I have a big project with a lot of components and want to check rebuild time, because now it takes about 20-40 seconds.\n",
+      "user":"sharok"
+    },
+    {
+      "comment":"I tried using [Brunch](https://brunch.io), and got that results:\n\n``` sh\n$ brunch w -s\n07 Nov 12:38:08 - info: application started on http://localhost:3333/\n07 Nov 12:38:11 - info: compiling\n07 Nov 12:38:12 - info: compiled 239 files into 3 files, copied index.html in 4.8 sec\n07 Nov 12:38:57 - info: compiled home.component.ts and 9 cached files into main.js in 107 ms\n```\n\nIt lacks of functional in comparison with `angular-cli`, but it is much faster.  💨 \n",
+      "user":"rand0me"
+    },
+    {
+      "comment":"@rand0me as you just introduced me to Brunch and it caught my attention while looking at your stats. I tried [this ](https://github.com/colinbate/ng2-brunch)repo with angular and here are my stats:\n\n```\n> brunch watch --server\n07 Nov 09:59:21 - info: application started on http://localhost:3333/\n07 Nov 09:59:24 - info: compiling\n07 Nov 09:59:24 - info: compiled 239 files into 3 files, copied index.html in 4.3 sec\n07 Nov 10:00:03 - info: compiled home.component.html and 3 cached files into app.css in 234 ms\n07 Nov 10:00:07 - info: compiled home.component.html and 3 cached files into app.css in 82 ms\n07 Nov 10:00:14 - info: compiled home.component.html and 3 cached files into app.css in 93 ms\n07 Nov 10:01:59 - info: compiled home.component.ts and 9 cached files into main.js in 106 ms\n07 Nov 10:02:07 - info: compiled home.component.ts and 9 cached files into main.js in 98 ms\n```\n\nThat is Nitro fast. 93ms with a html change and 106 ms with a typescript change. \n\nWill it be correct to say that Brunch is on top of the list for recompiling assets, compared to webpack, systemjs, gulp etc at this point in time?\n",
+      "user":"asadsahi"
+    },
+    {
+      "comment":"Just a quick test I made today comparing the the https://github.com/AngularClass/angular2-webpack-starter:\n\nAngular webpack: 1.5s with their base project\nAngular cli: 4.1s with the ng new base project\n\nBoth run on MacOS 10.12.1\n",
+      "user":"albanx"
+    },
+    {
+      "comment":"I tested gulp, brunch, and optimized angular cli (forkCheck), both on very small seed/template.\n- **angular-cli** : including forkCheck optimization I'm down to **~2-4 sec recompile time** (~2 time faster than default).\n- **[angular class starter](https://github.com/AngularClass/angular2-webpack-starter)** : **1.5~3.5** sec (it uses webpack)\n- **gulp** : **2 sec** when it recompile typescript (but very fast when to recompile html < 200ms).\n- **brunch** : I just discovered thanks to @rand0me :  **~120ms** to recompile typescript !! This build tool looks very fast & simple to configure.\n",
+      "user":"noguespi"
+    },
+    {
+      "comment":"@serphacker, @asadsahi  I'm wondering, why people doesn't got it earlier😄 \nNow I'm trying to adopt a project, builded on top of `angular-cli 1.0.0-beta.17` to be built with Brunch\nThings that I'm currently stuck to:\n- Can't do backward-compatible config, because of Brunch convetions\n- Can't make automatic injection of styles and scripts (to `index.html`)\n- Can't find Brunch plugin to support CSS `@import` concatenation \n- Also, it lacks a `generate` command, but it can be used from `angular-cli` 🙉 \n",
+      "user":"rand0me"
+    },
+    {
+      "comment":"@rand0me since the whole universe is after webpack/angular-cli combinations, I am not sure its wise to individually mix something with this, unless a plugin model with angular cli allows to use any build/package manager like webpack, brunch.\n\nHowever, as an alternative approach to pick Brunch for a project perhaps is worth trying (which I will try as well).\n\nI am sure angular-cli team is trying to identify the possible cause of slow rebuild (like @texel found in terms of forkCheck), but I suspect its webpack 2 not working to best of its abilities. I have managed to get rougly 200-300ms of rebuilds times from Webpack 1 using DLLS in the past, but since I have upgraded the same project on webpack 2, its down to 5-6 seconds. Couldn't find a single project with webpack 2 and dll giving rebuilds in milli seconds (Love to see one). There is a similar [issue](https://github.com/aspnet/JavaScriptServices/issues/325) I have raised in the past but haven't got any answer.\n",
+      "user":"asadsahi"
+    },
+    {
+      "comment":"My rebuild takes about 8-10 seconds for a minimal app, which simply has 2 basic components. This is quite frustrating. Furthermore, even the ng --help command is slow. \n_nv --version_ returns:\n`\nangular-cli: 1.0.0-beta.19-3\nnode: 6.9.1\nos: win32 x64\n`\nI concur with previous comments that anything over 2 seconds really leads to contemplating alternative approaches. It would be great if this can be easily resolved, as the idea behind angular-cli is fantastic.\n",
+      "user":"phil-cap"
+    },
+    {
+      "comment":"Yup, even `ng version` is slow for some reason, takes a few seconds. Maybe due to some file watcher thingy I don't know why it fires even for just checking the version.\n",
+      "user":"Meligy"
+    },
+    {
+      "comment":"`ng version` taking some time is due to some module discovery code going on. It's something we're looking at removing as well.\n",
+      "user":"filipesilva"
+    },
+    {
+      "comment":"BTW, The slow rebuild issue mentioned [here ](https://github.com/aspnet/JavaScriptServices/issues/325) was becasue I was using awesome-typescript-loader. ts-loader seems to be 4 times faster. Raised with awesome-typescript-loader owner to see if any particular option has been missed.\n",
+      "user":"asadsahi"
+    },
+    {
+      "comment":"@asadsahi So side-by-side, if you simply replace awesome-typescript-loader with ts-loader, what are the numbers like? What are the numbers like?\n",
+      "user":"intellix"
+    },
+    {
+      "comment":"@intellix \n\nWith ts-loader:\n![image](https://cloud.githubusercontent.com/assets/3470892/20273985/1c5f2b18-aa8b-11e6-82ec-d6d1f30f498e.png)\n\nWith awesome-typescript-loader:\n![image](https://cloud.githubusercontent.com/assets/3470892/20274107/6892a87a-aa8b-11e6-8cde-418b0baac4a8.png)\n",
+      "user":"asadsahi"
+    },
+    {
+      "comment":"What does your `node_modules/angular-cli/models/webpack-build-typescript.js` look like. Did you have to change anything else? As we don't have HMR out of the box :)\n",
+      "user":"intellix"
+    },
+    {
+      "comment":"@intellix I have 2 projects, one [cli based](https://github.com/asadsahi/ng2fb-bootstrap) and a [.net non-cli based](https://github.com/asadsahi/AspNetCoreSpa). In my above comments numbers are from the .net one using latest beta version of webpack 2 (beta 26). Not sure how I can test this with cli based project, but I am asuming something worth trying replacing awesome-typescript-loader with ts-loader to see any difference.\n",
+      "user":"asadsahi"
+    },
+    {
+      "comment":"@asadsahi When will the fix for everyone?\n\nI tried to change loader, but receive many erros on build.\n",
+      "user":"KhodeN"
+    },
+    {
+      "comment":"@KhodeN I haven't tried in a project based on angular-cli. My above observation is from a non-cli based project.\n",
+      "user":"asadsahi"
+    },
+    {
+      "comment":"`ts-loader` has received a large number of improvements over the last couple weeks and it appears that `awesome-typescript-loader` may be merging functionality back into it.\n\nWith the latest version of `ts-loader` (1.2.1 as of now) and a quick replacement in the CLI, I was able to see a ~50% improvement on rebuild times (initial build **increased** ~25%).  Be aware that some loader options are named differently (`tsconfig` -> `configFileName`) and for tsconfig paths support the ATL paths plugin is still needed.\nIt also seems to be pulling in the spec files (or at least type checking them); so that will need some investigation (the exclude line is still in the config).\n\nNOTE: Production builds are broken with the change.  The loader seems to have a conflict with the use of `LoaderOptionsPlugin`.\n",
+      "user":"clydin"
+    },
+    {
+      "comment":"@clydin 50% is massive difference. Is it worth switching to ts-loader in cli then?\n\nIn my case I don't have to make any change to any path/configuration. Just replaced ATL with ts-loader.\n",
+      "user":"asadsahi"
+    },
+    {
+      "comment":"@asadsahi @clydin that seems to be a very relevant improvement. I'll add `ts-loader` to the list of scenarios I'm benchmarking as well.\n",
+      "user":"filipesilva"
+    },
+    {
+      "comment":"@filipesilva @clydin  I recently discovered issues with `ts-loader` regarding packages such as `rxjs` that have `.js` and `.d.ts` files next to each other (see https://github.com/TypeStrong/ts-loader/issues/347). Additionally it seems that there are no plans for `ts-loader` to support Webpack 2 (see https://github.com/TypeStrong/ts-loader/issues/283#issuecomment-248432016). As such it seems to me that `awesome-typescript-loader` is the best option currently. IMHO it's a shame that there is no officially supported, de facto TypeScript loader out there, but `awesome-typescript-loader` seems like the closest thing atm (and will become even more so once Webpack 2 is released).",
+      "user":"mischkl"
+    },
+    {
+      "comment":"@mischkl there has been a large amount of activity on ts-loader in the last 2-3 weeks.  the ts2.0 situation has changed and I noticed no rxjs issues when using it with fairly large project.  There are still the issues I mentioned in my previous comment however.",
+      "user":"clydin"
+    },
+    {
+      "comment":"@mischkl I didn't notice any issues using ts-loader in my [playground](https://github.com/asadsahi/AspNetCoreSpa) project using Angular 2 (and RXJS obviously). It was a straight replacement with ATL.",
+      "user":"asadsahi"
+    },
+    {
+      "comment":"How does one replace ATL with `ts-loader`? What should I be modifying in `webpack-build-typescript.js`?",
+      "user":"maximedupre"
+    },
+    {
+      "comment":"Even `ng help` also slow in my machine! ubuntu 14.04 86_64",
+      "user":"ambross"
+    },
+    {
+      "comment":"Sadly, I'm considering buying a Mac Pro in order to be productive until this is fixed. ",
+      "user":"rightisleft"
+    },
+    {
+      "comment":"@rightisleft Mac pro won't solve this problem. Rather try to switch to the webpack version with no cli, what I did",
+      "user":"albandaft"
+    },
+    {
+      "comment":"All, new stats show ATL (3.0.0-beta.9) taking lead again:\r\n\r\nWith ts-loader:\r\n\r\n![image](https://cloud.githubusercontent.com/assets/3470892/20716164/3a509fb6-b649-11e6-9e76-1f31fd7f8bee.png)\r\n\r\nWith awesome-typescript-loader:\r\n\r\n![image](https://cloud.githubusercontent.com/assets/3470892/20716251/88ae9f28-b649-11e6-8543-42b00ba8cd4d.png)\r\n\r\nMeans, ATL is taking lead in 3.beta9 again.\r\n",
+      "user":"asadsahi"
+    },
+    {
+      "comment":"@asadsahi do you know what was done in 3.0.0 to speed things up?\r\n\r\nSorry, i thought it's the next version of angular-cli that shows this performance improvement, but apparently your numbers are without using angular-cli?",
+      "user":"anton-107"
+    },
+    {
+      "comment":"@anton-107 Yes, its a non-cli project, but experiences presented here are of same nature. ",
+      "user":"asadsahi"
+    },
+    {
+      "comment":"Same problem here (x86_64 GNU/Linux system). I get a much faster rebuild time with the [quickstart official repo](https://github.com/angular/quickstart) I guess I have to stick to that for now.",
+      "user":"sangimed"
+    },
+    {
+      "comment":"Hey all, I've been running some benchmarks with recently added features in the CLI master branch.\r\n- https://github.com/angular/angular-cli/pull/3181 `@ngtools/webpack` as the TS loader for both AoT and non-AoT builds, across the board improvement.\r\n- https://github.com/angular/angular-cli/pull/3113 `--sourcemap` flag (defaults to true): uses sourcemaps on builds. Disabling it improves performance.\r\n- https://github.com/angular/angular-cli/pull/3117 `--vendor-chunk` flag (defaults to true): separates all non source files into `vendor.bundle.js`. Enabling it improves performance.\r\n\r\nYou can see them below:\r\n- using a new project (small project): https://gist.github.com/filipesilva/ede674667714a3497951b1d030f7e134#file-new-project-txt\r\n- using [Ames](https://github.com/stephenfluin/ames/) (medium-sized project): https://gist.github.com/filipesilva/ede674667714a3497951b1d030f7e134#file-ames-txt\r\n\r\nBaseline performance for `ng serve`, especially on rebuilds, should drastically improve across the board starting `v1.0.0-beta.22`.\r\n\r\nSome users have also reported that turning off progress logging improved their build and rebuild times, but I could not verify that on my machine so I think it's setup dependant. https://github.com/angular/angular-cli/pull/2858 lets you turn it off via `--no-progress`.\r\n\r\nP.S.: The medium project benchmark showed a performance regression for `--aot` builds, but we're working on fixing it.",
+      "user":"filipesilva"
+    },
+    {
+      "comment":"@filipesilva is --vendor-chunk same as generating DLL in webpack or different? ",
+      "user":"asadsahi"
+    },
+    {
+      "comment":"@asadsahi no, it is not using DLL, but I still want to look into it and compare to the vendor chunk.\r\n\r\nIt essentially uses `CommonChunksPlugin` to syphon every requests module from `node_modules` into a new chunk: https://github.com/angular/angular-cli/blob/master/packages/angular-cli/models/webpack-build-common.ts#L42-L48\r\n\r\nIt turned out to be one of the major performance increases because the `chunk asset optimization` step seems to operates over the whole chunk on reloads, and if we limit the changes to a chunk containing source files then it's much faster. ",
+      "user":"filipesilva"
+    },
+    {
+      "comment":"@filipesilva  Can we have exact metrics for considering this issue fixed? Something like \"rebuild ames in less than 1 seconds\" or soemthing like that. ",
+      "user":"hansl"
+    },
+    {
+      "comment":"I think there's a large performance regression in beta 22 in regards to SCSS compilation.\r\n\r\nI did each of these in a single run and recorded times with `$ ng serve`\r\n\r\n**Saved SCSS**: 11341, 10034, 10377, 9118, 10538\r\n**Saved HTML**: 11820, 3224, 2820, 3002, 3983\r\n**Saved TS**: 3982, 2701, 2561\r\n**Saved SCSS**: 8856, 9551, 8793\r\n**Saved TS**: 9505, 3888, 2961\r\n\r\nAs you can see, going from saving a SCSS to saving another file type (html or TS) causes that reload to also be slow once. If I look at the output, it spends a lot of time on SCSS files. I'm not doing anything intensive there.\r\n\r\nI just built my project and it took this time: `204798ms`\r\n\r\nAnother thing which is probably caused by @angularclass/hmr is that eventually the whole chrome tab crashes and I need to re-open that",
+      "user":"intellix"
+    },
+    {
+      "comment":"Maybe this [symlink](https://blogs.windows.com/buildingapps/2016/12/02/symlinks-windows-10/#CzOcBrzoeahsSIPk.97) improvement by  Microsoft could bring performance enhancements soon. ",
+      "user":"mzvast"
+    },
+    {
+      "comment":"Enabling hot module replacement for sass gives a huge performance boost. As you don't have to wait for the page to reload every time which can add another 3-4 secs or so. Would be cool to see that in place even if we can't get js HMR currently.",
+      "user":"scottwio"
+    },
+    {
+      "comment":"@mzvast I don't think the symlink improvement means anything for performance, it's just easier to do. @scottwio HMR is in beta.22, you can use it by providing the --hmr flag and following this project as an example: https://github.com/jschwarty/angularcli-hmr-example/ (just a few changes required)",
+      "user":"intellix"
+    },
+    {
+      "comment":"Worth noting that `--hmr` is not a mainstream case though. Many people won't use it or won't be able to use it in their apps.\r\n\r\nNot to mention people not using `serve` at all. At my current customer we are using `build --watch` because we are required to be as close as possible to our production which runs IIS, so we use this in local dev (and have some IIS modules running as well, etc).",
+      "user":"Meligy"
+    },
+    {
+      "comment":"Great, now using beta 22 with `ng serve --no-sourcemap --hmr -e=dev-hmr` with hmr config following https://github.com/jschwarty/angularcli-hmr-example/\r\n\r\nGives me acceptable timings, around 5 seconds from save to browser ready.",
+      "user":"rcomblen"
+    },
+    {
+      "comment":"Guys, Having stats of roughly 2-3 seconds as rebuild time with angular-cli@beta22 on a beefy machine using **ng serve --no-sourcemap --hmr -e=dev-hmr**. Without sourcemaps? Really?\r\n\r\nMy personal opinion is that it is still not the ideal time we should be looking for. DLL is the only way out of having rebuild less than ~0.5 seconds to improve developer productivity. As I mentioned in few of my earlier comments that I have ~300-400ms as rebuild time in a non-cli project using(webpack2@beta27 with DLL).  And this is with **cheap-module-source-map** enabled.",
+      "user":"asadsahi"
+    },
+    {
+      "comment":"HMR drastically improves the time for the developer. 5 seconds means delay between hitting ctrl+s and page is ready in browser (including template compilation in the browser). Used to be more than 15 before beta 22.",
+      "user":"rcomblen"
+    },
+    {
+      "comment":"Indeed, huge difference between beta 21 and beta 22. But Is that Ideal?\r\n\r\nThe point I am trying to make is that developer still waiting mostly for the 3rd party libraries. If a component.ts or component.html file is changed, recompilation should be quick. And DLL is the way to achive that.",
+      "user":"asadsahi"
+    },
+    {
+      "comment":"I'd like to try the improvements in beta.22, but is it just me or is beta.22 not on npm yet? Are there any plans for pushing it there?",
+      "user":"JohannesRudolph"
+    },
+    {
+      "comment":"@JohannesRudolph It's on npm, just not marked as `latest` yet. You can check the current setup from terminal:\r\n\r\n```\r\n$ npm dist-tag ls angular-cli\r\nexperimental: 1.0.0-beta.22\r\nlatest: 1.0.0-beta.21\r\n```\r\n\r\nTo test beta 22 right now, you have to follow https://github.com/angular/angular-cli#updating-angular-cli but change `latest` to `experimental` in the provided commands.",
+      "user":"mgol"
+    },
+    {
+      "comment":"beta 22 is much better but still way too slow for my company to be able to consider uaing angular-cli yet.",
+      "user":"insidewhy"
+    },
+    {
+      "comment":"Experiment:\r\nI made RAM disk and copy my project to it.\r\nBuild time is very small. For angular-cli beta 22 new project builds on 3-4 seconds and rebuilds when changed on 0.5-1.2 seconds. It is pretty cool.",
+      "user":"KhodeN"
+    },
+    {
+      "comment":"@khodeN of course ram disk makes the building way more faster. You can put the whole OS  into a 1TB ram disk ,then you can fly! :)\r\n\r\nAlright , I am just kidding .\r\nSo your exp probably proved that this is mostly an IO issue.",
+      "user":"mzvast"
+    },
+    {
+      "comment":"With both beta21 and beta22, I have a 50sec build time with `ng serve` from the empty project. Also running `ng -v` takes 14sec. \r\nRunning on win10, both as normal user and as admin",
+      "user":"simonech"
+    },
+    {
+      "comment":"If you would update to the latest one you'd see a massive improvement, I also had problems back in September with this but with the latest version I have +/- 2 secs compilation:\r\n\r\n```\r\nTime: 2394ms                                                                                                                                                                                        \r\nchunk    {0} main.bundle.js, main.bundle.map (main) 137 kB {3} [initial]\r\nchunk    {1} styles.bundle.js, styles.bundle.map (styles) 29 kB {4} [initial]\r\nchunk    {2} scripts.bundle.js, scripts.bundle.map (scripts) 227 kB {4} [initial]\r\nchunk    {3} vendor.bundle.js, vendor.bundle.map (vendor) 3.27 MB [initial]\r\nchunk    {4} inline.bundle.js, inline.bundle.map (inline) 0 bytes [entry]\r\nwebpack: bundle is now VALID.\r\n\r\n``` ",
+      "user":"RicardoVaranda"
+    },
+    {
+      "comment":"I'm on latest already... beta.22",
+      "user":"simonech"
+    },
+    {
+      "comment":"@hansl the metric I'll use is similar performance to a webpack2 project that is only using `@ngtools/webpack` plus the simplest possible optimizations (like vendor chunk or DLL). I'll get the baseline numbers and share them here, then aim at figuring out how our CLI setup affects them.\r\n\r\n@simonech that's very odd, I've never seen that much delay. To be absolutely sure, can you try this please?\r\n```\r\nnpm uninstall angular-cli -g\r\nnpm cache clean\r\nnpm install angular-cli -g\r\nng new test-proj\r\ncd test-proj\r\nng build # check build time here\r\nng serve # check serve time here\r\n```\r\n\r\nCan you also tell me your system specs, and anything else you think is relevant about your system?",
+      "user":"filipesilva"
+    },
+    {
+      "comment":"Hey all, I've been doing some more benchmarks to figure out if we have some gross inefficiencies in our webpack config.\r\n\r\nTo test that, I setup a very simple webpack app with lazy loading that uses `@ngtools/webpack` as the Typescript plugin. You can find it https://github.com/filipesilva/angular-cli-benchmark-app.\r\n\r\n`webpack-runner.js` is a script that'll modify the webpack config to have similar defaults as `ng build/serve` and to let you change it easily.\r\n\r\nThese are the benchmarks I got with that repo: https://gist.github.com/filipesilva/427b0369ccfc7d4d60b77aea90b71141#file-webpack-config-txt\r\n\r\nThe most significant one is the rebuild time:\r\n```\r\nBase command: npm start -- --serve\r\nComment: third rebuild time\r\n\r\nFull command: npm start -- --serve\r\nAverage time: 2935.8\r\nResults: 2787,3068,2706,3194,2924\r\n```\r\n\r\nI also rank the same app through a similar benchmark using the `ng build/serve` commands: https://gist.github.com/filipesilva/427b0369ccfc7d4d60b77aea90b71141#file-ng-txt\r\n\r\n```\r\nBase command: ng serve --no-progress\r\nComment: third rebuild time\r\n\r\nFull command: ng serve --no-progress\r\nAverage time: 1693.4\r\nResults: 1705,1672,1772,1718,1600\r\n```\r\n\r\nAs far as my benchmarks show, there is no significant performance loss using `ng build/serve` versus using a plain webpack config. On the contrary even: rebuilds with the CLI take half the time.\r\n\r\nTo be honest this result surprised me as I expected most of our custom plugins and logic to take a toll on the build time.\r\n\r\nSo for me this validates the current config generation as performant as a simple webpack config, meaning there shouldn't be any gross inefficiencies.\r\n\r\nThe next step is to try and integrate something like DLL Plugin, which should speed rebuilds up.\r\n\r\nI had a go at it today, and you can even try it on https://github.com/filipesilva/angular-cli-benchmark-app with `npm start -- --dll` but am running into some problems with the lazy loaded chunks.\r\n\r\nI also need to find a way to dynamically create the list of modules that will be included in the DLL bundle since users shouldn't have to list them manually.\r\n\r\nI'll keep you posted on the progress, and if you have suggestions or optimisations I'd love to hear it.",
+      "user":"filipesilva"
+    },
+    {
+      "comment":"Nice work @filipesilva . I am really counting on DLL implementation, I believe many of us will be amazed how quick rebuild can be with dll. I have seen 200-300ms rebuilds in a medium sized project. (Obviously depends upon the hardware app runs).\r\n\r\nAlso, Thumbs up for dynamically creating list of dll bundle.",
+      "user":"asadsahi"
+    },
+    {
+      "comment":"@filipesilva \r\nDid some tests, and I realized I was on power saving mode. But still with high performance settings build takes 23sec and serve takes 30sec. Feels too much anyway\r\n\r\nSystems specs:\r\nMicrosoft Surface Pro\r\nIntel Core i5-3317U @ 1.70 GHz\r\nRAM 4Gb\r\nSSD 128Gb\r\nWindows 10\r\n\r\nSpace available on the disk is not much, just a few Gb \r\n\r\nInstall went fine, only warning I got was\r\n```\r\nnpm WARN optional Skipping failed optional dependency /angular-cli/chokidar/fsevents:\r\nnpm WARN notsup Not compatible with your operating system or architecture: fsevents@1.0.15\r\n```\r\n\r\n`ng new` took 65sec till it said `Installing packages for tooling via npm.` and 6:30\" for completing the npm install\r\n\r\n`ng build`: 1:05\"... 17\" till the first message appeared, 49sec build time as reported in the output\r\n`ng serve`: 1:12\" with a stop watch: 17\" secs till first message, 55sec as reported in the output\r\n\r\nAlso `ng -v` takes 13\" sec\r\n\r\n```\r\nangular-cli: 1.0.0-beta.24\r\nnode: 6.9.1\r\nos: win32 x64\r\n@angular/common: 2.4.0\r\n@angular/compiler: 2.4.0\r\n@angular/core: 2.4.0\r\n@angular/forms: 2.4.0\r\n@angular/http: 2.4.0\r\n@angular/platform-browser: 2.4.0\r\n@angular/platform-browser-dynamic: 2.4.0\r\n@angular/router: 3.4.0\r\n@angular/compiler-cli: 2.4.0\r\n```\r\n\r\nHere how power settings affect the build time.\r\nRunning as admin doesn't affect much\r\n\r\n * Power saving:\r\n   * `ng build`: 17 sec initial lag, 49sec build, 1:05 overall\r\n   * `ng serve`\r\n   * `ng -v`: 13sec \r\n * Balanced:\r\n   * `ng build`: 7sec initial lag, 18sec build time, 25sec overall\r\n   * `ng serve`: 7sec initial lag, 18sec build time, 25sec overall\r\n   * `ng -v`:  5 sec\r\n * High perf:\r\n   * `ng build`: 5sec initial lag, 17sec build time, 23sec overall\r\n   * `ng serve`: 6sec initial lag, 22sec build time, 30sec overall\r\n   * `ng -v`: 5 sec",
+      "user":"simonech"
+    },
+    {
+      "comment":"@simonech It's definitely way too much time, especially for an empty project. I really cannot fathom how could do that. Perhaps an overly aggressive antivirus, or a dying SSD... \r\n\r\nYou know anyone else with a similar Surface Pro that could try? For a brand new project you should be seeing numbers similar to https://gist.github.com/filipesilva/427b0369ccfc7d4d60b77aea90b71141#file-ng-txt",
+      "user":"filipesilva"
+    },
+    {
+      "comment":"Yeah, but the 5-6 sec for just ng -v should not be affected by av or disk, right?\nWill try from a beefier machine tomorrow and see.\nThx\n\nSent from my iPad\n\n> On 21 Dec 2016, at 22:56, Filipe Silva <notifications@github.com> wrote:\n> \n> @simonech It's definitely way too much time, especially for an empty project. I really cannot fathom how could do that. Perhaps an overly aggressive antivirus, or a dying SSD...\n> \n> You know anyone else with a similar Surface Pro that could try? For a brand new project you should be seeing numbers similar to https://gist.github.com/filipesilva/427b0369ccfc7d4d60b77aea90b71141#file-ng-txt\n> \n> —\n> You are receiving this because you were mentioned.\n> Reply to this email directly, view it on GitHub, or mute the thread.\n> \n",
+      "user":"simonech"
+    },
+    {
+      "comment":"Part of the ember-cli addon discovery code does walk node deps to see if there are addons there, so disk speed would affect it. I'd never expect it to take more than 3 seconds on HDD evens though. It's something we want to remove though.",
+      "user":"filipesilva"
+    },
+    {
+      "comment":"@filipesilva ng -v on my window 10 machine takes around 25-26 seconds to display version no.\r\n\r\nWith HMR, First load takes ~30 secconds and rebuild time on same machine 12-13 seconds.\r\n\r\nmachine spec:\r\n![image](https://cloud.githubusercontent.com/assets/3470892/21408704/526ec7c6-c7ce-11e6-893d-791a2f03bba2.png)\r\n\r\nActually, this is the time I see in console, but my estimates are from rebuild start to browser readly after reload:\r\n\r\n![image](https://cloud.githubusercontent.com/assets/3470892/21408789/da217448-c7ce-11e6-8834-d612f798422d.png)\r\n\r\n",
+      "user":"asadsahi"
+    },
+    {
+      "comment":"@simonech @asadsahi can you do me a favor and try this to see build time?\r\n```\r\ngit clone https://github.com/filipesilva/angular-cli-benchmark-app\r\ncd angular-cli-benchmark-app\r\nnpm install\r\nnpm start\r\n```\r\nThen copying `./src/` onto a `ng new` project and see the `ng build` time there as well.\r\n\r\nMy point in asking this is to see if there is a vast difference between running the webpack compilation from within the CLI or from a barebones project. \r\n\r\nI tested this in my machine and the CLI was faster, but I begin to wonder if there is something that is slowing down other setups.",
+      "user":"filipesilva"
+    },
+    {
+      "comment":"@filipesilva \r\n\r\nangular-cli-benchmark-app build times:\r\n\r\n![image](https://cloud.githubusercontent.com/assets/3470892/21423896/60e65508-c837-11e6-801d-53d3bbfc8cfd.png)\r\n\r\n\r\nnew angular-cli project build times before overriting angular-cli-benchmark-app src:\r\n\r\n![image](https://cloud.githubusercontent.com/assets/3470892/21426783/c4905296-c848-11e6-9148-277f9c9c6e8a.png)\r\n\r\n\r\nAfter overriting angular-cli-benchmark-app src > new angular-cli project:\r\n\r\n![image](https://cloud.githubusercontent.com/assets/3470892/21426862/2f0a2e12-c849-11e6-8cb5-d449cfd1513b.png)\r\n",
+      "user":"asadsahi"
+    },
+    {
+      "comment":"@asadsahi thank you for the time you took to put these together.\r\n\r\nThe missing require is relevant somewhat. Mostly because it was something that would only happen in older versions of the CLI. That together with the fact that you're not getting an auto-generated vendor bundle makes me think the generated project is actually on beta.19 or beta.20.\r\n\r\nCan you confirm what version you used for that test please? beta.22 and above brought many improvements to the build speed. A lot of the time in your screenshot is being spent on `building modules`, and if I remember correctly that was an issue related to `awesome-typescript-loader` (which we then switched to `@ngtools/webpack`).\r\n\r\nIf you have the time, I would appreciate those two tests repeated with beta.24. You shouldn't need to update your global version, it should be enough to update the local project one.",
+      "user":"filipesilva"
+    },
+    {
+      "comment":"@filipesilva sorry, installation of beta 24 didn't happen correctly, Beta 20 stuck on windows 10 even after cleaning cache. So I have to manually delete angular-cli folders and did beta 24 install globallay and created new projects from scratch. I can confirm new tests are from beta 24.\r\n\r\nI have updated above screenshots with new build/rebuild times. Let me know if you need any more information.\r\n\r\nThanks",
+      "user":"asadsahi"
+    },
+    {
+      "comment":"@filipesilva Did some tests with your benchmark repo on my system. The results are:\r\n\r\nFor the `angular-cli-benchmark-app`:\r\n```\r\nHash: 65007cd0b108b0cabe02\r\nVersion: webpack 2.1.0-beta.25\r\nTime: 7634ms\r\n               Asset       Size  Chunks             Chunk Names\r\n     0.bundle.js.map     111 kB       0  [emitted]  \r\n         0.bundle.js     107 kB       0  [emitted]  \r\n         2.bundle.js    2.46 kB       2  [emitted]  \r\n      main.bundle.js    6.06 kB       3  [emitted]  main\r\n    vendor.bundle.js     2.8 MB       4  [emitted]  vendor\r\n         1.bundle.js     107 kB       1  [emitted]  \r\n     1.bundle.js.map     111 kB       1  [emitted]  \r\n     2.bundle.js.map    1.02 kB       2  [emitted]  \r\n  main.bundle.js.map    3.67 kB       3  [emitted]  main\r\nvendor.bundle.js.map       3 MB       4  [emitted]  vendor\r\n          index.html  402 bytes          [emitted]  \r\n```\r\n\r\nFor the angular-cli generated project:\r\n\r\n```\r\nHash: c6e22cffdebd68f501db                                                              \r\nTime: 8578ms\r\nchunk    {0} 0.chunk.js, 0.bundle.map 87 kB {3} {2} {1} [rendered]\r\nchunk    {1} 1.chunk.js, 1.bundle.map 86.9 kB {2} {0} {3} [rendered]\r\nchunk    {2} 2.chunk.js, 2.bundle.map 1.76 kB {0} {1} {3} [rendered]\r\nchunk    {3} main.bundle.js, main.bundle.map (main) 3.9 kB {5} [initial] [rendered]\r\nchunk    {4} styles.bundle.css, styles.bundle.map, styles.bundle.map (styles) 1.77 kB {6} [initial] [rendered]\r\nchunk    {5} vendor.bundle.js, vendor.bundle.map (vendor) 2.36 MB [initial] [rendered]\r\nchunk    {6} inline.bundle.js, inline.bundle.map (inline) 0 bytes [entry] [rendered]\r\n```\r\n\r\nMy system is Ubuntu 14.04 on an i5-2450M CPU @ 2.50GHz, 8GB RAM, SSD drive",
+      "user":"cdarken"
+    },
+    {
+      "comment":"@asadsahi awesome, thanks for the update! So your numbers clearly show an increase from 15ish secs on a webpack project to 19secs on a CLI project. \r\n\r\nI picked the last (and best) build time for the CLI because I know it has some kind of warm up time that I think is node related. After a brand new install the first few builds are slower but then it stabilises. For instance, your numbers went from 27secs to 19secs on a operation that does not keep state (`ng build`).\r\n\r\nIt still is roughly 3~4 times bigger than the numbers I get. To me that says that there is a system resource being heavily stressed on your system, and that resource is being used more by the CLI than on a bare webpack config.\r\n\r\nI will investigate on that premise. I suspect either disk access or CPU, and will see which extra webpack plugins are mostly impacting those.",
+      "user":"filipesilva"
+    },
+    {
+      "comment":"**System Specs:**\r\ni5 4460 Quad Core\r\n16GB RAM\r\nWindows 10\r\n\r\n**My Results:**\r\nWebpack Benchmark App:\r\n![benchmark-app](https://cloud.githubusercontent.com/assets/656884/21428248/0cd68b28-c827-11e6-9db4-57dab8a1ab02.png)\r\n\r\n**Angular CLI Beta 24:**\r\n![ng-cli](https://cloud.githubusercontent.com/assets/656884/21428397/dda864ce-c827-11e6-8dda-c96b49bb6cc5.png)\r\n\r\n",
+      "user":"rosslavery"
+    },
+    {
+      "comment":"Guys, stop working, go home and rest and happy christmas and happy new year. 🎄 🎅 🎁 ",
+      "user":"albandaft"
+    },
+    {
+      "comment":"@filipesilva I ran `ng build` and `ng serve` from a standard npm install, on a much more powerful machine (Win10 i7-3770 3.7ghz with 8GB RAM and SSD), and for both I had 8sec build time ",
+      "user":"simonech"
+    },
+    {
+      "comment":"@filipesilva tested the two benchmarks\r\n\r\nweb-pack: 6529, 6311\r\n![image](https://cloud.githubusercontent.com/assets/61557/21432549/565caf8a-c86c-11e6-8222-aa52d4d637fd.png)\r\n\r\nng build (using beta24 --progress=false) 6874,6786\r\n![image](https://cloud.githubusercontent.com/assets/61557/21432701/eb74d944-c86c-11e6-8421-1bc4262bc183.png)\r\n\r\nI'll try it again this evening on the slower machine",
+      "user":"simonech"
+    },
+    {
+      "comment":"As raised by #3203, asset optimization seems to be still one area to check, especially when you start having a few images in assets (or, worse, in my case some binary .dll files -that's totally NOT Webpack DLLs- used for IIS auth and stuff, generated from bigger project).\r\n\r\nIt takes several seconds, and it seems to be running in partial / incremental builds (watch mode) not just initial build.\r\n\r\nMight be possible to disable in dev?",
+      "user":"Meligy"
+    },
+    {
+      "comment":"More data from my work machine (Poor little small form factor HP)! \r\nSpecs:\r\nWindows 10 x64 Build 1607\r\nIntel Core 2 Duo E7600\r\n8GB Ram\r\nSamsung 850 Pro SSD\r\n\r\n### Webpack\r\n![Webpack Build Result](http://i.imgur.com/vKlbeRL.png)\r\n### CLI\r\n![CLI Build Result](http://i.imgur.com/3qlzPGs.png)",
+      "user":"gelliott181"
+    },
+    {
+      "comment":"@filipesilva \r\nI ran the test again on my low-spec Microsoft Surface Pro\r\n\r\nthe webpack build was 10694, 10258 (but overall time has the usual 5 secs lag)\r\n![image](https://cloud.githubusercontent.com/assets/61557/21449703/5b304952-c8f0-11e6-98fd-01f32e714efc.png)\r\n\r\nRunning CLI `build --progress=false`: 12285,11291 (with high perf power settings)\r\n![image](https://cloud.githubusercontent.com/assets/61557/21449826/63ebde52-c8f1-11e6-83e6-b03db3335cf9.png)\r\n\r\nSo both on my Surface Pro and on my work machine i7, running directly webpack is slightly faster than CLI (200-300ms - 5-ish% on the fast machine, 1-1.5sec 10-ish% on the slower Surface Pro)\r\n\r\nHTH and let me know if you want me to run other tests/benchmarks",
+      "user":"simonech"
+    },
+    {
+      "comment":"Do the assets really have to be optimised every time even if none of them have changed? A better approach would be to somehow cache the optimised assets if we need tp rebuild them every time to avoid repetition of the optimization.",
+      "user":"RicardoVaranda"
+    },
+    {
+      "comment":"Still running pretty slow here. Rebuilds are at around 4.8s-6s, sometimes up to 9s. Our project is getting pretty large, but it still feels like the rebuild times should be much shorter, especially for .ts files. Changing a single file is most likely triggering the checking of a huge number of dependent and depended upon files instead of just transpiling that one file and then doing the checks later on.\r\n\r\nTried playing around with some of the webpack settings, even with adding ts-loader or awesome-typescript-loader, but couldn't get the time to go down by much. Also tried happypack (which splits the compilation into several parallel threads), but didn't succeed in making it work, probably because of webpack 2.\r\n\r\nAnyway, any improvements here would be greatly appreciated.\r\n\r\n**UPDATE**: Some more testing and it turns out I can get my rebuilt times down to around 3s-3.5s with isolatedModules and transpileOnly. Also, building the whole project with tsc takes 5.5 seconds, including checks and without isolatedModules, so it is indeed strange that with webpack and angular cli it is doing so much more stuff that it takes just as long to compile the whole project with tsc as it takes to rebuild after changing a single ts file.",
+      "user":"hccampos"
+    },
+    {
+      "comment":"@asadsahi @cdarken @rosslavery @simonech @gelliott181 thank you so much for all the benchmarks you did! As far as I can tell the CLI is somewhat slower than a barebones webpack run, but it's usually not that much. So that really makes it seem like it's a matter of system resources. I'm looking more into making DLLPlugin work on the CLI since that seems to be the only real big performance increase in sight.\r\n\r\n@RicardoVaranda the asset optimization listed in the verbose build is actually not related to the assets folder at all. It's related with stuff like sourcemaps, which is why that time drastically drops if you do `--no-sourcemaps`.\r\n\r\n@hccampos I asked around and it turns out that `happypack` doesn't work with loaders that use `loaderContext._compiler`. This, unfortunately, is pretty much all typescript loaders.",
+      "user":"filipesilva"
+    },
+    {
+      "comment":"@filipesilva https://github.com/angular/angular-cli/issues/1980#issuecomment-268592049\r\n\r\n> I also need to find a way to dynamically create the list of modules that will be included in the DLL bundle since users shouldn't have to list them manually.\r\n\r\nI think there is nothing wrong by manually listing all vendor package names in an array. I dont see any other solution how this can be automatically done. Take a look at this config file https://github.com/qdouble/angular-webpack2-starter/blob/master/constants.js#L65-L69 and on the project in general.",
+      "user":"aegyed91"
+    },
+    {
+      "comment":"https://github.com/angular/angular-cli/pull/3805 should help with the initial command startup time. In my tests it was reduced by 50%, but since running from master also compiles the CLI's TS files on the fly, the reduction might be more dramatic after a release.",
+      "user":"filipesilva"
+    },
+    {
+      "comment":"`npm ls --depth=0 --production` \r\n\r\n```bash\r\n+-- @angular/common@2.4.1\r\n+-- @angular/compiler@2.4.1\r\n+-- @angular/core@2.4.1\r\n+-- @angular/forms@2.4.1\r\n+-- @angular/http@2.4.1\r\n+-- @angular/platform-browser@2.4.1\r\n+-- @angular/platform-browser-dynamic@2.4.1\r\n+-- @angular/router@3.4.1\r\n+-- core-js@2.4.1\r\n+-- lodash@4.17.3\r\n+-- rxjs@5.0.2\r\n+-- ts-helpers@1.1.2\r\n`-- zone.js@0.7.4\r\n```\r\n\r\nfrom this you can get the polyfill and library list you include over npm\r\n\r\nwith npm postinstall hook you create the new dll build and make it automatic\r\n\r\nalso make it available over cli, `ng build:dll` to trigger it manually if need\r\n\r\n",
+      "user":"aegyed91"
+    },
+    {
+      "comment":"I think there are too many special cases to allow an automatic dll build to be ultimately reliable (e.g., including all depth zero packages would include packages that are not used in code; which could be benign or fatal).\r\nRealistically, is it even necessary?  The dll build is only really useful in development scenarios (`ng serve / ng build --watch`) as the vendor bundle covers production builds.  So providing maximum configurability may not be needed.   Covering the known large code size offenders (i.e., the angular libraries and their dependencies) should hopefully provide a noticeable performance improvement with minimal additional complexity.  Further, the configurability can always be expanded upon in the future.",
+      "user":"clydin"
+    },
+    {
+      "comment":"My idea was to use a similar strategy to the one we already use for the vendor chunk to determine DLL packages. Basically all top-level modules requested by the the main (and lazy loaded) chunks that are located in `node_modules`.\r\n\r\nIt might be enough initially to just hardcode the angular packages though.\r\n\r\nAt the moment I'm still blocked by some weird interactions between the `AoTPlugin` and `DLLPlugin`. Builds seem to break as soon as an angular lib is factored out into the DLL bundle.",
+      "user":"filipesilva"
+    },
+    {
+      "comment":"Another update: moving to `webpack@2.2.0-rc.3` (https://github.com/angular/angular-cli/pull/3786) seems to have had roughly a 30% performance (1.69s to 1.3s) increase in rebuilds.",
+      "user":"filipesilva"
+    },
+    {
+      "comment":"+1 for improving the speed at least for scss and ts compilation. Compared to Gulp it takes 10sec on my machine compiling Bootstrap SCSS  instead of less than 500ms. Smiliar results on ts files.",
+      "user":"MickL"
+    },
+    {
+      "comment":"@MickL are you seeing similar results to my comment? https://github.com/angular/angular-cli/issues/1980#issuecomment-264649140\r\n\r\nI think my comment about saving SCSS files went unnoticed and it's insanely random :)",
+      "user":"intellix"
+    },
+    {
+      "comment":"@intellix @MickL I haven't looked at SCSS much yet but will.",
+      "user":"filipesilva"
+    },
+    {
+      "comment":"Does angular-cli offer live-reload feature?\r\nIf so, what makes the difference as compared to react?\r\nMy react project applies code changes instantly whether it is js or styles...\r\nI assume it's using `webpack-hot-middleware`.\r\n\r\nI'm going to use this starter kit, wondering how it affects development speed.",
+      "user":"RumenTech"
+    },
+    {
+      "comment":"@RumenTech modifying scss files trigger recompilation. Cold start of my project is 25 seconds, while small change in scss file takes ~2-4 seconds BUT app is being refreshed.",
+      "user":"Namek"
+    },
+    {
+      "comment":"This is what I'm dealing with on one of my larger projects that uses `.scss`, and `ng build -prod -aot`\r\n```                                                      \r\nTime: 678933ms // 11 minutes\r\n```",
+      "user":"dessalines"
+    },
+    {
+      "comment":"I guess TypeScript compiler is okay. But SCSS is way too slow. As far as i know Angular CLI is using libsass which is the best choice. But lets compare a regular [Boostrap](https://v4-alpha.getbootstrap.com/) compile to gulp-sass (also using libsass) in combination with gulp-sourcemaps.\r\n\r\nOn my machine i get following results in average:\r\nGulp: 250ms\r\nAngular CLI: 4500ms\r\n\r\nAlso we have a full page reload instead of just reloading the styles. But this is not part of this issue i guess.\r\n\r\nSteps to reproduce:\r\n\r\n1. ng new scss-project --style=scss\r\n2. npm install bootstrap@4.0.0-alpha.5 --save-dev\r\n3. Add import to /src/app/style.scss: `@import '../node_modules/bootstrap/scss/bootstrap';`\r\n4. ng serve\r\n5. Try adding something into styles.scss, for example: h1 { color:red; }\r\n6. Reload takes 4-5s on my machine",
+      "user":"MickL"
+    },
+    {
+      "comment":"i think there might be a way how to modify SASS files for GLOBAL style without triggering the recompilation. .. I hoped Lazy Styles was it, but it triggers recompilation too :-/\r\n\r\nThe sass recompilation with my gulp script takes 100-150ms, but the recompiled style.css triggers recompilation which takes 25sec.. + 5sec reload. So every change in global style takes 30sec to take in place.",
+      "user":"montella1507"
+    },
+    {
+      "comment":"In my env (ng beta-24), 8GB RAM, SSD, Ubuntu VirtualBox on Windows 10 it takes also a minute to rebuild. Does anyone know a good article describing an alternative build/serve process, while maintaining the structure provided by angular-cli, so I could come back when the issue is resolved ?\r\nThanks so much. ",
+      "user":"ralf100"
+    },
+    {
+      "comment":"@ralf100  i think the angular-cli is mainly only about to have entry point, src folder, assets folder and angular-cli so you can have some better starte pack (i strongly suggest you that one from QDOUBLE on github) and still use Angular-cli for scaffolding, then you shoudl be able to switch back.",
+      "user":"montella1507"
+    },
+    {
+      "comment":"`Time: 15111ms`\r\n\r\nAround 15s for a project I just recently started with, so not too big yet.\r\nI'm on Windows7, npm v.4.1.1, node v6.9.2\r\nangular-cli@1.0.0-beta.24",
+      "user":"hnrchrdl"
+    },
+    {
+      "comment":"https://github.com/angular/angular-cli/pull/3943 should help with the rebuilds of global CSS.",
+      "user":"filipesilva"
+    },
+    {
+      "comment":"As mentioned by @filipesilva, the performance was nicely improved with the upgrade to Webpack 2 rc3 (rc4 released today, by the way). However, it is still not as good as it should be, imho. So I decided to do some quick profiling with node-nightly and the chrome dev tools. I haven't had the time to really dig deep into it, but here are some screenshots of the profile I ran during a 3rd or 4th rebuild, without any file changes.\r\n\r\n<img width=\"1081\" alt=\"screen shot 2017-01-12 at 00 16 54\" src=\"https://cloud.githubusercontent.com/assets/3759114/21870528/1fec001c-d85d-11e6-9525-263bee5c6b7f.png\">\r\n<img width=\"1079\" alt=\"screen shot 2017-01-12 at 00 17 38\" src=\"https://cloud.githubusercontent.com/assets/3759114/21870527/1feaecc2-d85d-11e6-9b00-c4d542244a75.png\">\r\n\r\nWe can see that the great majority of the time is spent by typescript (and, up to a point, by Webpack) trying to figure out if a file or folder exists in order to properly resolve modules. This makes me wonder if it wouldn't be possible to have TS and Webpack cache all the files and their locations (relative included) and only re-check them when there is a notification from the filesystem saying that a certain file has actually changed.\r\n\r\nSay file A refers to file B and C. If only file A was changed in the filesystem, can check the imports and, if they didn't change, we know that file B and C exist, we know exactly where they are and ideally we even have their contents in memory somewhere. If, say, only the reference to file B changed, then we can go look only for file B. And so on.\r\n\r\nIt may actually be the case that the normal watch mode of TSC actually does something similar to what I described above, even though I haven't had the time to check. It is much faster than via webpack. However, I guess the webpack loader has a harder time because it is just calling TS to compile a certain file or set of files.\r\n\r\nAnyone has any other insights? Maybe this could be something to bring up directly with Webpack and Typescript. What do you think?",
+      "user":"hccampos"
+    },
+    {
+      "comment":"@hccampos awesome deduction, what does it look like with CSS preproccesors?",
+      "user":"intellix"
+    },
+    {
+      "comment":"Hey @hccampos, thanks for those! Very helpful.\r\n\r\nSo I feel you're running a `ng build`, correct? I ran a `ng serve` (with https://github.com/angular/angular-cli/pull/3961 locally) and modified a file a bunch of times, and I got a very different graph:\r\n\r\n![screen shot 2017-01-11 at 4 53 35 pm](https://cloud.githubusercontent.com/assets/681969/21872674/b955031e-d81e-11e6-9bd5-b6e55f6b836e.png)\r\n\r\nHere's the cpuprofile file: \r\n[test.cpuprofile.zip](https://github.com/angular/angular-cli/files/700473/test.cpuprofile.zip)\r\n\r\n@TheLarkInn seems like the above a lot of the time is lost in ReplaceSource and HarmonyModulesHelpers.",
+      "user":"hansl"
+    },
+    {
+      "comment":"Sorry the screen above is sorted by Total Time. Here's sorted by Self Time:\r\n\r\n![screen shot 2017-01-11 at 4 59 11 pm](https://cloud.githubusercontent.com/assets/681969/21872766/4bfa4670-d81f-11e6-87cc-4280554ce6e5.png)\r\n\r\nSeems like Typescript does a lot of checks. Let's see if we can help there.",
+      "user":"hansl"
+    },
+    {
+      "comment":"@hansl @hccampos `compilerOptions.isolatedModules` is the one flag that can impact rebuild times in a huge way. I'm using custom gulp tasks for building (on top of CLI project) and if I set `\"isolatedModules\": false` rebuild times for just touching one file are `3.39s`, `3.33s`, `3.29s`. with `\"isolatedModules\": true` I get `186ms`, `73ms`, `82ms`. I'm not familiar with inner workings of webpack, so I'm not sure where/how this would affect other stuff, but I hope it helps (;",
+      "user":"sasxa"
+    },
+    {
+      "comment":"Yes, isolatedModules are good when you know you are not messing about with\nimports. However, you lose the checks against other files if you do change\nimports. My point is it should be possible in to keep track of which\nimports changed and then only check those.\n\nHard problem though, especially when combining TS with Webpack.\n\nOn Jan 12, 2017 07:17, \"Aleksandar Milošević\" <notifications@github.com>\nwrote:\n\n@hansl <https://github.com/hansl> @hccampos <https://github.com/hccampos>\ncompilerOptions.isolatedModules is the one flag that can impact rebuild\ntimes in a huge way. I'm using custom gulp tasks for building (on top of\nCLI project) and if I set \"isolatedModules\": false rebuild times for just\ntouching one file are 3.39s, 3.33s, 3.29s. with \"isolatedModules\": true I\nget 186ms, 73ms, 82ms. I'm not familiar with inner workings of webpack, so\nI'm not sure where/how this would affect other stuff, but I hope it helps (;\n\n—\nYou are receiving this because you were mentioned.\nReply to this email directly, view it on GitHub\n<https://github.com/angular/angular-cli/issues/1980#issuecomment-272085546>,\nor mute the thread\n<https://github.com/notifications/unsubscribe-auth/ADlcCt6N92TzYrtLLdmJllmbr5PlB97Sks5rRcVrgaJpZM4J07P9>\n.\n",
+      "user":"hccampos"
+    },
+    {
+      "comment":"@hccampos Question is do we really need that strict checking all the time? IDEs do most of this already. I've been working on an app for past 3 months with 2-3 major architectural changes and quite large refactoring each time. After all that, building the same app with `isolatedModules` turned off this morning I got only one import error in obscure `DevComponent` I rarely use. \r\n\r\nI think it would be good idea to turn **on** `isolatedModules` flag with `ng serve` and **off** for `ng build` and other stuff...",
+      "user":"sasxa"
+    },
+    {
+      "comment":"@sasxa Good point indeed! Still would be nice if TS and Webpack could optimize further since it would be a gain for everyone, both those who use TS aware editors and those who don't. In Webpack's case, it would be great also for people using React and other non-ts stuff.",
+      "user":"hccampos"
+    },
+    {
+      "comment":"Not sure if this is helpful at all but I noticed that build and rebuild of the exact same project are an order of magnitude faster on my machine when running osx rather than windows 10. I'm on a new macbook pro (i7-6820 / 16gb) and build/rebuild is around 8,000ms / 2,500ms under osx, but 45,000/10,000ms under Windows 10 (bootcamp, not virtualized).  I'm on beta.24 currently, and this is a real application, not huge, but significantly more than hello world. 2,5s rebuild is acceptable for workflow IMO, 10s is painful. \r\n\r\nAny further information I can provide that might be useful?",
+      "user":"mrlund"
+    },
+    {
+      "comment":"@mrlund can you try adding your project folder as an exclusion to Windows Defender, to see if it helps? \r\n\r\nhttps://support.microsoft.com/en-ie/instantanswers/64495205-6ddb-4da1-8534-1aeaf64c0af8/add-an-exclusion-to-windows-defender",
+      "user":"filipesilva"
+    },
+    {
+      "comment":"OS X is an outlier in this case, and we have file system events to thank\nfor that. No constant check of modification dates, just an event that gets\nemitted whenever a file changes that the driver can act on. Don't be fooled\nby the time difference.\n\n\nOn Thu, Jan 12, 2017 at 7:38 AM Filipe Silva <notifications@github.com>\nwrote:\n\n> @mrlund <https://github.com/mrlund> can you try adding your project\n> folder as an exclusion to Windows Defender, to see if it helps?\n>\n>\n> https://support.microsoft.com/en-ie/instantanswers/64495205-6ddb-4da1-8534-1aeaf64c0af8/add-an-exclusion-to-windows-defender\n>\n> —\n> You are receiving this because you were mentioned.\n> Reply to this email directly, view it on GitHub\n> <https://github.com/angular/angular-cli/issues/1980#issuecomment-272153139>,\n> or mute the thread\n> <https://github.com/notifications/unsubscribe-auth/ADajDVajAsG8Tb9HIHRo8Y40yn3SkQunks5rRh7WgaJpZM4J07P9>\n> .\n>\n",
+      "user":"gelliott181"
+    },
+    {
+      "comment":"@filipesilva No discernible difference with project folder excluded in Windows Defender. ",
+      "user":"mrlund"
+    },
+    {
+      "comment":"@gelliott181 @mrlund I don't notice a difference in my system either but wanted to double check. It seems to [help for Ember projects](https://github.com/felixrieseberg/ember-cli-windows) but we've since moved away from brocolli.",
+      "user":"filipesilva"
+    },
+    {
+      "comment":"Have you experimented with this before? [parallel-webpack](https://www.npmjs.com/package/parallel-webpack).\r\n\r\nI just learned about it from [here](https://presentations.survivejs.com/advanced-webpack/#/58?_k=f9nidd) in this awesome deck [Addy Osmani recommended](https://twitter.com/addyosmani/status/819947148254904320/photo/1) about Webpack.",
+      "user":"Meligy"
+    },
+    {
+      "comment":"I think that one would be tricky to add. There is also Happypack, but it doesn't (and likely never will) play well wit h typescript.\r\n\r\nHopefully we can make some more profiles with the new profiling options and then find places where the cli, webpack and TS can improve. I haven't had the time to dig more into it, but hopefully will soon.",
+      "user":"hccampos"
+    },
+    {
+      "comment":"Here you go @hansl and @TheLarkInn , a profile of 3 rebuilds without any changes to any files (only pressing cmd+s in VSCode to trigger a rebuild).\r\n\r\n[CPU-20170116T224647.cpuprofile.zip](https://github.com/angular/angular-cli/files/709460/CPU-20170116T224647.cpuprofile.zip)\r\n\r\nThis thing here looks suspicious, the Angular compiler doing a LOT of stuff there. But I am not familiar with it at all.\r\n\r\n<img width=\"1080\" alt=\"screen shot 2017-01-16 at 22 57 03\" src=\"https://cloud.githubusercontent.com/assets/3759114/22000397/26978cfc-dc3f-11e6-831b-2035744ee3f9.png\">\r\n",
+      "user":"hccampos"
+    },
+    {
+      "comment":"Just to add another experience Report: I've switched to working on my Project on a Windows machine recently (from OS X) and even though my new machine is significantly faster running our full AOT builds (120s down to 75s), rebuilds are taking much longer (2.5s to 16s). \r\n\r\nI can thus certainly confirm what @mrlund reported.",
+      "user":"JohannesRudolph"
+    },
+    {
+      "comment":"@mrlund @JohannesRudolph I work on a windows machine but don't get that massive slowness. Mine is win10, and I have an admin account.\r\n\r\nCan you give me your system specs and whether or not you have admin? Maybe I can figure out how to repro it on my machine.",
+      "user":"filipesilva"
+    },
+    {
+      "comment":"@filipesilva: it's a fresh install of win10 pro, I'm admin (local user account) and it's a i5-7600@3.5Ghz, SSD, 16GB RAM.... \r\n\r\nThe slowdown on Windows compared to OS X (exact same repo etc.) is very interesting indeed. Let me know if there's anything I can help you with to get to the bottom of this. ",
+      "user":"JohannesRudolph"
+    },
+    {
+      "comment":"From looking at the Task Manager during a live rebuild I get the impression that it's not an i/o bound issue, thus pointing away from fsevents and friends. Though that may be misleading due to fs caching in the OS. \r\n\r\nDisk active time stays below 2% while one CPU core is fully loaded (indicating webpack is single-threaded at the moment). So whatever it is, the Windows rebuild appears does a lot more work than a rebuild on OS X.\r\n\r\nEdit: One more Thing, I'm using SCSS with this Project and I think a previous commenter here has pointed this out as a possible cause as well. ",
+      "user":"JohannesRudolph"
+    },
+    {
+      "comment":"@filipesilva My experience is the same as @JohannesRudolph I'm on a new touchbar MacBook Pro 15\", a i7-6820HQ @ 2.7GHz with 16GB RAM, and the super-fast SSD. \r\n\r\nI'm NOT using SCSS, but plain CSS, and I get similar numbers, that indicate the hardware is by no means stressed (8-9% CPU, 0-5% Disk) during both build and rebuild. One notable thing, however is that the node process reaches almost 1GB of RAM consumption, which seems excessive? \r\n\r\nWindows 10 (x64), recent install, node 6.9.4. (was previously running node 7), local admin user. I've also run `ng serve` from an elevated command prompt as the actual admin user with no discernable difference. ",
+      "user":"mrlund"
+    },
+    {
+      "comment":"@JohannesRudolph can you try making a new project using plain CSS and another with SCSS on your machine to see if the rebuild differences are noticeable?",
+      "user":"filipesilva"
+    },
+    {
+      "comment":"@mrlund could you check if you also get it on a new project? I'm wondering if it's project specific. \r\n\r\nAlso could you tell me the path your slow project is at? And if you have any symlinked node modules.",
+      "user":"filipesilva"
+    },
+    {
+      "comment":"@filipesilva  we have the same experience in our company. Everyone.\r\n\r\nLinux: 4sec\r\nWindows: 19sec.\r\n\r\nSeems like NTFS (inodes) have serious performance issues with tons of small files",
+      "user":"montella1507"
+    },
+    {
+      "comment":"@montella1507 i experience the same issue. On ubuntu 16.04 rebuild time is ... managable, on windows 10 it is a real pain.",
+      "user":"aegyed91"
+    },
+    {
+      "comment":"This is from testing two fresh ng-init projects: \r\n\r\n```\r\nangular-cli: 1.0.0-beta.26\r\nnode: 7.3.0\r\nos: win32 x64\r\n``` \r\n\r\n**CSS**:\r\n```\r\nPS C:\\dev\\ng-css> npm run start\r\n\r\n> ng-css@0.0.0 start C:\\dev\\ng-css\r\n> ng serve\r\n\r\n** NG Live Development Server is running on http://localhost:4200. **\r\nHash: 164111cf5cd94c55d065\r\nTime: 6537ms\r\nchunk    {0} main.bundle.js, main.bundle.map (main) 4.52 kB {2} [initial] [rendered]\r\nchunk    {1} styles.bundle.js, styles.bundle.map (styles) 9.96 kB {3} [initial] [rendered]\r\nchunk    {2} vendor.bundle.js, vendor.bundle.map (vendor) 2.84 MB [initial] [rendered]\r\nchunk    {3} inline.bundle.js, inline.bundle.map (inline) 0 bytes [entry] [rendered]\r\nwebpack: bundle is now VALID.\r\n\r\n=> Rebuild (change app.component.ts)\r\nwebpack: bundle is now INVALID.\r\nHash: 164111cf5cd94c55d065\r\nTime: 2265ms\r\nchunk    {0} main.bundle.js, main.bundle.map (main) 4.52 kB {2} [initial]\r\nchunk    {1} styles.bundle.js, styles.bundle.map (styles) 9.96 kB {3} [initial]\r\nchunk    {2} vendor.bundle.js, vendor.bundle.map (vendor) 2.84 MB [initial]\r\nchunk    {3} inline.bundle.js, inline.bundle.map (inline) 0 bytes [entry]\r\nwebpack: bundle is now VALID.\r\n```\r\n\r\n**SCSS:**\r\n```\r\nPS C:\\dev\\ng-scss> npm run start\r\n\r\n> ng-scss@0.0.0 start C:\\dev\\ng-scss\r\n> ng serve\r\n\r\n** NG Live Development Server is running on http://localhost:4200. **\r\nHash: 5585be96c8aac1577ee8\r\nTime: 5230ms\r\nchunk    {0} main.bundle.js, main.bundle.map (main) 4.53 kB {2} [initial] [rendered]\r\nchunk    {1} styles.bundle.js, styles.bundle.map (styles) 10.1 kB {3} [initial] [rendered]\r\nchunk    {2} vendor.bundle.js, vendor.bundle.map (vendor) 2.84 MB [initial] [rendered]\r\nchunk    {3} inline.bundle.js, inline.bundle.map (inline) 0 bytes [entry] [rendered]\r\nwebpack: bundle is now VALID.\r\n\r\n=> Rebuild (change app.component.ts)\r\n\r\nwebpack: bundle is now INVALID.\r\nHash: 5585be96c8aac1577ee8\r\nTime: 1133ms\r\nchunk    {0} main.bundle.js, main.bundle.map (main) 4.53 kB {2} [initial]\r\nchunk    {1} styles.bundle.js, styles.bundle.map (styles) 10.1 kB {3} [initial]\r\nchunk    {2} vendor.bundle.js, vendor.bundle.map (vendor) 2.84 MB [initial]\r\nchunk    {3} inline.bundle.js, inline.bundle.map (inline) 0 bytes [entry]\r\n```\r\n\r\nRebuild times with these seem fine. For my large project, I have also tried uninstalling and re-adding angular-cli via yarn (to force transient dependency upgrade to latest version) without a change in rebuild times on windows. Note that with neither project I'm using symlinks (as far as I'm aware) nor do I have them on a deep path, they all live in C:\\dev\\... ",
+      "user":"JohannesRudolph"
+    },
+    {
+      "comment":"@montella1507 how do you reach that conclusion? Rebuilds do not appear to stress my disk at all (<2% active time according to task manager). ",
+      "user":"JohannesRudolph"
+    },
+    {
+      "comment":"@filipesilva I think I have to retract my earlier reported OS-X 2.5s vs Windows 16s numbers for rebuild time. Turns out the Windows build had `ng serve --aot=true` and OS X had `ng serve --aot=false` which easily explains the difference. With `--aot=true` my mac builds at 24s, which matches the speed difference I expect between the machines based on running a full `ng build --aot=true`.... sorry for all the fuss. \r\n\r\n**Conclusion**: I don't observe a difference between OS X and Windows build times not explained by different hardware.",
+      "user":"JohannesRudolph"
+    },
+    {
+      "comment":"@JohannesRudolph  well... because NTFS system is not optimized to work with 100 000 small files.. Try to remove node_modules folder on windows and on linux...  Its like 120sec and 2sec.\r\n\r\nI have tried to build our application on both linux and windows with same HW. Linux is 4times faster +-. \r\n\r\n",
+      "user":"montella1507"
+    },
+    {
+      "comment":"@JohannesRudolph glad to hear your issue was sorted! There still seems to be some windows issue that I can't put my finger on though.\r\n\r\n@montella1507 I understand there are differences due to the file system, but for rebuilds I wouldn't expect that to matter since webpack keeps most of it in memory. I would expect a slower initial build, and maybe slower rebuilds when including a new big vendor, or even a bigger delay for the watchers to detect a change. But not a bigger rebuild itself.\r\n\r\n@mrlund @tsm91 @montella1507 do you notice a rebuild difference between `ng serve` and `ng build --watch`? And could you show me the output of a slow rebuild using the `--verbose` flag?\r\n\r\nCurrently what I see is that overall rebuild performance is ok (but could be better), and that on some Windows setups performance is very bad.\r\n\r\nSo I'd like to find a way to repro the Windows scenario to fix what I assume to be a bug. We're also working on some accross-the-board optimizations in the AoT Plugin.",
+      "user":"filipesilva"
+    },
+    {
+      "comment":"Also for those that were looking at DLLPlugin, our attempts show that it's currently not possible to use together with lazy route detection.",
+      "user":"filipesilva"
+    },
+    {
+      "comment":"@filipesilva Yea, I tried adding it manually too, and failed miserably. I think a big cause of bad rebuild performance in large projects is the project structure itself. That is, whether you use barrels or not, whether you re-export things a lot, whether you have large modules, whether you add typings to all the variables, etc.\r\n\r\nUnfortunately, though, I haven't been able to really determine what the best practices are to keep rebuild times low. One thing we try doing is adding types to most things so TS doesn't have to spend so much time inferring stuff, but with observables it is a PITA to do. So far not much has worked.\r\n\r\nDo you guys have an idea of what those best practices are?",
+      "user":"hccampos"
+    },
+    {
+      "comment":"@filipesilva DLLPlugin has been implemented in [angular2-webpack-starter ](https://github.com/AngularClass/angular2-webpack-starter) project recently using [this](https://github.com/shlomiassaf/webpack-dll-bundles-plugin) webpack plugin. I like this idea as it is a pluggable way to add dll support. 3rd party packages are listed in that plugin as well. I have this working in one of my project too using same plugin. I have provided in the past stats of normal rebuild vs dll and performance is massive with DLL. And both projects have lazy routes there too.\r\n\r\nDo we know what sort of challanges we are having with lazy routes?",
+      "user":"asadsahi"
+    },
+    {
+      "comment":"@asadsahi the starter you linked uses a different TS loader than we do here, and I *think* it can't give complete static analysis information. \r\n\r\nI'll investigate further if the approach used in https://github.com/shlomiassaf/ng-router-loader could be used in the CLI.",
+      "user":"filipesilva"
+    },
+    {
+      "comment":"@filipesilva so downloaded the `angular2-webpack-starter` and quickly made our app work. Rebuilds take 1.5s-1.8s compared with 3.5s-17s in `angular-cli`. The initial build (after the dll had been created in another build) took 17s. That is compared with the 45s-60s for `npm start`ing angular-cli.",
+      "user":"hccampos"
+    },
+    {
+      "comment":"@filipesilva With an unmodified new project I'm seeing better perf, though I guess that's obvious. Considering the simplicity, not blistering, however:  16s build / 4,5s rebuild. \r\nMy path is C:\\Users\\<user>\\Source\\Repos\\perftest, and no symlinked node modules. ",
+      "user":"mrlund"
+    },
+    {
+      "comment":"@hansl just added a massive performance increase in https://github.com/angular/angular-cli/pull/4145.\r\n\r\nFor a brand new project, times for `ng serve` third rebuild are 65% smaller :\r\n```\r\n// before\r\nAverage time: 1922.2\r\nResults: 1939,1920,1983,1885,1884\r\n\r\n// after\r\nAverage time: 679.6\r\nResults: 660,677,692,671,698\r\n```\r\n\r\nOn a medium sized project:\r\n```\r\n// before\r\nAverage time: 4224.2\r\nResults: 4244,4255,4258,4220,4144\r\n\r\n// after\r\nAverage time: 1559\r\nResults: 1537,1575,1525,1557,1601\r\n```",
+      "user":"filipesilva"
+    },
+    {
+      "comment":"This was merged to master, so should show up in next npm release in a couple of days, correct? I'd prefer not to link master unless it's important. ",
+      "user":"mrlund"
+    },
+    {
+      "comment":"@mrlund yes it will be included in the next release.",
+      "user":"filipesilva"
+    },
+    {
+      "comment":"I am going to close this issue as we have done pretty much everything possible on our side to reduce rebuild time in development. We're actively working with Webpack to improve performance on their side, and you should expect more as they release improvements on their side.",
+      "user":"hansl"
+    },
+    {
+      "comment":"The problem is each time you save a file webpack will re-create the whole dependency graph of all the vendor and polyfill packages. On top of it, if you are doing this on an ntfs filesystem (windows) it will further increase the rebuild time.\r\n\r\nI really wonder why you guys didn't implement `webpack.DllPlugin`. Last week i created [ng-x-cli](https://www.npmjs.com/package/ng-x-cli). Well pretty much it is `angular-cli` with all its features i like topped with `DllPlugin`.\r\n\r\nFeel free to check it out whoever still experience bad performance.\r\n\r\nP.S: currently it doesnt have a test runner, because i dont write tests",
+      "user":"aegyed91"
+    },
+    {
+      "comment":"The rebuild performance has been vastly improved but it hasn't been released yet :) You'll see improvements when master is tagged.\r\n\r\nAfter the stuff that's in master, the DLL only gave an additional 5% or so but there were issues with lazy-loading which can't be fixed until the way lazy-loading is done in Angular changes. Unless you managed it with ng-x-cli? I think @filipesilva has more details",
+      "user":"intellix"
+    },
+    {
+      "comment":"@intellix: When will the next release be? The current master is producing errors for me (`Cannot find module '@ngtools/json-schema'`).",
+      "user":"johannesjo"
+    },
+    {
+      "comment":"@intellix ahh, i no longer use the master branch \r\n\r\n> there were issues with lazy-loading which can't be fixed until the way lazy-loading is done in Angular changes. Unless you managed it with ng-x-cli? I think @filipesilva has more details\r\n\r\nGood idea, TBH i didnt run any benchmark / gave it any extra thought because the rebuilding time on my sucky laptop (os: win 10) was blazing fast.\r\n\r\nBtw `ng-x-cli` is just a mix of: [qdouble/angular-webpack2-starter](https://github.com/qdouble/angular-webpack2-starter/tree/minimal)'s minimal branch and some features from `angular-cli`. Namely these features:\r\n  * [Global styles](https://github.com/angular/angular-cli#global-styles)\r\n  * [Build Targets and Environment Files](https://github.com/angular/angular-cli#build-targets-and-environment-files)\r\n  * [Project assets](https://github.com/angular/angular-cli#project-assets)\r\n\r\nI also took the naming of different config keys [ng-cli.config.js](https://github.com/tsm91/ng-cli-example/blob/master/ng-cli.config.js) from `angular-cli.json` so i can transition back to angular-cli without any complications.\r\n",
+      "user":"aegyed91"
+    },
+    {
+      "comment":"Try 28 guys. I've just compared my large project before and after and it's so much faster than 40% as advertised.\r\n\r\n**b26:**    3.3sec average on save\r\n**b28:** 1.0sec average on save",
+      "user":"intellix"
+    },
+    {
+      "comment":"On windows, performance boost is even more significant, as not to say astronomic:\r\n\r\nMy rebuild times:\r\nbeta26: around 15s..\r\nbeta28: under 1s-2s. (!)\r\n\r\nReally great job, guys!",
+      "user":"hnrchrdl"
+    },
+    {
+      "comment":"But now I realize, Webpack Dev Server keeps saying, nothing has changed, when in fact things have changed. Changes are not beeing picked up correctly. Am I missing something, or is this a new issue? When I quit devserver and ng serve again, changes are beeing picked up, automatic rebuild says \"Nothing has changed\" in the browser's console. So it recognises that a file has been saved, but sees no difference. Changes in the html templates are considered, changes in my typescript files are not.",
+      "user":"hnrchrdl"
+    },
+    {
+      "comment":"There is an open issue appeared with beta 28: https://github.com/angular/angular-cli/issues/4338",
+      "user":"ClemensSchneider"
+    },
+    {
+      "comment":"Ok, I could fix that (with the fix of beeman described in #4329).\r\nBut now, rebuild times are back at  15s with beta 28 on windows 7.",
+      "user":"hnrchrdl"
+    },
+    {
+      "comment":"Great job!\r\n\r\nFrom 2s-4s time to 300-600ms",
+      "user":"Laurensvdmaas"
+    },
+    {
+      "comment":"Massive improvement for me on Windows 10\r\n\r\nbeta26: ~12s\r\nbeta28: ~2s\r\n\r\nThanks!",
+      "user":"szilarddavid"
+    },
+    {
+      "comment":"While it's better with the new cli, here it is...\r\n\r\n```\r\nwebpack: bundle is now VALID.\r\nwebpack: bundle is now INVALID.\r\nHash: 4e3ed080d33362fa5a97                                                         \r\nTime: 14510ms\r\nchunk    {0} 0.chunk.js, 0.bundle.map 2.82 MB {1} {2} {3} {4} {6} [rendered]\r\nchunk    {1} 1.chunk.js, 1.bundle.map 2.81 MB {0} {2} {3} {4} {6} [rendered]\r\nchunk    {2} 2.chunk.js, 2.bundle.map 2.24 MB {0} {1} {3} {4} {6} [rendered]\r\nchunk    {3} 3.chunk.js, 3.bundle.map 2.66 MB {0} {1} {2} {4} {6} [rendered]\r\nchunk    {4} 4.chunk.js, 4.bundle.map 1.32 MB {0} {1} {2} {3} {6}\r\nchunk    {5} polyfills.bundle.js, polyfills.bundle.map (polyfills) 418 kB {9} [initial]\r\nchunk    {6} main.bundle.js, main.bundle.map (main) 143 kB {8} [initial] [rendered]\r\nchunk    {7} styles.bundle.js, styles.bundle.map (styles) 412 kB {9} [initial]\r\nchunk    {8} vendor.bundle.js, vendor.bundle.map (vendor) 4.72 MB [initial]\r\nchunk    {9} inline.bundle.js, inline.bundle.map (inline) 0 bytes [entry]\r\nwebpack: bundle is now VALID.\r\nwebpack: bundle is now INVALID.\r\nHash: 4e3ed080d33362fa5a97                                                         \r\nTime: 6314ms\r\nchunk    {0} 0.chunk.js, 0.bundle.map 2.82 MB {1} {2} {3} {4} {6}\r\nchunk    {1} 1.chunk.js, 1.bundle.map 2.81 MB {0} {2} {3} {4} {6}\r\nchunk    {2} 2.chunk.js, 2.bundle.map 2.24 MB {0} {1} {3} {4} {6}\r\nchunk    {3} 3.chunk.js, 3.bundle.map 2.66 MB {0} {1} {2} {4} {6}\r\nchunk    {4} 4.chunk.js, 4.bundle.map 1.32 MB {0} {1} {2} {3} {6}\r\nchunk    {5} polyfills.bundle.js, polyfills.bundle.map (polyfills) 418 kB {9} [initial]\r\nchunk    {6} main.bundle.js, main.bundle.map (main) 143 kB {8} [initial]\r\nchunk    {7} styles.bundle.js, styles.bundle.map (styles) 412 kB {9} [initial]\r\nchunk    {8} vendor.bundle.js, vendor.bundle.map (vendor) 4.72 MB [initial]\r\nchunk    {9} inline.bundle.js, inline.bundle.map (inline) 0 bytes [entry]\r\nwebpack: bundle is now VALID.\r\nwebpack: bundle is now INVALID.\r\nHash: 4e3ed080d33362fa5a97                                                         \r\nTime: 5401ms\r\nchunk    {0} 0.chunk.js, 0.bundle.map 2.82 MB {1} {2} {3} {4} {6}\r\nchunk    {1} 1.chunk.js, 1.bundle.map 2.81 MB {0} {2} {3} {4} {6}\r\nchunk    {2} 2.chunk.js, 2.bundle.map 2.24 MB {0} {1} {3} {4} {6}\r\nchunk    {3} 3.chunk.js, 3.bundle.map 2.66 MB {0} {1} {2} {4} {6}\r\nchunk    {4} 4.chunk.js, 4.bundle.map 1.32 MB {0} {1} {2} {3} {6}\r\nchunk    {5} polyfills.bundle.js, polyfills.bundle.map (polyfills) 418 kB {9} [initial]\r\nchunk    {6} main.bundle.js, main.bundle.map (main) 143 kB {8} [initial]\r\nchunk    {7} styles.bundle.js, styles.bundle.map (styles) 412 kB {9} [initial]\r\nchunk    {8} vendor.bundle.js, vendor.bundle.map (vendor) 4.72 MB [initial]\r\nchunk    {9} inline.bundle.js, inline.bundle.map (inline) 0 bytes [entry]\r\nwebpack: bundle is now VALID.\r\nwebpack: bundle is now INVALID.\r\nHash: 4e3ed080d33362fa5a97                                                         \r\nTime: 5380ms\r\nchunk    {0} 0.chunk.js, 0.bundle.map 2.82 MB {1} {2} {3} {4} {6}\r\nchunk    {1} 1.chunk.js, 1.bundle.map 2.81 MB {0} {2} {3} {4} {6}\r\nchunk    {2} 2.chunk.js, 2.bundle.map 2.24 MB {0} {1} {3} {4} {6}\r\nchunk    {3} 3.chunk.js, 3.bundle.map 2.66 MB {0} {1} {2} {4} {6}\r\nchunk    {4} 4.chunk.js, 4.bundle.map 1.32 MB {0} {1} {2} {3} {6}\r\nchunk    {5} polyfills.bundle.js, polyfills.bundle.map (polyfills) 418 kB {9} [initial]\r\nchunk    {6} main.bundle.js, main.bundle.map (main) 143 kB {8} [initial]\r\nchunk    {7} styles.bundle.js, styles.bundle.map (styles) 412 kB {9} [initial]\r\nchunk    {8} vendor.bundle.js, vendor.bundle.map (vendor) 4.72 MB [initial]\r\nchunk    {9} inline.bundle.js, inline.bundle.map (inline) 0 bytes [entry]\r\nwebpack: bundle is now VALID.\r\n```\r\n\r\nFirst run is with a single line change, the others are without any changes at all. With `https://github.com/AngularClass/angular2-webpack-starter` the time goes to 1s (sometimes less), since it uses the DLLplugin (my guess as to the reason). Unfortunately we can't easily switch over because we are making heavy use of the cli's environments and testing setup, and it would be better to use the \"official\" setup.\r\n\r\nAnyway, we might be sort of a special case since we are loading most of RxJS, ThreeJS, Openlayers, D3, crypto-js, lodash, turf and a bunch more.",
+      "user":"hccampos"
+    },
+    {
+      "comment":"Hi, just wanted to say that I upgraded from beta 18 to 1.0.0 RC1, and the performance increase is spectacular, went from average rebuild of ~3-4 seconds to ~600ms-1000ms. I run \"ng build --watch\". Great job on getting this to an acceptable level. \r\n\r\nI've got an Asus Zenbook 12gb ram, SSD.",
+      "user":"guiomie"
+    },
+    {
+      "comment":"I would also be remiss without giving serious kudos to the team. I've been updating regularly over the last few months and the last few builds have shown a massive performance increase. Huge thanks all!",
+      "user":"jmlivingston"
+    },
+    {
+      "comment":"Totally agree with John. Great work! Thanks.\n\nOn Mon, Mar 6, 2017 at 1:52 AM, John Livingston <notifications@github.com>\nwrote:\n\n> I would also be remiss without giving serious kudos to the team. I've been\n> updating regularly over the last few months and the last few builds have\n> shown a massive performance increase. Huge thanks all!\n>\n> —\n> You are receiving this because you commented.\n> Reply to this email directly, view it on GitHub\n> <https://github.com/angular/angular-cli/issues/1980#issuecomment-284283953>,\n> or mute the thread\n> <https://github.com/notifications/unsubscribe-auth/AV1APdJ3JPHglkLsZZmR-FkicvzyjGTGks5ri2bJgaJpZM4J07P9>\n> .\n>\n\n\n\n-- \nAlban Xhaferllari\nPHP Developer\nUser Team\n",
+      "user":"albandaft"
+    },
+    {
+      "comment":"We aim to please 😄 ",
+      "user":"filipesilva"
+    },
+    {
+      "comment":"I'm seeing 40-60 second build times with rc4, thought this was normal...",
+      "user":"hanvyj"
+    },
+    {
+      "comment":"@hanvyj build or rebuild? Our build times are now at nearly two minutes. Rebuilds are at 3s for no changes up to 30s in some cases. Did some profiling and it is mostly the source maps which are insanely slow. Disable them and builds become way faster...while debugging becomes a nightmare. All in all, you are still quite lucky I think. If things get really bad, there is always the option of ejecting. We have been considering it for a while.",
+      "user":"hccampos"
+    },
+    {
+      "comment":"Rebuild. The original build is a little longer. I've seen it as low as 46, but just then it was 88:\r\n\r\n![Imgur](http://i.imgur.com/utD0Lxz.png)\r\n\r\nI'll try enabling source maps only if I'm doing some serious debugging. Thanks.\r\n\r\nThere's probably some other optimizations I can do, I'll google around a bit.",
+      "user":"hanvyj"
+    },
+    {
+      "comment":"@hanvyj What's your command line look like?",
+      "user":"clydin"
+    },
+    {
+      "comment":"I run it with an NPM command that calls \"ng serve --aot=true --proxy-config proxy.conf.json\":\r\n\r\n    \"startNoServer\": \"concurrently --kill-others \\\"ng serve --aot=true --proxy-config proxy.conf.json\\\"\",\r\n\r\nI played with a project that split the vendor bundle into a separate webpack script that didn't watch for changes. (it's rarely changed), I think it was all dealing with webpack without the CLI though. Is something like that possible with the CLI (it adds so much functionality and ease of use I'd take it over a faster build and setting up webpack myself!)",
+      "user":"hanvyj"
+    },
+    {
+      "comment":"That explains it. AoT is extremely slow, too slow to be used while developing.",
+      "user":"hccampos"
+    },
+    {
+      "comment":"Ah, so I should turn it off when developing. I guess I'd have to be careful to not cause any changes that would break an AoT production build. Gets it down to 36 seconds build time, 5 second rebuild time - which is great!\r\n\r\nI guess I'll have to be careful not to do anything that could break AoT though (interestingly, turning it off highlighted a few errors, a service not marked as @Injectable(), no idea how that worked with AoT on!).\r\n\r\nSeems my method of creating Modal dialogs is completely broken, but there's a guide here I'll give a good read: https://angular.io/docs/ts/latest/cookbook/aot-compiler.html#!#jit-dev-aot-prod",
+      "user":"hanvyj"
+    },
+    {
+      "comment":"I have hello world project created with \r\nng new HelloWorld\r\n\r\nthen I run ng build. \r\nTakes 62 seconds.\r\n\r\nThen I change a line in hello world\r\nI run ng build, and it takes 62 seconds again. Is this normal? Is this how you develop?",
+      "user":"cyberprodigy"
+    },
+    {
+      "comment":"@cyberprodigy please open a separate issue including the information from the template so that we can fully assist you.  Please also be sure that you are using the latest version (1.0.0 at this time).\r\nThank you.",
+      "user":"clydin"
+    },
+    {
+      "comment":"@cyberprodigy it takes like 1 second on my machine with latest cli. You may dont have the latest installed. ",
+      "user":"MickL"
+    },
+    {
+      "comment":"I upgraded a project from v2.4.10(angular-cli@1.0.0-beta.20-4) to 4.0.0 ( \"@angular/cli\": \"1.0.0\") and unfortunately don't see much improvements\r\n\r\nhere is stat from new cli:\r\n\r\n```\r\n> promo-client@0.0.0 start /projects/ctc/5390-promo/promo-client\r\n> ng serve --host 0.0.0.0 --port 5555 --proxy-config proxy.conf.json -o\r\n\r\n** NG Live Development Server is running on http://0.0.0.0:5555 **\r\n 11% building modules 15/26 modules 11 active ...ode_modules/style-loader/addStyles.jswebpack: wait until bundHash: 4c427ff407b3e5292822                                                            \r\n\r\nTime: 27387ms\r\n\r\nchunk    {0} main.bundle.js, main.bundle.js.map (main) 1 MB {3} [initial] [rendered]\r\nchunk    {1} polyfills.bundle.js, polyfills.bundle.js.map (polyfills) 158 kB {4} [initial] [rendered]\r\nchunk    {2} styles.bundle.js, styles.bundle.js.map (styles) 295 kB {4} [initial] [rendered]\r\nchunk    {3} vendor.bundle.js, vendor.bundle.js.map (vendor) 5.26 MB [initial] [rendered]\r\nchunk    {4} inline.bundle.js, inline.bundle.js.map (inline) 0 bytes [entry] [rendered]\r\nwebpack: Compiled successfully.\r\n```\r\n\r\nand here is from old one:\r\n\r\n```\r\n> PROMO@0.0.0 start /Users/juliapassynkova/ctc/projects/5390-promo/promo-client\r\n> ng serve --host 0.0.0.0 --port 5555 --proxy-config proxy.conf.json -o\r\n\r\n** NG Live Development Server is running on http://0.0.0.0:5555. **                                                  10% building modules 3/3 modules 0 active[HPM] Proxy created: /api  ->  http://localhost:8080/promo\r\n[HPM] Proxy created: /oauth  ->  http://localhost:8080/promo                                                   11% building modules 15/27 modules 12 active ...odules/bootstrap/dist/js/bootstrap.jswebpack: wait until bundle finished: /                                                                         11% building modules 16/30 modules 14 active ...s/webpack-dev-server/client/socket.js(node:6412) DeprecationWarning: loaderUtils.parseQuery() received a non-string value which can be problematic, see https://github.com/webpack/loader-utils/issues/56\r\nparseQuery() will be replaced with getOptions() in the next major version of loader-utils.             22872ms building modules                              5ms add04223ms 131ms asse116ms emitting\r\nHash: 8531c2e494bb70e33827\r\nVersion: webpack 2.1.0-beta.25\r\n\r\nTime: 29684ms\r\n                                 Asset       Size  Chunks             Chunk Names\r\n fee66e712a8a08eef5805a46892932ad.woff      98 kB          [emitted]  \r\n  bce071e976865da511003c50333620c5.eot    2.52 kB          [emitted]  \r\n  b0aebd744ce7adb780a9342fd395535e.svg    2.67 kB          [emitted]  \r\n  89889688147bd7575d6327160d64e760.svg     109 kB          [emitted]  \r\n  674f50d287a8c48dc19ba404d20fe713.eot     166 kB          [emitted]  \r\n  912ec66d7572ff821749319396470bde.svg     444 kB          [emitted]  \r\n  e18bbf611f2a2e43afc071aa2f4e1512.ttf    45.4 kB          [emitted]  \r\n fa2772327f55d8198301fdb8bcfc8158.woff    23.4 kB          [emitted]  \r\n448c34a56d699c29117adc64c43affeb.woff2      18 kB          [emitted]  \r\n  b06871f281fee6b241d60582ae9369b9.ttf     166 kB          [emitted]  \r\naf7ae505a9eed503f8b8e6982036873e.woff2    77.2 kB          [emitted]  \r\n  f4769f9bdb7466be65088239c12046d1.eot    20.1 kB          [emitted]  \r\n  d329cc8b34667f114a95422aaad1b063.ttf     162 kB          [emitted]  \r\n  ac3f799d5bbaf5196fab15ab8de8431c.ttf     163 kB          [emitted]  \r\n                        main.bundle.js    7.46 MB    0, 3  [emitted]  main\r\n                      styles.bundle.js     295 kB    1, 3  [emitted]  styles\r\n                     scripts.bundle.js     376 kB    2, 3  [emitted]  scripts\r\n                      inline.bundle.js    5.53 kB       3  [emitted]  inline\r\n                              main.map     7.9 MB    0, 3  [emitted]  main\r\n                            styles.map     397 kB    1, 3  [emitted]  styles\r\n                           scripts.map     462 kB    2, 3  [emitted]  scripts\r\n                            inline.map     5.6 kB       3  [emitted]  inline\r\n                            index.html  783 bytes          [emitted]  \r\nChild html-webpack-plugin for \"index.html\":\r\n         Asset     Size  Chunks       Chunk Names\r\n    index.html  3.17 kB       0       \r\nwebpack: Compiled successfully.\r\n[default] Checking started in a separate process...\r\n[default] Ok, 2.852 sec.\r\n```\r\n",
+      "user":"ipassynk"
+    },
+    {
+      "comment":"@cyberprodigy - If you are running it locally for development purposes, you should be using \"ng serve\", not \"ng build\".",
+      "user":"jmlivingston"
+    },
+    {
+      "comment":"I'm having the same issues.\r\n\r\nBuild takes 30 seconds on average.\r\nYes, I'm using _ng serve_, without any options and it was slow from the very beginning (clean _ng cli_).\r\n\r\nI'm using Vagrant for development environment. I guess it could slow it down a bit, but I wouldn't expect this much. \r\n\r\nIt seems that it is compiling all modules everytime (even those from /node_modules) and doing chunk asset optimizations (probably for all assets). Is it developed that way or I am missing something in my configuration?\r\n\r\n![selection_090](https://cloud.githubusercontent.com/assets/1690227/25451354/2ba54eec-2ac2-11e7-9a47-1db5bd38bd7c.png)\r\n\r\n\r\n------\r\n\r\n@angular/cli: 1.0.0\r\nnode: 6.10.0\r\nos: linux x64\r\n@angular/common: 4.0.2\r\n@angular/compiler: 4.0.2\r\n@angular/core: 4.0.2\r\n@angular/forms: 4.0.2\r\n@angular/http: 4.0.2\r\n@angular/platform-browser: 4.0.2\r\n@angular/platform-browser-dynamic: 4.0.2\r\n@angular/router: 4.0.2\r\n@angular/cli: 1.0.0\r\n@angular/compiler-cli: 4.0.2\r\n",
+      "user":"flackjap"
+    },
+    {
+      "comment":"Ng serve watches for changes and rebuilds only the changed chunks automatically.  Killing the process each time forces a full build.",
+      "user":"clydin"
+    },
+    {
+      "comment":"What @clydin said, basically. _Build_ times will not improve much (although webpack itself is reporting improvements so we shall see); _rebuilding_ time should be much faster. Keep your process running and you'll see improvements.\r\n\r\nLocking this conversation down. This issue has been resolved a long time ago.",
+      "user":"hansl"
+    }
+  ],
+  "repository":"angular-cli",
+  "user":"asadsahi"
+}

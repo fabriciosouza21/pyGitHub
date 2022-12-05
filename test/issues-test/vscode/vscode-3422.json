@@ -1,0 +1,430 @@
+{
+  "comments":[
+    {
+      "comment":"The current implementation of folding uses an indentation based folding strategy that is unaware of the language it works on. Knowledge on the underlying language allows us to solve the following requests:\n- [folding] Cannot code fold empty functions #3349 \n- [folding] Collapse ending brace to the same line #3352 \n- [folding] Folded block comments should show */ #3350 \n- [folding] should not fold whitespace after function #3353 \n- [folding] Add code folding for markdown based on heading level #3347\n- [folding] [lua] Weird code folding with Lua #3602 \n- [folding] Collapse code block ignore comments inside this block #3957\n- [folding] Code Folding: support golang multiline strings #5994\n- [folding] Optionally fold chained method calls #6991\n",
+      "user":"aeschli"
+    },
+    {
+      "comment":"Another issue I don't see in that list is user-configured folding like this example from C#:\n\n``` csharp\n#region Public methods\n...\n#endregion\n```\n\nIn the PowerShell extension we would like to provide this same sort of feature the same syntax as what C# uses which, in PowerShell, looks like a \"special\" comment.\n",
+      "user":"rkeithhill"
+    },
+    {
+      "comment":"PowerShell block comment folding is weird in the Insider build 0.10.10.\n<#\nComments here\nand here\n#>\nBroken: http://i.imgur.com/M6Ay1vl.gif\nIt should fold around the <# + #>\nLike this: http://i.imgur.com/HFRHJJL.gif\nhttps://blogs.msdn.microsoft.com/powershell/2008/06/14/block-comments-in-v2/\n",
+      "user":"fromthewoods"
+    },
+    {
+      "comment":"Now I understand. It's the indentation level. Language-aware folding ftw!\n",
+      "user":"fromthewoods"
+    },
+    {
+      "comment":"PowerShell here-string breaks folding logic. \nHere-string end marker must be placed on first column of new line.\n![untitled](https://cloud.githubusercontent.com/assets/10071039/13541690/1a847988-e25e-11e5-9ced-cbbd47171680.png)\nAs you can see, the function isn't folded correctly anymore although folding was done on the function keyword. Code after the here-string stays visible as well.\n",
+      "user":"bgelens"
+    },
+    {
+      "comment":"Yeah, I think for VSCode to give the best experience for code-folding they're definitely going to need help from the various language extensions/services.\n",
+      "user":"rkeithhill"
+    },
+    {
+      "comment":"Either that or we're going to have to tweak the PowerShell syntax definition to jive with their folding model a little better.  May need some pointers from Martin about what we can do to improve folding if the tmLanguage definition is a factor.\n",
+      "user":"daviwil"
+    },
+    {
+      "comment":"@rkeithhill For the moment there's nothing you can tweek on your side until we allow languages to control code folding.\n",
+      "user":"aeschli"
+    },
+    {
+      "comment":"As another example, Ant build.xml files can have large text blocks where the content doesn't adhere to indentation of the XML. Such as\n\n```\n    <echo file=\"myfle.txt\">\ntotally unindented\ntext\n       goes here\n and breaks VS Code folding\n    </echo>\n```\n",
+      "user":"jgeorgeson"
+    },
+    {
+      "comment":"> PowerShell here-string breaks folding logic. \n> Here-string end marker must be placed on first column of new line.\n\nthe same thing happens with PHP heredoc.\n\nAlso, sections in INI files cannot get folded by indentation\n",
+      "user":"felixfbecker"
+    },
+    {
+      "comment":"I'm probably way out of my depth here...\n\nUser-controlled folding - with \"regions\" - seems fairly straight-forward to define. The editor needs to only be language aware enough to know how each language shows comments. Then if a comment starts with \"region\" or \"endregion\" such as...\n\n#region  ... #endregion\n//region ... //endregion\n/*region*/ ... /*endregion*/\n'region ... 'endregion \n---region ... ---endregion\n<!--region--> ... <!--endregion-->\n\nYou treat the content in-between as a region. It seems like creating a list of all supported language comment syntaxes is the only thing necessary.\n",
+      "user":"nfloersch"
+    },
+    {
+      "comment":"Definitely need this resolved for PowerShell\n",
+      "user":"pcgeek86"
+    },
+    {
+      "comment":"The language syntax files already have foldingStartMarker/foldingStopMarker.  It seems that one way forward would be to use these, if available, then fall back to the current/default behavior of indentation-based folding.\n",
+      "user":"Seairth"
+    },
+    {
+      "comment":"Any update on this? I really need regions and here strings collapsable in PowerShell.\n",
+      "user":"adbertram"
+    },
+    {
+      "comment":"Any update ? Python code folding is really annoying me",
+      "user":"DollarAkshay"
+    },
+    {
+      "comment":"Is fixing this currently on the roadmap? When can we expect this to be implemented? This is the only major blocker keeping me from using VS Code.",
+      "user":"sevin7676"
+    },
+    {
+      "comment":"Adding myself here as I'd like to get proper `#region..#endregion` folding working for C#.",
+      "user":"DustinCampbell"
+    },
+    {
+      "comment":"Just a suggestion - if ever you use language-aware folding, please leave indentation-based folding available as an option.\r\n\r\nToo many editors have burned me with their intepretation of what counts as a block or not (try a mixed-language source file) and in some cases indentation is really the only way to hint source file structure.",
+      "user":"madumlao"
+    },
+    {
+      "comment":"For C#, `#region` and `#endregion` support, along with support for the recommended documentation tags, is a must before my team can use VSCode. https://msdn.microsoft.com/en-us/library/5ast78ax.aspx",
+      "user":"hlink"
+    },
+    {
+      "comment":"@aeschli any updates on this, it's almost one year since the issue is opened?",
+      "user":"Huachao"
+    },
+    {
+      "comment":"There is currently nothing in the works, but the issue is discussed on every planning meeting and weighted against other open issues.",
+      "user":"aeschli"
+    },
+    {
+      "comment":"This is so needed for PowerShell, and I assume for other languages as well. Right now it's one of the biggest pain points when transitioning from the PowerShell ISE to Code. This seems to be a huge want for the entire community, so I hope that the popularity of this issue gets it added to the roadmap soon.",
+      "user":"mattmcnabb"
+    },
+    {
+      "comment":"Same is true for TypeScript. We are placing `#region` and `#endregion` in all our source files to get ahead of any addition of this feature. Bit of a gamble and overhead, but here's to hoping.",
+      "user":"simonua"
+    },
+    {
+      "comment":"Let's add this to the roadmap at the next planning meeting. That'd be awesome. ",
+      "user":"adbertram"
+    },
+    {
+      "comment":"@aeschli This is a blocker for adoption for many in the PowerShell community. It would require far too much modification to their code to make VSCode usable (or modification to get it working isn't even possible). This is a topic I see referenced on an almost daily basis when people are discussing VSCode adoption for PowerShell projects.",
+      "user":"gerane"
+    },
+    {
+      "comment":"@aeschli Is UserVoice still in use for VS Code anywhere? Would be good for us to just add or upvote there. This link is dead: https://visualstudio.uservoice.com/forums/293070-visual-studio-code\r\n\r\nAnd thanks for all the work on VS Code. It shows.",
+      "user":"simonua"
+    },
+    {
+      "comment":"I make use of correct indenting as well as using #region #endregion comment blocks throughout my code.\r\n\r\nThe default indent folding is ok, however it also creates several problems:\r\n\r\n- not folding at the exact point you want it to\r\n\r\n- folding in far too many places within a region when using (fold all regions), due to other indentation - making it necessary to expand numerous times to view a region\r\n\r\nProviding the ability to override the default indent folding with a user defined foldingStartMarker/foldingStopMarker would provide the most flexible work around to the issue without having to cater for default across languages.",
+      "user":"krissmilne"
+    },
+    {
+      "comment":"Hello,\r\n A setting of \r\n * editor.folding.style : ( generic or textmate or custom )\r\n * editor.folding.fallback: (true or false)\r\n\r\n would be helpful to not loose current capabilities and give priority when a language has a better facility for this function. The textmate one seems simple to follow and straight forward to implement as the nature of what is currently done is understood. The custom service may get very cool features for inline folding and mixed region folding. Thank you. Good day.",
+      "user":"pr-yemibedu"
+    },
+    {
+      "comment":"I'm seeing the same behavior that has been documented on this string, but I though I would add to the noise a bit! :)\r\n![brokenfolding](https://cloud.githubusercontent.com/assets/7157790/25558904/d00d8c6c-2cf5-11e7-9f61-d193fac11188.gif)\r\n",
+      "user":"mpearon"
+    },
+    {
+      "comment":"I use #region/#endregion all the time in C#... but it is behaving rather oddly in the latest VSCode Insiders build.\r\n\r\n#region **will not** offer a folding option at all if it is not at the start of the line\r\n#endregion **will** offer a folding option if it is at the start of the line\r\n#region with out a matching #endregion will fold until the end of the document or a new #region is encountered. This includes skipping over intended child #region and #endregion tags\r\nWhen the folding does work it does not consume the matching #endregion tag... Most folding does not consume the opening/closing tags in all honesty so that may just be a style it does that I do not like.\r\n\r\nNot sure if this is the place to report oddness with #region and folding.",
+      "user":"crysyn"
+    },
+    {
+      "comment":"@crysyn What's currently available is indentation-based folding only. We don't have support for markers (#region/#endregion) or language aware (here string, tags, if-else...blocks) folding. This issue is to collect the inputs and votes for that.",
+      "user":"aeschli"
+    },
+    {
+      "comment":"I would really appreciate having adequate folding the regions. In a way that they would work regardless of the indentation.\r\nAdditionally, I would love to be able to fold parts including brackets. This was quite annoying when I first saw how it works here. Since that time I am simply not using this feature. Therefore it seems to be useless in my case. That is just my opinion. Hope it will help you somehow.",
+      "user":"thexdd"
+    },
+    {
+      "comment":"This is so badly needed. Please bump it up from the backlog to a near-future release milestone! :)\r\nThank you!",
+      "user":"D3MaxT"
+    },
+    {
+      "comment":"To that end then in general code folding is a huge help for code organization. I would move that in general the concept of the folding should be changed from indentation to scopes or code blocks but I am not sure if that is a general enough concept for a universal editor to implement. It would however unify the folding concept between languages where whitespace is used to define blocks (like python) and where other delimiters like { and } signify it (like C#).. #region/#endregion would simply just be another set of delimiters that provide their block tag After the open instead of previous to it like the whitespace and { } versions.\r\n\r\nThe folding also should really display the line before the block and then [...] at its end to signify that the block of code that follows was folded... Right now following good coding practices with { and } delimiters make if statements with one line of logic go from 4 lines to 3 lines in an arguably less useful fashion.",
+      "user":"crysyn"
+    },
+    {
+      "comment":"Just a further suggestion, even after syntax-aware folding is implemented, indentation can be respected as an option _on top of_ syntax as an additional (optional) block marker. That is, not only can you fold your `if ($foo) { ... }`, but if you custom-indent the inner parts of a block you can still sub-fold the contents based on indentation. i.e., indentation is an optionally-enabled block marker for all languages.\r\n\r\nThis is especially useful for anyone writing mixed languages, for example, code snippets inside MarkDown, generated XML / HTML inside PHP, markers for the start/end of a domain-specific language or API (e.g. curl_open ... curl_close snippets not part of a block)..., indented multi-line string continuations... I think the benefits are so numerous and obvious that indentation changes should even be considered block markers for all languages by default.",
+      "user":"madumlao"
+    },
+    {
+      "comment":"Hello,\r\n If the path of language blocks gets explored, more people would be happier to have each of their languages get fair share of proper folding. Nested languages would want scoped folding if at all. Having multiple styles are helpful as first class fold patterns. So folding should have user defined cut points to allow you to make this a practical reality and include help from extension writers. [Settings?](https://github.com/Microsoft/vscode/issues/3422#issuecomment-295825567)\r\n\r\nHaving a fallback fold style is an alternative and not a compliment. Only because it is so basic and people will constantly want to *add* to that form rather than have a something catered to their needs. I speak for example the ident style is nice for both python and f#(fsharp) but it lacks a little in things like folding comments for example. Thank you. Good day.",
+      "user":"pr-yemibedu"
+    },
+    {
+      "comment":"I think #3353 should be removed from the list since the behavior requested there should be the default indention-based folding. And a new issue could be added to handle folding C-style functions from open to close brackets.",
+      "user":"acls"
+    },
+    {
+      "comment":"@acls What about python ? ",
+      "user":"DollarAkshay"
+    },
+    {
+      "comment":"@DollarAkshay That issue is specifically for Python. The default should be changed to cater to indentation-based languages like Python. So Python shouldn't need language-aware folding, except for maybe multiline docstrings or other things not based on indentation.",
+      "user":"acls"
+    },
+    {
+      "comment":"@acls No it does, because the default indentation based folding does not work as expected. It collapses the whitespaces underneath too.",
+      "user":"DollarAkshay"
+    },
+    {
+      "comment":"@DollarAkshay I already made a PR for that issue that fixes the folding issues for Python.",
+      "user":"acls"
+    },
+    {
+      "comment":"@DollarAkshay That PR, #26258, should become the default. And anything specific to C-style languages(not indention-based) should be part of this issue.",
+      "user":"acls"
+    },
+    {
+      "comment":"Please also fix the powershell region folding. I know you guys are busy doing other important things but this is one of those little things that keep some users away from VSCode",
+      "user":"handrades"
+    },
+    {
+      "comment":"Knowing that VSCode is folding based on indentation works for me when working with PowerShell.   I really like the fact that I don't have to specify '#Region & #End' to get that desired folding functionality.  My first step after opening a PowerShell project is to enter 'Ctrl +K +0' to collapse all of the code.   Hope this doesn't change.  Checkout a few of my GitHub scripts for a working example.",
+      "user":"cadayton"
+    },
+    {
+      "comment":"Thanks for the pointer @cadayton. I was looking for a way to fold / unfold code from the keyboard, but I was searching for the wrong term (eg. \"**collapse**\" and \"**expand**\"). Now I have a solution. 😄 ",
+      "user":"pcgeek86"
+    },
+    {
+      "comment":"The trouble with indention based folding for me in Powershell is that it imposes requirements on things like comment docs that I would then have to impose upon the rest of my team. That's a political argument I'd rather not waste time and capital on; it would be better if VSCode simply recognized what a block comment is in PS and folded accordingly.",
+      "user":"delve"
+    },
+    {
+      "comment":"> The trouble with indention based folding for me in Powershell is that it imposes requirements on things like comment docs that I would then have to impose upon the rest of my team. That's a political argument I'd rather not waste time and capital on; it would be better if VSCode simply recognized what a block comment is in PS and folded accordingly.\r\n\r\nI recognize this is an issue on a lot of languages and yes we need syntax-aware folding as an answer. But all the same I would rather not people talk about indentation / syntax-aware folding as if they were mutually-exclusive methods. You could implement language-aware folding that also recognizes indentation changes as blocks. e.g.\r\n\r\nstring generation example\r\n~~~php\r\n# this part should be code folded as a parent block\r\nfunction echoUser($user) {\r\n    debug(\"Echoing User {$user->id}\");\r\n    # this part should be cold folded as a sub block\r\n    echo '<tr class=\"user\">';\r\n        echo \"<td>{$user->id}</td>\";\r\n        echo \"<td><a href='{$user->getHref()}'>{$user->name}</a></td>\" ;\r\n        # this is another sub-block that gets folded\r\n        echo \"<td class='actions''>\";\r\n            echo \"<a class='btn details' href='{$user->getHref()}' />\";\r\n            echo \"<button class='delete' data='{$user->getHref()}' />\";\r\n        echo \"</td>\";\r\n    echo '</tr>';\r\n}\r\n~~~\r\n\r\napi example\r\n~~~php\r\n$url = \"my/api/url\";\r\n# this should be cold-foded as a block\r\n$ch = curl_init($url);\r\n    curl_setopt($ch, CURLOPT_DATA, $data);\r\n    curl_setopt($ch, CURLOPT_FOLLOW, true);\r\n    # other commands against the curl API\r\n$response = curl_exec($ch);\r\ncurl_close($ch);\r\n~~~\r\n\r\nIn both cases, the programmer's indentation signals a _logical_ block even though the compiler does not actually create one. And here the indentation-specified block does not conflict with the language-aware blocks. These aren't just special cases - _any structure of code or data that is not enforced by the main syntax flow_ can lead to cases like this where indentation is the best way to make sense of the structure. We're talking inline JSON, XML, function literals, object literals, API calls, embedded languages, shell pipelines, subprocesses, string concatentations etc.\r\n\r\nYou could write a million and one special rules for each case, but that's flaky at best since people will never tire of making new APIs and structures. Recognizing indentation as a \"block\" supports all those cases for all languages. The main problem is that right now, indentation is the only \"block\" supported.\r\n\r\nTLDR: it's not either-or. At worst case there should be a switch that you can use to enable indentation folding (regardless of language-aware folding), and heck, it should probably be on by default.",
+      "user":"madumlao"
+    },
+    {
+      "comment":"Still waiting for code regions here !!",
+      "user":"MLefebvreICO"
+    },
+    {
+      "comment":"+1 to this feature. Could it be handled by extensions?",
+      "user":"cossio"
+    },
+    {
+      "comment":"language-configuration.json - autoClosingPairs could be also used for this...",
+      "user":"pbaksa"
+    },
+    {
+      "comment":"+1",
+      "user":"SSCtech"
+    },
+    {
+      "comment":"@acls - above you've mentioned that you don't think that Python-specific folding would be needed, however I'm struggling with the folding in Python when using multi-line strings that shouldn't be indented when printed out:\r\n```\r\ndef print_text():\r\n    print(\"\"\"\r\nThis unindented multi-line text doesn't get collapsed when collapsing the \r\nfunction.        \r\n    \"\"\")\r\n```",
+      "user":"MichaelDuppre"
+    },
+    {
+      "comment":"Hello,\r\n Is there an update about how we can get users some nice folding working? I do not mean discussion about if it is ready. I am looking for feedback about code presentation, ui adjustments, environment state and editor context. So can we have a gathered thought around:\r\n- how we can implement as an extension\r\n- what and how to use new or existing vscode api \r\n  - even if undocumented\r\n- concepts for working in tandem with other existing folding\r\n  - built-in folding\r\n  - extension folding\r\n- to give the developer a proper set of choices for how to pick which folding is active\r\n  - multiple language\r\n  - less or more detailed folding\r\n    - including comments\r\n- what extra glyphs or markers would be available\r\n  - single\r\n  - with descendants\r\n  - fold count\r\n- expectations for this to be the responsibility of language extension authors vs editor authors vs independent tooling.\r\n- new ways of allowing this to visualize code\r\n  - exposing fonts to color by indentation level\r\n  - vertical ruling lines\r\n\r\n as some extensions already do some of these things, unifying some of the collective efforts would be welcomed. Hopefully this flow of information and communication can more balanced. Thank you. Good day.",
+      "user":"pr-yemibedu"
+    },
+    {
+      "comment":"@MichaelD1 I would say multiline text falls under the `multiline docstrings or other things not based on indentation` category.\r\n\r\nMy point in my previous comments is that the broken indention-based folding #3353 should not be included in this language-aware folding issue.\r\n\r\n#3353 should also be removed because it has been fixed by pull request #26258.",
+      "user":"acls"
+    },
+    {
+      "comment":"Just receiver powershell 1.4.1, seems to recognize the region option now.\r\n`#region\r\ncode\r\n#endregion`\r\nIs foldable now (do need a tab infront of code)",
+      "user":"Tuumke"
+    },
+    {
+      "comment":"@Tuumke regions are not supported like they should be in the current release of PS Extension or Code.\r\n\r\nIf you don't indent the region tags it will fold, but most folks will put region tags lined up with the other code...which is supported in ISE.\r\n\r\nThis currently works:\r\n```powershell\r\n#region MyReg\r\n    Get-Process -name NotHappening\r\n#endregion\r\n```\r\n\r\nBut this is not:\r\n```powershell\r\n    #region MyReg\r\n    Get-Process -name NotHappening\r\n    #endregion\r\n```",
+      "user":"wsmelton"
+    },
+    {
+      "comment":"It's not the region which is working but generally indentation is working. See below. \r\n\r\n![image](https://user-images.githubusercontent.com/13176884/27693796-00620fd4-5cb0-11e7-8c82-bb641d1fea2b.png)\r\n",
+      "user":"artisticcheese"
+    },
+    {
+      "comment":"It would be really helpful to have this feature. Is there any news yet on its implementation? ",
+      "user":"DarkLite1"
+    },
+    {
+      "comment":"Hello,\r\n Can there be more discussion of what thoughts are being kicked around behind the scenes as to allow extensions or users to create language aware editor folding and markers? The interest is in both the implementation path and the final result.\r\n\r\n For multi root support there a skype meeting (recorded) and mocks that were kicked around to get feedback and let the community know there is some progress being made. That would be nice here as well. Given how important this is to the primary use case of this software, lets keep it transparent (good or bad).\r\n\r\nIn the smallest aspect of maintaining discussion, talking about how the coding and concepts of the currently implemented indentation model would give people opportunities for constructive pull requests for new ideas. Thank you. Good day.",
+      "user":"pr-yemibedu"
+    },
+    {
+      "comment":"Folding sections within a Markdown document is another example. I'd love to be able to show/hide various Markdown sections as you would in Emacs Org mode.",
+      "user":"langhorst"
+    },
+    {
+      "comment":"[why not change context?](http://tibleiz.net/code-browser/code-folding.html)\r\n\r\n![cb inspire](https://user-images.githubusercontent.com/6892179/28822422-7ef770c8-76b9-11e7-90db-17c7aa0fa568.jpg)\r\n",
+      "user":"nilslindemann"
+    },
+    {
+      "comment":"Proposal for a new style folding in #26757 is not exactly \"language aware\". But still may be relevant to this issue.",
+      "user":"gulshan"
+    },
+    {
+      "comment":"You are correct, region folding does not necessarily require language awareness. Therefore I opened #12146 to a separate issue. Please add your thumbs up there so that this feature gets more priority.",
+      "user":"aeschli"
+    },
+    {
+      "comment":"interesting extension that does part of what #region functionality should do: [bookmarks](https://marketplace.visualstudio.com/items?itemName=alefragnani.Bookmarks) \r\nmaybe it can evolve to what we want here?",
+      "user":"Fenweldryn"
+    },
+    {
+      "comment":"VS Code is an amazing and awesome free editor.  But I will pay $$$ right now to you or the charity of your choice if you please *please* fix the folding for PowerShell regions.  Seriously.  It's killing me.",
+      "user":"DTW-DanWard"
+    },
+    {
+      "comment":"THANK YOU for fixing the code folding for PowerShell regions in the 1.17 release!  And I am a man of my word: I just donated to the Puerto Rico hurricane Maria relief effort.",
+      "user":"DTW-DanWard"
+    },
+    {
+      "comment":"I hope language extensions will get the ability to add custom folding at some point. C# has several other places that we'd like to fold in order to reach parity with VS which require knowledge of the parse tree. For example, \"#if\", \"#else\", \"#endif\", using directives, etc.",
+      "user":"DustinCampbell"
+    },
+    {
+      "comment":"@DustinCampbell And don't forget about multiline verbatim strings.  PowerShell has a similar feature (here strings) that mess up code folding.",
+      "user":"rkeithhill"
+    },
+    {
+      "comment":"Tested on Windows 10 and it is working great for me.  It is nice that indentation isn't required in between the #region and $endregion pairing in PowerShell.   Thanks.",
+      "user":"cadayton"
+    },
+    {
+      "comment":"Totally agree with @rkeithhill . When VS Code can work properly with `here strings` in `PowerShell` it will be my default editor. Until that's implemented I still have to use the `Powershell ISE`. Otherwise some code might break and that's not acceptable in a production environment. \r\n\r\nBut again, thanks for the addition of `region` aware folding. It's a first step in getting an amazing editor for `Powershell`. ",
+      "user":"DarkLite1"
+    },
+    {
+      "comment":"When I can fold my functions and html tags like I do in VS 2015? Or it's a kind of taboo. Just tell me. ",
+      "user":"antonpegov"
+    },
+    {
+      "comment":"Well, the folding in C/C++ still  not working correctly. \r\n![b68e2070-c121-11e6-89b8-80e807c949f4](https://user-images.githubusercontent.com/19317679/31593498-3be19f94-b259-11e7-8489-c5fa4f97e7fe.png)\r\n",
+      "user":"LeThiHyVong"
+    },
+    {
+      "comment":"No taboo at all, there were just always other issues & features with higher pressures to implement. But we are getting there. Please keep adding 👍 to the description, that's the way we prioritize. ",
+      "user":"aeschli"
+    },
+    {
+      "comment":"Hello,\r\n @LeThiHyVong the current folding that was added is based on a loose pair of single markers defined by a regular expression in the language configuration file. It is now mostly just used with language that either directly have a notion of a **code region** (like C# or VB) or for some other languages that have been using a comment marked version that has similar support in other editors (JavaScript, C, F#). There needs to be more discussion on how to extend to capture more markers and how to name and group them. Thank you. Good day.",
+      "user":"pr-yemibedu"
+    },
+    {
+      "comment":"What have to be done to make it work with CSS? (To have regions in css file without changing the depth of styles themselves and messing with linter.)",
+      "user":"KillyMXI"
+    },
+    {
+      "comment":"Hello,\r\n @KillyMXI  Remember to look at #12146 for editor region specific folding. It just happens to be that a few languages (like C# and VB.Net) have it as a syntactic element. Most are using a line level regex lookup. By common practice, the scans are against language comments for possible folding regions. It does not know anything special about a language.\r\n\r\nI left another comment in the other issue with a straightforward but non user friendly way to add this for yourself. Thank you. Good day.",
+      "user":"pr-yemibedu"
+    },
+    {
+      "comment":"Love the new region folding. Could you add support for 'bat' files?\r\n\r\nAs a workaround I added this to my `C:\\Program Files\\Microsoft VS Code\\resources\\app\\extensions\\bat\\language-configuration.json` file\r\n```javascript\r\n\"folding\": {\r\n\t\"markers\": {\r\n\t\t\"start\": \"^\\\\s*::#region\",\r\n\t\t\"end\": \"^\\\\s*::#endregion\"\r\n\t}\r\n}\r\n```",
+      "user":"mvanderlee"
+    },
+    {
+      "comment":"@MichielVanderlee Please make a PR....",
+      "user":"aeschli"
+    },
+    {
+      "comment":"Hello,\r\n @MichielVanderlee please also include the \"REM\" comment as an *or* (using \"|\" in regex) option. Since it is the official way. [REM versus :: versus %= =%](https://stackoverflow.com/questions/12407800/which-comment-style-should-i-use-in-batch-files) is worth looking at. Thank you. Good day.",
+      "user":"pr-yemibedu"
+    },
+    {
+      "comment":"It's still not working for the opening comment `<#` and the closing comment `#>` in `PowerShell` code.\r\n\r\nExample:\r\n\r\n```\r\nfunction Get-WindowsVersion {  \r\n<#    \r\n.SYNOPSIS    \r\n    List Windows Version from computer.  \r\n    \r\n.DESCRIPTION  \r\n    List Windows Version from computer. \r\n     \r\n.PARAMETER ComputerName \r\n    Name of server to list Windows Version from remote computer.\r\n#>  \r\n    Write-Output 'Success'\r\n}\r\n```\r\n\r\nIs it possible to add folding for this too?",
+      "user":"DarkLite1"
+    },
+    {
+      "comment":"Hello,\r\n @DarkLite1 there is still no news about folding because of language syntax nor semantics. So a problem with folding the contents of a single block comment are that it can span multiple lines and some people style it differently like inline starting or trailing marker. Were you looking to fold all block comments, regardless its content?\r\n\r\n If you were mentioning about the language agnostic editor folding, then [editor folding is in another issue](https://github.com/Microsoft/vscode/issues/3422#issuecomment-338743794).\r\n",
+      "user":"pr-yemibedu"
+    },
+    {
+      "comment":"@pr-yemibedu Yes, I was looking to fold everything between `<#` and `#>` regardless of its contents. At least, this is what is needed for `PowerShell`. I don't know about other languages.",
+      "user":"DarkLite1"
+    },
+    {
+      "comment":"I would initially consider folding all comments as language aware fold logic. But I also think that this is something very doable with the logic already specified. There would a need to have some style constraints to be good for folding:\r\n  - the lead marker can not have non whitespace in front of it\r\n  - the tail marker can not have non whitespace after it\r\n  - the lead and tail marker are on different lines\r\n  - this would only apply to languages that defined block comments and `blockComment[0] <> blockComment[1]`\r\n\r\nThat would allow for the code to just attempt to grab the existing markers `comments.blockComment` array and push the first pair onto an array of patterns:\r\n``` typescript\r\nfunction escapeRegExp(str) {\r\n  return str.replace(/([.?*+^$[\\]\\\\(){}|-])/g, \"\\\\$1\");\r\n}\r\n\r\nlet comments = { \"blockComment\": [\"(*\", \"*)\"] }\r\n\r\nlet commentStart = escapeRegExp(comments.blockComment[0])\r\nlet commentEnd = escapeRegExp(comments.blockComment[1])\r\nlet commentPair = `(^\\\\s*${commentStart})|(?:${commentEnd}\\\\s*$)`\r\nlet commentPattern = new RegExp(commentPair)\r\npatterns.push(commentPattern)\r\n```\r\n\r\nSo the question is **when** can we get to the current logic to support [lists of pattern pairs](https://github.com/Microsoft/vscode/issues/12146#issuecomment-341491404) @aeschli? Hope this does not feel like spam, just think it is doable but involves changes you might want to do yourself instead of by PR.",
+      "user":"pr-yemibedu"
+    },
+    {
+      "comment":"@pr-yemibedu Your comment doesn't really apply to a lot of cases.\r\n\r\n> the lead marker can not have non whitespace in front of it\r\n\r\nWhat about inline comment blocks? In PowerShell, for example, it's not uncommon to have a comment based help block indented with the function block.\r\n\r\n> the tail marker can not have non whitespace after it\r\n\r\nIn shell languages, redirection of string blocks can occur (again, PowerShell, here-strings)\r\n\r\n> the lead and tail marker are on different lines\r\n\r\nBack to point one, where there can be a open/close comment glyph on the same line\r\n\r\n> this would only apply to languages that defined block comments and blockComment[0] <> blockComment[1]\r\n\r\nMakes sense, but the points above are still valid.",
+      "user":"Halkcyon"
+    },
+    {
+      "comment":"Hello,\r\nAll of the things I mentioned were solely for comments. They were about languages that support block comments using an true syntax construct. It was not about languages that ignore artifacts that people can use as comments.\r\n\r\n- Your first remark is shows you are in line with the point I made. whitespace would include those values that are true for the regular expression `\\s` . So an comment block that starts on its own line but is indented would be fine. If you need your block comment to start at the end a code line, that would both look odd and not benefit.\r\n- a herestring argument really is a special comment because some languages ignore compilation of the floating value. if you wanted to fold a string that was being piped to another construct, how would you like it to be visible?\r\n- so why would you want to fold a one line block comment?\r\n\r\nI just want to make sure we are on the same page of what my proposal was entailing. It was a way to get **some** of the comments to fold that were not already being handled by another extension. \r\n\r\nPlease continue to comment to help flesh out use cases and understandings. Also , if you can include small code snippets that demonstrate how you would like things to look would help. Thank you. Good day.",
+      "user":"pr-yemibedu"
+    },
+    {
+      "comment":"Do we have progress on #37494 ?",
+      "user":"peon501"
+    },
+    {
+      "comment":"Outside the function of folding failure\r\n![snipaste_20171204_173034](https://user-images.githubusercontent.com/13232593/33545497-5d955158-d919-11e7-9da0-94b8d0254436.png)\r\n",
+      "user":"sdir"
+    },
+    {
+      "comment":"Maybe I missed something ... I recently migrated my javascript project from netbeans to visual studio code ... in netbeans we use \r\n```\r\n//<editor-fold defaultstate=\"collapsed\" desc=\"getControleur\">\r\n...\r\n//</editor-fold>\r\n```\r\nfor defining regions ... I saw I could modify javascript-language-configuration.json to\r\n```\r\n\t\"folding\": {\r\n\t\t\"markers\": {\r\n\t\t\t\"start\": \"^\\\\s*//\\\\s*(?:(?:#?region\\\\b)|(?:<editor-fold\\\\b))\",\r\n\t\t\t\"end\": \"^\\\\s*//\\\\s*(?:(?:#?endregion\\\\b)|(?:</editor-fold>))\"\r\n\t\t}\r\n\t}\r\n```\r\nSO that the existant region markers can be reused ... however it seems Visual studio code does not have a defaultstate ? It would be an advantage to be able to reuse also defaultstate in region folding",
+      "user":"Ptiloup"
+    },
+    {
+      "comment":"@Ptiloup Please file a new issue. Maybe you are looking for something like #36002.",
+      "user":"aeschli"
+    },
+    {
+      "comment":"Any update on the folding of here strings `@\" My here string \"@` or block comments `<# Block comment #>` for `PowerShell` editing? I don't want to be rude, but this question is on the table since February 2016. It would really be nice to see some progress here... ",
+      "user":"DarkLite1"
+    },
+    {
+      "comment":"This place is graveyard.",
+      "user":"peon501"
+    },
+    {
+      "comment":"This has come up for Dart:\r\n\r\nhttps://github.com/Dart-Code/Dart-Code/issues/583\r\n\r\nMulti-line strings tend to go back to column 0 (no indenting) so the folding just stops there. My language server can provide me all of the folding region data, I just don't have a way of providing it to Code to use.",
+      "user":"DanTup"
+    },
+    {
+      "comment":"Atom's code folding based on indentation. But the next release (1.25) new parsing system Tree-sitter is added. I tried roughly and it's ok on small files.\r\nMay VSCode follow?\r\nhttps://github.com/atom/atom/pull/16299 \r\n\r\nUpdate: Seem like VSCode team plan to work on their own https://code.visualstudio.com/updates/v1_21#_folding ",
+      "user":"LeThiHyVong"
+    },
+    {
+      "comment":"I saw that a new experimental API was introduced in VS Code 1.21. Thank you for looking into this.\r\n\r\nAre there any plans to give control as to which line is shown after the content is folded? For example, in VS Code, the source files look like this at the top:\r\n```TypeScript\r\n/*---------------------------------------------------------------------------------------------\r\n *  Copyright (c) Microsoft Corporation. All rights reserved.\r\n *  Licensed under the MIT License. See License.txt in the project root for license information.\r\n *--------------------------------------------------------------------------------------------*/\r\n```\r\nCurrent folding behaviour:\r\n```TypeScript\r\n/*--------------------------------------------------------------------------------------------- ...\r\n```\r\nProposed folding behaviour:\r\n```TypeScript\r\n...  *  Copyright (c) Microsoft Corporation. All rights reserved. ...\r\n```\r\n```TypeScript\r\nexport interface FoldingRange {\r\n\r\n\t/**\r\n\t * The start line number\r\n\t */\r\n\tstartLine: number;\r\n\r\n\t/**\r\n\t * The end line number\r\n\t */\r\n\tendLine: number;\r\n\r\n\t/**\r\n\t * The line to show when the region is folded. If this is\r\n\t * unspecified, then startLine will be shown.\r\n\t */\r\n\tvisibleLine?: number;\r\n\r\n\t/**\r\n\t * The actual color value for this folding range.\r\n\t */\r\n\ttype?: FoldingRangeType | string;\r\n}\r\n```",
+      "user":"rcjsuen"
+    },
+    {
+      "comment":"@rcjsuen your request is similar to https://github.com/Microsoft/vscode/issues/19912 ",
+      "user":"unional"
+    },
+    {
+      "comment":"Thank you for the info, @unional.\r\n\r\nI also found #31966.",
+      "user":"rcjsuen"
+    },
+    {
+      "comment":"Hello,\r\n There would need to be a really strong formatter to shrink the excessive parts of the comments to get at such useful information. That may not be the exact case now, but I wanted to brain dump it. Most typical, lines with at least one letter or number is a high candidate for keeping to favor that useful preview style. It would handle most scenarios. Thank you. Good day.",
+      "user":"pr-yemibedu"
+    },
+    {
+      "comment":"![like this](https://user-images.githubusercontent.com/30047595/38539533-2930481c-3ccb-11e8-94b2-3d3f856d9634.png)\r\n\r\n![22](https://user-images.githubusercontent.com/30047595/38539575-590f1a90-3ccb-11e8-82f1-bce832ca2320.png)\r\n\r\ncode fold logic have a question\r\n",
+      "user":"SunOfHomeBoy"
+    },
+    {
+      "comment":"@SunOfHomeBoy Please file a separate issue with the VSCode version and the sample code.",
+      "user":"aeschli"
+    },
+    {
+      "comment":"Dear all,\r\n\r\nI think I have not seen this example here yet. (Please let me know if other post discussed this already)\r\n\r\n![folding](https://user-images.githubusercontent.com/10646663/38619854-0d6f84cc-3dd8-11e8-9970-b8800576cfc3.png)\r\n",
+      "user":"autodrive"
+    },
+    {
+      "comment":"Hello,\r\n @autodrive , It not a new notion to the old problem of only having indentation as the folding signal. There is now [experimental syntax](https://code.visualstudio.com/updates/v1_22#_syntax-aware-folding) support possible in the mainline. It [**needs** extension author](https://code.visualstudio.com/updates/v1_22#_folding-provider-api) help for the vast languages out there. Only **__HTML, JSON, Markdown, CSS, LESS and SCSS__** come available out of the box. So hopefully there can be a resolution to many of these scenarios issues. Thank you. Good day.",
+      "user":"pr-yemibedu"
+    },
+    {
+      "comment":"Thanks @pr-yemibedu, correct.\r\nIn the coming release language extension authors now can provide folding range providers that are based on the language syntax. Please file issues against your favourite language extension provider to add support for your language.\r\n",
+      "user":"aeschli"
+    },
+    {
+      "comment":"The cold foldering section of the interactive playground still says that code folding is based on indentation and doesn't mention the new language aware folding.  It probably should be reworded.",
+      "user":"paul-xtr"
+    },
+    {
+      "comment":"Seem like it's could be done as extension now\r\n\r\nhttps://code.visualstudio.com/updates/v1_23#_folding-provider-api",
+      "user":"Thaina"
+    },
+    {
+      "comment":"Any news on \r\n![image](https://user-images.githubusercontent.com/1125765/39993504-c050fc5a-577e-11e8-9d41-400e95bbab7b.png)\r\nIam w8ting for months #37494",
+      "user":"peon501"
+    },
+    {
+      "comment":"So the API is now available, so language extensions can add language aware folding. I reopened #37494 to continue the discussion.\r\n ",
+      "user":"aeschli"
+    }
+  ],
+  "repository":"vscode",
+  "user":"aeschli"
+}

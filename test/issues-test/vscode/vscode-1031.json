@@ -1,0 +1,214 @@
+{
+  "comments":[
+    {
+      "comment":"Logging this on behalf of Ed Price at Microsoft\n\nPer this article (https://www.yahoo.com/tech/why-google-is-beating-apple-in-the-battle-for-the-142410097.html), schools are moving away from iOS/Apple devices and onto less expensive devices that run Chrome OS.\n\nThere's discussion on a related Microsoft-educator Yammer group about how we need Visual Studio Code to work on Chromebooks and related devices so educators can continue using to for teach AP Java (or other languages) Computer Science courses.\n\nFeel free to email me or Ed Price for more info.\n",
+      "user":"millerv"
+    },
+    {
+      "comment":"We have a previous product that VS Code is based on, called Visual Studio Online \"Monaco\", that may be useful to start with:\nhttps://azure.microsoft.com/en-us/documentation/videos/building-web-sites-with-visual-studio-online-monaco/\n\nProblem is, it is only for Azure websites.  You should talk with @chrisdias about how to move forward with this Chromebook scenario.\n",
+      "user":"csinco"
+    },
+    {
+      "comment":"@csinco Is the Visual Studio Online still under development? I think Visual Studio Online is one of the best cloud-based IDEs avaiable on the web. But it does lack some feasures compared to c9 cloud ide. What's the future of Visual Studio Online? \n",
+      "user":"javagg"
+    },
+    {
+      "comment":"Visual Studio Online is now called [Visual Studio Team Services](https://www.visualstudio.com/products/visual-studio-team-services-vs) and would be a good way to do development on Chrome OS.  It uses the same text editor under the covers as VS Code.  It is not just a code editor but also hosted version control, continuous integration, work item tracking (bugs, kanban board), etc, so it's not exactly comparable, but if I were developing on Chrome OS that's where I'd start.  Disclaimer that I work on the VSTS team.\n",
+      "user":"ghost"
+    },
+    {
+      "comment":"@alanouri I'm not seeing a browser-based IDE as part of Visual Studio Team Services. Am I missing something, or has it been removed since December?\n\nThanks!\n",
+      "user":"jasonnolanreed"
+    },
+    {
+      "comment":"@jasonnolanreed I wouldn't call it an IDE but rather a text editor.  You get intellisense for some files, SCM integration, syntax highlighting, markdown preview, etc.  To get to the text editor for a file:\n1. \"Code\"\n2. \"Explorer\"\n3. Select a file\n4. Click \"Edit\"\n\nIn order to save you have to commit, you can't open multiple files other than opening them in multiple browser tabs, etc, so it isn't really optimized for doing ALL your coding in.  But if I were on ChromeOS I would be happy to have the functionality it has?\n",
+      "user":"ghost"
+    },
+    {
+      "comment":"Just chiming in because I'm a big fan of VSCode and I'm looking at the Chromebook Pixel as a future purchase. VSCode on ChromeOS would be amazing. How difficult would this be? I know VSCode is built on Electron, right? Which means VSCode is just a packaged web app. How simple would it be to port that over to a Chrome App (https://developer.chrome.com/apps/about_apps)?\n\nI have a feeling I'm over simplifying this.\n",
+      "user":"TylerLeonhardt"
+    },
+    {
+      "comment":"I'd love to see it too, but I don't see it ever happening. Electron won't run on ChromeOS and I suspect Chrome extensions are way more restricted than Electron (is it even possible to run processes without using NPAPI, which is being phased out?)\n\n(that said, you can probably make this work via Crouton or similar already, if you don't mind maintaining a Linux install!)\n",
+      "user":"DanTup"
+    },
+    {
+      "comment":"Hey Tyler,\n\nI have a mint 2015 Pixel with the i5 I'm not using any more and looking to\nget rid of. If you're interested, I could give you a good deal on it\n\nOn Sat, May 14, 2016, 5:09 PM Tyler James Leonhardt <\nnotifications@github.com> wrote:\n\n> Just chiming in because I'm a big fan of VSCode and I'm looking at the\n> Chromebook Pixel as a future purchase. VSCode on ChromeOS would be amazing.\n> How difficult would this be? I know VSCode is built on Electron, right?\n> Which means VSCode is just a packaged web app. How simple would it be to\n> port that over to a Chrome App (\n> https://developer.chrome.com/apps/about_apps)?\n> \n> I have a feeling I'm over simplifying this.\n> \n> —\n> You are receiving this because you were mentioned.\n> Reply to this email directly or view it on GitHub\n> https://github.com/Microsoft/vscode/issues/1031#issuecomment-219251647\n",
+      "user":"jasonnolanreed"
+    },
+    {
+      "comment":"Thanks @jasonnolanreed. This is the last place I thought this would happen lol. I'm waiting for after I/O as they might be giving them out :) I'll let you know!\n",
+      "user":"TylerLeonhardt"
+    },
+    {
+      "comment":"Fingers crossed for a freebie!\n\nOn Sat, May 14, 2016, 6:33 PM Tyler James Leonhardt <\nnotifications@github.com> wrote:\n\n> Thanks @jasonnolanreed https://github.com/jasonnolanreed. This is the\n> last place I thought this would happen lol. I'm waiting for after I/O as\n> they might be giving them out :) I'll let you know!\n> \n> —\n> You are receiving this because you were mentioned.\n> Reply to this email directly or view it on GitHub\n> https://github.com/Microsoft/vscode/issues/1031#issuecomment-219255265\n",
+      "user":"jasonnolanreed"
+    },
+    {
+      "comment":"chromeos support, yes please\n",
+      "user":"jrood"
+    },
+    {
+      "comment":"chromeos support could start with intel´s processors,\r\nI guess it´s easier then arm´s one.",
+      "user":"viniciuscr"
+    },
+    {
+      "comment":"Just compiled and run on an Asus Chromebook P100 using crouton/Ubuntu 17.04\r\n\r\nEverything works fine except... no actual text editor.\r\n\r\nSo close yet so far!",
+      "user":"antony"
+    },
+    {
+      "comment":"How about porting VSCode to Android? It should be easier as Android has far less limitations than Chrome and Chromebooks can run Android apps",
+      "user":"myfrom"
+    },
+    {
+      "comment":"They said no.\r\nhttp://stackoverflow.com/questions/36290113/vs-code-for-android-is-it-possible",
+      "user":"Leetcore"
+    },
+    {
+      "comment":"I'm supporting this!",
+      "user":"phoebethewitch"
+    },
+    {
+      "comment":"This shouldn't be too difficult as the Chrome Web App environment would act as the shell for VSC much like Electron does.\r\n\r\nWhether MS wants this is another question...",
+      "user":"GitTom"
+    },
+    {
+      "comment":"Currently using this: https://code.headmelted.com/ which works really well\naside from missing the terminal autocomplete. Whatever he is doing, it\nshould be trivial to incorporate.\n\nOn Thu, 16 Mar 2017, 19:39 GitTom, <notifications@github.com> wrote:\n\n> This shouldn't be too difficult as the Chrome Web App environment would\n> act as the shell for VSC much like Electron does.\n>\n> Whether MS wants this is another question...\n>\n> —\n> You are receiving this because you commented.\n> Reply to this email directly, view it on GitHub\n> <https://github.com/Microsoft/vscode/issues/1031#issuecomment-287168375>,\n> or mute the thread\n> <https://github.com/notifications/unsubscribe-auth/AANXRdL150ItTcXhN93xoMXvxHX8Ie8Sks5rmY-3gaJpZM4GvREb>\n> .\n>\n",
+      "user":"antony"
+    },
+    {
+      "comment":"> This shouldn't be too difficult as the Chrome Web App environment would act as the shell for VSC much like Electron does.\r\n\r\nCode (and the extensions) are more than HTML/CSS/JS; they have access to all sorts of things that aren't possible in Chrome web apps (nodejs and even spawning arbitrary processes). For example the extension I work on spawns a Dart VM to run the analyzer that provides all of the language support. There's no way of running doing this on Chrome OS (you'd basically need to rewrite it in JavaScript and the performance would be terrible).\r\n\r\nAs much as I'd love to see this; I don't see how it would ever happen. Even if you somehow got the editor working; it'd need effort from all the extension authors (who would have to also redo all their work and in a far more restricted environment).",
+      "user":"DanTup"
+    },
+    {
+      "comment":"@DanTup Here is how I imagine it working:\r\n\r\nPackage VSCode as a ChromeOS app; this would provide the UI (but not the supporting background processes) in a manner similar to Electron.\r\n\r\nSome (many? all?) of the primary included background processes are JavaScript programs, usually run on Node. Shim thing as needed (hand waving here...) to run those as web workers.\r\n\r\nThe above covers, I'm guess, a large swath of VSCode users.\r\n\r\nTo get the rest, the hard part is hosting non-JS code for background processes to support various languages/plugins/features. Ideas for this:\r\n\r\n* JS-based x86 emulator - maybe crazy, maybe working for some cases (!).\r\n* User provides access to a server somewhere, SSH to it, tunnel the data back and forth to run there.\r\n\r\nOf course, it's easy to describe an idea in an issue comment, much harder to execute on it...\r\n\r\n",
+      "user":"kylecordes"
+    },
+    {
+      "comment":"> Package VSCode as a ChromeOS app\r\n\r\nI don't think describing it in one sentence makes it easy; I think it's a huge amount of work (and you'd probably have to ditch loads of functionality that Electron has that won't work in a browser).\r\n\r\n> Some (many? all?) of the primary included background processes are JavaScript programs\r\n\r\nDefinitely not all; Dart Code runs the Dart VM. Even if we didn't use it for the language service, what happens when the user hits F5 and we need to run their porgram (or compile it, etc)?\r\n\r\n> The above covers, I'm guess, a large swath of VSCode users.\r\n\r\nI think you are being *extremely* optimistic.\r\n\r\n> JS-based x86 emulator - maybe crazy, maybe working for some cases (!).\r\n\r\nEr... I think this is getting a bit out of control now!\r\n\r\n> User provides access to a server somewhere, SSH to it, tunnel the data back and forth to run there.\r\n\r\nIf you're going to require a server, you could just use Chrome Remote Desktop (etc.) and then you don't need to do any of this work; all extensions work; etc. ?",
+      "user":"DanTup"
+    },
+    {
+      "comment":"It is true... I don't have usage stats on plugins. I am curious what percentage of Code users, use only JS-based plugins (even if they have some non-JS-based ones installed).",
+      "user":"kylecordes"
+    },
+    {
+      "comment":"I'm still hoping to get the ARM support into a PR on this project so it can be added to the official builds.  The big problem with this has been that Travis has a frozen whitelist of APT repositories on their system, hence my not doing it until now.\r\n\r\nThere may be another way around this using the repos that are available - I'm hoping to take another crack at cross-compiler alchemy this weekend to see what I can make happen.",
+      "user":"headmelted"
+    },
+    {
+      "comment":"@headmelted See https://github.com/stevedesmond-ca/vscode-arm for how to cross-compile VSCode for ARM",
+      "user":"SteveDesmond-ca"
+    },
+    {
+      "comment":"@stevedesmond-ca Thanks but I was more referring to bringing across the multiarch targeting from https://code.headmelted.com into github/Travis so as to avoid the QEMU step, at least insofar as compilation (still using the chroot for testing), so as to keep on the right side of Travis timeouts.\r\n\r\n",
+      "user":"headmelted"
+    },
+    {
+      "comment":"Still no plans for this?",
+      "user":"jobukkit"
+    },
+    {
+      "comment":"Working on multi-arch (armhf/arm64) right now that will work on Travis (so\ncan be issued as a PR if the core team want it).\n\nIt's building, it's virtually complete, but its giving github API limit\nerrors because of binary downloads by the vscode-ripgrep scripts.\n\nI think it's just a case of passing a github API key to the postinstall\nscript, I've reached out for info on this because it seems like something\nthe core team would already have encountered.\n\nOn 17 Apr 2017 11:48, \"Jop V.\" <notifications@github.com> wrote:\n\n> Still no plans for this?\n>\n> —\n> You are receiving this because you were mentioned.\n> Reply to this email directly, view it on GitHub\n> <https://github.com/Microsoft/vscode/issues/1031#issuecomment-294449118>,\n> or mute the thread\n> <https://github.com/notifications/unsubscribe-auth/AKYVoE0dLJMyzZ0Y35i014AD_qwsFYucks5rw0OMgaJpZM4GvREb>\n> .\n>\n",
+      "user":"headmelted"
+    },
+    {
+      "comment":"I have issued a pull request for multi-arch support (with ARM for Raspberry Pi):\r\n\r\nhttps://github.com/Microsoft/vscode/pull/24943#issuecomment-294754872\r\n\r\nThe builds I'm hosting at https://code.headmelted.com are a little out-of-date as I've been working on the above, but I will return to getting them back to daily releases, and ideally via github/Travis this time so the scripts are out in the open for people to see/reuse.\r\n\r\nThe big issue that you'll face with Visual Studio Code on the Chromebook is that the platform is locked down such that you currently need to enter developer mode, which is not ideal.\r\n\r\nI've investigated previously what it would take to run Visual Studio Code under something such as Termux/GNURoot **_under_** Android **_under_** Chrome OS to avoid the need for developer mode, and got quite far with this.  Unfortunately, the current sandbox restrictions on Android-on-ChromeOS prevent network servers from running on Android there, which prevents any kind of X11 frame buffer connection to the nested Android in the way Crouton does it.\r\n\r\nThe more adventurous goal that could work, would be to re-implement the Electron API's that Code uses in HTML5 Javascript with local storage, such that VS Code could run entirely as a HTML5 web application.  Even if you could do this (and it's a massive if), it leaves the two big problems of binary dependencies (maybe you could cross-compile to WebAssembly with my above pull request.  Sort of.  But that seems really far-fetched), and what would the integrated terminal connect to?  How would you run Ruby/Python/.NET etc.?  If over SSH, then you might as well run Code in a VM and connect to it remotely and be done with it.\r\n\r\nI think the most realistic way forward without developer mode currently is that Google either moves to open up Android network access when running on a Chromebook **_or_** they provide a new way to sandbox Linux for pro users that doesn't require giving up the userspace encryption as required by developer mode.\r\n\r\nI.. uh... have probably thought more about this than I should have. 👍 ",
+      "user":"headmelted"
+    },
+    {
+      "comment":"What you might consider (if the pull request makes it into the core / official support), is running a small Raspberry Pi Zero board ($5 each) for each student (or alternatively a VM-per-student on a shared x86 machine) that would allow for remote desktop sessions from the Chromebook.\r\n\r\nNot ideal, not what I'm hoping for, but it's something that would work now with Chrome OS.",
+      "user":"headmelted"
+    },
+    {
+      "comment":"@headmelted \r\nI haven't actually created a Chrome App myself, but I thought the idea of it was to be something like Electron on Chromebooks, but more efficient because you are using the platform's own copy of V8 & Chrome etc. rather then bundling.\r\n\r\nhttps://developer.chrome.com/apps/first_app\r\n\r\nChrome Apps have lost some momentum as Google has announced that they won't be supporting them on non-Chromebook desktop platforms, but they are still supported for the Chromebook.\r\n\r\nI'm looking forward to when MS provides similar API's on Win10 for accessing Edge, allowing Electron to dramatically reduce its resource consumption.",
+      "user":"GitTom"
+    },
+    {
+      "comment":"Is anybody interested on working on this? I can compile VS Code on ChromeOS through using it's native shell. Everything compiles just fine. The problem is Electron relies on GTK and draws its own windows.\r\n\r\nA proper rewrite would be to make vscode as a node app, and run a webserver and access that webserver over Chrome. The browser page can make calls to node layer to work around whatever Chrome API doesn't handle.\r\n\r\nBut this ultimately becomes is an HTML-based Remote UI for VS Code that would be compatible with any web browser. Then from ChromeOS's crosh shell, you'd be running the server implementation.\r\n\r\nCome to think of it, I would love a remote UI for my Windows machine, and access that from my ChromeBook, that way I can work on my projects and compile it remotely without having to use something like RDP.",
+      "user":"clshortfuse"
+    },
+    {
+      "comment":"What are the relevant limitations of the Chrome API? Surely a lite version with less functionality could be made for submission to the Chrome Web Store.",
+      "user":"jobukkit"
+    },
+    {
+      "comment":"Ultimately the only problem, and it's a big one, is that you don't have a\nconsole once you have the IDE running.\n\nYou could remap the Electron calls to the Chrome OS API / HTML5 reasonably\npredictably, but you don't have an underlying POSIX environment to run your\ntools (ruby/python/node) in.\n\nThe scenario I envisioned before was instead mapping the integrated\nterminal to an SSH connection to another box elsewhere, but then you're\nback to no offline development.\n\nIt's why I've held fast with the developer mode scripts I'm maintaining at\nhttps://code.headmelted.com - it's not perfect but it's the path of least\ncompromises (I think so anyway).\n\n\nOn 28 Aug 2017 19:35, \"Jop V.\" <notifications@github.com> wrote:\n\n> What are the relevant limitations of the Chrome API? Surely a lite version\n> with less functionality could be made for submission to the Chrome Web\n> Store.\n>\n> —\n> You are receiving this because you were mentioned.\n> Reply to this email directly, view it on GitHub\n> <https://github.com/Microsoft/vscode/issues/1031#issuecomment-325439810>,\n> or mute the thread\n> <https://github.com/notifications/unsubscribe-auth/AKYVoDcjJfsYP4C4AVitWE7cJukpLyupks5scwhqgaJpZM4GvREb>\n> .\n>\n",
+      "user":"headmelted"
+    },
+    {
+      "comment":"@Jop-V Well, at that point you are just using a glorified text-editor without any addons (unless they can work in the browser). You're better starting from scratch with the monaco codebase. Running add-ons is heavily based on spawn processes and nodeJS itself.\r\n\r\nThe biggest issue is to make a full ChromeOS version, you can't do it without using developer mode. It's not that it can't be done, it's just a HUGE undertaking for little reward (just targeting ChromeOS users in developer mode). You have to set-up a nodeJS yourself. Not difficult, it just requires developer-mode. \r\n\r\nSo rewriting VS Code into a nodeJS Server + Web Client solution works. Most users would use it on the same machine. In fact, you can use electron to wrap a localhost webpage. ChromeOS users can access their Windows machine remotely which is very cool. If you're savvy enough to set it up on your ChromeOS machine, then you don't need any remote connection. Where the nodeJS server lies doesn't matter. Of course, you'd have to break away from any Electron specific code and migrate to pure HTML code.\r\n\r\n@headmelted That's where the nodeJS server comes in. Calls to spawn processes (ruby, python, etc) are done by the nodeJS instance, not the browser itself.",
+      "user":"clshortfuse"
+    },
+    {
+      "comment":"> So rewriting VS Code into a nodeJS Server + Web Client solution works.\r\n\r\nWouldn't this be useful for Windows/Mac/Linux users as well? It would allow you to use your normal web browser rather than Electron, saving a lot of RAM.",
+      "user":"jobukkit"
+    },
+    {
+      "comment":"@Jop-V Yes, I was presenting a solution that could possibly be worth the effort and something that can be reasonable maintained. \r\n\r\nSomething like vscode-core (or vscode-server, vscode-noui, vscode-remoteonly) is useful for all platforms (and ChromeOS can finally use vscode somehow)",
+      "user":"clshortfuse"
+    },
+    {
+      "comment":"FWIW, I think StackBlitz is also proving that there is demand for this.\r\n\r\nhttps://stackblitz.com\r\n\r\nPeople in my Angular/Ionic circles are going crazy over how awesome that is.\r\n\r\nNB: I am not associated with StackBlitz. Just thought their story might help frame the need here.",
+      "user":"DavidFrahm"
+    },
+    {
+      "comment":"And c9. But on the London underground it's lack of cloud that counts.\nVscode could be everything to everybody.\n\nExcited about the traction here\n\nOn Wed, 30 Aug 2017, 19:57 David Frahm <notifications@github.com> wrote:\n\n> FWIW, I think StackBlitz is also proving that there is demand for this.\n>\n> https://stackblitz.com\n>\n> People in my Angular/Ionic circles are going crazy over how awesome that\n> is.\n>\n> —\n> You are receiving this because you commented.\n> Reply to this email directly, view it on GitHub\n> <https://github.com/Microsoft/vscode/issues/1031#issuecomment-326086260>,\n> or mute the thread\n> <https://github.com/notifications/unsubscribe-auth/AANXRdyVI65kO7Zf6plCfXMNcp0uANVHks5sdbCwgaJpZM4GvREb>\n> .\n>\n",
+      "user":"antony"
+    },
+    {
+      "comment":"@headmelted You've done great work getting the builds going for Arm to make it usable via Crouton.\r\nThe problem is of course that in many situations (eg. edu org managed chromebooks) dev-mode and hence crouton is *not* an option.\r\nGetting VSC to work as an Chrome app is same problem as for instance for Atom - lack of a Electron-mappable API. And given Googles unfortunate choice to abandon Chrome Packaged App supporton desktop chrome existing packaged apps (eg. Postman, Espruino) are actually having to move the other way and port onto Electron or simliar.\r\nHowever it is doable, a few years ago [Brackets](http://brackets.io/) was ported to a Chrome App named [Tailor]https://chrome.google.com/webstore/detail/tailor/mfakmogheanjhlgjhpijkhdjegllgenf, but minus extension support.\r\n\r\nFinally @DavidFrahm has an excellent point, StackBlitz has done **amazing** work.\r\nLook at their offline feature set:\r\n* in browser npm client ! [I worked on this years ago but never got it going](https://github.com/npm/npm-registry-couchapp/issues/108)\r\n* in browser web-server !\r\n* AND: in browser VS Code ! (or at least key JS parts of it)\r\n\r\n[So this has actually (mostly) been done already!](https://medium.com/@ericsimons/our-goal-was-to-port-vs-code-npm-and-webpack-loaders-to-run-entirely-in-your-browser-and-still-8751f39e5b0f)\r\n\r\nBut as far as I can tell, [none of StackBlitz's work is yet open source](https://github.com/stackblitz/core) but they have [stated that they intend too](https://github.com/unpkg/unpkg/issues/35#issuecomment-317128917)\r\n",
+      "user":"maks"
+    },
+    {
+      "comment":"I feel like, architecturally, the solution to this is to split the client and server.\r\n\r\nThe UI for VSCode should be largely browser compatible; it seems like the back-end process spawning, file system access, etc. is where it breaks down. If that were abstracted to be an API, backends could fulfill it at different levels. A windows backend can offer more windows specific things (for example, terminal provider selection for Windows Susbsytem for Linux OR Powershell OR classic cmd.exe) and raw FS / process access. A Chrome OS backend may not support terminal or run it in a VM, perhaps it only provides containerized file system access. A remote backend could be configurable.\r\n\r\nIt's less 'install-and-run' than VS Code is today, but the complexity only needs to be visible in these more complex modes. Guarding against / disabling UI elements for missing features would be a pain, and I don't think that Laptop client to cloud hosted backend would be particularly performant.",
+      "user":"shawngmc"
+    },
+    {
+      "comment":"Just going to chime in since I received the notification ping. It seems as though ChromeOS will allow some sort of virtualization layer for OCI containers to run in the background. Chrome Apps/Extensions can include their own OCI containers. \r\n\r\nIf VS Code does separate from Electron and uses an abstraction as I described before that allows it accept commands, then the UI can be presented in a regular web browser window. ChromeOS will include a VSOCK communication layer for communicating with the VM container.\r\n\r\nhttps://chromium.googlesource.com/chromiumos/platform2/+/9e91613d2da1b3d6cfb1c77681444e688ce99cf4/vm_tools/docs/vsock.md\r\n\r\nI suggest we wait a bit until we start any official work on building any OCI container, but in the least, separating VS Code from Electron and allowing interface from a web browser would be a good start. It'll even allow remote workstations as described in previous comments.",
+      "user":"clshortfuse"
+    },
+    {
+      "comment":"We looked into using VS Code in a browser-remote-backend scenario. But the architecture doesn't fit well, because the communication between the renderer process and all the others is very fine grained and doesn't scale well over slower networks (internet). \r\n\r\nSo we started https://github.com/theia-ide/theia. We really like VSCode and use it every day so Theia is meant to be pretty close but supports the browser scenario. It's open-source, too.",
+      "user":"svenefftinge"
+    },
+    {
+      "comment":"A year since the last post, and ChromeOS (at least on some models) can now run Linux applications in a container by just enabling a setting. The feature is still in beta (it's even displayed as \"Linux (Beta)\" in the settings), but VS Code appears to work pretty great on my end.\r\n\r\nMy only issue is that occasionally (usually when switching windows) the app goes crazy and starts typing a single letter as if the key is stuck, but this appears to be a bug in the Linux container, and not VS Code.\r\n\r\nI'm not sure if there will be further need to actively try to support ChromeOS, as long as it works within the Linux container",
+      "user":"TUSF"
+    },
+    {
+      "comment":"> I'm not sure if there will be further need to actively try to support ChromeOS, as long as it works within the Linux container\r\n\r\nMany Chromebooks have ARM processors. Right now the cleanest solution there is still @headmelted's unofficial community build, which does work well with the containerized Linux. So I think things are close, but until there are official ARM builds available it doesn't seem like ChromeOS support is in place yet. (xref #6442, #33620)",
+      "user":"natevw"
+    },
+    {
+      "comment":"vscode for arm64 is only available from third party builders which also means no remote development extension support. As arm chromebooks are not very powerful, using them as a lightweight vscode machine to develop remotely in the cloud or on more powerful servers is one major use case for this. \r\nAnd unless arm is a official target, extension developers don't care for them which means more and more ative components that don't work on arm.\r\nSo, yes for intel CBs this issue is solved (had been already way before crostini whith crouton) but for arm64 CBs this is still open.",
+      "user":"magic-k"
+    },
+    {
+      "comment":"There's a few threads for this but I'm working to bring the ARM builds up-to-date after a gap due to some family matters.\r\n\r\n_If anyone has a point-of-contact at MS who can help with renewing the VS subscription they donated previously to help out with this (it expired) it would be a big help.  I can work without it, but it means reworking parts of the build setup which will take time away from getting it up-to-date with the latest code._",
+      "user":"headmelted"
+    },
+    {
+      "comment":"> \r\n> \r\n> vscode for arm64 is only available from third party builders which also means no remote development extension support. As arm chromebooks are not very powerful, using them as a lightweight vscode machine to develop remotely in the cloud or on more powerful servers is one major use case for this.\r\n> And unless arm is a official target, extension developers don't care for them which means more and more ative components that don't work on arm.\r\n> So, yes for intel CBs this issue is solved (had been already way before crostini whith crouton) but for arm64 CBs this is still open.\r\n\r\nThis is a good point with regards to the extensions.  One option to resolve this (although not ideal) would be to use QEMU transparent emulation in a chroot for extensions that are x86-only (there would be a performance hit though - how much impact this would have would depend on what the extension is actually doing).",
+      "user":"headmelted"
+    },
+    {
+      "comment":"See ~~https://github.com/dimkr/vscodium/releases~~ https://github.com/VSCodium/vscodium/releases, I've been able to produce working arm64 builds of 1.40.2, from x86_64! It seems to work OK on my arm64 Chromebook. It starts just fine and I was able to install Go support.\r\n\r\nThe build process is in rough shape and very hacky, but works. Once https://github.com/microsoft/node-native-keymap/pull/16 is merged, I'll be able to clean it up: node-native-keymap insists on building natively, so arm64 builds on x86_64 are contaminated with x86_64 assembly.\r\n\r\n![](https://i.imgur.com/H34ftiY.png)",
+      "user":"dimkr"
+    },
+    {
+      "comment":"Builds at https://code.headmelted.com are now up-to-date and rolling again!\r\n\r\nI’m going to work on some instructions for the QEMU emulation as I’m not sure if it’s something that should be rolled into the builds for people that don’t need/want it.",
+      "user":"headmelted"
+    },
+    {
+      "comment":"Hi all! Starting today we have archive, deb and rpm insider packages for Linux ARM 32 and 64 bits: https://github.com/microsoft/vscode/pull/106289#issuecomment-691076575\r\n\r\nLooking forward to your feedback!",
+      "user":"joaomoreno"
+    },
+    {
+      "comment":"Verified by having users run this on Raspberry Pis, Chromebooks, etc.",
+      "user":"joaomoreno"
+    }
+  ],
+  "repository":"vscode",
+  "user":"millerv"
+}

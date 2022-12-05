@@ -1,0 +1,94 @@
+{
+  "comments":[
+    {
+      "comment":"Similar to other browser globals but recognize this is an ambitious request. If web compatibility is a goal then from my perspective this should be too.\r\n\r\nCurrently there are only a few options for constructing a DOM on the backend. Some folks are using Chromium/Puppeteer but this is really memory intensive and crummy for places where coldstart performance is important (like AWS Lambda). JSDom has some support for doing this but resolving esmodules mixed with Node require is clunky at best. A first class runtime solution on the backend for Web Components would be extremely useful for those of us that want to render as much of the DOM as possible before sending it to the client. \r\n\r\nI think that's a very large audience and a worthwhile goal. Thanks for considering!",
+      "user":"brianleroux"
+    },
+    {
+      "comment":"Effective duplicate of #3447.",
+      "user":"nayeemrmn"
+    },
+    {
+      "comment":"I'm open to it. It needs to be done in a way that doesn't effect our size or benchmarks, but I think that's possible.\r\n\r\nI'll close #3447 in favor of this one because it's more specific.",
+      "user":"ry"
+    },
+    {
+      "comment":"Can the scope of the request be clarified?\n\nI don't want to assume anything, but it sounds like [`DOMParser`](https://developer.mozilla.org/en-US/docs/Web/API/DOMParser) and [`XMLSerializer`](https://developer.mozilla.org/en-US/docs/Web/API/XMLSerializer) are being abandoned by closing #3447 in preference to this one.",
+      "user":"jsejcksn"
+    },
+    {
+      "comment":"> ... are being abandoned by closing #3447 in preference to this one.\r\n\r\n@jsejcksn This issue requests a specific and foundational part of the DOM with a use case. It's better to let any more advanced API be gradually requested _after_ the prerequisites are implemented, with specificity and a use case. See #4756. As another reason, #3447 is requesting a jsdom port in `std` which would be redundant if we're considering built-ins.\r\n\r\n@brianleroux For server rendering, I guess for now you're looking for the ability to `document.createElement()`s, append them to each other, change attributes etc. and just stringify it for the client?",
+      "user":"nayeemrmn"
+    },
+    {
+      "comment":"DOM APIs in general are something we've found to be necessary for our needs, and have started work on an [implementation using Rust, Html5ever from Servo and TS](https://github.com/b-fuze/deno-dom) because we didn't find JSDOM's performance satisfactory. Our goal has been to be able to run DOM code in Deno without modifications, which would involve implementing, among others, the aforementioned `DOMParser`, `XMLSerializer`, and `document.createElement()`. Ofc the work is in its infancy at this time. Would be really cool to see this supported natively in Deno.\r\n\r\n> For server rendering, I guess for now you're looking for the ability to document.createElement()s, append them to each other, change attributes etc. and just stringify it for the client?\r\n\r\nI don't know if that they were looking for, but that's pretty much exactly what I/we've been looking to do with Deno.",
+      "user":"0kku"
+    },
+    {
+      "comment":"> As another reason, #3447 is requesting a jsdom port in `std` which would be redundant if we're considering built-ins.\r\n\r\nI'm on the same page with everyone else here. I guess I didn't say it, but I always thought the JSDOM port wouldn't necessarily be a literal port, but rather it would bring the browser built-ins that JSDOM provides.\r\n\r\n`document.createElement()` obviously depends on `document`, and `document` is yielded by `DOMParser`:\r\n\r\n```js\r\nconst doc = new DOMParser().parseFromString('', 'text/html');\r\n```\r\n\r\nSimilarly, serialization methods on `element` (for example, `element.`[`innerHTML`](https://w3c.github.io/DOM-Parsing/#dom-innerhtml-innerhtml)/[`outerHTML`](https://w3c.github.io/DOM-Parsing/#dom-element-outerhtml)) utilize the exact same [fragment serialization algorithm](https://w3c.github.io/DOM-Parsing/#serializing) which is used by `XMLSerializer`.\r\n\r\nThat's the reason I brought up [`DOMParser`](https://developer.mozilla.org/en-US/docs/Web/API/DOMParser) and [`XMLSerializer`](https://developer.mozilla.org/en-US/docs/Web/API/XMLSerializer) specifically. I realize the DOM spec is (overwhelmingly) massive, and agree on case-driven feature development. Is there a [browser-compatible API](https://deno.land/v1) that could be employed to address the mentioned cases that wouldn't rely on those two?",
+      "user":"jsejcksn"
+    },
+    {
+      "comment":"Would this extend from [`Element`](https://developer.mozilla.org/en-US/docs/Web/API/element), [`Node`](https://developer.mozilla.org/en-US/docs/Web/API/Node) and [`EventTarget`](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget)? Or will it only implement a subset of properties that are useful, rolling them all into the `HTMLElement` class...?\r\n\r\nThis could be a slippery slope. Be careful.",
+      "user":"Alhadis"
+    },
+    {
+      "comment":"This issue has been automatically marked as stale because it has not had recent activity. It will be closed if no further activity occurs. Thank you for your contributions.\n",
+      "user":"stale[bot]"
+    },
+    {
+      "comment":"Does anyone have any view on this?",
+      "user":"Pierstoval"
+    },
+    {
+      "comment":"pretty stoked on it but there's now a few wasm based DOM things that work well with Deno…think its a matter of time =)",
+      "user":"brianleroux"
+    },
+    {
+      "comment":"I suspect it is a matter of time. But something we want to do properly and well.",
+      "user":"kitsonk"
+    },
+    {
+      "comment":"#### Using in `tsconfig.json` the `DOM` and `ESNext` values, show this error in VsCode.\r\n##### **Deno version:** 1.10.2\r\n![DenoError](https://user-images.githubusercontent.com/7506354/120111743-87cc0400-c149-11eb-8df7-648567e94b0a.jpg)\r\n",
+      "user":"JADSN"
+    },
+    {
+      "comment":"@JADSN This issue is for discussion of implementation of DOM types. For information and help with the VS Code extension, see this repo: https://github.com/denoland/vscode_deno#configuration (Look for info about `deno.config` in `.vscode/settings.json`)",
+      "user":"jsejcksn"
+    },
+    {
+      "comment":"I'd love to be able to use Deno for testing my native ESM frontend code. It just makes so much sense, I already write my components using the Deno \"flavor\" of TypeScript which is browser esm-friendly. Currently, lack of DOM support appears to be the only thing that prevents that use-case.",
+      "user":"vovacodes"
+    },
+    {
+      "comment":"At this point in time adding a virtual DOM is out of scope for Deno. However tools like jsdom and linkedom work well in Deno and I would encourage you to explore this route.\r\n\r\nExpect update to the manual on this subject soon.",
+      "user":"bartlomieju"
+    },
+    {
+      "comment":"For the record, the [deno-dom](https://github.com/b-fuze/deno-dom/) library implements an HTML parser and support for DOM APIs. It's probably not yet useful for testing browser code in Deno (for example, it doesn't implement subclasses of `HTMLElement` for the different HTML elements), but your best bet would be building on top of it.",
+      "user":"andreubotella"
+    },
+    {
+      "comment":"> Expect update to the manual on this subject soon.\r\n\r\nHi @bartlomieju: Can you give us an update on this? I searched for \"dom\" in the manual today after the `1.13` update, but found nothing relevant. I'd like to know what kind of expectations to have about when/where to find the info.",
+      "user":"jsejcksn"
+    },
+    {
+      "comment":"> > Expect update to the manual on this subject soon.\r\n> \r\n> Hi @bartlomieju: Can you give us an update on this? I searched for \"dom\" in the manual today after the `1.13` update, but found nothing relevant. I'd like to know what kind of expectations to have about when/where to find the info.\r\n\r\nSorry @jsejcksn it slipped. I'll open an issue in the manual repo.\r\n\r\nhttps://github.com/denoland/manual/issues/45",
+      "user":"bartlomieju"
+    },
+    {
+      "comment":"Does this work yet??",
+      "user":"ralyodio"
+    },
+    {
+      "comment":"How do we get this to work? https://esm.sh/jsdom",
+      "user":"ralyodio"
+    },
+    {
+      "comment":"> How do we get this to work? https://esm.sh/jsdom\n\nhttps://github.com/denoland/manual/issues/45#issuecomment-997456762",
+      "user":"SinaMobasheri"
+    }
+  ],
+  "repository":"deno",
+  "user":"brianleroux"
+}

@@ -1,0 +1,122 @@
+{
+  "comments":[
+    {
+      "comment":"https://github.com/twbs/bootstrap/blob/master/js/modal.js#L257\n\nThe login Modal moves my page background to left for 17px with padding-right property. My solution is comment it.\n",
+      "user":"zhaiduo"
+    },
+    {
+      "comment":"This is because your scrollbar disppears to prevent user scrolling on the main window. Otherwise you get a window width resize.\n",
+      "user":"andycole"
+    },
+    {
+      "comment":"@andycole You are right. But this is definitely a problem when you use a no-scrolling-bar window page.\n",
+      "user":"zhaiduo"
+    },
+    {
+      "comment":"I second that. 3.3.1 changed this and the content \"jump\" when the modal is opened.\n",
+      "user":"Khrysller"
+    },
+    {
+      "comment":"The only thing that changed in v3.3.1 for the modals was the backdrop in #14927. I don't think that caused any issues here.\n\nI doubt there is anything we can do about this—we have to account for the scrollbar or content shifts over when opening. The alternative is we deal with that, but as the comments and bug reports have shown, folks really really hate that.\n",
+      "user":"mdo"
+    },
+    {
+      "comment":"We recently updated Bootstrap to v3.3.1 in our project and we're experiencing this exact issue: https://github.com/twbs/bootstrap/issues/9855\n\nTemporarily fixing it by adding: `padding-right: 0 !important` to `.modal-open`.\n",
+      "user":"gitjul"
+    },
+    {
+      "comment":"I've been thinking about this issue as it's causing a problem for the app I'm working on. It must be possible to detect if a scrollbar is present (i.e. the document is taller than the viewport) when the offset is applied to .modal-open.\n\nSuper basic pseudo code would be something like:\n\n``` scss\n// Detect if scrollbar is present\nvar scrollbar = (some expression) ? true : false;\nif (scrollbar) {\n // Add padding\n}\n$('body').addClass('modal-open');\n```\n\nThis would at least fix the scrollbar-less apps from seeing the padding.\n\nOr alternatively assuming that's not the core issue here, you could allow the body overflow:auto, but catch the mousewheel events. Therefore any attempt to scroll would scroll the modal itself rather than the body.\n",
+      "user":"andycole"
+    },
+    {
+      "comment":"Duplicate of #14040?\n",
+      "user":"cvrebert"
+    },
+    {
+      "comment":"@andycole We already do something similar; see https://github.com/twbs/bootstrap/blob/ac49a0990689439be471752f6c5ea8a91256ad32/js/modal.js#L250\n",
+      "user":"cvrebert"
+    },
+    {
+      "comment":"I'm not sure I understand what exactly the problem is. Can somebody please post a live example on JS Bin?\n",
+      "user":"hnrch02"
+    },
+    {
+      "comment":"Also, in which browsers are you experiencing this?\n",
+      "user":"hnrch02"
+    },
+    {
+      "comment":"Just encountered this as well.\n\nOn a Mac, go to \"System Preferences --> General\" and select \"Show scroll bars always\" to reproduce.\n\n@hnrch02, don't have a live example, but here's a GIF. Notice how the padding shifts to the left as `.modal-backdrop` fades in.\n\n![shift](https://cloud.githubusercontent.com/assets/1328849/5475670/ed195e14-85cf-11e4-86ad-b50e95eb26b3.gif)\n",
+      "user":"jrubenoff"
+    },
+    {
+      "comment":"@jrubenoff Yeah, I tried that numerous times on getbootstrap.com. I'm asking for a live example because I can't reproduce it on getbootstrap.com\n",
+      "user":"hnrch02"
+    },
+    {
+      "comment":"@hnrch02 Resize your browser window to 980x500 (so that `.modal-backdrop` is scrollable) in Safari 8 and try it.\n\n![shift](https://cloud.githubusercontent.com/assets/1328849/5484579/804dd4e2-8640-11e4-9c7b-6a1505f4d035.gif)\n",
+      "user":"jrubenoff"
+    },
+    {
+      "comment":"Here is a live demo of the problem: http://wb-mgrigorov.rhcloud.com/js#modals\nClick on \"Launch demo modal\" button and you will see how the navbar moves to the left because of the (dis)appearing window scroll.\nThis behavior started with Bootstrap 3.3.2.\n",
+      "user":"martin-g"
+    },
+    {
+      "comment":"Real annoying indeed, happens everytime the modal hides the scrollbar.\n\nFixed temporarily with:\n\n```\n.modal-open {\n  padding-right: 0 !important;\n}\nhtml {\n  overflow-y: scroll !important;\n}\n```\n\nworks as expected after this\n",
+      "user":"jrasanen"
+    },
+    {
+      "comment":".modal-open {\n  padding-right: 0 !important;\n}\nwell on ie11,but cause Chrome shift to right\n",
+      "user":"liu-xinhui"
+    },
+    {
+      "comment":"Hi, this is my first ever comment on GitHub so please excuse me if I do something wrong.\n\nI noticed this issue with IE11 just as we updated Bootstrap and did something which _seemed_ to work okay (haven’t been able to test it fully yet) but perhaps might prompt someone more knowledgeable to provide a better solution.  The issue is that for some browsers the scrollbar is floating above the content and doesn’t subtract from its width. When the modal-open class is applied to the body and overflow is set to clip, bootstrap attempts to compensate for the removal of the scrollbar by adding the scrollbar width as padding-right to the body.  If the browser never included the scrollbar width in the first place then it causes the body to jump left.\n\nSo to fix that I tried getting the width of the body just before it adds the modal-open class in Modal.prototype.show, and then again straight after.  If the two are not the same then keep something to remember that it has scrollbar width.  Then in Modal.prototype.setScrollbar just check it along with this.bodyIsOverflowing to determine whether or not to apply the padding-right.\n\nSo … in Modal.prototype.show the bit from this.checkScrollbar() to this.resize() would become something like:\n\n``` javascript\nthis.checkScrollbar()\nvar oldWidth = this.$body.width();\nthis.$body.addClass('modal-open')\nthis.hasScrollbarWidth = this.$body.width() != oldWidth;\nthis.setScrollbar()\nthis.escape()\nthis.resize()\n```\n\nAnd in Modal.prototype.setScrollbar the line which adds the padding-right would become:\n\n``` javascript\nif (this.bodyIsOverflowing && this.hasScrollbarWidth) this.$body.css('padding-right', bodyPad + this.scrollbarWidth)\n```\n",
+      "user":"KAKwit"
+    },
+    {
+      "comment":"@KAKwit Could you test if the changes from #15378 fix the problem for you?\n",
+      "user":"hnrch02"
+    },
+    {
+      "comment":"This is still an issue.\nNot sure why 8px works for me.\nHere's my fix:\n\n``` css\nbody.modal-open {\n  margin-right: 0 !important;\n  padding-right: 8px !important;\n}\n```\n",
+      "user":"dessalines"
+    },
+    {
+      "comment":"@tchoulihan Have you tested this with the latest code from master?\n",
+      "user":"hnrch02"
+    },
+    {
+      "comment":"@hnrch02 Yep, this is still an issue on 3.3.2 . \n",
+      "user":"dessalines"
+    },
+    {
+      "comment":"@tchoulihan I was talking about the most recent code from the `master` branch, the unreleased next version.\n",
+      "user":"hnrch02"
+    },
+    {
+      "comment":"After fiddling around with [the visual test for modals](https://github.com/twbs/bootstrap/blob/master/js/tests/visual/modal.html), I am reasonably sure that this has been fixed in `master`. Regardless of whether the page body or the modal are long/short enough to have/lack scrollbars, I don't see the page body shifting laterally when showing/hiding the modal (modulo `position: fixed` elements, which are covered by #14040).\n",
+      "user":"cvrebert"
+    },
+    {
+      "comment":"with the `navbar-fixed-top` the right side of navbar content shift always on the right.\n",
+      "user":"TronicLabs"
+    },
+    {
+      "comment":"This is still an issue in v3.3.4.\n",
+      "user":"coderdave"
+    },
+    {
+      "comment":"@coderdave Presumably your example involves fixed-position elements?\n",
+      "user":"cvrebert"
+    },
+    {
+      "comment":"@cvrebert Yes, I am also using `navbar-fixed-top`\n",
+      "user":"coderdave"
+    },
+    {
+      "comment":"@coderdave Then, as stated above, that's a separate bug: #14040.\n",
+      "user":"cvrebert"
+    }
+  ],
+  "repository":"bootstrap",
+  "user":"zhaiduo"
+}

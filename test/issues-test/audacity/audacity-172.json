@@ -1,0 +1,110 @@
+{
+  "comments":[
+    {
+      "comment":"This PR, when merged, will generate and upload an [AppImage](http://appimage.org/) of each commit. It does so by bundling Audacity and its core dependencies which cannot be expected to be part of each target system (Linux distribution) inside the AppImage.\r\n\r\nThe URL of the AppImage can be found in the Travis CI build log, it is beginning with `http://bintray...`. Of course you can change this to use the GitHub Releases mechanism for hosting the binaries instead.",
+      "user":"probonopd"
+    },
+    {
+      "comment":"The resulting AppImage from df3c21d can be downloaded from\nhttps://transfer.sh/Tdm8O/audacity-travis1993-glibc2.15-x86-64.appimage\nas indicated in the [Travis CI build log](https://travis-ci.org/audacity/audacity/builds/175318699#L6577).\n",
+      "user":"probonopd"
+    },
+    {
+      "comment":"Would appreciate review, feedback, discussion. Even if you end up deciding not to use it in the end :-)",
+      "user":"probonopd"
+    },
+    {
+      "comment":"No one in team has volunteered to maintain this going forward, and it would be another deliverable we would need to create/test on each release.  Plus it pulls in binary code that we do not have full visibility of. \r\n For now we are staying with our current methods for distributing on linux.",
+      "user":"JamesCrook"
+    },
+    {
+      "comment":"@JamesCrook it pulls in binary code but only for the sake of speeding up the packaging process, and all is coming from traceable GitHub repository that contain the full source code.\r\n\r\nWhich \"current methods for distributing on linux\" are as easy for everyone as download one file, make it executable, and run?",
+      "user":"probonopd"
+    },
+    {
+      "comment":"No one in team has volunteered to maintain this going forward, and it would be another deliverable we would need to create/test on each release. Plus it pulls in binary code that we do not have full visibility of.\r\nFor now we are staying with our current methods for distributing on linux.",
+      "user":"JamesCrook"
+    },
+    {
+      "comment":"Isn't it a shame that if I was running a proprietary OS rather than Ubuntu LTS, I could be downloading and running Audacity 2.2.0 right now, whereas with Linux I am lost?\r\n\r\n![downloads](https://user-images.githubusercontent.com/2480569/32697153-771f0966-c78a-11e7-94a6-1c57db4e37c1.png)\r\n",
+      "user":"probonopd"
+    },
+    {
+      "comment":"> No one in team has volunteered to maintain this going forward, and it would be another deliverable we would need to create/test on each release.\r\n\r\nMaking the AppImage will simply involve bundling up the builds that you are already doing right now on Travis CI, and I am volunteering to help with any AppImage issues that might arise.\r\n\r\n> Plus it pulls in binary code that we do not have full visibility of.\r\n\r\nAppImageKit is 100% open source under the MIT License. \r\n\r\n> For now we are staying with our current methods for distributing on linux.\r\n\r\nWhat would need to change to make you reconsider?\r\n\r\nFor one, the AppImage tools have greatly improved since my original request, so that a bash script is no longer needed to do the conversion to AppImage. The https://github.com/probonopd/linuxdeployqt\r\ntool can do it now.\r\n\r\nNew version here: https://github.com/probonopd/audacity/blob/patch-1/.travis.yml\r\n\r\nNew build can be downloaded here: https://github.com/probonopd/audacity/releases",
+      "user":"probonopd"
+    },
+    {
+      "comment":"I'd love to see binaries for Audacity for Linux as well. Big fan of this software, use it a few times a week. AppImage seems like the easiest way for you guys to provide those binaries. I mean, seriously, how many lines of code is the AppImage build compared to the NSIS(?) installer?\r\n\r\nAnd whenever you would have trouble with the AppImage builds, you're free to join #AppImage on Freenode, there's a lot of people who can help you out.",
+      "user":"TheAssassin"
+    },
+    {
+      "comment":"Simon, thanks for taking this to the devel list.  That is moving it along faster.  At least now the AppImage build is being reviewed by the people in Audacity who make sure things work well on Linux.  Thanks also for your flexibility in being willing to maintain and host this yourself.  We will never be testing on as many Linux variants as you do!",
+      "user":"JamesCrook"
+    },
+    {
+      "comment":"Hi, will audacity release in appimage in the future? that will be awesome!!!!!",
+      "user":"Lvaskz"
+    },
+    {
+      "comment":"+Lvaakz, probonopd is providing AppImages at https://github.com/probonopd/audacity/releases .  Audacity team already have our hands full providing and supporting Windows installer, Mac dmg and Linux-src for those three platforms, and as yet it does not make sense for us to officially provide AppImage, Snaps and Flatpak for linux ourselves.",
+      "user":"JamesCrook"
+    },
+    {
+      "comment":"Still haven’t given up the hopes of an official AppImage... definitely happy to help :-)",
+      "user":"probonopd"
+    },
+    {
+      "comment":"There are hundreds of them! Which of all to choose?",
+      "user":"Lvaskz"
+    },
+    {
+      "comment":"I would like to see one official :-)",
+      "user":"Lvaskz"
+    },
+    {
+      "comment":"> There are hundreds of them! Which of all to choose?\r\n\r\nThe most recent one that offers the combination of features you need. If people think there are build combinations that make no sense, let me know. Ideally the Audacity team would just decide on one.",
+      "user":"probonopd"
+    },
+    {
+      "comment":"@JamesCrook you could include in the download page the links of audacity flatpak https://flathub.org/apps/details/org.audacityteam.Audacity of snap https://snapcraft.io/audacity and audacity appimage https://github.com/probonopd/audacity/releases , indicating that they are not maintained by the audacity team, as does krita with the flatpak package?\r\nIs there some problem with that? It would be easier for some users to see from the audacity page that there are such packages.\r\n",
+      "user":"Lvaskz"
+    },
+    {
+      "comment":"Any way, you are not bundling such packages, only indicating a link,  if any body want them. :)",
+      "user":"Lvaskz"
+    },
+    {
+      "comment":"Thanks @Lvaskz .  I've passed your comment on to the people who make decisions about Linux.",
+      "user":"JamesCrook"
+    },
+    {
+      "comment":"Hi, any progress about it?",
+      "user":"Lvaskz"
+    },
+    {
+      "comment":"Let me know if you want me to change anything.",
+      "user":"probonopd"
+    },
+    {
+      "comment":"any news on official audacity appimage, would really want to have one",
+      "user":"hcsubser"
+    },
+    {
+      "comment":"> \r\n> \r\n> any news on official audacity appimage, would really want to have one\r\n\r\nI am hopeful that this will happen one day, personally speaking, the appimages are manageable and less irritating when executing them, the terminal is not needed, etc. Although for a linux user of several years, the terminal becomes indispensable. Anyway, appimages is a good option to download binaries and test them on linux.",
+      "user":"Lvaskz"
+    },
+    {
+      "comment":"Hi, it would be wonderful to see an official `Audacity.AppImage`. I use three opensource applications for video creation namely Audacity, Kdenlive and OBS Studio.\r\n\r\n- Kdenlive already provides AppImages: https://kdenlive.org/en/download/\r\n- OBS is in the process of adopting one: https://github.com/obsproject/obs-studio/pull/2868\r\n\r\nI would love to see Audacity move in this direction. It would help a lot of content creators on Linux to get started with Audacity hassle free!\r\n\r\nLinked https://github.com/audacity/audacity/issues/695",
+      "user":"joe733"
+    },
+    {
+      "comment":"Thanks @joe733 . I've passed your comment on to the people who make decisions about Linux.",
+      "user":"JamesCrook"
+    },
+    {
+      "comment":"I think with this  (https://github.com/appimagecrafters/appimage-builder )appimage builder , create an appimage will be more easier.\r\nTo consider too",
+      "user":"Lvaskz"
+    }
+  ],
+  "repository":"audacity",
+  "user":"probonopd"
+}

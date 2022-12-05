@@ -1,0 +1,30 @@
+{
+  "comments":[
+    {
+      "comment":"- VSCode Version: 1.7\r\n- OS Version: Windows 10\r\n\r\nI can't find any good information on the relationship between the Code `engine` version in `package.json` and versions of other parts (like the `vscode` `devDependency`).\r\n\r\nIt seems that updating the `engine` number causes a new `vscode.d.ts` to be downloaded when I run `npm install`, however I believe that also sets the minimum required Code version to install the extension.\r\n\r\nIf that's correct, I'm not sure how I can get the latest `vscode.d.ts` so that I can (for example) add [`evaluateName`](https://github.com/Microsoft/vscode/issues/10210) support but still allow the extension to be installed by Code 1.6 users?\r\n\r\nIt's also not clear how the other versions relate - do I need to move the `vscode` `devDependency` version forwards whenever I update the `engine` version? If so, is there a table of the min versions that work together?\r\n\r\nApologies if this is covered somewhere - I can't find it. Maybe if it doesn't exist, it's worth a small page in the extension docs explaining the relationship between these versions and the process/implications of updating each one.",
+      "user":"DanTup"
+    },
+    {
+      "comment":"Code will install the latest version of an extension which is compatible with the user's version of Code.\n\nThis means that if you publish a new version of your extension, specifying the vscode engine compatibility to be `^1.8.0`, this version won't get installed on users that are on a VSCode before `1.8.0`.\n",
+      "user":"joaomoreno"
+    },
+    {
+      "comment":"@joaomoreno I understand that; though my question was about whether I can keep supporting old versions of Code while still taking advantage of new features for people using new versions?\n\nEg., if I wanted to do:\n\n``` ts\nif (codeVersion >= 1.7)\n  // set evaluateName\n```\n\nCurrently to get `evaluateName` to \"compile\" I need the definition file for Code 1.7, but that also means not being able to install the extension in Code 1.6.\n\nIt might not be a big deal (people tend to update fairly quickly), but so far I've tried to avoid forcing a new version of Code where I can help it to ensure that even people that aren't updating Code quickly are still getting bugfixes.\n",
+      "user":"DanTup"
+    },
+    {
+      "comment":"We currently do not support that.\n\nEither you want to add features to your extension which benefit from new API, which old users can't use at all. Or you want to add features to your extension which benefit from current API, at which point you have to consider doing parallel versioning. (eg: releasing multiple versions at once).\n\nNotice that ultimately, we want our users always on the latest version possible. If they refuse to do so, it comes at the cost of not getting new features. It's a rough position to take, but it does work. You, as an extension developer, should do the same.\n",
+      "user":"joaomoreno"
+    },
+    {
+      "comment":"> consider doing parallel versioning. (eg: releasing multiple versions at once)\n\nDoes the store keep all versions and serve up the correct ones if we did that? I figured it'd only \"keep\" the last one and if your Code was old, you'd get nothing?\n\n> Notice that ultimately, we want our users always on the latest version possible\n> \n> You, as an extension developer, should do the same\n\nYeah, I'd love to just keep updating; but I keep seeing Code 1.4 and 1.5 in my analytics. I don't know how many people aren't upgrading Code regularly (or what their reasons are) so I wanted to cover as many as possible.\n\nProbably the reasons aren't well-founded, I should just add a note to the release notes/announcement that the Code version has been rolled and people need to be on latest.\n",
+      "user":"DanTup"
+    },
+    {
+      "comment":"The Marketplace keeps all the versions you ever published and:\n\n> Code will install the latest version of an extension which is compatible with the user's version of Code.\n\nSure, make sure people keep riding the latest, every bit helps. 👍 \n",
+      "user":"joaomoreno"
+    }
+  ],
+  "repository":"vscode",
+  "user":"DanTup"
+}

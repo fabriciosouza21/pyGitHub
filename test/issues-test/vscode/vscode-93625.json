@@ -1,0 +1,46 @@
+{
+  "comments":[
+    {
+      "comment":"<!-- ⚠️⚠️ Do Not Delete This! bug_report_template ⚠️⚠️ -->\r\n<!-- Please read our Rules of Conduct: https://opensource.microsoft.com/codeofconduct/ -->\r\n<!-- Please search existing issues to avoid creating duplicates. -->\r\n<!-- Also please test using the latest insiders build to make sure your issue has not already been fixed: https://code.visualstudio.com/insiders/ -->\r\n\r\n<!-- Use Help > Report Issue to prefill these. -->\r\n- VSCode Version: 1.43.2\r\n- OS Version: Windows 10\r\n\r\nSteps to Reproduce:\r\n\r\n1. Download latest VS Code and Node, and navigate to an empty folder using VS Code. \r\n2. Create a new file `server.js`\r\n3. Type the following code:\r\n\r\n```\r\nconsole.time(\"task\");\r\nconsole.log(\"hello world\");\r\nconsole.timeEnd(\"task\");\r\n```\r\n\r\n4. Open command prompt within VS Code\r\n5. Run `node server.js`\r\n6. Prints the following output, which is expected:\r\n\r\n```\r\n> node server.js\r\nhello world\r\ntask: 5.763ms\r\n```\r\n\r\n7. Click the Run/Debug icon in the Activity Bar on the side of VS Code.\r\n8. Click `Run and Debug` button\r\n9. In the VS Code terminal, go to the `Debug Console` tab.\r\n10. The following output is printed, which is not expected:\r\n```\r\nhello world                                                 server.js:3\r\ntask: 13.216796875ms                                        server.js:5\r\ntask: 13.253ms                                              constructor.js:531 \r\n```  \r\n\r\nWhat is `constuctor.js`, and why is it printing the `console.timeEnd(label)` output once again?\r\n\r\n<!-- Launch with `code --disable-extensions` to check. -->\r\nDoes this issue occur when all extensions are disabled?: Yes\r\n\r\nSimilar issues reported before, which were closed without any satisfactory explanation. \r\n\r\n- [38376](https://github.com/Microsoft/vscode/issues/38376)\r\n\r\n- [47624](https://github.com/Microsoft/vscode/issues/47624)",
+      "user":"akshayKhot"
+    },
+    {
+      "comment":"This is very strange, the runtime actually sends two events. The normal log event goes to the process stdout (that's what you see in the terminal) but there is also a full-precision event (with a different duration??) sent over the debug channel. It shows up in chrome devtools too,\r\n\r\n![image](https://user-images.githubusercontent.com/323878/77831377-03689600-70ec-11ea-999d-e2b8039166ca.png)\r\n",
+      "user":"roblourens"
+    },
+    {
+      "comment":"I can't be sure that it's safe to work around this on the frontend, so I will file an issue upstream. ",
+      "user":"roblourens"
+    },
+    {
+      "comment":"https://bugs.chromium.org/p/chromium/issues/detail?id=1065648",
+      "user":"roblourens"
+    },
+    {
+      "comment":"@roblourens I think the Chromium team is waiting for an input from VS Code team regarding an error, can you please have a look? [Issue 1065648: Node debugging: console.timeEnd shows two duration messages in the devtools console](https://bugs.chromium.org/p/chromium/issues/detail?id=1065648)",
+      "user":"akshayKhot"
+    },
+    {
+      "comment":"Well this explains why I thought my completion provider was being called twice for every keystroke 😄\r\n\r\nIt's weird that the duplicates don't show up in the Dev Tools console, I would've thought this was handling the same events? \r\n\r\n<img width=\"1424\" alt=\"Screenshot 2020-06-04 at 10 49 47\" src=\"https://user-images.githubusercontent.com/1078012/83742684-a04a3100-a651-11ea-87ff-1c4017fef5ae.png\">\r\n",
+      "user":"DanTup"
+    },
+    {
+      "comment":"Sorry for the confusion! It's a weird bug. Extension host debugging is a bit different than regular node debugging where this does show up in devtools. That devtools instance is not attached directly to the ext host node process. It's seeing the one event that is written as a normal log and goes to stdout. The other is a special log event.",
+      "user":"roblourens"
+    },
+    {
+      "comment":"+1 on this",
+      "user":"Amantel"
+    },
+    {
+      "comment":"Still present in vscode: 1.59.1\r\n+2 on this issue, I'm new to node, this is not a clear behavior, the function is called once it should log once.\r\n\r\nthis code from getting stated page:\r\n``` javascript\r\nconst doSomething = () => console.log('test')\r\nconst measureDoingSomething = () => {\r\n  console.time('doSomething()')\r\n  //do something, and measure the time it takes\r\n  doSomething()\r\n  console.timeEnd('doSomething()')\r\n}\r\nmeasureDoingSomething()\r\n```\r\nit yields this output:\r\n.\r\n![image](https://user-images.githubusercontent.com/10291724/131124001-471f5326-891a-4c6a-a732-68f453119d6b.png)\r\n",
+      "user":"alibttb"
+    },
+    {
+      "comment":"Closing this since it is acknowledged upstream\r\n\r\nFYI @connor4312 if you aren't aware of this. I don't see an issue in js-debug",
+      "user":"roblourens"
+    }
+  ],
+  "repository":"vscode",
+  "user":"akshayKhot"
+}

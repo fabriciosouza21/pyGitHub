@@ -1,0 +1,98 @@
+{
+  "comments":[
+    {
+      "comment":"- VSCode Version: 1.2\n- OS Version: Windows 7\n\nSteps to Reproduce:\n1. Open any file in VSCode\n2. Scroll with mouse wheel\n\nThe number of lines scrolled does not match the Mouse Control Panel settings.\n",
+      "user":"juliantrd"
+    },
+    {
+      "comment":"@juliantrd Can you please let me know which setting option you are mentioning about. Thanks.\n",
+      "user":"sandy081"
+    },
+    {
+      "comment":"In the Mouse Control Panel -> Wheel Tab, there are two settings for Vertical Scrolling.  \nRoll the wheel one one notch to scroll:\n\"The following number of lines at a time\", or \n\"One screen at a time\"\n",
+      "user":"juliantrd"
+    },
+    {
+      "comment":"@juliantrd We do not read this information from the OS, it is most likely Chromium that interprets it. At our level, you could use a setting called `editor.mouseWheelScrollSensitivity` to control it.\n",
+      "user":"alexdima"
+    },
+    {
+      "comment":"I can confirm that scrolling works correctly in Chrome on Windows so it should be possible to fix this in VSCode.\n",
+      "user":"jcmielle"
+    },
+    {
+      "comment":"OS: Windows 10 1607 (OS Build 14393.693)\r\nVSCode: V1.10.1 Shell:1.4.6, Renderer: 53.0.278.143, Node:6.5\r\n\r\nAny progress on this?  I just downloaded VSCode on Windows and this is one of the first problems I ran into.\r\n\r\nWhy doesn't VSCode default to the system scroll setting from the OS like all other apps?  My old version of Outlook 2010 does it right, why can't VSCode?\r\n\r\nI set the `editor.mouseWheelScrollSensitivity` to what I wanted.  Great for the editor window, but the other windows: Explorer, Problems, Console, etc. still operate at a sensitivity of 1 (seriously? c'mon man!)\r\n\r\n",
+      "user":"brucejo75"
+    },
+    {
+      "comment":"guys I have the same issue. fix this please. wtf is this.",
+      "user":"ColacX"
+    },
+    {
+      "comment":"My vscode v 1.13.1 completely ignores the `editor.mouseWheelScrollSensitivity` setting",
+      "user":"joaobpedro"
+    },
+    {
+      "comment":"Had the same problem for a while. Try setting the `editor.mouseWheelScrollSensitivity` setting to a decimal setting. This just worked for me.\r\n\r\nI thought I had tried this in the past, and it had not worked, but just did!",
+      "user":"johndevedu"
+    },
+    {
+      "comment":"11 months later and this is still a problem. It seems odd that this is the only app I have running on windows 7 that doesn't obey the system settings for mousewheel set to 'page scrolling'",
+      "user":"n-alex-white"
+    },
+    {
+      "comment":"I have found setting the following in user settings is as close as I can get to scrolling one line at a time; \r\n\r\n`\"editor.mouseWheelScrollSensitivity\": \".2\"`\r\n\r\nIt will show an error \"Incorrect type. Expected \"number\". But still seems to do the trick. ",
+      "user":"barry-hall"
+    },
+    {
+      "comment":"Still a problem in 1.28.  Hope this get fixed soon.",
+      "user":"cerebralin"
+    },
+    {
+      "comment":"chrome / vscode on linux dont scroll nice\r\n\r\nchrome + smooth scroll extension and vscode with `\"editor.mouseWheelScrollSensitivity\": \"4\"` is about the most manageable i found so far",
+      "user":"sjas"
+    },
+    {
+      "comment":"Please just respect the operating system's mouse settings. There's no need to reinvent the wheel here, quite literally.\r\nThe touch and feel of an input device is something that people get very accustomed to. Any slight change is immediately noticed, and it can be very frustrating.\r\n\r\n@alexandrudima In my experience across different platforms, Chromium / Chrome has always respected OS scroll settings, unlike the other cross platform browser, so I don't think the blame can be placed there.",
+      "user":"ejonsson"
+    },
+    {
+      "comment":"Problem still exist in 1.41, using \"editor.mouseWheelScrollSensitivity\": \".01\" in settings works into terminal but not in editor :/ ",
+      "user":"storm1er"
+    },
+    {
+      "comment":"> Problem still exist in 1.41, using \"editor.mouseWheelScrollSensitivity\": \".01\" in settings works into terminal but not in editor :/\r\n\r\nIn my case it works in the editor but not in the terminal..\r\nThe strange thing is that the output windows works perfectly",
+      "user":"Ares9323"
+    },
+    {
+      "comment":"In my case it worked changing `terminal.mouseWheelScrollSensitivity` to change the terminal sensitivity and `editor.mouseWheelScrollSensitivity` to change the editor",
+      "user":"thalesnunes"
+    },
+    {
+      "comment":"This still isn't fixed in 1.57? This is a huge shortcoming of an otherwise great editor",
+      "user":"waynecnr"
+    },
+    {
+      "comment":"> In my case it worked changing `terminal.mouseWheelScrollSensitivity` to change the terminal sensitivity and `editor.mouseWheelScrollSensitivity` to change the editor\r\n\r\n@ejonsson It doesn't work for me. I tried `\"terminal.mouseWheelScrollSensitivity\": 0.1` and `\"terminal.mouseWheelScrollSensitivity\": 1`, but the \"settings.json\" shows error \"Unknown Configuration Setting\" and the terminal still scrolls 6 lines at a time. The editor's scrolling worked well for me.\r\n\r\nDoes anyone know of any other workaround?",
+      "user":"SpriteOvO"
+    },
+    {
+      "comment":"> > In my case it worked changing `terminal.mouseWheelScrollSensitivity` to change the terminal sensitivity and `editor.mouseWheelScrollSensitivity` to change the editor\r\n> \r\n> @ejonsson It doesn't work for me. I tried `\"terminal.mouseWheelScrollSensitivity\": 0.1` and `\"terminal.mouseWheelScrollSensitivity\": 1`, but the \"settings.json\" shows error \"Unknown Configuration Setting\" and the terminal still scrolls 6 lines at a time. The editor's scrolling worked well for me.\r\n> \r\n> Does anyone know of any other workaround?\r\n\r\nOh! I figured it out, the configuration name has changed, it is now named `terminal.integrated.mouseWheelScrollSensitivity`. But it is actually a multiplier and not a lines, the actual number of scrolling lines for me is `mouseWheelScrollSensitivity` * 6, I don't know what the 6 value is and where it comes from. This may still be a bug that needs to be fixed.",
+      "user":"SpriteOvO"
+    },
+    {
+      "comment":"/duplicate of #112134 which has more upvotes.",
+      "user":"hediet"
+    },
+    {
+      "comment":"Thanks for creating this issue! We figured it's covering the same as another one we already have. Thus, we closed this one as a duplicate. You can search for existing issues [here](https://github.com/microsoft/vscode/issues?utf8=%E2%9C%93&q=is%3Aopen+is%3Aissue+label%3A%22feature-request%22%20label%3A%22editor-scrollbar%22). See also our [issue reporting](https://aka.ms/vscodeissuereporting) guidelines.\n\nHappy Coding!",
+      "user":"vscode-triage-bot"
+    },
+    {
+      "comment":"Don't you love how they close tickets? Why fix it when you can just wait a few years for a duplicate",
+      "user":"duzenko"
+    }
+  ],
+  "repository":"vscode",
+  "user":"juliantrd"
+}

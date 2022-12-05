@@ -1,0 +1,398 @@
+{
+  "comments":[
+    {
+      "comment":"I have a use case where I would like to be able to get a list of all the open editors (basically exactly what is shown here).  \r\n\r\n<img width=\"222\" alt=\"loginstructions_ts_-_vs-apex-debug\" src=\"https://cloud.githubusercontent.com/assets/5217568/20104763/68b379fa-a58c-11e6-8f48-185e5ae47060.png\">\r\n\r\nI understand that Editors are disposed but I just need a list of filenames.\r\n\r\nSomething like: `workspace.openDocuments:Array<TextDocument>` or even just `workspace.openFiles:Array<string>`.\r\n\r\nLong term, it might be nice to have API access to operate on this list (EG: sort open editors pane by last opened, name, etc).\r\n\r\n\r\n",
+      "user":"ChuckJonas"
+    },
+    {
+      "comment":"Also, just wanted to add that this is blocking our vscode Salesforce IDE extension ([mavensmate](https://marketplace.visualstudio.com/items?itemName=DavidHelmer.mavensmate)) from reaching feature parity with Sublime and Atom (and thus increasing the risk of it being abandoned by users).  \r\n\r\nBackground:  Salesforce requires that classes be compiled on their servers.  In order to refactor multiple classes, you must send a single compilation request with all classes.  Because compilation is slow, you typically only want to compile a subset of your project (IE only files related to a refactor).  \r\n\r\nThe way existing salesforce IDE's handle this, is by allowing users to compile all open tabs.  ",
+      "user":"ChuckJonas"
+    },
+    {
+      "comment":"@ChuckJonas I don't know if this is still blocking you, but I've used a [hack here](https://github.com/eamodio/vscode-restore-editors/blob/master/src/documentManager.ts#L57) that might work for your depending on your use-case. You can see it in action in the [Restore Editors](https://marketplace.visualstudio.com/items?itemName=eamodio.restore-editors) extension.",
+      "user":"eamodio"
+    },
+    {
+      "comment":"@eamodio ahhh very nice! Never would have thought to use the `workbench.action.nextEditor` cmd to loop through all the editors.\r\n\r\nStill seems like sort of a ridiculous hack for something that should obviously be accessible in the API.",
+      "user":"ChuckJonas"
+    },
+    {
+      "comment":"@ChuckJonas totally agree, but it was the best I could figure out with the tools available ;)",
+      "user":"eamodio"
+    },
+    {
+      "comment":"fyi @dbaeumer ",
+      "user":"jrieken"
+    },
+    {
+      "comment":"Cheers @eamodio, using your work around for something I'm working on too! \r\n\r\nAlso noticed I had to copy the way you wait in between executing commands because sometimes the activeEditor wont be set yet? Is that a separate issue worth reporting do you think?",
+      "user":"lukebatchelor"
+    },
+    {
+      "comment":"@lukebatchelor getting an active editor of `undefined` is to be expected at this point. It gets set to `undefined` if there are really no editors, but also if the focus switches to a non-editor window",
+      "user":"eamodio"
+    },
+    {
+      "comment":"@eamodio, Im not getting undefined in these cases, but sometimes the same editor. \r\n\r\nI assumed that was why have the 500ms pauses in your code?",
+      "user":"lukebatchelor"
+    },
+    {
+      "comment":"@lukebatchelor sort of -- the timeout is because while the `workbench.action.nextEditor` will move to the next tab, if you have 2 non-text editors next to each other, the active editor becomes `undefined` when it switches to the first (and the active editor changed event will fire), but now when it switches to the next, it will still be `undefined`, but no event will fire, because it went from `undefined` to `undefined` -- so the timeout is a safety net for the event not firing",
+      "user":"eamodio"
+    },
+    {
+      "comment":"Oh okay. Thats different to what i was getting. \r\n\r\nI'll try again but i was executing closeActiveEditor then logging the active editors document uri and would sometimes be the same still, until i added the pause. Same with nexrEditor. \r\n\r\nWeird.",
+      "user":"lukebatchelor"
+    },
+    {
+      "comment":"This would be really nice to have! \r\n\r\nI am working on an extension that takes **encrypted** files and **decrypts** them. The problem is I need the **encrypted file path** so that I can decrypt the file.\r\n\r\nvscode doesn't let you access the file uri of a binary file because the active editor is undefined.\r\n\r\nAlternatively it would be cool to allow the user to choose what encoding to display binary files. I would think the default would be UTF-8.",
+      "user":"loligans"
+    },
+    {
+      "comment":"#11247 is about making the tab-model not only readable but also writeable, e.g. open a background-tab which we must consider when implementing this",
+      "user":"jrieken"
+    },
+    {
+      "comment":"FYI there is some further conversion about this here: https://github.com/Microsoft/vscode/issues/26568#issuecomment-322384117\r\n\r\n@jrieken any thoughts on that? It doesn't address the need of an API for a lot of other use-cases, but it could provide a nice shortcut for a (decent?) set of scenarios.",
+      "user":"eamodio"
+    },
+    {
+      "comment":"Is there any progress or plan for this functionality? It feels really odd that there is still no way for an extension to be able to simply get a list of the currently opened files (even if they are not loaded).",
+      "user":"Gruntfuggly"
+    },
+    {
+      "comment":"I'm hitting this too. I need to provide my language service with a list of \"priority files\" and I was sending what I believed to be:\r\n\r\n1. Visible documents\r\n2. Other open (non-visible) documents\r\n\r\nHowever I've discovered that my means for getting open (non-visible) documents (workspace.textDocuments) is flawed and contains documents that had their editors closed, but the documents are still \"open\" according to Code.\r\n\r\nThis means I'm unable to write tests to ensure that my priority files are working correctly, as I have no way of telling which files a user actually has open (but not visible).",
+      "user":"DanTup"
+    },
+    {
+      "comment":"We need this for VSCodeVim as well. Our use case is explained here: https://github.com/Microsoft/vscode/issues/51001#issuecomment-397177893",
+      "user":"jpoon"
+    },
+    {
+      "comment":"Is this planned any time soon? The vim issue is pretty annoying.",
+      "user":"c10b10"
+    },
+    {
+      "comment":"@c10b10 Hopefully thumbs up attract more attention to this issue. For non-vim users, we cannot effectively edit the same file opened in two different editor groups (e.g. split one file vertically and view/edit different parts in each pane)",
+      "user":"kylesalter"
+    },
+    {
+      "comment":"+many. The API feels needlessly restrictive. What's the downside for MS to make this available for extension developers? I can't think of one.\r\n\r\nMuch as I like vscode the API could really use some love. Not to sound unappreciative, but the quality of extensions has so much potential if only the API would open up a bit more.",
+      "user":"Divni"
+    },
+    {
+      "comment":"+1 ! Needed for a personal extension that keeps me from opening too many files :0",
+      "user":"Samox"
+    },
+    {
+      "comment":"@jrieken  Is there any update on this? The tab model issue (that I was pinning my hopes on) has been closed...\r\n\r\nThis issue has been open for over 2 years?\r\n",
+      "user":"Gruntfuggly"
+    },
+    {
+      "comment":"As the [fifth highest voted open issue for the API](https://github.com/Microsoft/vscode/issues?q=is%3Aissue+is%3Aopen+sort%3Areactions-%2B1-desc+label%3Aapi), I hope to see this in the VS Code Roadmap 2019 as the final release of 2018 wraps up in the few weeks.",
+      "user":"KamasamaK"
+    },
+    {
+      "comment":"I've encountered a bunch of extensions that are broken or work poorly due to this specific issue.",
+      "user":"Yzrsah"
+    },
+    {
+      "comment":"Haha. Funny you linked that, my comments above were for when I was making that add-on :P\r\n\r\nYou'll be pleased to know that \"close all saved\" is actually built into VSCode now (thanks to @soneymathew)",
+      "user":"lukebatchelor"
+    },
+    {
+      "comment":"it'd be cool to be able to switch between tabs in your workspace on a branch switch.",
+      "user":"mabenson00"
+    },
+    {
+      "comment":"> \r\n> \r\n> it'd be cool to be able to switch between tabs in your workspace on a branch switch.\r\n\r\nThis workflow any many others will be supported in the extension that I'm building for VS and VS Code - [http://contextkeeper.io](http://contextkeeper.io/?ref=DC8)\r\n\r\nI want to cover all aspects of \"dev context\" that is created when working at specific PR/task/feature/bug. There is often a need to switch to something else and there is no easy way to turn back and restore lost context. Moreover there will be a way to save and share your contexts with entire team because they will be saved as diffable files (aka mental snapshots). Ready to commit in git. Stay tuned!",
+      "user":"PiotrKarczmarz"
+    },
+    {
+      "comment":"@PiotrKarczmarz \r\n> extension that I'm building for VS and **VS Code**\r\n\r\nBut how? How do you get the open editors when there's no API for it (hence this issue)?",
+      "user":"noppa"
+    },
+    {
+      "comment":"> \r\n> \r\n> @PiotrKarczmarz\r\n> \r\n> > extension that I'm building for VS and **VS Code**\r\n> \r\n> But how? How do you get the open editors when there's no API for it (hence this issue)?\r\n\r\n@noppa good question. When there is no official API it will be harder to implement but I believe possible. In the second comment @eamodio mentioned hack that his Restore Editors is using. When you will dig long enough sometimes you find a way.\r\n\r\nVisual Studio also doesn't have any explicit API for its internal engine that restores last opened windows and tabs. It has .suo file when it stores them but it's like black box. You could save or restore certain windows state but you have no control how it will be done at window/tab level. Because VS's last opened files engine has many flaws I wrote independent engine that ContextKeeper is using to position VS's windows and restore tabs. It works very well and allows a whole range of possibilities like opening the same mental snapshot when you switch from your desktop box to laptop without manual windows repositioning - it's detects current resolutions of connected monitors and prepare appropriate layout where all windows fit nicely to new environment. The ContextKeeper's engine allows to save mental snapshots to human-friendly diffable files so you could not only switch between different contexts easily but also track what was changed in them via git. Sharing contexts with a team opens another range of possibilities.\r\n\r\nNothing above would be possible when I would give up and tried to use broken and limited \".suo\" API. It took a lot of time but I found a way and created \"alternative\" API.",
+      "user":"PiotrKarczmarz"
+    },
+    {
+      "comment":"For vscode, it sounds like you'll end up hacking the application code rather than building an extension then, which is a shame. On your website it says you have a commit ready for git - I assume that's for Visual Studio and not vscode?\r\n",
+      "user":"Gruntfuggly"
+    },
+    {
+      "comment":"> \r\n> \r\n> For vscode, it ounds like you'll end up hacking the application code rather than building an extension then, which is a shame. On your website it says you have a commit ready for git - I assume that's for Visual Studio and not vscode?\r\n\r\n@Gruntfuggly ContextKeeper will be pure extension for both VS Code and VS. I know that are limitations. Some of them discussed in this thread but also others like no support for floating windows in VS Code  #10121 which were always supported in VS. Workaround will be to use grid layout #14909 when you will try to open context from VS in VS Code to simulate the same windows and tabs layout (yes, opening the same context in both VS and VS Code will be possible!). I want to deliver similar experience for both VS and VS Code but knowing the limitations. ",
+      "user":"PiotrKarczmarz"
+    },
+    {
+      "comment":"Well if you find a way to access open editors, please share! :grin: ",
+      "user":"Gruntfuggly"
+    },
+    {
+      "comment":"Would like to call out here that this kind of hobbles [VSCodeVim](https://github.com/VSCodeVim), and it sure would be nice to have.",
+      "user":"flowchartsman"
+    },
+    {
+      "comment":"I'm starting to wonder if an extension which manually tracks opened editors might be useful...",
+      "user":"Gruntfuggly"
+    },
+    {
+      "comment":"I know that this issue is primarily concerned with exposing a tab/editor API, but since it's somewhat related, is there an existing way to target and close the \"Welcome\" page in code, or would this be tied to the features requested here?",
+      "user":"coltonoscopy"
+    },
+    {
+      "comment":"@coltonoscopy `\"workbench.startupEditor\": \"none\",`",
+      "user":"Yzrsah"
+    },
+    {
+      "comment":"@Yzrsah I have that in the extension already, but what if we want to close it for them to provide a different starting point upon installation?",
+      "user":"coltonoscopy"
+    },
+    {
+      "comment":"@coltonoscopy check pull request https://github.com/Microsoft/vscode/pull/60061 and issue https://github.com/Microsoft/vscode/issues/38778",
+      "user":"Yzrsah"
+    },
+    {
+      "comment":"> As the fifth highest voted open issue for the API\r\n\r\nNow 4th...  not even a comment on this thread from the devs for nearly 2 years. :disappointed: ",
+      "user":"Gruntfuggly"
+    },
+    {
+      "comment":"hope never dies ",
+      "user":"patrickkuhlmann"
+    },
+    {
+      "comment":"cmon",
+      "user":"isc30"
+    },
+    {
+      "comment":"Really miss the [zentabs](https://atom.io/packages/zentabs) of atom. Although there is one similar [extension](https://marketplace.visualstudio.com/items?itemName=hitode909.zentabs) in vscode market, but its functionality is incomplete. \r\n\r\nThe main reason is there is no API to manage tabs.",
+      "user":"yubaoquan"
+    },
+    {
+      "comment":"So it appears that all this information is readily available, but it's not exported to the extension-visible API (https://code.visualstudio.com/api/references/vscode-api#window ). Which would mean that we'd need to send a PR that expands that API surface.\r\n\r\nI'm not familiar enough with how the VS Code codebase works to make a PR myself, but I was able to find some starting points, which might help if anyone interested in implementing this wants to dive in. You'll have my undying gratitude if you do!\r\n\r\nThe \"Open Editors\" view is able to access all this data from the Groups Service, and it does so here: https://github.com/microsoft/vscode/blob/960f567da7ab501b9be41b3fc0d3e65c8ba539af/src/vs/workbench/contrib/files/browser/views/openEditorsView.ts#L319\r\n\r\nTaking a step back, what we *do* see in the extension API seems to pass through here: https://github.com/microsoft/vscode/blob/56693de122b1345d9df1c2c37fb2cb7a23705bf7/src/vs/workbench/api/common/extHostDocumentsAndEditors.ts#L97\r\n\r\nAnd that extension API seems to be populated from the Main Thread via a state machine here (see the class's usage): https://github.com/microsoft/vscode/blob/f907a8c987b43aeaacdf18458212059f567be371/src/vs/workbench/api/browser/mainThreadDocumentsAndEditors.ts#L145\r\n\r\nThat state machine seems to interact with the Groups Service only here (which makes sense since it's not really getting that much from the Groups Service, only a notion of what viewColumn it's in): https://github.com/microsoft/vscode/blob/f907a8c987b43aeaacdf18458212059f567be371/src/vs/workbench/api/browser/mainThreadDocumentsAndEditors.ts#L445\r\n\r\nIt seems like the notion of moveable Groups is relatively recently tacked-on to the codebase, and that technical debt may be the only reason nobody's tried to implement this yet. I doubt that performance considerations have anything to do with it - I haven't seen much mention of performance in the above areas. It might be as simple as allowing more information from that service to percolate through the state machine, perhaps sending along a bookkeeping data structure mapping editor IDs to information about where/what tab-order they currently have in the Group system.\r\n\r\nhttps://github.com/microsoft/vscode/wiki/Feedback-Channels is also something I found for those who may just be getting exposed here (like me!).\r\n\r\nLooks like at least 200 people really want to see this work, and it's blocking parity with other editors on important functionality! (For my part, I really want to be able to context-switch between Git branches with confidence that I can restore tabs that only make sense on a different branch... but as other commenters indicate, tab restoration is very limited right now.)\r\n\r\nHopefully someone can jump in here! :)",
+      "user":"bpartridge"
+    },
+    {
+      "comment":"In my case, would be enough to provide an event when a text document has been hidden, that is, when its tab has been closed. Even the document is still there waiting to be disposed. I just need a notification.",
+      "user":"qadram"
+    },
+    {
+      "comment":"Finally found this issue after banging my head on the API for hours - this is a crazy oversight and I'm amazed it is 3 years in the waiting with so many interested parties.\r\n\r\nAlso https://github.com/microsoft/vscode/issues/14483 is not a duplicate. That set of features I also need to be able to deal with webViews and other non-textEditors but this request does not imply that non-textEditor tabs would be exposed in a useful way.",
+      "user":"dongryphon"
+    },
+    {
+      "comment":"do we have a plan to get a list of open text editors. looping with the command nextEditor is really not an ideal solution. feels sluggish and hacky.",
+      "user":"Roytrix"
+    },
+    {
+      "comment":"Any plan? It has been years.",
+      "user":"xiaozhuai"
+    },
+    {
+      "comment":"Happy 2020! Still no plan?",
+      "user":"luikore"
+    },
+    {
+      "comment":"+1",
+      "user":"DmitriyNagorniy"
+    },
+    {
+      "comment":"Support the author's request of this extension:\r\nhttps://marketplace.visualstudio.com/items?itemName=Divni.open-files",
+      "user":"nengxu"
+    },
+    {
+      "comment":"Has this have any plans about getting the opend files?",
+      "user":"Abbyyan"
+    },
+    {
+      "comment":"I am doing some diffing, so I am relying on `onDidOpenTextDocument` to get an initial state, then using `onDidChangeTextDocument` to get the updated state. It seems when the editor restores files, it does not call `onDidOpenTextDocument`, or my extension is loaded after this happens (activation state is `*`). Being able to iterate over the open files would really help, especially if I could do that in `activate`. Thanks!",
+      "user":"TACIXAT"
+    },
+    {
+      "comment":"@jrieken has something changed here recently? In current stable code, I'm seeing `onDidCloseTextDocument` immediately when I close a tab in the editor. I'm unsure if I can rely on this now though?",
+      "user":"DanTup"
+    },
+    {
+      "comment":"> I'm unsure if I can rely on this now though?\r\n\r\nNo",
+      "user":"jrieken"
+    },
+    {
+      "comment":"@jrieken do you happen to know what might be triggering it to happen immediately for me today? I'm trying to track down a bug that I think is related to it being called later, but I can't confirm it while it's triggering immediately. Thanks!",
+      "user":"DanTup"
+    },
+    {
+      "comment":"I stepped through the code, but couldn't figure out any case where it would not call `onDidCloseTextDocument`. If I understand the code correctly, when the editor is disposed, it disposes the model:\r\n\r\nhttps://github.com/microsoft/vscode/blob/9f07996c19ea2e17676075bc9017978fd26a8702/src/vs/workbench/contrib/files/common/editors/fileEditorInput.ts#L322\r\n\r\nThis results in `onModelRemoved` calling `_updateState()`:\r\n\r\nhttps://github.com/microsoft/vscode/blob/418d1974ca0f99529e4f55c8d05f0a202404c980/src/vs/workbench/api/browser/mainThreadDocumentsAndEditors.ts#L157\r\n\r\nAnd `_updateState` uses the models (which no longer contains the document) to do a diff and figure out why documents to fire close events for:\r\n\r\nhttps://github.com/microsoft/vscode/blob/418d1974ca0f99529e4f55c8d05f0a202404c980/src/vs/workbench/api/browser/mainThreadDocumentsAndEditors.ts#L223\r\n\r\nI can't see any obvious way that this *wouldn't* happen. If there aren't any, then this issue may be resolved (which would be good, because I think delaying the close introduces weird bugs for both local extensions and LSP where the language server has invalid state for files when modifying files outside of VS Code, such as a bit branch change).",
+      "user":"DanTup"
+    },
+    {
+      "comment":"@DanTup This issue is about exposing the open editor tab model as API, not about document close events.",
+      "user":"jrieken"
+    },
+    {
+      "comment":"@jrieken issues about `onDidCloseTextDocument` not firing immediately have been closed as dupes of this (for ex #84505).",
+      "user":"DanTup"
+    },
+    {
+      "comment":"I'm confused - my comments have been marked as off-topic in this thread, yet many issues about that subject have been closed as duplicates of this. It's not clear what the expected behaviour is. If `onDidCloseTextDocument` fires reliably when you close a document, then many of the people interested in this thread may be unblocked (and also https://github.com/microsoft/vscode/issues/68989 would be resolved). Is it possible someone can clarify the status?",
+      "user":"DanTup"
+    },
+    {
+      "comment":"If this is going to continue to get bumped each month, could the team outline a fix here and let the community implement it? Need some pointers to which files to look at and change, and what an acceptable behavior would look like. ",
+      "user":"TACIXAT"
+    },
+    {
+      "comment":"I just cann't understand what prevents this issue from being fixed. It's hard? It has been years. ",
+      "user":"xiaozhuai"
+    },
+    {
+      "comment":"It's currently in the May milestone.",
+      "user":"Gruntfuggly"
+    },
+    {
+      "comment":"> I'm confused - my comments have been marked as off-topic in this thread, yet many issues about that subject have been closed as duplicates of this. It's not clear what the expected behaviour is. \r\n\r\nAll those issues are closed a duplicate because what you and others are trying to achieve is impossible without this API. However, it doesn't mean that using the `onDidCloseTextDocument` is any good when trying to know what tabs are open. \r\n\r\nThe jsdoc for `onDidCloseTextDocument` reads like this: https://github.com/microsoft/vscode/blob/9be0faf246ce291ca08c0a9f0fe88d2b15bf0832/src/vs/vscode.d.ts#L9160-L9168\r\n\r\nI am not sure if \"_To add an event listener when a visible text document is closed, use the [TextEditor](#TextEditor) events in the [window](#window) namespace._\" is written badly or if you didn't see that. \r\n\r\nAnyways, what that means that visible editors and closed text documents have very little in common. The only guarantee is that a document that's visible (which an editor is visible) is never closed. It also means that you cannot use the list of text documents as reliable information to know what editor tabs are open.\r\n\r\n> If onDidCloseTextDocument fires reliably when you close a document\r\n\r\nThis is a conceptual misunderstanding. You don't not close a document you close an editor or an editor tab - vscode closes the document when it thinks it is time to do so. \r\n\r\nTab-changes cannot be observed and are subject of this issue. In the screen shot below below, you have\r\n\r\n1. 1 text editor\r\n1. between 1 and N text documents\r\n1. 1 settings editor (which has no representation in the API)\r\n1. 7 editor tabs\r\n\r\n<img width=\"1103\" alt=\"Screenshot 2020-05-06 at 09 55 37\" src=\"https://user-images.githubusercontent.com/1794099/81150164-c1026680-8f7f-11ea-9ce8-0de8fca9285d.png\">\r\n\r\nWe will not change 1, we will not change 2, we will not change 3. We will add an API that allows to observe and mange the list of tabs (some like to refer to this as the open editors (not _text_ editors) list). \r\n\r\nGoals of the API\r\n\r\n* Have an API representation of the tab model (aka open editors)\r\n* Have an API to manipulate the tab model (open, close, activate, move tabs and more)\r\n* Have events that fire when tabs change\r\n\r\nNote that \"tab model != text editors\" e.g an inactive tab has no text editor, an active tab might not show a text editor but something else. It's not yet clear how we associate a tab with editors that the API is aware of (text editors, notebook editors).\r\n\r\n\r\nProperties that a \"tab-object\" should have\r\n\r\n* name, detail\r\n* view column\r\n* uri (iff applicable)\r\n* API editor object (iff applicable)\r\n* likely more\r\n\r\nModifiers that should exist\r\n\r\n* close, open tab\r\n* active tab\r\n* move tab within and across view columns\r\n* likely more\r\n\r\nPotential extension use-cases\r\n* language extension validates all tabs for `fooLang`, not just visible editor and not the whole project\r\n* extension to group tabs by folders, file type etc (`[foo.html], [foo.js], [foo.css], [bar.html], [bar.js], [bar.css]`)\r\n* extension to open/close a set of editor tab\r\n",
+      "user":"jrieken"
+    },
+    {
+      "comment":"Thanks for that clarification and update.\r\n\r\nI think you've hit the nail on the head:\r\n\r\n> I am not sure if \"To add an event listener when a visible text document is closed, use the TextEditor events in the window namespace.\" is written badly or if you didn't see that.\r\n\r\nis not consistent with\r\n\r\n> You don't not close a document you close an editor or an editor tab - vscode closes the document when it thinks it is time to do so.\r\n\r\nIt's written badly - there is no such thing as a \"_visible text document_\".",
+      "user":"Gruntfuggly"
+    },
+    {
+      "comment":"@jrieken thanks for the details.\r\n\r\n> All those issues are closed a duplicate because what you and others are trying to achieve is impossible without this API. However, it doesn't mean that using the onDidCloseTextDocument is any good when trying to know what tabs are open.\r\n\r\nI'm not specifically trying to know what tabs are visible. It's fine for me if there's a visible tab that doesn't have an open document. It's the opposite that I think may cause issues (an open document without an editor). This is about ensuring language server state doesn't get out of sync with what the user sees. I don't think it's the same issue that this is asking for, but since my issues were all closed I'm not sure where to post it.\r\n\r\nHere's an issue I believe *may* exist if `onDidCloseTextDocument` doesn't fire when the user closes an editor tab, though I can't verify it right now because `onDidCloseTextDocument` appears to be firing immediately. I'm concerned if that ceases to be the case (which you suggest may happen), this bug may occur. I'm investigating issues where users have reported changing Git branches and seem to have phantom errors left in their Problems view (or new errors that they should not). Here's what I think might be happening:\r\n\r\nI'll use the LSP spec for examples here as it's clearest, but I think the issue is the same for non-LSP extensions.\r\n\r\nThe LSP spec says (about `textDocument/didOpen`):\r\n\r\n> The document open notification is sent from the client to the server to signal newly opened text documents. The document’s content is now managed by the client **and the server must not try to read the document’s content using the document’s Uri**\r\n\r\nHowever, if you:\r\n\r\n- Open a file in VS Code\r\n- Close the editor\r\n- At this point, *if* VS Code has not sent `didClose`, the server believes the state of the document is still managed by VS Code, even though it's not visible to the user\r\n- Change Git branch so that the file is modified on disk\r\n- I believe VS Code does not tell the server that file has modified on disk, yet the line above states that the server must also not read it from the disk. I believe this results in the server having the old contents for the file and therefore may show/send phantom errors for a file the user cannot see.\r\n\r\nIf there's some mechanism that prevents this from happening if `onDidCloseTextDocument` does not fire immediately, that's great - but I'd like to understand what it is so if this issue comes up again I'm able to debug better.\r\n",
+      "user":"DanTup"
+    },
+    {
+      "comment":"> I believe VS Code does not tell the server that file has modified on disk,\r\n\r\nI believe that's wrong and I am sure you'll able to file a separate bug with repro steps where a document that's considered open (e.g loaded) isn't updated anymore",
+      "user":"jrieken"
+    },
+    {
+      "comment":"> It's written badly - there is no such thing as a \"visible text document\".\r\n\r\n👍 Yeah, it should a text document in a visible text editor. Which is also a little bogous because all text editors visible by definition... At least we can fix the jsdoc",
+      "user":"jrieken"
+    },
+    {
+      "comment":"> I believe that's wrong and I am sure you'll able to file a separate bug with repro steps where a document that's considered open (e.g loaded) isn't updated anymore\r\n\r\nI don't have a repro because in my current testing, `onDidcloseTextDocument` always fires immediately. Like I said, I'm not sure that's the issue - I was trying to eliminate it. My understanding was that when the editor was visible, the user may be prompted before reloading a changed document, so I figured it might not happen if the editor is gone.\r\n\r\nIs there some situation where `onDidCloseTextDocument` *won't* fire immediately, so I can test it?\r\n\r\n> It's written badly - there is no such thing as a \"visible text document\".\r\n\r\nI raised this at https://github.com/microsoft/vscode-docs/issues/1542 previously.",
+      "user":"DanTup"
+    },
+    {
+      "comment":"@jrieken please ping me if you have something. I would like to use it in the LSP client libs to only sync documents that are visible in the editor.",
+      "user":"dbaeumer"
+    },
+    {
+      "comment":"Happy to give feedback on the API as well.",
+      "user":"dbaeumer"
+    },
+    {
+      "comment":"Hi guys,\r\n\r\nany news about this feature? \r\n\r\nUnfortunately it's a blocker for our extension because we absolutely need to unlock the file after the has finished to editit.\r\n\r\nThanks\r\nGian\r\n\r\n",
+      "user":"gianpatt"
+    },
+    {
+      "comment":"Is there any estimate on when this will actually be worked on? It keeps getting bumped (since March!) and has been open since 2016. I held off on writing some code figuring it would be done in a month, but here we are now in the June 2020 milestone. Should I just unsubscribe from this issue and cite this anytime someone asks me for VSCode support?",
+      "user":"TACIXAT"
+    },
+    {
+      "comment":"@jrieken lol keep on adding it will get done in few smtg 😜 ",
+      "user":"jascodes"
+    },
+    {
+      "comment":"I find it sad that this issue is lower priority than something like pinned tabs... ",
+      "user":"Gruntfuggly"
+    },
+    {
+      "comment":"Sorry all, I've put this on the backlog again for now, since I'm not actively working on it at the moment. I am hoping to still make some progress on the design for the next iteration, but I also don't want to get anyone's hopes up (since I could easily run out of time and not be able to get to it).",
+      "user":"eamodio"
+    },
+    {
+      "comment":"Sorry Eric,\r\nWe were waiting for more the two months. \r\nAre you able to give us some even ugly workaround?\r\nThe use case is simple in my opinion. I need a call to free the resource that was locked when it was open in the editor.\r\n\r\nIt's a blocker for us and unfortunately without this hook we cannot proceed over.\r\n\r\nThanks\r\nGian\r\n",
+      "user":"gianpatt"
+    },
+    {
+      "comment":"@eamodio \r\n\r\nI think this issue is taking so long because its request became too broad. \r\n\r\nIt started with “I would like to be able to get a list of all the open editors”. I’m a subscriber because when I opened #13639, it was closed being categorized as a _duplicate_ of this one (which I didn’t buy, tbh). But after all this time, some other issues, which doesn’t seems related to the original request, are referencing this one.\r\n\r\nYou have:\r\n\r\n* open/close events\r\n* opening in background\r\n* extension being able to close documents\r\n* middle click on tabs\r\n* and so on....\r\n\r\nI mean, is it really necessary to have all of this features, just to provide an API to _access the Open Editors_? @jrieken [commented above](https://github.com/microsoft/vscode/issues/15178#issuecomment-624512992) a lot of features this API could have, but as I stated, the initial request is much less complex. I know you guys take API very seriously, and that’s one of the main reasons (IMHO) VS Code is so stable for developers (👏  for that), but I think, in this particular case, the API could have started a lot simpler, and earlier, evolving with new features/areas on later releases.\r\n\r\nThank you",
+      "user":"alefragnani"
+    },
+    {
+      "comment":"Totally agree Alessandro . A simple list of open editors would be a good\nstarting point. It  would help.\n\nThanks\n\nOn Wed, 1 Jul 2020 at 00:18, Alessandro Fragnani <notifications@github.com>\nwrote:\n\n> @eamodio <https://github.com/eamodio>\n>\n> I think this issue is taking so long because its request became too broad.\n>\n> It started with “I would like to be able to get a list of all the open\n> editors”. I’m a subscriber because when I opened #13639\n> <https://github.com/microsoft/vscode/issues/13639>, it was closed being\n> categorized as a *duplicate* of this one (which I didn’t buy, tbh). But\n> after all this time, some other issues, which doesn’t seems related to the\n> original request, are referencing this one.\n>\n> You have:\n>\n>    - open/close events\n>    - opening in background\n>    - extension begin able to close documents\n>    - middle click on tabs\n>    - and so on....\n>\n> I mean, is it really necessary to have all of this features, just to\n> provide an API to *access the Open Editors*? @jrieken\n> <https://github.com/jrieken> commented above\n> <https://github.com/microsoft/vscode/issues/15178#issuecomment-624512992>\n> a lot of features this API could have, but as I stated, the initial request\n> is much less complex. I know you guys take API very seriously, and that’s\n> one of the main reasons (IMHO) VS Code is so stable for developers (:claps:\n> for that), but I think, in this particular case, the API could have started\n> a lot simpler, and earlier, evolving with new features/areas on later\n> releases.\n>\n> Thank you\n>\n> —\n> You are receiving this because you are subscribed to this thread.\n> Reply to this email directly, view it on GitHub\n> <https://github.com/microsoft/vscode/issues/15178#issuecomment-652075830>,\n> or unsubscribe\n> <https://github.com/notifications/unsubscribe-auth/ABE35IP72AQSMK77CVNX77DRZJQDHANCNFSM4CVSGF3A>\n> .\n>\n",
+      "user":"gianpatt"
+    },
+    {
+      "comment":"> A simple list of open editors would be a good starting point\r\n\r\nMy request (also closed as a dupe of this) was for reliable open/close events. This is required for languages that want to prioritise the open files. From the open/close events you can maintain a list of open editors (and know when they changed), so I think if only one thing was done, events would be better than an API to just get the list (or at least, also an event when they changed).",
+      "user":"DanTup"
+    },
+    {
+      "comment":"We have understood the requirements and we can understand the frustration that our priorities aren't always matching expected priorities. I am now locking this issue because we haven't been able to retrieve additional actionable input. We take stable API very serious and we'll take our time to build a sound and solid API. Once that work has started we will report back here.",
+      "user":"jrieken"
+    },
+    {
+      "comment":"An API is currently being worked on slated for this iteration to address some of the common requests in the post.\r\n\r\nThe API we're focusing on right now is targeting reading of the tabs within VS Code. A modification API may come later but is not the focus of this iteration as a solid reading API is an important foundation and first step.\r\n\r\nThe current proposed shape of the API is as follows\r\nhttps://github.com/microsoft/vscode/blob/213902e4f42a09154614296511de5fd704a0fc52/src/vs/vscode.proposed.d.ts#L2277-L2333\r\n\r\nI've unlocked the issue to gather feedback and answer any questions surrounding this particular proposal. If your questions / comments / concerns do not relate to a Tab API I suggest opening a separate feature request after searching for existing ones as excessive off topic discussion will lead to this issue being re-locked. Thank you everyone for your patience as we want to provide the best API possible to enable extension developers to create the best extensions possible 🙂 ",
+      "user":"lramos15"
+    },
+    {
+      "comment":"- How about a property to indicate a tab preview (italicized) state?\r\n- `Tab.label`: If two tabs with the same name are open, does this include the location?",
+      "user":"mattacosta"
+    },
+    {
+      "comment":"What will the `resource` be in webview tabs?\r\n\r\nWill they be simply `null` like marketplace tabs?\r\n\r\nIf they do have something, how will they be referred?\r\nWebview url is kinda useless currently as far as I know, because you don't really have a way to get id of a webview instance.\r\n",
+      "user":"mmis1000"
+    },
+    {
+      "comment":"Rather than the resource represented by the tab, wouldn't it be more useful to have the editor it contains?",
+      "user":"Gruntfuggly"
+    },
+    {
+      "comment":"> Rather than the resource represented by the tab, wouldn't it be more useful to have the editor it contains?\r\n\r\nI'm not certain, but I thought it may be possible that there are no editors for some tabs yet. For example if you open open VS Code and it re-opened 20 tabs from a previous session, it might not create editors for those items until you actually switch to them?",
+      "user":"DanTup"
+    },
+    {
+      "comment":"Fair point - the resource will definitely be a good starting point. It would be handy though if the editor was available (if it has been created).",
+      "user":"Gruntfuggly"
+    },
+    {
+      "comment":"@Gruntfuggly Do you have a good use case of when you need the editor? There's too many types of editors and the resolution is async where as the tabs are sync it wouldn't make much sense and would be a bad design.\r\n\r\n> * How about a property to indicate a tab preview (italicized) state?\r\n\r\n@mattacosta Maybe. We don't want to get property bloat for properties that don't have viable use cases. If you have a use case for it I would be interested in hearing it \r\n\r\n> * `Tab.label`: If two tabs with the same name are open, does this include the location?\r\n\r\n@mattacosta They contain what group they're apart of and the array is ordered.\r\n\r\n> What will the `resource` be in webview tabs?\r\n\r\n@mmis1000 Not sure will have to investigate. My guess is if it does have one it will be a special URI scheme which is how you will know it's a webview\r\n",
+      "user":"lramos15"
+    },
+    {
+      "comment":"@lramos15 My extension loops through all open editors and runs a process if the editor contains a file under SCM (git) to determine whether or not to close the tab. I guess I can probably determine that from the resource though - currently it gets the URI from the document via the editor.",
+      "user":"Gruntfuggly"
+    },
+    {
+      "comment":"After ironing out some details, I'm looking for feedback from actual users of this API. This API is in a proposed changing state and as such you must use proposed API to access it. The guide to using proposed APIs can be found [here](https://code.visualstudio.com/api/advanced-topics/using-proposed-api). If you have any feedback pertaining to the API please comment here. Any bugs please file separate issues. Thanks!",
+      "user":"lramos15"
+    },
+    {
+      "comment":"Moving API development to #133532 as this is more than just an open editors API. The API will include the open editors feature but be more versatile to serve greater use cases.",
+      "user":"lramos15"
+    },
+    {
+      "comment":"Hi @lramos15  - that already gets me one step further regarding my usecase.\r\nNot sure if I am missing it in the proposed API change, but would it also be possible to access the editor for the resource within a tab?\r\nSomething like this:\r\n\r\n```\r\nvscode.window.tabs.forEach((item) => {\r\n    item.resource // only gives Uri for File\r\n    item.editor?.document.close() // what I am trying to accomplish\r\n}\r\n```",
+      "user":"martinmeinke"
+    },
+    {
+      "comment":"@martinmeinke No, it's hard to get the distinction but Tabs != editors. Tabs are merely arbitrary view containers and therefore could have anything in them. Sometimes they can even be empty, this means there is no document or resource etc. To be helpful we provide some info about what the tab contains but there isn't a document for all tabs and therefore this isn't an option. `tab.close()` will be a function though which will cover your case.",
+      "user":"lramos15"
+    },
+    {
+      "comment":"Thanks for the clarification! Then I'll wait for the `tab.close()` support!",
+      "user":"martinmeinke"
+    },
+    {
+      "comment":"> Thanks for the clarification! Then I'll wait for the `tab.close()` support!\r\n\r\ntab.close() has entered the proposed API. As always remember that things are just in a proposed state and continue to change.",
+      "user":"lramos15"
+    },
+    {
+      "comment":"I would welcome this. The default open editors widget is not very convenient, this API could help to get a reliable extensions to replace it.",
+      "user":"martin-braun"
+    },
+    {
+      "comment":"Thank you for\r\n\r\n> the completion of one of our most upvoted issues\r\n\r\nwith April 2022.\r\n\r\nAs this feature request from November 2016 (issue no 15178) with 314 upvotes was done, is there now hope for #1012 (a feature request from December 2015 with 410 upvotes; not sure if the additional 10 hoorays, 35 hearts, 5 rockets and 11 eyes should be counted additional) to be re-inspected and at least get an up-to-date comment from the UX team?",
+      "user":"GitMensch"
+    },
+    {
+      "comment":"Is there a way to get a file uri or get to the TextEditor from a tab?",
+      "user":"usama8800"
+    },
+    {
+      "comment":"`tab.input.kind.uri` for certain classes of tabs.\r\n\r\nFor example, see https://code.visualstudio.com/api/references/vscode-api#TabInputText",
+      "user":"ArturoDent"
+    }
+  ],
+  "repository":"vscode",
+  "user":"ChuckJonas"
+}

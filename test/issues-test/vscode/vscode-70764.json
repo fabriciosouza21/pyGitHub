@@ -1,0 +1,998 @@
+{
+  "comments":[
+    {
+      "comment":"can use the Visual Studio Code on a ipad\r\n",
+      "user":"allessandrojs"
+    },
+    {
+      "comment":"I don't think there is any native app build for iOS",
+      "user":"mittalyashu"
+    },
+    {
+      "comment":"I have the same question at buy iPad pro recently ",
+      "user":"codingwesley"
+    },
+    {
+      "comment":"I guess there are too many limitations on iOS to get that actually work. ",
+      "user":"Disane87"
+    },
+    {
+      "comment":"VSCode runs on [Electron](https://electronjs.org) and is a *desktop* framework, meaning it only runs on Windows, macOS and Linux. The iPad runs iOS, a mobile framework so it most likely wouldn't make it, unless the team are perhaps thinking of makng an installer\n\nOn that note, if it is the case perhaps and android version too since I use my MediaPad M5 a lot for working and consuming media :>",
+      "user":"chpxu"
+    },
+    {
+      "comment":"I found this idea very good so I raised this question, the link shows an example\r\n\r\nhttps://medium.com/@igorandreev/how-to-code-with-ipad-pro-make-your-2019-year-of-mobile-development-e4e678daab77",
+      "user":"allessandrojs"
+    },
+    {
+      "comment":"electronjs create multiplatform applications even for ios, so i believe it works for ipad.",
+      "user":"allessandrojs"
+    },
+    {
+      "comment":"There are a ton of challenges to get this thing running and feature full on the iPad due to iOS limitation.\r\n\r\nWhat about a lite version which could utilize VSCode's Live Share? Run the full version on a desktop to do all of the heavy lifting and file management but use the iPad to remote edit?",
+      "user":"sean256"
+    },
+    {
+      "comment":"Yeah, I’d love to see some sort of implementation as @sean256 suggested where I can use the horsepower of my desktop and all its abilities and work remotely on the iPad in the browser or an optimized app that supports special features needed for development like the ESC key.",
+      "user":"hugheba"
+    },
+    {
+      "comment":"@hugheba I'm about to try this one out https://github.com/cdr/code-server. Runs vscode on a remote server, then you can just use your browser. Seems intriguing....",
+      "user":"scottgrobinson"
+    },
+    {
+      "comment":"@scottgrobinson code-server Looks promising. \r\n\r\nI installed it and tried to set it up for my iPad, a lot of thing didn’t work like adding workspaces from filesystem, sync plugin installing extensions, etc...\r\n\r\nIt seems like it creates a seperate install from the VSCode installation, so I have to set up my environment all over again, hence trying to get the settings sync plugin to work (unsuccessfully).\r\n\r\nSeems they’re offering a paid product but doesn’t seem like the functionality is quite there yet.",
+      "user":"hugheba"
+    },
+    {
+      "comment":"iOS has a deal breaking bug for something like https://github.com/cdr/code-server to work.\r\n\r\nCertain and critical key events are not fired for input/textarea fields (arrow keys, system keys). VSCode's editor at it's core depends on these missing key events. I tried a nasty hack where I would intercept i,j,k,l with the only working modifier (alt) events and rewrite the event to look like arrow keys. It's terrible but I did get the editor sort of working.\r\n\r\nApple needs to fix this. I sent an \"angry rant\" to an old friend of mine who works with the UIKit team so they know...",
+      "user":"sean256"
+    },
+    {
+      "comment":"This could be very intriguing for iOS. \r\n\r\n- https://twitter.com/bitandbang/status/1124017139717947392\r\n- https://aka.ms/remote-development-blog\r\n\r\nStill other framework things that would need to be solved but it is very cool. ",
+      "user":"seanhealy"
+    },
+    {
+      "comment":"As VS code already released the \"remote development\" extensions, it would be reasonable to have the VS code for iOS platform for the users that mostly work remotely via ssh to Linux server.\r\nThis would make iPad Pro users have a better IDE to work remotely.",
+      "user":"zweily"
+    },
+    {
+      "comment":"[App Store Review Guideline](https://developer.apple.com/app-store/review/guidelines/) says:\r\n\r\n> 2.5.6 Apps that browse the web must use the appropriate WebKit framework and WebKit Javascript.\r\n\r\n\r\nI don't see why VSCode for iOS cannot use any other render engine, it doesn't \"browse the web\" after all.",
+      "user":"windoze"
+    },
+    {
+      "comment":"On MSBuild2019 Live Share was presented which can help you out: https://devblogs.microsoft.com/visualstudio/intelligent-productivity-and-collaboration-from-anywhere/, https://visualstudio.microsoft.com/services/live-share/, https://docs.microsoft.com/en-us/visualstudio/liveshare/use/vscode",
+      "user":"lesyk"
+    },
+    {
+      "comment":"Browser-Based Web Companion is under development (src: https://devblogs.microsoft.com/visualstudio/intelligent-productivity-and-collaboration-from-anywhere/ ).\r\n\r\n> In the future, you will be able to navigate to https://online.visualstudio.com and access any of your remote environments. Because Visual Studio Online is based on Visual Studio Code, it will feel immediately familiar, and benefits from the rich ecosystem of extensions you already know and love – while supporting both the Visual Studio Code workspaces, as well as Visual Studio’s projects and solutions. Additionally, it will support IntelliCode and Live Share out-of-the-box, which ensures it provides the rich collaboration and productivity features developers need.\r\n\r\nSeems that it meets most requirements.",
+      "user":"leonhx"
+    },
+    {
+      "comment":"I think now that remote development is in-place, this seems like a perfect opportunity to launch VS Code as apps on iOS and Android, not just in the browser (since Safari kinda stinks), but actual (html-based) apps.",
+      "user":"onionhammer"
+    },
+    {
+      "comment":"Yes please! With all of VS Code’s remote work a native VS Code iPad app seems like a no brainer. I’ve been desperate for my iPad to be a real productivity for years. It’s so close I can taste it!",
+      "user":"forrestthewoods"
+    },
+    {
+      "comment":"After WWDC, iPad OS is going out, how about vscode for ipad ?",
+      "user":"clonn"
+    },
+    {
+      "comment":"I agree... iPadOS opens up a whole new set of capabilities for what could be.\r\n    I think Having a text editor that is flexible and easily accessible will open up coding to a whole new set of individuals.",
+      "user":"jarvon"
+    },
+    {
+      "comment":"Someone was able to do this seemingly pretty easy.\r\n\r\nhttps://medium.com/@ow/its-finally-possible-to-code-web-apps-on-an-ipad-pro-90ad9c1fb59a",
+      "user":"klaus385"
+    },
+    {
+      "comment":"Only use the remote SSH is perfect for ipados.I think it must be a cool thing!!!And we can try only use the kbd to coding.It is fantastic too!!",
+      "user":"ImMrMa"
+    },
+    {
+      "comment":"> VSCode runs on [Electron](https://electronjs.org) and is a _desktop_ framework, meaning it only runs on Windows, macOS and Linux. The iPad runs iOS, a mobile framework so it most likely wouldn't make it, unless the team are perhaps thinking of makng an installer\r\n> \r\n> On that note, if it is the case perhaps and android version too since I use my MediaPad M5 a lot for working and consuming media :>\r\n\r\nIt would really really help if they did. I have to use both my iPad and MacBook in order to get stuff done and Visual still won’t work on my iPad due to the frame work needed. This sucks big time. ",
+      "user":"ErykahA"
+    },
+    {
+      "comment":"I don't suppose there's been any progress on getting a MVP/PoC of this working on i/iPadOS",
+      "user":"BrendanThompson"
+    },
+    {
+      "comment":"I use Coda on my iPad Pro to do development work on a small DigitalOcean dev server. When I want to work on my desktop, I use VSCode's new Remote SSH extension to do the same.\r\n\r\nIt'd be awesome if we could get a \"lite\" version of VSCode that basically just offers the Remote SSH part (no local files). That's probably way more complicated than I'm making out to be, and honestly Coda is a great solution, but I love Code so here's hoping ",
+      "user":"CRodriguez25"
+    },
+    {
+      "comment":"Yeah!I am in the same condition with you!\n\n> 在 2019年7月10日，下午3:15，Carlos Rodriguez <notifications@github.com> 写道：\n> \n> I use my Coda on my iPad Pro to do development work on a small DigitalOcean dev server. When I want to work on my desktop, I use VSCode's new Remote SSH extension to do the same.\n> \n> It'd be awesome if we could get a \"lite\" version of VSCode that basically just offers the Remote SSH part (no local files). That's probably way more complicated than I'm making out to be, and honestly Coda is a great solution, but I love Code so here's hoping\n> \n> —\n> You are receiving this because you commented.\n> Reply to this email directly, view it on GitHub, or mute the thread.\n",
+      "user":"ImMrMa"
+    },
+    {
+      "comment":"Wouldn't it maybe even be possible to get a raspberry pi as dev server? Two scenarios come to my mind:\r\n\r\n## Raspberry Pi VNC\r\nConnect Raspberry Pi to iPad via usb-c (the new Pi 4 has native usb-c plug) and iPads ethernet over usb-c. Have VNC active on the device. Connect with Jump Desktop or any other VNC client from iPad to Pi. \r\n\r\n## Raspberry Pi SSH/Coder\r\nSame as above, only use either VS Code Coder server on Pi or just use Coda to build a SSH/SFTP connection to the Pi. This could also work over bluetooth instead of usb-c (https://gist.github.com/rcarmo/6ad6c09e904c35857bad2dd2769edf76).\r\n\r\nHaving a little \"development box\" that does the actual computing, working even if offline (while traveling), could be awesome. I just wonder if internet can be shared from iPad to the Pi with these kind of settings.",
+      "user":"bkniffler"
+    },
+    {
+      "comment":"VScode remote for SSH as an app rather than try and use a web ide would be a massive improvement, I can't find a single ios app that's nearly as code as VScode would be.",
+      "user":"mattkerrison"
+    },
+    {
+      "comment":"I'd love for this to be a thing. I do all my development over ssh anyway and the 12.9\" ipad pro is the perfect \"terminal\". Is this being looked at? Is there anything I can do to help?",
+      "user":"yanshuf0"
+    },
+    {
+      "comment":"@yanshuf0 The closest I've seem to find is using code-server [[link](https://github.com/cdr/code-server)]. This is a good setup when there is **one** server you are interested in using (you can use it on more obviously, but its a hassle to configure each one). I've also had issues with reliability using code-server, so sometimes it requires you to ssh in and restart the process.\r\n\r\nA better alternative would be something like sshcode [[link](https://github.com/cdr/sshcode/issues/109)], since this will allow you to ssh into any machine and automatically start up a code-server instance. Better yet, local settings are synced between the client and host. However, there is no port for native iOS yet.. ( see the link ).",
+      "user":"sirgogo"
+    },
+    {
+      "comment":"Did you guys try this for iPad https://panic.com/coda/\r\n\r\nThey are as well doing a new updates https://panic.com/nova/",
+      "user":"jraycv"
+    },
+    {
+      "comment":"Have VS Code server running on a mac now and connected to it via an iPad.\r\nMade a typo in a filename.\r\nHow do I right click to rename?",
+      "user":"mrV25"
+    },
+    {
+      "comment":"@mrV25 Left click on the file name then press enter.",
+      "user":"wei"
+    },
+    {
+      "comment":"> Wouldn't it maybe even be possible to get a raspberry pi as dev server? Two scenarios come to my mind:\r\n> \r\n> ## Raspberry Pi VNC\r\n> Connect Raspberry Pi to iPad via usb-c (the new Pi 4 has native usb-c plug) and iPads ethernet over usb-c. Have VNC active on the device. Connect with Jump Desktop or any other VNC client from iPad to Pi.\r\n> \r\n> ## Raspberry Pi SSH/Coder\r\n> Same as above, only use either VS Code Coder server on Pi or just use Coda to build a SSH/SFTP connection to the Pi. This could also work over bluetooth instead of usb-c (https://gist.github.com/rcarmo/6ad6c09e904c35857bad2dd2769edf76).\r\n> \r\n> Having a little \"development box\" that does the actual computing, working even if offline (while traveling), could be awesome. I just wonder if internet can be shared from iPad to the Pi with these kind of settings.\r\n\r\nI think this is a better approach 👍",
+      "user":"markpanado"
+    },
+    {
+      "comment":"Is there anyone working on this? Or this is still unplanned?",
+      "user":"changkun"
+    },
+    {
+      "comment":"> Is there anyone working on this? Or this is still unplanned?\r\n\r\nhave a try with code-server  https://github.com/cdr/code-server\r\n\r\n@changkun",
+      "user":"Ehco1996"
+    },
+    {
+      "comment":"Would be really great to have this!",
+      "user":"chriseckl"
+    },
+    {
+      "comment":"Sounds good! We don’t need a full function VSCode for iPad. A small editor with only remote ssh is enough, extensions can be installed on the host.",
+      "user":"kamasylvia"
+    },
+    {
+      "comment":"It will be great! Please @microsoft",
+      "user":"felipefdl"
+    },
+    {
+      "comment":"I've been using my Raspberry Pi4 4gb a bit and it has sufficient performance for nodeJS development.  The iPad can tether wirelessly through Bluetooth, USB-C or Wifi. Bluetooth works good while leaving the Pi connected to a powerbank in a bag. With Coda on my iPad I've been able to get some work done during a plane flight, but I'm totally missing the autocompletion, syntax highlighting, autoformating etc. \r\n\r\ncode-server works pretty good, very similar to vscode. You can pin the web app to your home screen so it behaves similar to an real app, so no url bar. code-server will become ARM/Pi compatible this month according to the developer (https://github.com/cdr/code-server/issues/35#issuecomment-536569212). I'm pretty sure that code-server + iPad + external keyboard (Apple Magic Keyboard) will make for a very nice offline capable setup.\r\n\r\nEven a native vscode lite with SSH host seems like a stretch, I believe a big challenge of vscode was building monacco, which will need a ton of work to be natively running on iOS (or android). All the plugins like eslint, prettier etc would need reimplementations, since they would need to run on the client device (iOS). I don't believe anyone would be so committed to build vscode from scratch just to be able to dev on an iPad. So our best bet, IMHO will be remote access or something like code-server.",
+      "user":"bkniffler"
+    },
+    {
+      "comment":"Microsoft already have Excel, Word, Outlook etc. out for the iPad, it seems only logical to release a native client for Visual Studio Online too, whenever that comes out.",
+      "user":"Hubro"
+    },
+    {
+      "comment":"Textastic is a good code editor for iOS. https://www.textasticapp.com/",
+      "user":"jobukkit"
+    },
+    {
+      "comment":"codesandbox.io works nicely on Safari. Has full VSCode editor embedded. Highly recommend for Desktop but don’t have my own iPad to fully test it there. Anyone else tried it?",
+      "user":"ee0pdt"
+    },
+    {
+      "comment":"@ee0pdt Yeah I believe it does work equally well as with full-browser based vs-code environments such as [code-server](https://github.com/cdr/code-server). The problem isn‘t to find an environment where vs-code runs in a browser. It‘s that the keybinds rarely translate correctly. \r\n\r\n> iOS has a deal breaking bug for something like https://github.com/cdr/code-server to work.\r\n> \r\n> Certain and critical key events are not fired for input/textarea fields (arrow keys, system keys). VSCode's editor at it's core depends on these missing key events. I tried a nasty hack where I would intercept i,j,k,l with the only working modifier (alt) events and rewrite the event to look like arrow keys. It's terrible but I did get the editor sort of working.\r\n> \r\n> Apple needs to fix this. I sent an \"angry rant\" to an old friend of mine who works with the UIKit team so they know...\r\n\r\nConcerning codesandbox.io, there are additional bugs when visited from the IPad: \r\n- The IntelliSense popup moves in accelerated manner relative to the Keyboard\r\n- The Keyboard doesn‘t  open sometimes. Codesandbox.io added a custom „Keyboard Open“ button to mitigate this Problem. That needs to be ported to vs-code I believe (This isn‘t a bug on codesandbox‘s end, I just wanted to mention that here in case someone is actually implementing an IPad-friendly patch)",
+      "user":"jakoblorz"
+    },
+    {
+      "comment":"Adobe found a way to create a full version of Photoshop for iPad so Microsoft should be able to make a full version of VS code as well.",
+      "user":"TechSnazzy"
+    },
+    {
+      "comment":"> Adobe found a way to create a full version of Photoshop for iPad so Microsoft should be able to make a full version of VS code as well.\r\n\r\n@TechSnazzy Sure they are, but are you willing to pay for it?",
+      "user":"rvanlieshout"
+    },
+    {
+      "comment":"It took them 30 years so be patient ;)",
+      "user":"ondrejmirtes"
+    },
+    {
+      "comment":"while VSCode Remote Dev or something like the Coder remote solution are good for connected scenarios, I would still *really* love to see a stand-alone, offline, version of VSCode that can use local/OneDrive hosted files for basic HTML/CSS/Javascript development. Adding a decent javascript console would help debugging. Longer term I'd love to see PHP and MySQL living on my iPadPro as well (hey, a boy can dream right?!)",
+      "user":"Offbeatmammal"
+    },
+    {
+      "comment":"I believe this might actually be possible on the device but I haven't had time to look into it.\r\n\r\nI have a 2018 iPad with a keyboard cover that I could dig out but I'm not sure how Apple handles app to app communication on iOS.\r\n\r\nEssentially I would think you could run the VS Code remote server **_inside_** iSH directly on the iPad, then connect to it from Safari - so you'd be working directly in Safari but the terminal would be connecting to iSH - I'm unsure if iSH has permissions to host a web server on the device though.",
+      "user":"headmelted"
+    },
+    {
+      "comment":"Couldn’t we make a thin client for remote development? I think this would be pretty great as most functionality of VS Code doesn’t involve UI extensions.\r\n\r\nHonestly, a minimum viable product of this would only need to include a **code editor** and a **file explorer**. Though we might need to think of this in components (I do not have experience with IOS development, so please bear with me.) as in:\r\n\r\n## A code editor\r\n- **Syntax highlighting**  \r\nThis might be one of the most difficult parts and might require custom implementations specifically for mobile environments, though it might be able to run server-side.\r\n- **Code completion**\r\n\r\n## A file explorer\r\n\r\n## Post-MVP features\r\nI would like to note that one component which isn’t strictly necessary, but which might be useful, is an integrated console.",
+      "user":"thomasio101"
+    },
+    {
+      "comment":"@headmelted An app called _Infuse 6_ is able to “host” a website and or FTP service so I’m sure, if it doesn’t already, iSH could add support for that somehow.\r\n\r\nBut even if not, I think most of the core experience could be ported over to iOS. Sure we may not be able to use certain tools and or extensions but hey that’ll be like installing the Python Extension without Python installed and ready in the PATH (in an extremely generalised way), right? You could think of it as a whole new platform but with limited capabilities, which ironically it is.\r\n\r\nI’m not an iOS developer, but I really think this would be a great application to have on an iPad Pro along with Photoshop, the Affinity Suite, iSH, the [in testing] GitHub app, and the new RDP Client.",
+      "user":"lazerl0rd"
+    },
+    {
+      "comment":"@lazerl0rd, could you clarify what you mean by the following?\r\n> core experience\r\n\r\nI would consider the code editing functionality of Visual Studio Code to be the main aspect we need to replicate. To be honest, it'd be a huge stride forward if we could just get a working proof of concept with a code editor, an FTP file explorer, and an SSH terminal working.\r\n\r\n# Flutter\r\nMaybe we could initially develop the app using Flutter. That way anyone, including those of us who do not have access to a Mac (or an iOS device for that matter), could work on this project. As a bonus, it would give us a seamless cross-platform experience as Flutter is not only available for iOS and Android, but also for desktop and web.\r\n\r\n# Name\r\nHas anyone thought of a name yet? I was thinking of calling it **Visual Studio Code Lite** as it wouldn't just be Visual Studio Code for mobile. It would be a reduced Visual Studio Code experience for all platforms if we aim for cross-platform support as would be the case if we use Flutter.\r\n\r\n# Proof of concept\r\nI think we just need to get a minimum viable product or a proof of concept out as soon as possible to encourage people to get started with this, but I think we should get a design down before we do such a thing.",
+      "user":"thomasio101"
+    },
+    {
+      "comment":"Bystander here but it seems iPadOS 13.4 apps can now interpret direct keyboard events ¯\\\\\\_(ツ)_/¯ I’ll see if I can find the docs",
+      "user":"gganley"
+    },
+    {
+      "comment":"[UIPress having a new key event](https://twitter.com/johnsundell/status/1225177084965851137) must have been what I was thinking of. Sadly I don't think this is the magic bullet but a good sign never the less",
+      "user":"gganley"
+    },
+    {
+      "comment":"Ipad Pro and Magic Keyboard! It is prefect to be a development machine now! I cann't wait to buy it if I can run VScode or the other IDE on it",
+      "user":"uyarn"
+    },
+    {
+      "comment":"The iPad version will be awesome! At least one VSCode Remote version.",
+      "user":"felipefdl"
+    },
+    {
+      "comment":"Now days, Apple just announced the new cursor for the iPad in iPad OS 13.4, perfectly for text selecting!!!!\r\nI can't wait for the iPad version!!!!",
+      "user":"GainSury"
+    },
+    {
+      "comment":"Would love this. Happy to help where possible",
+      "user":"theonlydaleking"
+    },
+    {
+      "comment":"> @lazerl0rd, could you clarify what you mean by the following?\r\n> \r\n> > core experience\r\n> \r\n\r\nI’d say the core experience consists of the editor and feature set of VS Code without extensions, @thomasio101.",
+      "user":"lazerl0rd"
+    },
+    {
+      "comment":"@lazerl0rd, alright, I think we are on the same page then!\r\n\r\nI'm still doubting between recreating the Monaco editor in either Flutter or Swift **or** using the existing version through a system like React Native. I'm not familiar with the latter, so could someone else take a look at it?",
+      "user":"thomasio101"
+    },
+    {
+      "comment":"> Would love this. Happy to help where possible\r\n\r\n@theonlydaleking, oh, of course you can help. I see you have quite a lot of experience with JavaScript, so could you possibly take a look at whether React Native is a viable option for this project? (I have used React, but I've never used JS for native apps.)",
+      "user":"thomasio101"
+    },
+    {
+      "comment":"@thomasio101 I think you are missing the point if you reduce vscode to the editor part only. There is a whole lot of code editors build with swift/cocoa, and you could easily wrap Monaco or CodeMirror in a webview with react-native. But what about the huge list of plugins, intellisense, code formatting, linting and what about actually running the code you're writing?\r\n\r\nMost of these issues can be solved with a lot of time and effort. But running the code is still an issue, installing some node_modules, compiling native code, etc.  If its just about writing another sftp/webdav code editor, you could go and use Panic Code Editor or Textastic, they are quite excellent in what they are doing. And if you need some file upload/download to make the code run anyways, you could easily use a remote code editor like Cloud9, VSCode Server etc.\r\n\r\nI wished I could use only my iPad Pro as a daily driver, but I can't. I can connect a RaspBerry Pi4 via usb-c though and use VSCode Server though, and it works nicely. And with added cursor support, its even better now. Guess it won't get any better than that for now.",
+      "user":"bkniffler"
+    },
+    {
+      "comment":"Yeah, i think you guys are missing the point as well...\r\n\r\nThis just needs to essentially be a thin client to vs online and vs remote imo",
+      "user":"onionhammer"
+    },
+    {
+      "comment":"> @thomasio101 I think you are missing the point if you reduce vscode to the editor part only. There is a whole lot of code editors build with swift/cocoa, and you could easily wrap Monaco or CodeMirror in a webview with react-native. But what about the huge list of plugins, intellisense, code formatting, linting and what about actually running the code you're writing?\r\n> \r\n> Most of these issues can be solved with a lot of time and effort. But running the code is still an issue, installing some node_modules, compiling native code, etc. If its just about writing another sftp/webdav code editor, you could go and use Panic Code Editor or Textastic, they are quite excellent in what they are doing. And if you need some file upload/download to make the code run anyways, you could easily use a remote code editor like Cloud9, VSCode Server etc.\r\n> \r\n> I wished I could use only my iPad Pro as a daily driver, but I can't. I can connect a RaspBerry Pi4 via usb-c though and use VSCode Server though, and it works nicely. And with added cursor support, its even better now. Guess it won't get any better than that for now.\r\n\r\nexactly, as for me, the result I want is to replace my MacBook(laptop) with iPad like what the slogan of iPad Pro said —— \"your next computer is not computer\". \r\nAlthough you can build the other editor quickly by using some excellent node modules, how about the editor ecology, especially those plugins.. I can't image the experience when I using vscode or atom without those plugins.  It's a huge work.",
+      "user":"uyarn"
+    },
+    {
+      "comment":"I've just began developing on my iPad Pro 2018 12.9\", and it's driving me nuts. I've tried code-server from Coders, and it works well on desktop or laptop, but poorly on iPadOS. Shortcuts don't work, navigation is a pain, and not all extensions work. It would mean so much for a version of VS Code, at least a lite version of it, for iPadOS. Microsoft has most of their apps, including Azure and Office, already on the App Store. I'm still not sure why this hasn't already happened.",
+      "user":"GalacticLion7"
+    },
+    {
+      "comment":"@GalacticLion7 It makes sense to port Excel, Word etc because its part of a paid suite. VSCode in comparison is free and it already works on Tablets (Surface), so why should they put a huge effort into building a completely new software product only to support a competing product and help get it traction for the one thing where Surface is better than the iPad: productivity.",
+      "user":"bkniffler"
+    },
+    {
+      "comment":"@bkniffler, this is an open-source project! If **we** want the functionality, **we'll make it!**\r\n\r\nAnd, @Uyarn, you've got a good point there. But I think we'll initially need to get VS Code's core experience to work, before we try getting systems such as extensions to work.",
+      "user":"thomasio101"
+    },
+    {
+      "comment":"I encourage everyone to build stuff, but since the product you'd build, if done with flutter or swift, wouldn't really have anything to do with vscode except for maybe design similarity within architecture and visuals, I don't see why this needs to be discussed here. I'm genuinely interested in making vscode experience on iOS a thing though.\r\n\r\nSo, the one thing worth discussing here in my opinion, besides some complete remote solution, is trying to get vscode to run through a react-native webview on the device.",
+      "user":"bkniffler"
+    },
+    {
+      "comment":"@bkniffler, whether or not work related to this concept belongs in this repository might strongly depend on the manner in which we implement it, and, thus, I'd like to go over some of the options;\r\n\r\n## A progressive web application (PWA)\r\nWe could make an installable version of the existing web implementations of Visual Studio Code.\r\n## An app using React Native (Or similar frameworks)\r\nWe could port the Electron implementation (Or the web implementation?) of Visual Studio Code to a mobile framework.\r\n## A full native rework\r\nThis option would involve emulating the Visual Studio Code experience in a native application. It could potentially include support for VS Code's remote functionality. A potential hurdle to reworking the VS Code experience might be in its licensing. (Does anybody know if there are legal limitations on reusing (part of) Visual Studio Code's design?)",
+      "user":"thomasio101"
+    },
+    {
+      "comment":"I’ll just chuck this here:\r\n\r\nhttps://discuss.atom.io/t/electron-on-ios-android/18223/9\r\nhttps://www.nativescript.org",
+      "user":"lazerl0rd"
+    },
+    {
+      "comment":"@thomasio101 [opinion only] I think from a project management standpoint, it will be easier to get other developers to jump on board if it is a React Native project. Porting from Electron to RN is more straightforward than electron -> Flutter I believe. Definitely more straight forward than electron -> Native\r\n\r\n[anecdotal only] - I think it's always important to start with the user and work backwards (thanks Steve Jobs for the quote) the ultimate end-goal for me would be to have the ability to work on a project at work, git push at the end of the day, then on the way home I could bust out the iPad, git pull the latest commit and continue working on it on the train on the way home. \r\n\r\nIn terms of licensing and the VS design - this package is under MIT which I gather would include the design files. ",
+      "user":"theonlydaleking"
+    },
+    {
+      "comment":"I think this would be great for people using iPad Pro’s as a coding machine and using it on the go. ",
+      "user":"designMoreWeb"
+    },
+    {
+      "comment":"@bkniffler I think Microsoft should take the same approach they did when they made mobile versions of their Office apps, by sacrificing some features in the desktop versions to make it \"lite.\"\r\n\r\n**Edit:** Honestly, I take back what I said. I would benefit more with a full version of VS Code just like the one on desktop. I can't stand a lite version like how they did when they made iOS versions of their Office apps. Also, please give us an update. We have never gotten a comment here by any officials, and it's been a year. (@chrisdias)",
+      "user":"GalacticLion7"
+    },
+    {
+      "comment":"Hi @chrisdias, this issue was assigned to you in March 2019, are you believe you are the right person to discuss about it? if you not, can you assignee another VSCode member to discuss the possibility to get that feature done? since this issue has more than one year without any comments by you.",
+      "user":"felipefdl"
+    },
+    {
+      "comment":"I think this Issue got forgotten about or ignored. It's been a year, yet still no comment or update.",
+      "user":"GalacticLion7"
+    },
+    {
+      "comment":"Can we try to contact the team directly, @GalacticLion7 ?\r\n\r\nBesides that, I'd like to try getting the Monaco editor to run in React Native soon.",
+      "user":"thomasio101"
+    },
+    {
+      "comment":"Porting VS Code to the iPad is not on our [roadmap](https://github.com/Microsoft/vscode/wiki/Roadmap). While it may technically be possible to bring over the core editor, you really have to take into account the extensions to have a viable development experience. And that's a big problem, many extensions simply can't run on the iPad because there is no underlying version on iOS (e.g. Node, C++, Rust, etc.).\r\n\r\nInstead, running VS Code in the browser with [Visual Studio Online](https://visualstudio.microsoft.com/services/visual-studio-online/) provides you a full development experience on the iPad powered by an environment where you can use all of your extensions, have a terminal, etc. \r\n\r\nYou can use a hosted VSO environment, or you can [bring your own](https://docs.microsoft.com/en-us/visualstudio/online/how-to/vscode#self-hosted). For a more native experience, providing PWA support is on the [VSO roadmap](https://github.com/MicrosoftDocs/vsonline/issues/43).\r\n\r\n\r\n",
+      "user":"chrisdias"
+    },
+    {
+      "comment":"Thank you @chrisdias. However I never thought about running full vscode on ipad, only a remote mode, where I can manager easily connect on my Mac or on a dev machine running on cloud or even a raspberry pi. A native client make the editor more fluid and take advantage of keyboard shortcuts etc.\r\n\r\nAnyway, thank for you answer!",
+      "user":"felipefdl"
+    },
+    {
+      "comment":"Ditto what @felipefdl said.  My interest in VSCode on the iPad is so I can remote in to a Linux server in the cloud and remotely edit the code.  I don't have any interest in developing on my iPad; just use it as a smart terminal.",
+      "user":"marcusrugger"
+    },
+    {
+      "comment":"Also waiting for the same thing, just a \"Remote mode client\" for the ipad",
+      "user":"rcanoff"
+    },
+    {
+      "comment":"@felipefdl @marcusrugger @rcanoff this already exists. You would use [code-server](https://github.com/cdr/code-server), which has been discussed here already. It's fine on desktop, but it is not optimized for iPadOS at all. To name a few issues, shortcuts don't work, navigation is very hard, not all extensions work, and it's laggy. Not the contemporary experience you're used to on iPadOS. You can see people on code-server's Issues page keep on complaining about the same issue.\r\n\r\nAnd @chrisdias, VSO doesn't work on iPadOS:\r\nhttps://imgur.com/ggxjN9y\r\n\r\nEven if it just got added to the whitelist, it would still not be a good experience for the same reasons I listed above.\r\n\r\nSo I really do think that a fully native experience is what would be suitable. I don't see why extensions would be an issue, since people have already done it before:\r\n\r\nRust: https://apps.apple.com/ae/app/rust-programming-compiler/id1486323711\r\nC: https://apps.apple.com/ae/app/c-programming-language/id499545918\r\nPython: https://apps.apple.com/ae/app/pythonista-3/id1085978097\r\nJava: https://apps.apple.com/ae/app/pico-compiler-java-ide-api/id992268206\r\n\r\nEmulation is always an option, if something comes in the way.",
+      "user":"GalacticLion7"
+    },
+    {
+      "comment":"The editor apps on Apple Store, and those apps is pretty bad experience, it's a platform not explored yet for developer tools, if @microsoft go on it, it will be a reference there. You guys can sell it, bundle on office 365 license, I don't care, I will pay for it. The only app is doing some similar that is the guys from @TablePlus it's SQL client, and it is amazing app.",
+      "user":"felipefdl"
+    },
+    {
+      "comment":"@GalacticLion7 just looking at the 'C' app, it says you have to pay for compilations and internet connection is required. I'm sure you just send your code over the wire and they compile it for you for a price. This isn't native. All vscode would have to do is create a client app to use the remote ssh connection.",
+      "user":"yanshuf0"
+    },
+    {
+      "comment":"@yanshuf0 I didn't have high doubts about the C IDE I linked, but [this one](https://apps.apple.com/ae/app/cppcode-offline-c-c-ide-compiler/id936694712) guarantees that it works offline and has a 5-star rating. The point is, while I wouldn't recommend using these poorly-written apps on a regular basis, it proves that any programming language can easily be compiled and run natively on iPadOS. Even if something comes in the way, emulation will always be an option. Just because these developers didn't do it properly, it doesn't mean that the fantastic developers over at VS Code can't do a much better job.",
+      "user":"GalacticLion7"
+    },
+    {
+      "comment":"There should be more activity here.",
+      "user":"GalacticLion7"
+    },
+    {
+      "comment":"Guys, you were begging for VSCode teams opinion on this matter and now you got it. Its not on their roadmap and there is probably a lot of reasons for that, one being the missing build tools. As you noticed @GalacticLion7, there is ways to compile c++ or interpret ruby/python/js, but these ways things do need to be implemented individually, while VSCode can just use default tools already available for each platform, as long as the use installs them (like cmake, nodejs, etc). They would need to build the whole build tooling, they would need to reimplement plug-ins, rewrite the whole UI (since its written in CSS which doesn't work on iOS), and rewrite lots of the core; its just not happening.\r\n\r\nI don't think there should be that much more activity over here, because nothing meaningful can be said anymore, and I fear if the discussion continues to go back and forth like it currently does, the issue will just be locked. Its time for action and involvement if you want the situation to change. Start working on the react native port, try doing something new with flutter or get into code server to improve the experience on iPad. Make sure to link the repository you're working on to make others aware of it or link any alternatives you find along the way. ",
+      "user":"bkniffler"
+    },
+    {
+      "comment":"> I don't think there should be that much more activity over here, because nothing meaningful can be said anymore\r\n\r\nWe can continue to politely express our desire for a native app with remote capabilities. The only way the roadmap will change is with clear user demand.\r\n\r\nIt seems like the feature request may not be clear. Maybe we should be asking for a Visual Studio Online iPad app. Compiling and running on local device is not going to happen anytime soon due to Apple restrictions. But something could run in remote/cloud mode and that would provide a lot of value to a lot of people. And the native app experience will be much better than a web browser experience.",
+      "user":"forrestthewoods"
+    },
+    {
+      "comment":"Yes, but that's the point @forrestthewoods. We're not asking for a new feature, we're basically asking for a completely new product. If you want to express desire, adding a thumbs up to the first post is a great way. If you want to propose an iPad app for Visual Studio Online, there is a dedicated place to submit feedback and feature requests which is https://github.com/MicrosoftDocs/vsonline/ and I'm pretty sure you're more likely to get official responses over there since it is directly related to that specific product.",
+      "user":"bkniffler"
+    },
+    {
+      "comment":"There is an open issue to track Safari support for vsonline here https://github.com/MicrosoftDocs/vsonline/issues/33\r\n\r\nI agree that opening new issue for \"iPad app for Visual Studio Online\" in https://github.com/MicrosoftDocs/vsonline/ repo is the best move.",
+      "user":"davidbarton"
+    },
+    {
+      "comment":"@bkniffler the whole point of this is to debrief for the team about a VS Code on iPadOS. It's not on their plan yet, but it doesn't mean it can't ever be. \r\n\r\nRemember what I suggested, which is for Microsoft to take the same approach they did when they made iOS (and Android, but that's not related) versions of their Office apps from their desktop versions. They rewrote a lot of the code anyways, so I don't see how it could be any different for VS Code. I'm not completely sure about what you meant on how they have to do each language individually, but it's not much effort to implement the languages that users want to use. It's just putting and maybe even emulation, similar to the IDEs I showed earlier.\r\n\r\nAbout plugins, remember that none of the plugins in the desktop versions of Office work with the mobile versions. So Microsoft could rewrite supported versions of the most essential ones, like the Java or Python extension packs, or eliminate it all and just keep it simple with syntax highlighting. Sure, you won't get all the plethora of plugins you have on desktop, but maybe there could be a similar API so people can choose to make plugins. Besides, what would you expect on such a port? Just like how the mobile versions of Office are lite.\r\n\r\nI also wanted to point out that I'm pretty sure there are people here who thought that this a stupid idea. People have always portrayed iPad so incapable that it's simply a Netflix or e-book brick. However, ever since the iPad Pro and iPadOS got released, it completely altered that. To name a few, I went paperless using my iPad Pro as a note-taking device with [GoodNotes 5](https://apps.apple.com/ae/app/goodnotes-5/id1444383602) and edit video with the pro-grade [LumaFusion](https://apps.apple.com/ae/app/lumafusion/id1062022008) (it's almost like Final Cut). Also, the [A12X Bionic is faster than most PCs](https://www.tomsguide.com/us/new-ipad-pro-benchmarks,news-28453.html) out there. In other words, the iPad Pro and iPadOS is also an evolving, professional, distraction-free, productivity machine. It has replaced my laptop for everything but development on VS Code, which I still have a desktop for. The reason why I'm saying all that is for people that are not too sure about whether the iPad is okay for development.\r\n\r\nI get that there is a chance it may all go downhill and the developers close this issue, and I won't complain, since I get how these requests work. I just want to make sure the developers understand my points above so I can ensure that the variable \"iPad is just a Netflix and gaming brick\" is not what lead them to make their decision.",
+      "user":"GalacticLion7"
+    },
+    {
+      "comment":"> There is an open issue to track Safari support for vsonline here [MicrosoftDocs/vsonline#33](https://github.com/MicrosoftDocs/vsonline/issues/33)\r\n> \r\n> I agree that opening new issue for \"iPad app for Visual Studio Online\" in https://github.com/MicrosoftDocs/vsonline/ repo is the best move.\r\n\r\nThat would be fine too.",
+      "user":"GalacticLion7"
+    },
+    {
+      "comment":"I would love to, one day, use my iPad as a sole developer machine. It is a serious beast and in a year, I'm sure, it will have loads of great productivity apps. But I'd like to be realistic about it. Stating that it's \"not much effort\" does not help at all, because it will take a lot of effort to build the product you're asking for. To give you an example, try to find any resources for example of how to compile c++ on the iPad, you might be surprised about the lack of resources. Its not just a matter of `apt-get install cmake`. Look at https://github.com/mceSystems/node-jsc to see what it takes to run nodeJS on an iPad. Running the code remotely is a different matter, but then again I'm asking, why not participate over at https://github.com/cdr/code-server and maybe make a react-native port that will communicate with the code-server backend?\r\n\r\nThe office for iOS analogy does not help either. It was just a strategic decision as a result of Microsofts move to react-native (https://blog.appfigures.com/microsoft-goes-all-in-on-react-native-for-their-mobile-apps/), and part of a product that generates a big chunk of their revenue (you can look into their annual report if you're keen). Keep in mind, vscode is basically a free open source tool that might or might not one day replace Visual Studio. But that's also why I linked the visual studio online project, which in comparison is a paid tool that will most likely be more open to a huge task like having a dedicated iPad app, since they will be able to generate revenue off of it.\r\n\r\nSo yeah.. you can downvote my answer as much as you like, but let me state this clearly: Saying things like \"microsoft, you are a huge company, why don't you do vscode for iPad\" or suggesting them to adapt their roadmaps just for a few people in here will not help much. Making a product that gains serious traction, on the other hand, might help a ton. Participating at code server might help a ton, since its an open source concurrent product to their visual studio online, and if an iPad app makes it an even better tool with a larger community, they will most likely notice.",
+      "user":"bkniffler"
+    },
+    {
+      "comment":"Here is a simple implementation of monaco editor as a webview inside a react-native app: \r\nhttps://github.com/bkniffler/vscode-native\r\n\r\nIts only meant for dev mode currently and its only a POC of how easy it is to embed the editor in an offline app. From there on you could go and add remote ssh or try and implement https://github.com/JaneaSystems/nodejs-mobile, which will not be easy but definitely possible.",
+      "user":"bkniffler"
+    },
+    {
+      "comment":"Full vscode on iPad, is almost improbable, but it's a second step for sure. The remote vscode on ipad is a first step, and it's a lot less effort, because, the extensions, terminal, and everything else will run on remote server. (as code-server but with native app).",
+      "user":"felipefdl"
+    },
+    {
+      "comment":"+1 for VSCode remote and ssh support on the iPad. I'm already using remote SSH to my self-hosted machine so I only have to have one machine set up for dev. Having an iPad app to remote SSH into the dev machine would be fantastic!",
+      "user":"tjdraper"
+    },
+    {
+      "comment":"@chrisdias \r\n\r\n> Instead, running VS Code in the browser with Visual Studio Online provides you a full development experience on the iPad powered by an environment where you can use all of your extensions, have a terminal, etc.\r\n\r\nThis is exactly what I want though; Visual Studio Online in a browser but without the browser chrome - i.e. a web view. This would be easy if iOS had PWA support, but it doesn't. A bonus would be being able to run it without any extensions but connect to machines over SSH",
+      "user":"onionhammer"
+    },
+    {
+      "comment":"> @chrisdias \n> \n> \n> \n> > Instead, running VS Code in the browser with Visual Studio Online provides you a full development experience on the iPad powered by an environment where you can use all of your extensions, have a terminal, etc.\n> \n> \n> \n> This is exactly what I want though; Visual Studio Online in a browser but without the browser chrome - i.e. a web view. This would be easy if iOS had PWA support, but it doesn't. A bonus would be being able to run it without any extensions but connect to machines over SSH\n\nIOS does have PWA support. It's possibly more limited than other operating systems but it's there. I have twitter installed on my iPad as a PWA.\n\nIts not very obvious, you have to open the site in Safari, tap share, then tap Add to home screen. I believe the prompts you get on Android are not yet supported on IOS.\n\nAnyways not sure if this helps, but PWA support for VS online sounds like it might be possible?",
+      "user":"MaxFletcher"
+    },
+    {
+      "comment":"@MaxFletcher, PWA support would also provide us with support for other mobile devices, not just for the iPad.",
+      "user":"thomasio101"
+    },
+    {
+      "comment":"@bkniffler you're oversimplifying my points. First of all, you're making it look like I said that it's \"not much effort\" to make the whole thing. I was simply referring to the IDEs I linked above that successfully compiled external code offline. I may be wrong, but if these people were able to do it, who, judging from their other apps and the UI, are not very skilled yet (except for the Pythonista one, they're great), then I don't see how it would take more effort for a larger developer entity like Microsoft do the same thing. For the Node.js runtime, you would nodejs-mobile, which is much more complete and easier to use than nodejsc, which was last updated on October 2018.\r\n\r\nThe reason why I'm hoping for a native app instead is for completely offline work. I just don't see what's the point of remotely SSHing to your desktop, as you would need an internet connection on your iPad. We need to take advantage of its portability. Sure, there is a cellular model, but usages will be high. However, for the very least, compatibility for VSO or code-server on iPadOS would be okay too, as long as it's optimized very well for iPadOS to take advantage of the new adaptive cursor, keyboard shortcuts, etc.\r\n\r\nAlso, you should note that VS Code has some sort of indirect monetization. If you think about it, what kind of developers use it? Most likely web, since desktop or mobile usually prefer full IDEs. (And no, I don't think Visual Studio will replace VS Code, since VS is a lot more capable for certain workloads than VS Code) And then web developers would then need somewhere to put their work on, right? Enter Azure. Microsoft makes extensions for Azure in VS Code so that it’s easy to deploy there. They even show the extension on the recommendations without even searching for it. And they even have a free $200-credit trial. But then you would need a version control system for your code? Well, they have TFS. It supports Git, too.\r\n\r\nI never said \"Microsoft, you are a huge company, why don't you do VS Code for iPad.\" Read my first paragraph. Again, this Issue was made to debrief about some sort of VS Code on iPadOS for the team, whether it's a native app, VSO, etc.. It's clearly not a beg like how you described it. You're also stating that the web app will gain more traction than a native app, which doesn't make sense. Also, I don't what you mean on how this will reach a few people. Going back to my other comment (which is the case for a lot of the points on this comment), iPadOS a now-mainstream platform that is continually growing for many purposes. I'm even writing this on my iPad Pro, just saying.",
+      "user":"GalacticLion7"
+    },
+    {
+      "comment":"I think we can all agree that it needs to be a dedicated app. Who makes the app is besides the point, we're all developers. The thing that we need to figure out is what technology (framework) will best suit the project. Create a Git Repository and get to coding. Love the challenge, live for the finished product. I'm gonna take a crack at it in Javascript, using vue and nativescript if at all possible. I'll post more info in the coming weeks. Happy coding to you all... stay safe.",
+      "user":"jarvon"
+    },
+    {
+      "comment":"@jarvon is there a team or a group of people who will get involved also are we thinking pwa or something else ? ",
+      "user":"designMoreWeb"
+    },
+    {
+      "comment":"I think there is already some decent PWA available like code-sever (self hosted) or stackblitz. I'd love to see a react-native approach with an embedded Monaco editor inside a webview like here https://github.com/bkniffler/vscode-native",
+      "user":"bkniffler"
+    },
+    {
+      "comment":"First step would be to get official mobile browser support for monaco editor or at least fix critical bugs. Related issue here https://github.com/microsoft/monaco-editor/issues/246. There are no resources for this except one.\r\n\r\nThere is a monaco editor ios app running in react native. Made by [@hemantasapkota](https://github.com/hemantasapkota) called Code Playground you can download it from App Store here https://apps.apple.com/us/app/code-playground/id1452106609\r\n\r\nIn this issue https://github.com/microsoft/monaco-editor/issues/1365 [@hemantasapkota](https://github.com/hemantasapkota) mentions sending PR with some of the mobile support fixes for monaco.\r\n\r\nAlso here https://github.com/hemantasapkota/goplayground/issues/2#issuecomment-475467975 [@hemantasapkota](https://github.com/hemantasapkota) talks about a possibility of making some of his work open source",
+      "user":"davidbarton"
+    },
+    {
+      "comment":"Should the title be changed for iPadOS and add more labels to this Issue?",
+      "user":"GalacticLion7"
+    },
+    {
+      "comment":"i would love dedicated vscode on ipados!!! any update from the team?",
+      "user":"dylasti"
+    },
+    {
+      "comment":"@bkniffler , I love that react-native project. Is it usable? And if so, what are the instructions to get it on an iPad Pro? Thanks, in advance.",
+      "user":"geekalert"
+    },
+    {
+      "comment":"It’s really just a proof of concept for offline monaco editing, but it doesn’t do anything else right now, no loading or saving of files and no running of code. I’m hoping that it or something alike could lead a way to iPadOS Vscode",
+      "user":"bkniffler"
+    },
+    {
+      "comment":"> I think we can all agree that it needs to be a dedicated app. Who makes the app is besides the point, we're all developers. The thing that we need to figure out is what technology (framework) will best suit the project. Create a Git Repository and get to coding. Love the challenge, live for the finished product. I'm gonna take a crack at it in Javascript, using vue and nativescript if at all possible. I'll post more info in the coming weeks. Happy coding to you all... stay safe.\r\n\r\nHey. Any update?",
+      "user":"GalacticLion7"
+    },
+    {
+      "comment":"> I think we can all agree that it needs to be a dedicated app. Who makes the app is besides the point, we're all developers. The thing that we need to figure out is what technology (framework) will best suit the project. Create a Git Repository and get to coding. Love the challenge, live for the finished product. I'm gonna take a crack at it in Javascript, using vue and nativescript if at all possible. I'll post more info in the coming weeks. Happy coding to you all... stay safe.\r\n\r\nI’m willing to help, link to the project?",
+      "user":"skipikash"
+    },
+    {
+      "comment":"I am willing to help as well. \r\nI think it should not be that difficult to port Electron js code to React Native. Do we have any updates/repo/etc?\r\n\r\nOn the meantime, I will also research about electron ports to iOS and Android. ",
+      "user":"edvilme"
+    },
+    {
+      "comment":"> I am willing to help as well.\r\n> I think it should not be that difficult to port Electron js code to React Native. Do we have any updates/repo/etc?\r\n> \r\n> On the meantime, I will also research about electron ports to iOS and Android.\r\n\r\nYou could use NativeScript, which is like Electron for mobile.",
+      "user":"GalacticLion7"
+    },
+    {
+      "comment":"> I think we can all agree that it needs to be a dedicated app. Who makes the app is besides the point, we're all developers. The thing that we need to figure out is what technology (framework) will best suit the project. Create a Git Repository and get to coding. Love the challenge, live for the finished product. I'm gonna take a crack at it in Javascript, using vue and nativescript if at all possible. I'll post more info in the coming weeks. Happy coding to you all... stay safe.\r\n\r\nI'm too busy to help code right now, but I'd love to beta test!  I've been waiting forever for this!",
+      "user":"fungaldore"
+    },
+    {
+      "comment":"I'm honestly losing hope at this point. The whole thing has been going on 4 years (including suggesting Monaco support for mobile at microsoft/monaco-editor#246), and we have gotten very little intervention from the team. ",
+      "user":"GalacticLion7"
+    },
+    {
+      "comment":"Ok, I know the folks at repl.it are developing a mobile app of their own. I understand they're loosely based on vscode. To me that sounds like an awesome mix. What do you think? Also you're right. We might be good at our respective areas but this can´t happen without intervention from the core team. ",
+      "user":"edvilme"
+    },
+    {
+      "comment":"> I'm honestly losing hope at this point. The whole thing has been going on 4 years (including suggesting Monaco support for mobile at [microsoft/monaco-editor#246](https://github.com/microsoft/monaco-editor/issues/246)), and we have gotten very little intervention from the team.\r\n\r\nI think this gains relevance due to iPadOS getting more desktop-ish. Also imho it would be a sufficient first step to have a „vscode client“ native for iPadOS that can connect to a vscode instance running on a remote, like already available through a plug-in https://code.visualstudio.com/docs/remote/remote-overview. This is similar to projects like code-server, but would have the advantage of working with vanilla vscode on the remote.\r\n\r\nOn the other hand MS might not want to cannibalize their own offering https://docs.microsoft.com/visualstudio/online/overview/what-is-vsonline",
+      "user":"benjaminbauer"
+    },
+    {
+      "comment":"@benjaminbauer This is partially possible today using VS Online with either a cloud or self-hosted environment. [VS Online CLI Reference](https://docs.microsoft.com/en-us/visualstudio/online/reference/vsonline-cli)\r\nProblem is that Safari is not fully supported right now, but support may be coming -> https://github.com/MicrosoftDocs/vsonline/issues/362#issuecomment-609518846",
+      "user":"davide-rota"
+    },
+    {
+      "comment":"> @benjaminbauer This is partially possible today using VS Online with either a cloud or self-hosted environment. [VS Online CLI Reference](https://docs.microsoft.com/en-us/visualstudio/online/reference/vsonline-cli)\n> \n> Problem is that Safari is not fully supported right now, but support may be coming -> https://github.com/MicrosoftDocs/vsonline/issues/362#issuecomment-609518846\n\nOr using directly [Code-Server](https://github.com/cdr/code-server) plain or in a Docker env.",
+      "user":"Disane87"
+    },
+    {
+      "comment":"> Or using directly [Code-Server](https://github.com/cdr/code-server) plain or in a Docker env.\r\n\r\nYep, tried that and it's really good but a VS Online self-hosted env has some advantages:\r\n- Authentication natively backed by Azure AD (MFA, pwdless, ...)\r\n- no need to open ports from your server on the internet, no ssh or vpn tunnels to manage and setup. Also no certs, dns and public domain to maintain.\r\n- both are free but VS Online is officially maintained by MS so all extensions are downloaded natively from the marketplace\r\n",
+      "user":"davide-rota"
+    },
+    {
+      "comment":"> > I'm honestly losing hope at this point. The whole thing has been going on 4 years (including suggesting Monaco support for mobile at [microsoft/monaco-editor#246](https://github.com/microsoft/monaco-editor/issues/246)), and we have gotten very little intervention from the team.\r\n> \r\n> I think this gains relevance due to iPadOS getting more desktop-ish. Also imho it would be a sufficient first step to have a „vscode client“ native for iPadOS that can connect to a vscode instance running on a remote, like already available through a plug-in https://code.visualstudio.com/docs/remote/remote-overview. This is similar to projects like code-server, but would have the advantage of working with vanilla vscode on the remote.\r\n> \r\n> On the other hand MS might not want to cannibalize their own offering https://docs.microsoft.com/visualstudio/online/overview/what-is-vsonline\r\n\r\nYou missed my point. I just said that there is very little intervention from the team in this issue, which has been going on for a year. (And I think that's a bad sign.)\r\n\r\nAlso, as much as I'm wanting a native VS Code on iPadOS (see my previous comments). You are just giving these suggestions that have been thoroughly discussed here already. We're just going in circles. So all we need is an update. ",
+      "user":"GalacticLion7"
+    },
+    {
+      "comment":"> > Or using directly [Code-Server](https://github.com/cdr/code-server) plain or in a Docker env.\r\n> \r\n> Yep, tried that and it's really good but a VS Online self-hosted env has some advantages:\r\n> \r\n> * Authentication natively backed by Azure AD (MFA, pwdless, ...)\r\n> * no need to open ports from your server on the internet, no ssh or vpn tunnels to manage and setup. Also no certs, dns and public domain to maintain.\r\n> * both are free but VS Online is officially maintained by MS so all extensions are downloaded natively from the marketplace\r\n\r\nDoes online vs-code have a separate frontend or is it all self hosted online?",
+      "user":"edvilme"
+    },
+    {
+      "comment":"> Does online vs-code have a separate frontend or is it all self hosted online?\r\n\r\nYou use the VS Online front-end (aka.ms/vso-login) and then select either a cloud azure environment or your own self-hosted server. (there's no separate frontend, only the agent on your own server connecting to VS Online service, no open ports.)\r\n\r\n",
+      "user":"davide-rota"
+    },
+    {
+      "comment":"But, if you use iPad to login vs online (aka.ms/vso-online), on the top of the page shows the notice “Your browser isn’t currently supported ...”",
+      "user":"hoyangtsai"
+    },
+    {
+      "comment":"> But, if you use iPad to login vs online (aka.ms/vso-online), on the top of the page shows the notice “Your browser isn’t currently supported ...”\r\n\r\nhttps://github.com/MicrosoftDocs/vsonline/issues/362\r\nhttps://github.com/MicrosoftDocs/vsonline/issues/33",
+      "user":"GalacticLion7"
+    },
+    {
+      "comment":" It might be official this is going to be huge!!! \n\nDevs might be able to write software on iPad and iPhone with Xcode\nhttps://www.cultofmac.com/703527/xcode-ipad-iphone-ios-ipados-14-rumor/\n\nHopefully VSCODE and other editors can then come to the iPad ",
+      "user":"designMoreWeb"
+    },
+    {
+      "comment":"> It might be official this is going to be huge!!!\r\n> \r\n> Devs might be able to write software on iPad and iPhone with Xcode\r\n> https://www.cultofmac.com/703527/xcode-ipad-iphone-ios-ipados-14-rumor/\r\n> \r\n> Hopefully VSCODE and other editors can then come to the iPad\r\n\r\nWow, this is huge! I am totally fine with Xcode instead.",
+      "user":"GalacticLion7"
+    },
+    {
+      "comment":"I'd also like to point to this reply though:\r\n\r\n> The hidden Xcode Preview app is present in iOS 13 and is a companion app for showing layout previews on device from the main Xcode app running on a Mac. Not to say you’re wrong, just an FYI for folks.\r\n\r\nhttps://twitter.com/SteveMoser/status/1252197252887707650\r\n\r\nAlso, while I'd be happy to see Xcode move to iPadOS and it could mark a start for serious coding on iPad, Xcode and its codebase are in no way related to VSCode, so it wouldn't really change the situation for most folks here.",
+      "user":"bkniffler"
+    },
+    {
+      "comment":"> I'd also like to point to this reply though:\r\n> \r\n> > The hidden Xcode Preview app is present in iOS 13 and is a companion app for showing layout previews on device from the main Xcode app running on a Mac. Not to say you’re wrong, just an FYI for folks.\r\n> \r\n> https://twitter.com/SteveMoser/status/1252197252887707650\r\n> \r\n> Also, while I'd be happy to see Xcode move to iPadOS and it could mark a start for serious coding on iPad, Xcode and its codebase are in no way related to VSCode, so it wouldn't really change the situation for most folks here.\r\n\r\nTo be fair, if we don't get any response from the developers, then the best thing to do is to just move on. We've seen enough reluctancy here. Though I would still prefer a VS Code, you can use a variety of languages with Xcode, even though it isn't perfect. Keep in mind that it's iPadOS.",
+      "user":"GalacticLion7"
+    },
+    {
+      "comment":"@GalacticLion7 Do you really think people will change the languages they worked hard on mastering for years just because their favorite dev environment doesn't support their favorite device? I surely won't. I think all of this discussion, while it shows what people imagine they'd love to do, lacks empirical evidence. The iPad, that just now added real mouse support, just isn't proven to be a productive system for devs. As Dieter from TheVerge just said in the new Apple Magic touchpad keyboard case review, having a Zoom call during working on Office is a royal pain in the butt. Its not just a matter of dev environment, its a matter of device and OS capabilities. Thats where we are (barely) at the start of a change of mind at Apple.\r\n\r\nI know, you (and me), we'd like to get on tinkering and working now, but I'm super eager to see how in real life, with a great code editor (e.g. Xcode), people really are able to work on the iPad as a primary device. I guess its the right decision for MS to wait and see how the iPad proves itself in different areas, before even considering in putting any effort into a huge rewrite. Its up to us to change the current state if we want to get on coding on iPad.",
+      "user":"bkniffler"
+    },
+    {
+      "comment":"> @GalacticLion7 Do you really think people will change the languages they worked hard on mastering for years just because their favorite dev environment doesn't support their favorite device? I surely won't. I think all of this discussion, while it shows what people imagine they'd love to do, lacks empirical evidence. The iPad, that just now added real mouse support, just isn't proven to be a productive system for devs. As Dieter from TheVerge just said in the new Apple Magic touchpad keyboard case review, having a Zoom call during working on Office is a royal pain in the butt. Its not just a matter of dev environment, its a matter of device and OS capabilities. Thats where we are (barely) at the start of a change of mind at Apple.\r\n> \r\n> I know, you (and me), we'd like to get on tinkering and working now, but I'm super eager to see how in real life, with a great code editor (e.g. Xcode), people really are able to work on the iPad as a primary device. I guess its the right decision for MS to wait and see how the iPad proves itself in different areas, before even considering in putting any effort into a huge rewrite. Its up to us to change the current state if we want to get on coding on iPad.\r\n\r\nI feel like iPadOS is already a supreme productivity device for things like development, and it's just the app developers that are disproving it.\r\n\r\nUsing your Zoom example, the reason why having Zoom calls on iPadOS suck, at least on my personal experience, is purely because of the UI/UX. It's just very poor compared to the Windows/macOS versions of the Zoom client.\r\n\r\nAnd that's not just limited to Zoom. Even Google is on the same path. The Google Docs app for iPadOS works fine, but they skimmed down on most of the features available on the full PWA. And the Google Slides app, well, it sucks big time. This is especially a problem for a lot of developers that try to bring their cross-platform and web apps to iPadOS. Not just Google and Zoom.\r\n\r\nThis could easily be fixed if app developers were competent enough to spend a little bit more time curating their apps for iPadOS (and mobile services in particular). But they don't do that because iPadOS is just not of their best interest.\r\n\r\nSo Microsoft could follow two paths with two different outcomes to natively bring their IDE to iPadOS:\r\n- Make a lite version of the app like a lot of people that are trying to bring their cross-platform app to iPadOS and just stay that way until developers conventionally begin to curate their apps for iPadOS.\r\n\r\nor\r\n\r\n- Be different and make a full-featured VS Code for iPadOS that stands up to the original version. This would not only be a massive convenience boost for developers that own an iPadOS device, but also drastically bring up interest for other developers to improve or bring their cross-platform or web apps to iPadOS.\r\n\r\nAgain, this whole discussion is very pointless if we are not getting any update from the developer team. @isidorn could you please bring some more official activity here?",
+      "user":"GalacticLion7"
+    },
+    {
+      "comment":"I started porting the ide to ios but its a lot of work because of the restrictions ios currently has.\r\nIt is far from production ready. Syntax highlighting broke, some touch stuff is not working as intended and the file system part does not work at all. Also the only way to run nodejs code is to embed the complete runtime in the app (i managed to do that). \r\n\r\nHere is a post i made about it.\r\nhttps://www.reddit.com/r/webdev/comments/g7rhtw/i_ported_vscode_to_the_ipad/\r\n\r\nIf you guys are interested in the project let me know on reddit.",
+      "user":"locomain"
+    },
+    {
+      "comment":"Thats really cool @locomain. I'm sad you choose to go for closed source. Not because I wouldn't spend money on it, but because I fear it will slow development down quite a bit. Still, keep it up.\r\n\r\nHere the quote for anyone interested:\r\n> No, i dont think i am going to open source it. i have a fulltime job and i am doing this in my free time. To finish this is it going to cost me a lot of time and i would hate to see people making bank out of my work as this has happend to me in the past.",
+      "user":"bkniffler"
+    },
+    {
+      "comment":"Looking forward to this as magic keyboard comes out recently. Though it isn't perfect enough now.",
+      "user":"koenzhao"
+    },
+    {
+      "comment":"@bkniffler  a lot of people on Reddit made some excellent comments about why it should be open source the project. I somewhat agree so i will rethink if i am going to open source it or not.",
+      "user":"locomain"
+    },
+    {
+      "comment":"> I started porting the ide to ios but its a lot of work because of the restrictions ios currently has.\r\n> It is far from production ready. Syntax highlighting broke, some touch stuff is not working as intended and the file system part does not work at all. Also the only way to run nodejs code is to embed the complete runtime in the app (i managed to do that).\r\n> \r\n> Here is a post i made about it.\r\n> https://www.reddit.com/r/webdev/comments/g7rhtw/i_ported_vscode_to_the_ipad/\r\n> \r\n> If you guys are interested in the project let me know on reddit.\r\n\r\nJust so you know, this will violate a few guidelines if you release it to the App Store like that.",
+      "user":"GalacticLion7"
+    },
+    {
+      "comment":"Check out https://vseditor.app/. It an app that runs code-server to make it seem like a native experience.",
+      "user":"GalacticLion7"
+    },
+    {
+      "comment":"So basically its just a hosted version of vscode running in a webview for 2,99$ p.m.? I'd rather follow whatever @locomain is up to, seems like he's trying to go the hard route of forking vscode and reimplementing the electronjs part to react native; or host code-server myself.",
+      "user":"bkniffler"
+    },
+    {
+      "comment":"> I started porting the ide to ios but its a lot of work because of the restrictions ios currently has.\r\n> It is far from production ready. Syntax highlighting broke, some touch stuff is not working as intended and the file system part does not work at all. Also the only way to run nodejs code is to embed the complete runtime in the app (i managed to do that).\r\n> \r\n> Here is a post i made about it.\r\n> https://www.reddit.com/r/webdev/comments/g7rhtw/i_ported_vscode_to_the_ipad/\r\n> \r\n> If you guys are interested in the project let me know on reddit.\r\n\r\nAs the above people said, it can violate some of the store guidelines. You can considering shipping via altStore. Either way, I would be thrilled to help out :D ",
+      "user":"edvilme"
+    },
+    {
+      "comment":"> So basically its just a hosted version of vscode running in a webview for 2,99$ p.m.? I'd rather follow whatever @locomain is up to, seems like he's trying to go the hard route of forking vscode and reimplementing the electronjs part to react native; or host code-server myself.\r\n\r\nYes, but it's a much better experience than doing it on Safari. I'm not saying I recommend it, it's paid and you don't have sudo access.",
+      "user":"GalacticLion7"
+    },
+    {
+      "comment":"How about GitHub [CodeSpaces](https://github.com/features/codespaces)?\n(Doesn't Microsoft offer that already!?)",
+      "user":"thomasio101"
+    },
+    {
+      "comment":"> How about GitHub [CodeSpaces](https://github.com/features/codespaces)?\r\n> (Doesn't Microsoft offer that already!?)\r\n\r\nIn case anyone was interested...\r\n\r\nIt is possible to get this working with [Visual Studio Codespaces](https://online.visualstudio.com), with one caveat -- copy (cmd-C) and undo (cmd-Z) don't work. Pasting data copied from elsewhere works, but you can't copy new data from an editor. Similarly, the undo signal (cmd-Z) doesn't get captured either.\r\n\r\nIn general, Codespaces works in the same manner as VS App -- you get access to a remote container running (effectively) code-server. In both cases, you end up paying for the resources used. Also in both cases (Codespaces and VS App), you can also use a self-hosted VSO or code-server and use the VSO website or VS App for free. The self-hosted option for VS App is relatively recent.\r\n\r\nThe author of VS App listed how they get around these issues here: https://github.com/cdr/code-server/issues/1015#issuecomment-631473728 . The quick version is that they intercept copy/paste at the App level and then forward the calls to the WebView.\r\n",
+      "user":"mbreese"
+    },
+    {
+      "comment":"This probably looks like a userAgent problem?\r\n\r\n* PC Chrome: Working\r\n* PC Chrome iOS Mobile Mode: Not Working\r\n* Mac Safari: Working\r\n* Mac Safari iPhone agent: Not Working\r\n* iPad Desktop Mode: Working\r\n* iPad Mobile Mode: Not Working\r\n\r\n### UserAgent (Test PC)\r\n#### Test Code\r\n\r\n```html\r\n<head>\r\n...\r\n<script>\r\nObject.defineProperty(navigator, \"userAgent\", {\r\n  get: () => \"Mozilla/5.0 (Macintosh; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1\",\r\n});\r\n// iOS \"Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1\"\r\n// Mac Safari \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.1 Safari/605.1.15\" = $1\r\n</script>\r\n...\r\n</head>\r\n...\r\n```\r\n\r\n#### Not Working\r\n* \"Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1\"\r\n* \"Mozilla/5.0 (What; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1\"\r\n#### Working\r\n* \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.1 Safari/605.1.15\"\r\n* \"Mozilla/5.0 (Macintosh; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1\"\r\n\r\n\r\n### Result\r\n* If userAgent does not have Macintosh, it does not work.\r\n* Probably because the userAgent checks the platform and the Macintosh uses the meta key. On the iPhone platform, it seems to cause the illusion of not using the meta key.\r\n* How about adding an iphone to a platform that uses the meta key? \r\n",
+      "user":"daybrush"
+    },
+    {
+      "comment":"@daybrush thank you for your contributions, but please note that this issue addresses a dedicated mobile app for Visual Studio Code.",
+      "user":"GalacticLion7"
+    },
+    {
+      "comment":"> @daybrush thank you for your contributions, but please note that this issue addresses a dedicated mobile app for Visual Studio Code.\r\n\r\nAgree. This shouldn't be closed. A web app, which requires a computer (or a paid vs code codespace) is not an app like the one for desktops.",
+      "user":"maxiostro"
+    },
+    {
+      "comment":"@GalacticLion7 @maxiostro \r\n\r\nOh my mistake. From external issues, I thought links were related issues.\r\n\r\nI hope the native app of the iPad comes out.",
+      "user":"daybrush"
+    },
+    {
+      "comment":"@rebornix could you reopen?",
+      "user":"GalacticLion7"
+    },
+    {
+      "comment":"After watching the WWDC 2020,\r\nthat apple moves to ARM processors (Apple Silicon) for the next Macs\r\nand all the popular apps will also be re-released/developed for ARM processors\r\nmaybe implies that those will have no hard time to also run on iPad (?)\r\n\r\nI think V8 is already running on ARM, but not really sure about NodeJs\r\n\r\n",
+      "user":"Altiano"
+    },
+    {
+      "comment":"@Altiano Apple is contributing patches to multiple open source projects for ARM support, including Chromium, Electron, Node, V8, etc. They really are going all in.\r\n\r\nCheck this out: https://twitter.com/MarkVillacampa/status/1275200446764912643?s=20",
+      "user":"wzxu"
+    },
+    {
+      "comment":"> @Altiano Apple is contributing patches to multiple open source projects for ARM support, including Chromium, Electron, Node, V8, etc. They really are going all in.\r\n> \r\n> Check this out: https://twitter.com/MarkVillacampa/status/1275200446764912643?s=20\r\n\r\nIt seems that it's for macOS on ARM, not iPadOS on ARM. ",
+      "user":"LiLejia"
+    },
+    {
+      "comment":"Apple Silicon will be based on the A-series chips found in iPads.",
+      "user":"GalacticLion7"
+    },
+    {
+      "comment":"> Apple Silicon will be based on the A-series chips found in iPads.\r\n\r\nRight, same chip but different OS, which means totally different API, unless atom is going to use SwiftUI.\r\n\r\nThe most plausible way is actually Apple makes macOS available on A12Z iPad Pro. Where ARM mac and iPad Pro use same chip, but it is mostly a market decision instead of a technical problem.",
+      "user":"LiLejia"
+    },
+    {
+      "comment":"I think, that iOS apps will be able to run natively on MacOS,\r\nit should be really possible the opposite.",
+      "user":"Altiano"
+    },
+    {
+      "comment":"I tried to use code spaces from github to be able to use VSC on my iPad Pro.  I figured out, similar to what was said earlier in this thread that I could get it to open in Safari on iPad without any changes, Chrome on iPad but only in desktop mode.\r\n\r\nThe problems really came when I wanted to run the code.  It creates a localhost link with my node app that auto forwards to another URL for the container but that didn’t work.  I couldn’t get it to open in either Safari or Chrome.  In Chrome I had to turn off pop ups to make it even go tot he URL, but then it wouldn’t ever load the actual content.  It sat there and spun for a while.\r\n\r\nOn safari, the CMD+Click didn’t ever open the popup.  I will continue to give it a shot and see if I can make it work because I really want to be able to code on my iPad with a decent code editor.",
+      "user":"austinstudio"
+    },
+    {
+      "comment":"@austinstudio If you go to the iPad safari settings and turn off \"Disable pop-up windows\" or something similar that will allow you to command click.\r\n\r\nShame that copy and paste doesn't work with code-spaces though!",
+      "user":"stephenwf"
+    },
+    {
+      "comment":"I registered for Codespaces shortly after it came out, and it told me that they'll be \"emailing me shortly\" to \"join early access.\" But it's been many months, and I never got the email. It's still saying that they'll be emailing me shortly. ",
+      "user":"GalacticLion7"
+    },
+    {
+      "comment":"> I registered for Codespaces shortly after it came out, and it told me that they'll be \"emailing me shortly\" to \"join early access.\" But it's been many months, and I never got the email. It's still saying that they'll be emailing me shortly.\r\n\r\nme too 😢 ",
+      "user":"liudonghua123"
+    },
+    {
+      "comment":"No you can't use visual studio code on an ipad",
+      "user":"mixflame"
+    },
+    {
+      "comment":"GitHub recently launched Codespaces in closed beta which could be a good way to go on iPad. I'm in the beta and will use it for the next few weeks to have an insight what it could be in final versions ",
+      "user":"Disane87"
+    },
+    {
+      "comment":"Its not fucking vscode for ipad shutup\n\nOn Thu, Aug 27, 2020 at 5:07 AM Marco <notifications@github.com> wrote:\n\n> GitHub recently launched Codespaces in closed beta which could be a good\n> way to go on iPad\n>\n> —\n> You are receiving this because you commented.\n> Reply to this email directly, view it on GitHub\n> <https://github.com/microsoft/vscode/issues/70764#issuecomment-681880992>,\n> or unsubscribe\n> <https://github.com/notifications/unsubscribe-auth/AAND323W2VT6W3TMXFJQWCLSCY475ANCNFSM4G7RRXKQ>\n> .\n>\n\n\n-- \nJonathan Silverman\ntel: (720) 757 7054\n",
+      "user":"mixflame"
+    },
+    {
+      "comment":"@mixflame what is up with you?",
+      "user":"GalacticLion7"
+    },
+    {
+      "comment":"I am ok friend. I mean no threats\n\nOn Mon, Aug 31, 2020 at 3:08 AM GalacticLion7 <notifications@github.com>\nwrote:\n\n>\n>\n> @mixflame <https://github.com/mixflame> what is up with you?\n>\n>\n>\n>\n> —\n> You are receiving this because you were mentioned.\n>\n>\n> Reply to this email directly, view it on GitHub\n> <https://github.com/microsoft/vscode/issues/70764#issuecomment-683661509>,\n> or unsubscribe\n> <https://github.com/notifications/unsubscribe-auth/AAND326AQD46AGOY3SHOGZ3SDNSAVANCNFSM4G7RRXKQ>\n> .\n>\n>\n> --\nJonathan Silverman\ntel: (720) 757 7054\n",
+      "user":"mixflame"
+    },
+    {
+      "comment":"Well it's going to take way too much effort to setup compilers for languages (Python, JS etc) but an IDE is very much possible, you can even partner with cloud services like Codespaces, Repl.it, Glitch etc. I'd love to not have to use safari for a vsc experience. I'd even live with a really primitive version of VSC as long as I can program smoothly.",
+      "user":"stellar1s"
+    },
+    {
+      "comment":"> > Apple Silicon will be based on the A-series chips found in iPads.\r\n> \r\n> \r\n> \r\n> Right, same chip but different OS, which means totally different API, unless atom is going to use SwiftUI.\r\n> \r\n> \r\n> \r\n> The most plausible way is actually Apple makes macOS available on A12Z iPad Pro. Where ARM mac and iPad Pro use same chip, but it is mostly a market decision instead of a technical problem.\r\n\r\nNot really. Both iOS/iPadOS and macOS are Darwin distributions, the kernel developed by Apple, forked from BSD. I'm not saying porting would be straightforward, but the fact that they have the same architecture and kernel would probably help in some way.",
+      "user":"GalacticLion7"
+    },
+    {
+      "comment":"For an iPad native experience:\r\n\r\n1. Get code-server running (local computer/raspberry-pi or public hosted just have an IP) [guide here](https://github.com/cdr/code-server/blob/b509063e143bbf74b74ec295260c4fd5f6332f71/doc/guide.md)\r\n2. Download from app store [servediter](https://apps.apple.com/us/app/servediter-for-code-server/id1504491325)\r\n3. Enter your code-server settings into serveediter app and you are golden (Self Hosted Server)\r\n\r\n",
+      "user":"AckerApple"
+    },
+    {
+      "comment":"Good job @Acker Dawn Apple\n\nOn Tue, Sep 22, 2020 at 7:45 AM Acker Dawn Apple <notifications@github.com>\nwrote:\n\n> For an iPad native experience:\n>\n>    1. Get code-server running (locally or public hosted just have an IP) guide\n>    here\n>    <https://github.com/cdr/code-server/blob/b509063e143bbf74b74ec295260c4fd5f6332f71/doc/guide.md>\n>    2. Download from app store servediter\n>    <https://apps.apple.com/us/app/servediter-for-code-server/id1504491325>\n>    3. Enter your code-server settings into serveediter app and you are\n>    golden\n>\n> —\n> You are receiving this because you were mentioned.\n> Reply to this email directly, view it on GitHub\n> <https://github.com/microsoft/vscode/issues/70764#issuecomment-696731982>,\n> or unsubscribe\n> <https://github.com/notifications/unsubscribe-auth/AAND326XPZGTXW6GNDOQ5SLSHCTA5ANCNFSM4G7RRXKQ>\n> .\n>\n\n\n-- \nJonathan Silverman\ntel: (720) 757 7054\n",
+      "user":"mixflame"
+    },
+    {
+      "comment":"looking for it",
+      "user":"AmberCheng"
+    },
+    {
+      "comment":"With the ARM builds officially supported (https://code.visualstudio.com/#alt-downloads) is there a way to create a (native running) iPad OS app?",
+      "user":"patmuk"
+    },
+    {
+      "comment":"I think the ipad ver will comes with the mac on ARM.",
+      "user":"mxr612"
+    },
+    {
+      "comment":"The iSH Shell ( http://github.com/ish-app/ish ) already brings vi, make, gcc, gdb, .. on iPad and iPhone.\r\n\r\nIt'll be even better to have an editor with more convenient outline/symbol feature than vi on iPad and iPhone.",
+      "user":"ljhm"
+    },
+    {
+      "comment":"Надеюсь что когда-нибудь все-таки разработчики сделают версию для iPadOS и переведут этот тикет в done ",
+      "user":"nixon89"
+    },
+    {
+      "comment":"Safari and other iPad browsers are very problematic when it comes to using online IDE's (visual studio online). I'm not a big fan of that honestly. Maybe a wrapper/interface for Codespaces except it is in a form of an application? I don't need a local programming environment, nor am I asking for one. I have no need or will to install python3 on my iPad and be limited by restrictions",
+      "user":"stellar1s"
+    },
+    {
+      "comment":"Adding to this: Microsoft isn't forced to make use of Electron; hence the iPad version will not need to be made using Electron, and I'm sure there's no Electron library for iPadOS/iOS. An UI can just be done in Swift, y'know what I mean?",
+      "user":"stellar1s"
+    },
+    {
+      "comment":"Going on several months of using the App Store app [Servediter](https://apps.apple.com/us/app/servediter-for-code-server/id1504491325) which is VSCode as an App Store offering (does require running CodeServer elsewhere).\r\n\r\nExperience is near perfect and I am still very satisfied coding on iPad DAILY/EVERYDAY. When traveling, I take Raspberry Pi 4 and plug directly into iPad via usb C and the whole experience just works under one cable. I am very much enjoying the entire experience, that magic keyboard is no lie either, greatness there.\r\n\r\nI code on my iPad Pro everyday.\r\n",
+      "user":"AckerApple"
+    },
+    {
+      "comment":"how about the battery ? @AckerApple ",
+      "user":"Altiano"
+    },
+    {
+      "comment":"The battery exceeds expectations. The 4” touch screen on my Raspberry can be turned off and I generally leave it off. When 4” touch screen on and bright, the lighting indicator for low power comes on in its infrequent manner. I have a fan on my Raspberry too that is 100% always on.\r\n\r\nI absolutely recommend the Raspberry to iPad approach, its slower than Mac mini but it works without any disconnect reconnect issues. And best best transistionless success came from networking naming Pi so that I never have to use IP, ever (plugged into iPad, or Pi on its on WiFi I still access same way by name)\r\n\r\nThe love is in the iPad Pro touch and iOS ui. I enjoy it more than a laptop even though be it you still can’t like do every every thing but coding Vs Code on iPad with magic keyboard is totally worth it and my mind loves the choice of sometimes touching screen and sometimes track pad, an amazing and practical experience.",
+      "user":"AckerApple"
+    },
+    {
+      "comment":"> Going on several months of using the App Store app [Servediter](https://apps.apple.com/us/app/servediter-for-code-server/id1504491325) which is VSCode as an App Store offering (does require running CodeServer elsewhere).\r\n> \r\n> Experience is near perfect and I am still very satisfied coding on iPad DAILY/EVERYDAY. When traveling, I take Raspberry Pi 4 and plug directly into iPad via usb C and the whole experience just works under one cable. I am very much enjoying the entire experience, that magic keyboard is no lie either, greatness there.\r\n> \r\n> I code on my iPad Pro everyday.\r\n\r\nThe biggest pet peeves I am still experiencing today is applications going into background mode and causing refreshes. Swapping between a few applications, returning to any code editor just to see it reload losing all tabs, windows, shell connections is frustrating. Been experiencing that with running apps like [PlayJS](https://apps.apple.com/us/app/play-js-javascript-ide/id1423330822), code server, theia, in safari editors, pretty much same across the board.\r\n\r\nThe only rock-solid experience (in terms of establishing and keeping connection) I've had is running a [mosh](https://mosh.org/) shell into a remote server with [Blink Shell ](https://blink.sh/), but that means losing the GUI editor experience.",
+      "user":"tiivik"
+    },
+    {
+      "comment":"@tiivik m use Serveditor then. Entire app state is saved within the Server itself so even though my iPad stopped background running, the instant it refreshes everything is where I left it (minus open menus)",
+      "user":"AckerApple"
+    },
+    {
+      "comment":"> @tiivik m use Serveditor then. Entire app state is saved within the Server itself so even though my iPad stopped background running, the instant it refreshes everything is where I left it (minus open menus)\r\n\r\nThe thing is, it gets unproductive real fast when the background tasks get eliminated a few times per minute (common occurrence in my workflow when alt-tabbing between browser and code). I guess it's a design choice of the iPadOS rather than any of the applications to kill them as soon as possible. Thanks for the recommendation though, I'll give it a try.",
+      "user":"tiivik"
+    },
+    {
+      "comment":"> I guess it's a design choice of the iPadOS rather than any of the applications to kill them as soon as possible.\n\nI disagree: I don't experience such a problem with other applications (like browsers). You don't wait web pages to reload each time you switching between a browser and something else, right? So I guess it's poor architecture of the editors. They should probably cache things better, so they won't loose states so easily.\n\nI haven't tried this Servediter yet btw, and I'm pretty suspicious about it. Will probably stay traditional, with VSCode running on my MacBook, for an another while. But if you try it with your projects, share a feedback here ;)",
+      "user":"jerrygreen"
+    },
+    {
+      "comment":"I have attached my recommendation for how I never have a memory issue coding and browsing \r\n\r\n![A5CFAA92-B8AF-44AA-9133-3CA9F1B66B11](https://user-images.githubusercontent.com/7964429/99273112-93cc2600-27f6-11eb-8211-9d6033906a5e.png)\r\n\r\n",
+      "user":"AckerApple"
+    },
+    {
+      "comment":"@AckerApple you use local mac-mini as your server? Interesting option 🤔",
+      "user":"jerrygreen"
+    },
+    {
+      "comment":"The goal here is to natively run VSCode and not be assisted via our own devices but rather a cloud service or something. I'm not even looking for native support for compilers etc., I know better than to ask for that. Theia etc. again are browser based clients, and they have their own set of problems including selection issues etc. All I want is to feel home on iPad with a VSC like experience, and you can integrate it with Codespaces, Repl.it, Glitch, your own server etc. (This is optional again but it'd be helpful)\r\n\r\nI myself have a Raspberry Pi 4, but I don't want to turn it on/keep it running all the time whenever I want to code. Cooling is already a huge problem even with a heatsink, I might get a inbuilt fan case for it but that's a future investment. \r\n\r\nRecommendation for users who are looking for native Python or Node JS support, you can check out Pythonista 3 or PlayJS, there's another Python interpreter app I've forgotten the name of, you can do a quick google search to find it. These apps aren't perfect but I've had a pretty smooth experience w/em so far.\r\n\r\nNote to those who say that apps already exist that fulfill this purpose, I want an official app and support from Microsoft and not some 3rd party company. ",
+      "user":"stellar1s"
+    },
+    {
+      "comment":"> I haven't tried this Servediter yet btw, and I'm pretty suspicious about it. Will probably stay traditional, with VSCode running on my MacBook, for an another while. But if you try it with your projects, share a feedback here ;)\r\n\r\nSure thing! I tab into the topic every couple of months or so and get excited while still reverting back to MacBook. \r\n\r\n> I have attached my recommendation for how I never have a memory issue coding and browsing\r\n\r\nYea that helps surely. I'm hoping for the day I can switch between full screen apps without losing application state though.",
+      "user":"tiivik"
+    },
+    {
+      "comment":"> The goal here is to natively run VSCode and not be assisted via our own devices but rather a cloud service or something. I'm not even looking for native support for compilers etc., I know better than to ask for that. Theia etc. again are browser based clients, and they have their own set of problems including selection issues etc. All I want is to feel home on iPad with a VSC like experience, and you can integrate it with Codespaces, Repl.it, Glitch, your own server etc. (This is optional again but it'd be helpful)\r\n> \r\n> I myself have a Raspberry Pi 4, but I don't want to turn it on/keep it running all the time whenever I want to code. Cooling is already a huge problem even with a heatsink, I might get a inbuilt fan case for it but that's a future investment.\r\n> \r\n> Recommendation for users who are looking for native Python or Node JS support, you can check out Pythonista 3 or PlayJS, there's another Python interpreter app I've forgotten the name of, you can do a quick google search to find it. These apps aren't perfect but I've had a pretty smooth experience w/em so far.\r\n> \r\n> Note to those who say that apps already exist that fulfill this purpose, I want an official app and support from Microsoft and not some 3rd party company.\r\n\r\nSomeone was making a port of VSCode from the Electron Framework to Flutter, I believe the project died though.",
+      "user":"Water261"
+    },
+    {
+      "comment":"Prediction: by 2022 Macs with Arm processors lead to touch screen laptops and this topic becomes extinct ",
+      "user":"AckerApple"
+    },
+    {
+      "comment":"with Servediter are you able to ctrl c or cmd c to copy or undo using cmd z? I've got a keyboard that's not a magic keyboard and I reckon those key events arent working because of it not being a native keyboard that safari is familiar with. \r\n\r\n(slightly offtopic) Would the magic keyboard really make an improvement to productivity through code-server+Servediter on the iPad Pro?",
+      "user":"theycallmeloki"
+    },
+    {
+      "comment":"In Serveediter I can copy paste using a Bluetooth keyboard, magic keyboard, and on screen touch methods. It works best in Servediter as opposed to browser with code-server because then ssl is needed.\r\n\r\nAnswer to off topic question: The magic keyboard or any keyboard that utilizes the pins on back of iPad is seemingly a must to me. Bluetooth is flawed. I recommend the Logitech Apple backed keyboards (again must use back of iPad for instant on)\r\n\r\n\r\nUnrelated update: Dropped my iPad Pro hard in its corner where the magic keyboard does NOT cover... Nothing broke. Heart dropped out, dimple exists on corner where it hit directly. I was so thankful enough to make this update post that nothing broke.",
+      "user":"AckerApple"
+    },
+    {
+      "comment":"Wait a sec.\r\nI just found the `Kind` of VS Code for in M1 MacBook Pro is `iOS` instead of `Apple Silicon`.\r\n<img width=\"687\" alt=\"Screen Shot 2021-01-09 at 10 17 53 PM\" src=\"https://user-images.githubusercontent.com/1023819/104093957-e262e180-52c8-11eb-91da-b8d0f7c69255.png\">\r\n\r\nDoes it mean it it's actually very feasible to move it to iPad?\r\n\r\n",
+      "user":"LiLejia"
+    },
+    {
+      "comment":"![image](https://user-images.githubusercontent.com/1270456/104118507-87d48000-52de-11eb-85d8-5298fc1140e2.jpeg)",
+      "user":"CRodriguez25"
+    },
+    {
+      "comment":"The fact that it’s now on apple silicon suggests that if they could setup a ‘remote development’ only version... it should be trivial to release for iOS!",
+      "user":"eejd"
+    },
+    {
+      "comment":"I hope they do. They should.",
+      "user":"TechSnazzy"
+    },
+    {
+      "comment":"Yeah, I hope this happens. :raised_hands:",
+      "user":"stellar1s"
+    },
+    {
+      "comment":"On my iPad Pro I thoroughly enjoy using [Secure Shell Fish](https://secureshellfish.app/) with it's native Files App integration (among many many cool features).\r\nThen i use [Textastic](https://www.textasticapp.com/) and or [Working Copy](https://workingcopyapp.com/) for Text Editing and GitHub. \r\nI am however setting up \"PortablePi\" a USB C RPi iPadOs Dev computer. ",
+      "user":"jodfie"
+    },
+    {
+      "comment":"About the „PortablePi“: been there, done that, with a RasPi4. \r\nHowever, there where two problems:\r\n1. The battery of the iPad is drained quite fast. \r\n-> I ordered a USB-C Y cable, which there are on the market for headphones. However, until it arrived I gave up of the project. Might be a solution, did not try it. \r\n2. It is not as fast as a native app. I don’t remember how slow, but it was noticeable. VNC Screen sharing is unusable slow. Having a headless VCCode on the Pi and using it through the iOS Browser was okish ...\r\n3. The Pi is ARM based as well, which means that my rust toolchain wasn’t supported. \r\n-> I tried a Linux VM running on the iPad instead (forgot the name ... USH?) - but that was even slower (running headless as well).\r\n\r\nIn the end I stopped tinkering. For my work we set up a remote Linux VM in GCP, and have our local VSCode connected (i.e. editing code on the server directly) which is as fast as local file editing! Did not try it with the iPad (browser) VSCode and I don’t know if a small, free GCP VM is powerful enough - but that might be a better setup!\r\n\r\nLet us know if you follow one of this routes, curious to hear about your insights. \r\n\r\nNevertheless, in all these setups a native running VSCode (well, electron) would surely speed up the usage, no matter what the server is. ",
+      "user":"patmuk"
+    },
+    {
+      "comment":"Is there any progress on this? I'm thinking of getting the A14x Ipad pro soon and if vscode is available then, it is a huge turn-on!",
+      "user":"GaaneshT"
+    },
+    {
+      "comment":"I just need a VSCode remote client on iPad please make it happen.",
+      "user":"Jason5Lee"
+    },
+    {
+      "comment":"Ya’ll need to catch up and read the comments. I’ve been coding on an iPad for a year now and it’s absolutely changed my life\r\n\r\nPerhaps it’s past time to do a YouTube video on it\r\n\r\n![DF82FF69-23DE-4D78-BEBF-F0AF0B667A52](https://user-images.githubusercontent.com/7964429/115405488-46e0e700-a1bc-11eb-8667-1ff44700be27.png)\r\n",
+      "user":"AckerApple"
+    },
+    {
+      "comment":"How is your power consumption with Power+Servedit?\r\nI only used it in tests, but the batterie lost its power significantly faster. \r\nDo you connect a battery over an Y-cable?\r\nOr do you not observe this problem?\r\nI did not tested that - but it looked that a full battery of my 12” iPad Pro would be drained in max 2h.",
+      "user":"patmuk"
+    },
+    {
+      "comment":"When home, as seen in lower mid-left corner of previous screen shot, I am connected to a Mac mini which is most awesome most performant favorite setup. I am a huge Raspberry Pi guy and so on the go I do use the single usb-c cable that powers the Pi (not all usb C cables made equal so I labeled the one that does work)\r\n\r\nThe dual screen, as seen in screen shot, is a favorite and often used config. No doubt, some curves exists but I am so natural at them, such as my escape key is the bottom left globe key. The Magic Keyboard track pad not scrolling is largest running complaint but I use line-skipper extension to jump lines fast via OPTION+UP and OPTION+DOWN\r\n\r\nI really should YouTube this for everyone. The iPad app Servediter + Code server is the key and meat of getting going. I’ve been coding for years on years and just the joy of coding in a more interactive iPad Pro fashion is worth any of the differences I have encountered. I truly code everyday on my iPad\r\n\r\nOh, original question => Battery => Hasn’t been a concern, unless I forgot to charge my iPad. I do pack a small hand sized battery that I can either keep the iPad going on OR I can even just solo run the Pi on the battery when Wifi or Phone tethering on\r\n\r\nAttached, another great image => I am mid changing apps with VS Code running 2 editor tabs and two terminal windows #\r\n![F667B11C-D438-4DC7-93B7-6D4A9CDE2A9B](https://user-images.githubusercontent.com/7964429/115428068-04290a00-a1d0-11eb-808b-a55772d36f88.png)\r\n",
+      "user":"AckerApple"
+    },
+    {
+      "comment":"Thanks for the info. Looks like an enjoy-full setup :)",
+      "user":"patmuk"
+    },
+    {
+      "comment":"M1 on iPad, let's go!💪🏻",
+      "user":"l0rem1psum"
+    },
+    {
+      "comment":"👀",
+      "user":"waycowei"
+    },
+    {
+      "comment":"I hope to write a scheme to use iPad",
+      "user":"Lanseria"
+    },
+    {
+      "comment":"What has to happen here? Can the community contribute?\r\n\r\nWith the latest iPad announcement this feels like a no-brainer.\r\n\r\nIf [this comment](https://github.com/microsoft/vscode/issues/70764#issuecomment-757234645) is correct, it seems the only thing we need to do is create a remote only version of VS Code.\r\n\r\niPad Pro + VS Code + Codespaces would seriously make my year.",
+      "user":"0xd18b"
+    },
+    {
+      "comment":"An iPad version of Visual Studio Code that just had the SSH extension so I could SSH into my main machine to do work (like I do now with my laptop) would be fantastic.",
+      "user":"tjdraper"
+    },
+    {
+      "comment":"Since VS code is based on electron, and electron does not support mobile devices, I don’t think this is possible until that is resolved. Fortunately, the developers seem to be willing to take pull requests: https://github.com/electron/electron/issues/9162#issuecomment-308661746",
+      "user":"tbenst"
+    },
+    {
+      "comment":"> An iPad version of Visual Studio Code that just had the SSH extension so I could SSH into my main machine to do work (like I do now with my laptop) would be fantastic.\r\n\r\nThat's exactly what I want!",
+      "user":"IFICL"
+    },
+    {
+      "comment":"@tjdraper @IFICL \r\n\r\nInstall CodeServer on your “main” machine. Install Servediter App on your iPad and use self hosted mode with url targeted at your “main” machine. That’s it\r\n\r\nIs it because the iPad app is not directly named “Vs Code”? Is it because you have to install one app on iPad and one on Computer?\r\n\r\nCome on y’all, it’s Friday and you are all good programmers so get to trying my 20+ comments above. Please stop making me feel so privileged and get ServEditer + CodeServer\r\n\r\n(I’m not related to ServEditer nor CodeServer in anyway)\r\n\r\n![image](https://user-images.githubusercontent.com/7964429/116702710-6e436b00-a997-11eb-8f79-b26e1c10282d.png)",
+      "user":"AckerApple"
+    },
+    {
+      "comment":"> @tjdraper @IFICL\r\n> \r\n> Install CodeServer on your “main” machine. Install Servediter App on your iPad and use self hosted mode with url targeted at your “main” machine. That’s it\r\n> \r\n> Is it because the iPad app is not directly named “Vs Code”? Is it because you have to install one app on iPad and one on Computer?\r\n> \r\n> Come on y’all, it’s Friday and you are all good programmers so get to trying my 20+ comments above. Please stop making me feel so privileged and get ServEditer + CodeServer\r\n> \r\n> (I’m not related to ServEditer nor CodeServer in anyway)\r\n> \r\n> ![image](https://user-images.githubusercontent.com/7964429/116702710-6e436b00-a997-11eb-8f79-b26e1c10282d.png)\r\n\r\nYou're right. ServEditer + CodeServer is a great choice. But some people might do not have sudo permission to install code-server on the remote machine, like me. That's the issue here. If we are able to access with ssh only, that's will be even better. ",
+      "user":"IFICL"
+    },
+    {
+      "comment":"@IFICL\r\n\r\nYou don’t have to run it as sudo, in fact that makes it worse. Here is my start script for Code-Server, just replace “ackerapple” with your username. Save as “CodeServer” or anything you like and then double click to run Code-Server as your user\r\n\r\n```\r\n#!/bin/zsh\r\nsudo -u ackerapple code-server --host 0.0.0.0 --port 8080 --auth none\r\nbash\r\n```\r\n\r\nThat script is near priceless. It runs CodeServer using your computer’s hostname, it turns off https need, and does not use sudo\r\n\r\n> The `sudo` in the script with `-u username` is to run a desired user and NOT as root. ",
+      "user":"AckerApple"
+    },
+    {
+      "comment":"@AckerApple it’s nice software but it’s not actually VSCode—a massive amount of extensions and functionality are missing. For example, there is no Remote - SSH, Settings Sync, Python language server, etc. Until Open VSX is integrated, the experience is more limited than even VS Codium since even many open source extensions aren’t available. This is all discussed in [differences to VScode](https://github.com/cdr/code-server/blob/main/docs/FAQ.md#differences-compared-to-vs-code).\r\n\r\nIt is still a great resource and getting better all the time, but not a solution to this original issue.",
+      "user":"tbenst"
+    },
+    {
+      "comment":"@tbenst a very accurate answer. Thank you humbly",
+      "user":"AckerApple"
+    },
+    {
+      "comment":"Propably another nice alternative is shaping up:\r\n\r\nhttps://blog.stackblitz.com/posts/introducing-webcontainers/\r\n\r\nIts a technology running on Chromes capabilities API and allows to run nodeJS with file system access (through browser security), a TCP stack to run a server within the browser and other exciting stuff (along with offline functionality and being pretty fast). Here is the closing words:\r\n\r\n> Much remains to be done, but we can now confidently say that a future free from local instances of node, npm, git, and VS Code is a tangible possibility, and even enable the world's software to run in places it couldn't before.\r\n> \r\n> Imagine a future where you can run WebContainers at the edge on platforms like Cloudflare Workers, or entire development environments natively on an iPad. How about running your favorite VS Code extensions, or running non-web native languages like Python, Java, or R in the browser via WASI? There are many unknowns still to be uncovered and resolved, but we believe the future opportunities for this technology are enormous.\r\n> \r\n> These things might seem a little crazy. And there are many unknown unknowns. But we think this new future deserves a shot. Because, who knows? It could end up being unexpectedly phenomenal.",
+      "user":"bkniffler"
+    },
+    {
+      "comment":"> @tjdraper @IFICL\r\n> \r\n> Install CodeServer on your “main” machine. Install Servediter App on your iPad and use self hosted mode with url targeted at your “main” machine. That’s it\r\n> \r\n> Is it because the iPad app is not directly named “Vs Code”? Is it because you have to install one app on iPad and one on Computer?\r\n> \r\n> Come on y’all, it’s Friday and you are all good programmers so get to trying my 20+ comments above. Please stop making me feel so privileged and get ServEditer + CodeServer\r\n> \r\n> (I’m not related to ServEditer nor CodeServer in anyway)\r\n> \r\n> ![image](https://user-images.githubusercontent.com/7964429/116702710-6e436b00-a997-11eb-8f79-b26e1c10282d.png)\r\n\r\nCode Server is a great project, and you could honestly just add the web app to your Home Screen as a PWA without using the Servediter app. Ive tried both and honestly I prefer the PWA config. That being said a native ipadOS implementation by Microsoft would be the ideal here. ",
+      "user":"aescolastico"
+    },
+    {
+      "comment":"I would appreciate native vs code app for iPad OS too 👍 ",
+      "user":"akrz91"
+    },
+    {
+      "comment":"> @AckerApple it’s nice software but it’s not actually VSCode—a massive amount of extensions and functionality are missing. For example, there is no Remote - SSH, Settings Sync, Python language server, etc. Until Open VSX is integrated, the experience is more limited than even VS Codium since even many open source extensions aren’t available. This is all discussed in [differences to VScode](https://github.com/cdr/code-server/blob/main/docs/FAQ.md#differences-compared-to-vs-code).\r\n> \r\n> It is still a great resource and getting better all the time, but not a solution to this original issue.\r\n\r\nYou can open an issue on the code-server repo to add support for any extensions you would like.",
+      "user":"GalacticLion7"
+    },
+    {
+      "comment":"@GalacticLion7 did you read the link? Again, code-server is not VScode and there a license issues that prevent many extensions from being used, including those that I listed",
+      "user":"tbenst"
+    },
+    {
+      "comment":"I think one more thing to point out here is, although I do love server-based solutions like `code-server` and GitHub Codespaces. I would still love to have Visual Studio Code running locally to fully utilize the power of M1 iPad Pros.",
+      "user":"Cryrivers"
+    },
+    {
+      "comment":"Is it possible to run code-server or vscode-server locally on iPad？",
+      "user":"heineiuo"
+    },
+    {
+      "comment":"The best way's to use [Gitpod](gitpod.io/) if you have access to the web, or use `code-server` to develop without it, as mentioned before. Works like a charm.",
+      "user":"pranavr2003"
+    },
+    {
+      "comment":"> The best way's to use [Gitpod](gitpod.io/) if you have access to the web, or use `code-server` to develop without it, as mentioned before. Works like a charm.\r\n\r\nIt's need focus private code security. ",
+      "user":"baoyachi"
+    },
+    {
+      "comment":"> \r\n> \r\n> Is it possible to run code-server or vscode-server locally on iPad？\r\n\r\nCurrently available only if you can compile code-server or gitpod for x86 arch Linux and run it in ish. I'm tried this, but for now, has not enough time for experiments. ",
+      "user":"kolanski"
+    },
+    {
+      "comment":"> Is it possible to run code-server or vscode-server locally on iPad？\r\n\r\nYou might wanna do this, but honestly this is such a bad idea. iPad is designed to be a lightweight device, less battery, less computer power, etc., - than a normal computer, and more importantly it is without active cooling (without fans), which means it can easily be heated and throttled. You should think twice, and maybe consider buying some Raspberry Pi, where you can install all your server things, - which all can be accessible through local network (i.e. immediately, no latency).\r\n\r\nI personally use MacBook Pro + Raspberry even, for engineering. Which means, Macbook is more like a UI layer for coding + browsing + taking notes, and Raspberry is my backend that is executing long-running tasks: linting, building, compiling, etc., connecting via SSH. This works perfectly in unison, - thanks to [Remote - SSH](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh) VSCode extension. I also have iPad Pro, too, - but I use it only for creativity tasks: draw a quick diagram or quick UI sketch, etc. And all my devices stay cold, no throttle, pleasant to work with, during a long time (actually they never throttle). Unlike me, you can use iPad for coding instead, removing Macbook from this scheme, if you want, - I guess, it is a viable approach too (it’s just my preference, because Macbook has a good keyboard). But if you move _everything_ to iPad, even long-running/compiling/linting, - you can quickly stuck into overheating/throttling problems, makes everything laggy, which will make your work a torment.",
+      "user":"jerrygreen"
+    },
+    {
+      "comment":"> iPad is designed to be a lightweight device, less battery, less computer power, etc., - than a normal computer, and more importantly it is without active cooling (without fans), which means it can easily be heated and throttled. You should think twice, and maybe consider buying some Raspberry Pi, where you can install all your server things, - which all can be accessible through local network (i.e. immediately, no latency).\r\n\r\nThis statement is ironic and funny because your description of the iPad and raspberry pi are reversed. The iPad is as powerful as a computer, much more powerful than my current Linux laptop, using one of the fastest processors on the market, literally the same as used in MacBooks. The raspberry pi isn’t even close to comparable, and is severely underpowered as a development machine.",
+      "user":"tbenst"
+    },
+    {
+      "comment":"> > Is it possible to run code-server or vscode-server locally on iPad？\r\n> \r\n> You might wanna do this, but honestly this is such a bad idea. iPad is designed to be a lightweight device, less battery, less computer power, etc., - than a normal computer, and more importantly it is without active cooling (without fans), which means it can easily be heated and throttled. You should think twice, and maybe consider buying some Raspberry Pi, where you can install all your server things, - which all can be accessible through local network (i.e. immediately, no latency).\r\n> \r\n> I personally use MacBook Pro + Raspberry even, for engineering. Which means, Macbook is more like a UI layer for coding + browsing + taking notes, and Raspberry is my backend that is executing long-running tasks: linting, building, compiling, etc., connecting via SSH. This works perfectly in unison, - thanks to [Remote - SSH](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh) VSCode extension. I also have iPad Pro, too, - but I use it only for creativity tasks: draw a quick diagram or quick UI sketch, etc. And all my devices stay cold, no throttle, pleasant to work with, during a long time (actually they never throttle). Unlike me, you can use iPad for coding instead, removing Macbook from this scheme, if you want, - I guess, it is a viable approach too (it’s just my preference, because Macbook has a good keyboard). But if you move _everything_ to iPad, even long-running/compiling/linting, - you can quickly stuck into overheating/throttling problems, makes everything laggy, which will make your work a torment.\r\n\r\nThis may have been true 5 or 10 years ago, but nowadays ipads are very powerful devices. The latest pro uses an M1 chip which is extremely power efficient and is quite capable. Not to mention that the code-server binary has a very small resource requirement. It can run in the most anemic of containers. So the above is not at all applicable. One could argue convenience/ease of use might be a reason not to attempt this. But slowing down or overheating your ipad is very likely not one of them. ",
+      "user":"aescolastico"
+    },
+    {
+      "comment":"M1 chip makes no much sense when it’s throttled. And if you have enough background tasks, linting, compiling, and files more than 500 rows (which is inevitable in normal projects), especially if you have something to do with containers, etc., - you will, inevitably, end up into a lot of heat on your device. And even a little throttling might make it all completely unpleasant. And of course, it all might still work for a little while, without problems. But if it’s your work, not hobby, means you spent hours and hours tinkering with all this the whole day, rather than a couple hours in the evening, - again, you will, inevitably, run into heating problems, - when try to do all this on a single device. I’m just telling you my experience, it’s up to you whether to listen or not.\r\n\r\nP.S. Of course I were talking about 64-bit OS on Raspberry-8gb, rather than 32-bit ones with 2 or 4 gb. This is a perfect fit for those background tasks I mentioned.",
+      "user":"jerrygreen"
+    },
+    {
+      "comment":"Unfortunately I have to disagree with you as well. \r\n1. I connected a RasPi 4 with 8gb (but passive cooling) via USB-C to my iPad Pro, running code-server on the RasPi. \r\nmit was kind-a ok, but there was a noticeable input delay (0.3 sec maybe). The Pi has an ARM processor as well, so I could not install a rust tool chain. But my experience is: The setup is to weak to run code-server. \r\n2. I ran an optimized Linux VM on the iPad and ran code-server from there. Unfortunately this was even slower - 1 sec input delay or so. However, I could install rust. \r\nBut even with this obvious load my iPad did not get very hot. \r\n\r\nThe M1 is probably reacting differently to heat - at least does not throttle much under heat. I don’t think the experience with x86 processors can be applied directly. One can get a good idea of that by reading about load test comparisons of the MacBookAir (which has no fans) and the pro:\r\nThe perform very similar, with the Air getting only a bit slower when running a while under load (and getting hot).\r\n\r\nLastly I connected the iPad via Terminus (ssh tunnel) to a Google Cloud VM I ran code-server (and JetBrain’s projector) on - which gave a native-like experience (no input delay). \r\n\r\nThe iPad is faster this way compared to my 2016 MBP. (Switching to safari, back to code, etc). \r\n\r\nBut locally running VSCode would be still preferred - for flexibility of coding potentially everywhere (in a plane, a country without free roaming, …).",
+      "user":"patmuk"
+    },
+    {
+      "comment":"> But locally running VSCode would be still preferred - for flexibility of coding potentially everywhere (in a plane, a country without free roaming, …).\r\n\r\nYes, I would still agree, - it would be cool if it worked so, as some quick default setup. I would still, though, change this default setup into using some backend asap, whether it is Raspberry, or some personal EC2 instance for development, something like this. But in overall, I kinda agree with you though, - preferences is one thing, but possibility is much more important. Like in cases when you’re on a plane, etc etc., - still might be needed! Good thing.\r\n\r\n> I connected a RasPi 4 with 8gb (but passive cooling) via USB-C to my iPad Pro, running code-server on the RasPi. mit was kind-a ok, but there was a noticeable input delay (0.3 sec maybe)\r\n\r\nWell, weird. That is, kinda, yet another reason I am still using macbook (other reason than keyboard), - this issue: VSCode doesn’t have a recommended way to run on iPad.\r\n\r\n> Lastly I connected the iPad via Terminus (ssh tunnel) to a Google Cloud VM I ran code-server (and JetBrain’s projector) on - which gave a native-like experience (no input delay).\r\n\r\nWait, so you say, some remote VM, through internet connection, makes you no input delay, while Raspberry, that is connected via USB-C, - makes you 0.3s delay? Something’s seriously messed up there, lol.\r\n\r\nBtw I’m not using code-server, I use native desktop client on my MacBook, with Rasperry (8gb, 64-bit). So input is handled by Macbook itself, means no delay at all. But linting, formatting, building, compiling, all those things, - they’re being run on Raspberry. Also, I don’t use USB-C, they’re connected to each other through router, using my local WiFi network. So we have quite different setups.\r\n\r\n> The iPad is faster this way compared to my 2016 MBP\r\n\r\n> But even with this obvious load my iPad did not get very hot.\r\n\r\nAgain: faster is good, but if it’s faster just for 60 minutes, and then gets throttled and no more fast, - it negates everything.",
+      "user":"jerrygreen"
+    },
+    {
+      "comment":"respectfully, the m1 ipad does not thermal throttle easily. you seem to be making generalizations about past ipads and applying that to this device. the m1 chip is capable of performing at above 80 percent efficiency for prolonged workloads on a macbook air. a fanless device much like the ipad pro. people run several hour long renders on it which are quite comparable to many developers compilation workloads. if not greater. not to mention not everyone running vs code needs to run intensive processes. that one reason is not a widespread enough concern to say vscode doesnt belong on an ipad. again people are already running code servers on containers with fraction of the compute that the ipad has and they are doing so for their real work not just hobby stuff. github codespaces also runs on small container instances. and if you need serious power, you can always run vs codes remote ssh extension to hook into a more powerful machine.",
+      "user":"aescolastico"
+    },
+    {
+      "comment":"I think this disscussion could be over with [vscode.dev](https://vscode.dev) coming out.\r\nThey are focusing on web/universal features instead of porting electron to iPad.",
+      "user":"LiLejia"
+    },
+    {
+      "comment":"> I think this disscussion could be over with [vscode.dev](https://vscode.dev) coming out. They are focusing on web/universal features instead of porting electron to iPad.\r\n\r\nwhile vscode.dev is pretty awesome, it doesn't address the need for stand-alone, offline tools. With my Mac I can work/test somewhere with no connectivity, with the iPad I can, but it means using other (suboptimal) tools. A stand-alone, native, iPad off-line solution is very different from something that requires connectivity",
+      "user":"Offbeatmammal"
+    },
+    {
+      "comment":"i have subcribe this issue for quiet a time but i don't see any hope of porting a ios-version of electron\r\ni think what we really need on m1 ipad is mac os 😬 ",
+      "user":"Ehco1996"
+    },
+    {
+      "comment":"> i have subcribe this issue for quiet a time but i don't see any hope of porting a ios-version of electron i think what we really need on m1 ipad is mac os 😬\r\n\r\nSame I keep coming back to check but no love. I'm really not impressed with any code editing apps on the appstore, would be so good to have vscode on the ipad. ",
+      "user":"mattkerrison"
+    },
+    {
+      "comment":"> > I think this disscussion could be over with [vscode.dev](https://vscode.dev) coming out. They are focusing on web/universal features instead of porting electron to iPad.\r\n> \r\n> while vscode.dev is pretty awesome, it doesn't address the need for stand-alone, offline tools. With my Mac I can work/test somewhere with no connectivity, with the iPad I can, but it means using other (suboptimal) tools. A stand-alone, native, iPad off-line solution is very different from something that requires connectivity\r\n\r\nThere is no incentive for them to do it. \r\nWell the best solution for Github/Microsoft is now, client is free but you must pay for `Codespaces`.\r\nThat's why Microsoft gave up the private repo fee.\r\n",
+      "user":"LiLejia"
+    },
+    {
+      "comment":"So you can’t make a decent IDE for iPad which could SSH into a virtual machine just because the underlying platform Electron doesn’t run well on iOS?",
+      "user":"julkhami"
+    },
+    {
+      "comment":"https://github.dev\r\n",
+      "user":"derekmartinjs"
+    },
+    {
+      "comment":"> https://github.dev\r\n\r\nNot support Rust ",
+      "user":"baoyachi"
+    },
+    {
+      "comment":"Can people be civilized and stop spamming this thread?\r\n\r\nCan we agree that this issue alone is asking for VSCode for iPad, and not any other seaming related projects? We hear you loud and clear, there are solutions that mimics VSCode for iPad experience, write your blog post, peach it somewhere else, that is not related to this (VSCode for iPad.)\r\n\r\nIf you don't think you need VSCode for iPad, fine, don't come here. Unless you have the authority to close this issue, don't bother tell us why it is not needed. This thread is for those who need that.\r\n\r\nWe don't need noise here, period. Maintainers can feel free to close this if they don't want to support this ever. And we'd appreciate them telling us explicitly and so people aren't holding their hope if they don't intend to support this. But as long as this is opened, we'll hold our hope. And we don't need speculation here on GitHub issues.\r\n\r\nUnless your next reply add new information genuinely related to this issue (again, VSCode for iPad), please don't spam us.\r\n\r\nAnd remember this is a GitHub issue tracker, not any other forum. If you don't write code, don't know about managing GitHub repo, don't know what is the accepted unspoken rules of an issue tracker, then don't even try to spam any issue trackers with your opinion. Show yourself some respects.\r\n\r\nTo other people annoyed by the noise as well: you do not need to justify why a digressed suggestion would not work. Doing so would only encourage the spammers and being lead to more digressions. If it is off-topic (hints: something else for iPad), ignore them. Or Downvote them with emojis (which would not spam subscribers.)",
+      "user":"ickc"
+    },
+    {
+      "comment":"The real problem is there are so many people flooding with the same information without reading the 200+ comments, so let me summarize this long thread here:\r\n\r\n## Response from Visual Studio Code team\r\n\r\n> Porting VS Code to the iPad is not on our [roadmap](https://github.com/Microsoft/vscode/wiki/Roadmap). While it may technically be possible to bring over the core editor, you really have to take into account the extensions to have a viable development experience. And that's a big problem, many extensions simply can't run on the iPad because there is no underlying version on iOS (e.g. Node, C++, Rust, etc.).\r\n> \r\n> Instead, running VS Code in the browser with [Visual Studio Online](https://visualstudio.microsoft.com/services/visual-studio-online/) provides you a full development experience on the iPad powered by an environment where you can use all of your extensions, have a terminal, etc.\r\n> \r\n> You can use a hosted VSO environment, or you can [bring your own](https://docs.microsoft.com/en-us/visualstudio/online/how-to/vscode#self-hosted). For a more native experience, providing PWA support is on the [VSO roadmap](https://github.com/MicrosoftDocs/vsonline/issues/43).\r\n>\r\n> _https://github.com/microsoft/vscode/issues/70764#issuecomment-603442937 (Posted on Mar 25, 2020)_\r\n\r\nNote: many things has changed since this response. See below for detail.\r\n\r\n## Main road blockers\r\n\r\n1. Visual Studio Code is built on Electron, and Electron doesn't (won't) support running on Android and iOS (iPadOS): \r\n\r\n    > For mobile platform, nearly all of atom-shell's APIs don't apply, so I don't think we will ever support mobile platforms.\r\n    >\r\n    > _https://github.com/electron/electron/issues/562#issuecomment-51735074 (Posted on Aug 11, 2014)_\r\n\r\n2. Loading extensions (especially binary executables) violates App Store guidelines:\r\n\r\n    > **2.5.2** Apps should be self-contained in their bundles, and may not read or write data outside the designated container area, nor may they download, install, or execute code which introduces or changes features or functionality of the app, including other apps. Educational apps designed to teach, develop, or allow students to test executable code may, in limited circumstances, download code provided that such code is not used for other purposes. Such apps must make the source code provided by the app completely viewable and editable by the user.\r\n    >\r\n    > _https://developer.apple.com/app-store/review/guidelines/#2.5.2 (Last Updated: October 22, 2021)_\r\n\r\n## Proposed workarounds for above problems\r\n\r\n1. Re-write Visual Studio Code in another architecture, including Swift, React Native, etc.\r\n    \r\n    * An early POC with React Native: https://github.com/bkniffler/vscode-native (source: https://github.com/microsoft/vscode/issues/70764#issuecomment-604448625)\r\n    * Microsoft Office (Word, Excel, PowerPoint) had been re-written to run on iOS, but they are commercial products and make huge amount of money for MS every year.\r\n        * And it doesn't support Add-ins from Desktop version either.\r\n\r\n2. Hope Apple won't notice it, or change the rule, or not release in App Store (release in another store, for example [AltStore](https://altstore.io/)\r\n    \r\n    * There are several (less than five) apps on App Store that support compiling/interpreting C++, Python or Ruby code offline.\r\n    * Apple's [Swift Playgrounds](https://apps.apple.com/app/id908519492) app can compile and run Swift on iPad, limitations including no debugging/profiling, no third-party dependencies.\r\n\r\n## Run Visual Studio Code in a browser\r\n\r\nThis issue is about \"Visual Studio Code for iPad\", so \"Visual Studio Code in a browser on iPad\" should technically count as on-topic (and basically it's the only possible solution in short term). But it should be a full-featured environment (supports terminal, debugging, extensions), not a cut-down version (only supports basic text editing, syntax highlighting). So it requires another environment running all the things, and only runs the front-end part on iPad.\r\n\r\n| Solution | Provider | Cloud-host | Self-host | Note | \r\n|----|----|----|----|----|\r\n| Visual Studio Codespaces (a.k.a Visual Studio Online) | Microsoft | ✔️ | ✔️ | Discontinued in favor of GitHub Codespaces | \r\n| GitHub Codespaces | Microsoft | ✔️ | #135856 | In beta, not available for personal users |\r\n| [GitPod](https://www.gitpod.io/) | GitPod | ✔️ | ✔️ | |\r\n| [Code Server](https://github.com/cdr/code-server) | cdr | ❌ | ✔️ | |\r\n\r\nThese solutions does work, and they work pretty well sometimes. If you have ever encountered any problem when using browser version of Visual Studio Code on iPad, you can [report an issue](https://github.com/microsoft/vscode/issues/new?assignees=&labels=&template=bug_report.md), Visual Studio Code team provides support for this scenario (note: Visual Studio Code, as an open-source project, support is only provided on best-effort basis)",
+      "user":"yume-chan"
+    },
+    {
+      "comment":"Best comment ever! Many thanks for your great summary!",
+      "user":"patmuk"
+    },
+    {
+      "comment":"Possibly one small correction: Visual Studio Codespaces seems to not offer self hosting option anymore, unlike its previous incarnation (VSOnline). Eg see https://github.community/t/self-hosted-codespaces/131361\r\n\r\nAlso may be good to indicate some extensions are not available in non-MS, FOSS versions.",
+      "user":"ickc"
+    },
+    {
+      "comment":"Another minor point about AppStore not allowing extension, probably under “ Proposed workarounds”, is to bundle the extension in the AppStore. See Eg how iSH bundle the packages so that it is self contained and allowed by Apple.\r\n\r\nOn a tangential note, getting some of things inside VSCode to work on the iPad seems to requires external tools from the shell. But this can be (painfully) included using the idea from ios_systems used in a-shell for example.\r\n\r\nThese are quite painful things and kind of defeat the purpose of using Electron. But if MS want to put their resources at it, probably they will succeed. (But I don’t see why they would given their business model. Although they didn’t close this though.)\r\n\r\nTo me I’d settle for AltStore if it is the direction they takes. But I don’t think AltStore solves all the problems. Eg in non-jailbroken device you still can’t have the shell, forking processes etc., so how it works behind the scene would still be quite different. Besides, distributing via AltStore has another challenge: this can only gives us an FOSS version of VSCode as we are effectively compiling ourselves (the MS VSCode differs from the FOSS VSCode which doesn’t contain everything to reproduce MS’ version, and has a different licensing agreement.)",
+      "user":"ickc"
+    },
+    {
+      "comment":"As a Blink user, this looks very, very interesting:\r\nhttps://www.youtube.com/watch?v=tPHjcsrKM9s",
+      "user":"tiivik"
+    },
+    {
+      "comment":"> As a Blink user, this looks very, very interesting:\r\n> https://www.youtube.com/watch?v=tPHjcsrKM9s\r\n\r\nWow, this looks great! As I understand: It can run code locally (or does one need to connect to a server?), to work on local or remote files. Looks like it supports (all?) plug-ins as well!\r\nAnd 20 bugs one time for Blink! Is ok (and they offer a free community edition).\r\n\r\nWould that work for local files in airplane mode?",
+      "user":"patmuk"
+    },
+    {
+      "comment":"Good news, Blink 15 release VSCode in App :) https://blink.sh/ ",
+      "user":"flemzord"
+    },
+    {
+      "comment":"Thanks for mentioning Blink 15. I tried it a bit and this answer some of the questions above:\r\n\r\nFrom the [doc](https://docs.blink.sh/advanced/code):\r\n\r\n> connects to VSCode web, Codespaces, GitPod, or your Code server\r\n\r\nSo the 1st 2 are official solutions, the latter 2 are FOSS solutions (that some official extensions cannot be used.)\r\n\r\nThe 2nd one (Codespaces) probably is not new in the sense that you can already use it from the browser?\r\n\r\nThe 1st one (VSCode web) is quite interesting. As far as I understand:\r\n\r\n- it is official such that \"Setting Sync\" works\r\n- the optional extension \"blink-fs\" that can be installed from the extensions store which does some useful tricks that is better than a vanilla VSCode Web\r\n    - offline (may be vanilla VSCode Web can already do this?)\r\n    - local file read/write (may be vanilla VSCode Web can already do this?)\r\n    - the best trick is that it can edit files on remote ssh. As blink (supporting mosh/ssh) can access your remote including its files, it can feeds those to the VSCode Web instances as if they are local files.\r\n\r\nThe last bit is most interesting, as it somewhat gives you a \"Remote - SSH\" extension capability without a Desktop VSCode.\r\nNote that it is still different from \"Remote - SSH\" instance because nothing is running on the remote.\r\nSo unlike VSCode desktop where some extensions are running remotely, this is entirely run locally.\r\nSo the limitation is that the capability in terms of extensions are still like \"VSCode Web\", not \"Remote - SSH\".\r\n\r\nBut all in all, to-date blink gives the best experience of VSCode for iPad.\r\nI hope it might gives some ideas to Microsoft about how to offer VSCode for iPad,\r\nespecially with fully capable \"Remote - SSH\" like experience,\r\nwhich can only be done by them again because of limitations of extensions in FOSS variants.\r\n",
+      "user":"ickc"
+    },
+    {
+      "comment":"\r\n      libqemu node plugin",
+      "user":"ohhmm"
+    },
+    {
+      "comment":"iPadOS 16 adds some new desktop features to make iPad more suitable for development. Hope Visual Studio Code for iPad will come sooner.",
+      "user":"iugo"
+    }
+  ],
+  "repository":"vscode",
+  "user":"allessandrojs"
+}

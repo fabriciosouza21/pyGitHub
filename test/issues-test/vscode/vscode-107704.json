@@ -1,0 +1,234 @@
+{
+  "comments":[
+    {
+      "comment":"<!-- ⚠️⚠️ Do Not Delete This! bug_report_template ⚠️⚠️ -->\r\n<!-- Please read our Rules of Conduct: https://opensource.microsoft.com/codeofconduct/ -->\r\n<!-- Please search existing issues to avoid creating duplicates. -->\r\n<!-- Also please test using the latest insiders build to make sure your issue has not already been fixed: https://code.visualstudio.com/insiders/ -->\r\n\r\nWhen scrolling up on fresh output in the debugging console while running a flutter app, it's very janky and doesn't scroll. After you've \"viewed\" it at least once then it scrolls up/down fine in the future.\r\n\r\nThis regression happened sometime recently after upgrading to 1.50.\r\n\r\n**Screenshots**\r\nhttps://i.imgur.com/dpMBVl3.mp4\r\n\r\nIt's also adding lots of whitespace to the end of each line printed so you have to scroll up:\r\n<img width=\"1270\" alt=\"Screen Shot 2020-09-28 at 5 30 36 PM\" src=\"https://user-images.githubusercontent.com/9597207/94488310-67aa0680-01b0-11eb-8681-6cce849b4197.png\">\r\n\r\nI originally reported the issue to the Dart-Code extension but was told it looks like a bug in VSCode and to submit it here. Original issue: https://github.com/Dart-Code/Dart-Code/issues/2829\r\n\r\n<!-- Use Help > Report Issue to prefill these. -->\r\n- VSCode Version:\r\n```\r\nVersion: 1.50.0-insider\r\nCommit: 772aa0723f7f6b04b710bc3a92b7a904b60ef439\r\nDate: 2020-09-28T05:41:42.988Z (15 hrs ago)\r\nElectron: 9.3.0\r\nChrome: 83.0.4103.122\r\nNode.js: 12.14.1\r\nV8: 8.3.110.13-electron.0\r\nOS: Darwin x64 19.6.0\r\n```\r\n- OS Version:\r\n```\r\nmacOS Catalina 10.15.6\r\n```\r\n\r\nSteps to Reproduce:\r\n\r\n1. Run any flutter app.\r\n2. Try to scroll on some output in the debugging area.\r\n\r\n<!-- Launch with `code --disable-extensions` to check. -->\r\nDoes this issue occur when all extensions are disabled?: Yes/No\r\nI cannot test because I need extensions to use the debugger and view the debugger output.",
+      "user":"acoutts"
+    },
+    {
+      "comment":"@acoutts thanks for filling this. Can you reproduce this issue with VS Code stable 1.49.2? If you can not then it seems like something broke in insiders.\r\nI do not have dart setup and I can not repro with Node.\r\nIs there new output coming in while you are scrolling? Or is there anything special going on?\r\n\r\n",
+      "user":"isidorn"
+    },
+    {
+      "comment":"cc @DanTup as he might be able to explain more about what's being piped in there, but I believe it's just stdout/stderr.\r\n\r\nI just tested on 1.49.2 and it looks to be fine on that, so it's something changed in a recent insiders build.",
+      "user":"acoutts"
+    },
+    {
+      "comment":"Is it possible to create a minimal reproducable case and put it on GitHub so I can clone this on my machine and investigate further?",
+      "user":"isidorn"
+    },
+    {
+      "comment":"Yeah, it should just be stdout/stderr from the Flutter process (though we do have some detection of stack frames to attach location metadata to the OutputEvents).\r\n\r\nI don't know if it's related, but in https://github.com/Dart-Code/Dart-Code/issues/2733#issuecomment-679160269 it was noted that there's some weird escaping on Flutter's part (I can see that in the screenshot above). I'm not sure if that matters here though.\r\n\r\n@acoutts are there new lines being added to the output while this is happening? Can you repro in a simple project created with the **Flutter: New Project* command?",
+      "user":"DanTup"
+    },
+    {
+      "comment":"I've found something interesting - it only happens when using the logger library to print: https://pub.dev/packages/logger\r\nBut still, something has recently changed in code vs insiders that's broken it, with the logger library staying fixed.\r\n\r\n* First download flutter: https://flutter.dev/docs/get-started/install\r\n* Clone the test project: https://github.com/acoutts/vscode_issue_107704\r\n* Add the project folder to your vscode workspace.\r\n* Start an iOS or Android emulator, or plug in a device you have.\r\n* Select the device in the lower right corner of vscode:\r\n<img width=\"359\" alt=\"Screen Shot 2020-09-29 at 12 09 17 PM\" src=\"https://user-images.githubusercontent.com/9597207/94584434-9aa1d800-024c-11eb-9017-666872492e87.png\">\r\n* Click the play button in the debugging tab with the `Flutter (vscode_issue_107704)` profile selected:\r\n<img width=\"413\" alt=\"Screen Shot 2020-09-29 at 12 09 46 PM\" src=\"https://user-images.githubusercontent.com/9597207/94584474-abeae480-024c-11eb-94dc-edbe634879bb.png\">\r\n* Tap the plus button in the lower right to trigger some debug output\r\n<img width=\"228\" alt=\"Screen Shot 2020-09-29 at 12 51 25 PM\" src=\"https://user-images.githubusercontent.com/9597207/94588840-7e089e80-0252-11eb-9137-80e26ad6ff85.png\">\r\n* Observe the extra space printed in the debug console and the scroll jank when you try to scroll up slowly, which prevents you from actually scrolling up.\r\n",
+      "user":"acoutts"
+    },
+    {
+      "comment":"@isidorn did you get a chance to try that out?",
+      "user":"acoutts"
+    },
+    {
+      "comment":"Just want to report it's still happening on the latest insiders:\r\n```\r\nVersion: 1.50.0-insider\r\nCommit: 93c2f0fbf16c5a4b10e4d5f89737d9c2c25488a3\r\nDate: 2020-10-07T00:58:35.624Z (2 days ago)\r\n```",
+      "user":"acoutts"
+    },
+    {
+      "comment":"I saw this today on stable (1.50.0) but it was when I was running the Dart extension's tests (and scrolling up through a lot of output they were writing) so it's seems unrelated to Dart, because the extension is written in TypeScript.\r\n\r\nIt was the Mocha coloured output from the tests (similar to the VS Code extension sample project would have). I ran a test run, the debug session ended, and it scrolled really far down leaving a big empty space at the bottom. As I scrolled up, the scrolling would sometimes jitter around.\r\n\r\nIt only occurred on one debug run out of 20-30 though, and I couldn't reproduce it afterwards.",
+      "user":"DanTup"
+    },
+    {
+      "comment":"I too see this issue, both with Flutter debug output and sometimes with node development output. I don't have the `Logger` plugin as mentioned by @acoutts\r\n\r\nUsing the mousewheel to scroll up the debug output is painful, more like scroll up 2 lines and back 1 for every line.\r\n\r\nWeirdly, if I select some text in the debug output the problem immediately disappears and scrolling is fine, only to resurface with later output.\r\n\r\n```\r\nVersion: 1.50.0 (user setup)\r\nCommit: 93c2f0fbf16c5a4b10e4d5f89737d9c2c25488a3\r\nDate: 2020-10-07T06:10:52.432Z\r\nElectron: 9.2.1\r\nChrome: 83.0.4103.122\r\nNode.js: 12.14.1\r\nV8: 8.3.110.13-electron.0\r\nOS: Windows_NT x64 10.0.19041\r\n```",
+      "user":"1ka"
+    },
+    {
+      "comment":"I'm having this issue as well, not using flutter or node, but debugging an ASP.NET Core 3.1 application. I am using Serilog in this application if that matters.\r\n\r\n```\r\nVersion: 1.50.0 (user setup)\r\nCommit: 93c2f0fbf16c5a4b10e4d5f89737d9c2c25488a3\r\nDate: 2020-10-07T06:10:52.432Z\r\nElectron: 9.2.1\r\nChrome: 83.0.4103.122\r\nNode.js: 12.14.1\r\nV8: 8.3.110.13-electron.0\r\nOS: Windows_NT x64 10.0.18363\r\n```",
+      "user":"lwestfall"
+    },
+    {
+      "comment":"This is really making it hard to use VSCode now. Is anyone actively looking into it yet?\r\n\r\n![](https://media1.giphy.com/media/SntFsmEjsbv9un22zI/giphy.gif)\r\n",
+      "user":"acoutts"
+    },
+    {
+      "comment":"Agreed, it's very frustrating. What info is needed to remove the needs more info tag?",
+      "user":"lwestfall"
+    },
+    {
+      "comment":"Everyone please help upvote the issue for more visibility.",
+      "user":"acoutts"
+    },
+    {
+      "comment":"Having the same issue trying to debug a dotnet core application on linux. This just started happening after updating to 1.50\r\n\r\n```\r\nVersion: 1.50.0\r\nCommit: 93c2f0fbf16c5a4b10e4d5f89737d9c2c25488a3\r\nDate: 2020-10-07T06:01:33.073Z\r\nElectron: 9.2.1\r\nChrome: 83.0.4103.122\r\nNode.js: 12.14.1\r\nV8: 8.3.110.13-electron.0\r\nOS: Linux x64 5.2.9-200.fc30.x86_64\r\n```",
+      "user":"archon52"
+    },
+    {
+      "comment":"I think this issue is related to line wrapping in the output window.\r\n\r\nWhen lines that wrap scroll out of the window, the view/viewport erroneously jumps up an extra line. Looks really bad when a batch of long lines scrolls up as the next debug appears half way up the view.",
+      "user":"1ka"
+    },
+    {
+      "comment":"@1ka you may be on to something there, I notice it frequently with debug messages that log SQL queries from EF Core (which of course end up being several lines long at minimum). You can also see in the OP that the scrolling seems to trip up as soon as that multiline output appears.",
+      "user":"lwestfall"
+    },
+    {
+      "comment":"@lwestfall I'm seeing the same thing with an EF Core project i am working on. To add to this though, it seems to only be an issue the first time you try to scroll through the logs after they are generated. If i'm running my project and refresh the page, several ef queries are output to the logs. If i try to scroll up the scrolling is broken, but once i scroll to the entries from before the refresh everything works fine. I can then scroll back and forth through the whole debug log without any issues. ",
+      "user":"archon52"
+    },
+    {
+      "comment":"Seems it happens when a lot of lines output to the debug console. But it is very common case.\r\n\r\nWhen there are a lot of lines output to the debug console, it auto scrolls to somewhere EXCEEDS the BOTTOM, leaving a blank in the bottom part of the debug console. Sometimes all of the debug console becomes blank. The position is not constant. So as the program keeps on printing debug logs, the debug console will be flickering with random blank area. Even when I stop at a break point, it is hard to scroll up back to the REAL END of logs. It will take me several scrolls to achieve it.",
+      "user":"szmcdull"
+    },
+    {
+      "comment":"Is anyone seeing this that is not using Flutter?\r\nIf yes do you have exact reproducable steps?",
+      "user":"isidorn"
+    },
+    {
+      "comment":"I see it using .NET Core 3.1, where any logging to the debug window with multiple lines in a single log message causes the issue. Unfortunately I can't share my repo due to confidentiality, but I might be able to whip up a repro sample console app?\r\n\r\n```\r\nVersion: 1.50.1 (user setup)\r\nCommit: d2e414d9e4239a252d1ab117bd7067f125afd80a\r\nDate: 2020-10-13T15:06:15.712Z\r\nElectron: 9.2.1\r\nChrome: 83.0.4103.122\r\nNode.js: 12.14.1\r\nV8: 8.3.110.13-electron.0\r\nOS: Windows_NT x64 10.0.18363\r\n```",
+      "user":"lwestfall"
+    },
+    {
+      "comment":"@lwestfall that would be useful. If it is is just single log message with mutpile lines then I can also try to repro with JS",
+      "user":"isidorn"
+    },
+    {
+      "comment":"@isidorn It was naive of me to assume this would be so easy to reproduce. I made a sample console app that logs a random message (sometimes single line, sometimes multi line) and I wasn't getting the problem initially. Eventually though I was able to get it to jankify consistently. It might have had to do with waiting until the output was sufficiently full. Anyway here you go, see readme for steps:\r\n\r\nhttps://github.com/lwestfall/JankyDebugOutputRepro",
+      "user":"lwestfall"
+    },
+    {
+      "comment":"\r\n```\r\n3. Go to debug console. Try to scroll up.\r\n4. Keep trying to scroll up.\r\n5. Repeat steps 3-4 until angry.\r\n```\r\n🤣 \r\n\r\n\r\n> @isidorn It was naive of me to assume this would be so easy to reproduce. I made a sample console app that logs a random message (sometimes single line, sometimes multi line) and I wasn't getting the problem initially. Eventually though I was able to get it to jankify consistently. It might have had to do with waiting until the output was sufficiently full. Anyway here you go, see readme for steps:\r\n> \r\n> https://github.com/lwestfall/JankyDebugOutputRepro\r\n\r\n",
+      "user":"SoftWyer"
+    },
+    {
+      "comment":"@lwestfall I tried reproducing this using your program just slightly changed for JS (I only use numbers, not words). And I was unable to reproduce the issue (waiting 15 minutes for the output to be really long). I tried switching to the terminal and back to debug console and all was good.\r\n\r\nHere's my example code.\r\nIf somebody has ideas on how to modify this to reproduce I am open for suggestions.\r\nThanks!\r\n\r\n```javascript\r\nsetInterval(() => {\r\n    var count = Math.random() * 50;\r\n    var message = Date.now() + 'new log message: ';\r\n    for (var i = 0; i < count; i++) {\r\n        message += ' ' + Math.random();\r\n    } \r\n    console.log(message);\r\n}, 200);\r\n```",
+      "user":"isidorn"
+    },
+    {
+      "comment":"@isidorn thanks for looking into it. I wonder if this could be related to settings somehow? I tried my repo on another machine (info below) and it still stutters when scrolling up, but I sync my settings so that's one commonality other than Windows 10. If you're still interested in troubleshooting, I've added my user settings.json to my repo just in case that leads to any hints. I've also tweaked the repro steps (basically, **do not start/wait with debug console open**, not sure how much that matters).\r\n\r\nI was curious if new debug messages were causing the scrolling to stutter, so I paused the debugger. Still got the stuttering when the debugger was paused.\r\n\r\nI did also try your code on my machine (using stable Node.js) and the scrolling was still stuttering, so this makes me wonder again if this is user settings or otherwise environment related. I tried your code with all extensions disabled, same problem.\r\n\r\nAnother thing I noticed, not sure if related/normal: when I switch from terminal to debug console, the end of the debug output starts out at the top with blank space for most of the bottom of the console, then when new messages come it it fills the rest of the console (gif below). Almost like it's scrolled past the end of the messages, if that makes sense. Again, could be completely normal but something I noticed.\r\n\r\nFinally I will note that sometimes, the scrolling works fine for me too. When it works fine I will restart the debugger and try again and usually the scrolling isn't working right the next time.\r\n\r\nThanks again for spending time on this.\r\n\r\nMy 2nd machine info:\r\n```\r\nVersion: 1.50.1 (user setup)\r\nCommit: d2e414d9e4239a252d1ab117bd7067f125afd80a\r\nDate: 2020-10-13T15:06:15.712Z\r\nElectron: 9.2.1\r\nChrome: 83.0.4103.122\r\nNode.js: 12.14.1\r\nV8: 8.3.110.13-electron.0\r\nOS: Windows_NT x64 10.0.19041\r\n```\r\n\r\nGif of your js running, and janky scrolling.\r\n![Bd6GET6d1z](https://user-images.githubusercontent.com/15251311/98112848-caa65180-1e70-11eb-88d4-74f8a3d71b94.gif)\r\n",
+      "user":"lwestfall"
+    },
+    {
+      "comment":"I couldn't reproduce the problem using @isidorn's code, but a similar idea to run it from multiple files with some of my own output does produce the case where the log stops 1/2 up the page but scrolling is mostly OK.\r\n\r\n[You can find the code here.](https://github.com/SoftWyer/vscode-log-test) \r\n\r\n(and I'll thank you for not judging the code ;-) )",
+      "user":"SoftWyer"
+    },
+    {
+      "comment":"> Another thing I noticed, not sure if related/normal: when I switch from terminal to debug console, the end of the debug output starts out at the top with blank space for most of the bottom of the console\r\n\r\nI always notice this when I have the issue too. The console seems to have \"scrolled down\" way too far, and then the scrolling is janky.\r\n\r\nFWIW it's macOS where I see this - a MacBook Pro, running VS Code on the built-in screen with the debug console being around 3/4 of the width. I think there are always wrapped lines when I see it, though I don't think it happens consistently.",
+      "user":"DanTup"
+    },
+    {
+      "comment":"@DanTup I just realized that @szmcdull reported that same behavior as well before I did. Hopefully it's a clue, but I haven't noticed if this behavior exists when scrolling is working okay so it could just be a separate quirk.",
+      "user":"lwestfall"
+    },
+    {
+      "comment":"As a workaround I think setting ` \"debug.console.wordWrap\": false` should work around this issue, however then you will not get word wrapping.\r\n",
+      "user":"isidorn"
+    },
+    {
+      "comment":"Thanks @isidorn , I can confirm the workaround does work for me so hopefully that hints at the issue.",
+      "user":"lwestfall"
+    },
+    {
+      "comment":"The same issue appears when debugging Spring Boot applications.\r\nUsing version 1.51.1 on Ubuntu 20.04 LTS",
+      "user":"bobonis"
+    },
+    {
+      "comment":"I was having the issue with debug console being scrolled too far after lots of output and tried setting `\"debug.console.wordWrap\": false` as suggested, which did seem to fix it, but with that set my two-line eval response (normally displaying results on the first line and execution time on a second line) get truncated to just one line!",
+      "user":"justarandomgeek"
+    },
+    {
+      "comment":"I'm also having an issue which i'm not sure if is related to this or not: when my debugger emits an OutputEvent with a variablesReference set, the whole console stops scrolling and lines start overlapping with previous output. Expanding the console (stretching the top upwards to make more space) sometimes allows me to see the new output, but the rendering is too badly garbled to interact with meaningfully. Let me know if more details here or in its own issue would be useful.\r\n\r\n![image](https://user-images.githubusercontent.com/5246445/99739441-c26a2b00-2a9a-11eb-9313-939265af8e69.png)\r\n\r\nscreenshots do not capture this state very well, as mousing over anything causes the overlapped bits to change z-order, and interaction with any expandable items is broken in ways that are difficult to describe. Some of the overlapped lines sometimes seem to be from previous debug sessions if I haven't restarted vscode yet. If I alter my debugadapter to not produce OutputEvents with variablesReference, only plain strings none of this happens. Eval with variablesReference works fine.",
+      "user":"justarandomgeek"
+    },
+    {
+      "comment":"@justarandomgeek that sounds like an unrelated issue. Can you please file a new issue with repro steps potentially. Thanks!",
+      "user":"isidorn"
+    },
+    {
+      "comment":"Okay, i'll play around with reproing it on mock debug and refile! thank you!",
+      "user":"justarandomgeek"
+    },
+    {
+      "comment":"Still can not reproduce this. Moving to next milestone.\r\nLet me know if somebody can consistetnly repro this so we do a remote debugging session some time next week.",
+      "user":"isidorn"
+    },
+    {
+      "comment":"@isidorn I can be available any time 8am-5pm in EST (GMT -5), just let me know the day and I would be happy to do a remote screen share / debugging session.",
+      "user":"acoutts"
+    },
+    {
+      "comment":"@acoutts great, can you please just send me an email and we can work out the details for next week. inikolic at microsoft dot com",
+      "user":"isidorn"
+    },
+    {
+      "comment":"Running almost any Spring Boot application should also reproduce this issue. Spring boot has some pretty long logs and quite frequently requires a lot of line wrapping. I can confirm that turning off debug console line wrapping fixes this issue for me.",
+      "user":"mdgilene"
+    },
+    {
+      "comment":"If I can add to the conversation...\r\n\r\nI found that once you do manage to scroll to the top of the log, scrolling is smooth again... up until new logs are written\r\n\r\nTurning off `debug.console.wordWrap` works fine for me... for now",
+      "user":"fstof"
+    },
+    {
+      "comment":"I have the same issue when developing Flutter application, in VSCode on macOS. The issue is exactly as described here, word wrapping causes the problem, it shows the exact same behavior (jankiness on scroll) and is caused mostly by the **colored output** of logging package used in flutter.\r\n\r\nMy configuration:\r\n```\r\nVersion: 1.51.1\r\nElectron: 9.3.3\r\nChrome: 83.0.4103.122\r\nNode.js: 12.14.1\r\nV8: 8.3.110.13-electron.0\r\nOS: Darwin x64 19.6.0\r\n```",
+      "user":"marianhlavac"
+    },
+    {
+      "comment":"This was caused by https://github.com/microsoft/vscode/pull/104284",
+      "user":"joaomoreno"
+    },
+    {
+      "comment":"Another way to reproduce on macOS:\r\n\r\n1. Open Settings editor\r\n2. Click the very bottom of the scrollbar to go the end of the settings contents\r\n3. Scroll up 🐛",
+      "user":"joaomoreno"
+    },
+    {
+      "comment":"Also shout out to @acoutts for sitting down with us and helping us find a reproducable case. Thanks! ",
+      "user":"isidorn"
+    },
+    {
+      "comment":"Thanks @alexdima for the awesome fix! https://github.com/microsoft/vscode/commit/eec97b824f0c542be8d647870c48376bd30dc985",
+      "user":"joaomoreno"
+    },
+    {
+      "comment":"Thanks to all involved in troubleshooting and helping to repro. Looking forward to seeing this fix in a future release!😃 ",
+      "user":"lwestfall"
+    },
+    {
+      "comment":"@alexdima thanks!\r\n\r\nWould be great if some people take the VS Code Insiders starting from next week and try this out in practice. And let us know if it is good. \r\nI have verified that it is now good for me with @acoutts steps",
+      "user":"isidorn"
+    },
+    {
+      "comment":"@isidorn when should the explorer build be up do you think?",
+      "user":"acoutts"
+    },
+    {
+      "comment":"@acoutts I believe Friday...\r\n@deepak1556 might know more",
+      "user":"isidorn"
+    },
+    {
+      "comment":"<!-- UNABLE_TO_LOCATE_COMMIT_MESSAGE -->\nUnable to locate closing commit in issue timeline. You can manually reference a commit by commenting `\\closedWith someCommitSha`.",
+      "user":"github-actions[bot]"
+    },
+    {
+      "comment":"\\closedWith 1aa76d792f6857a0444b71e0a169f34a8ef5488d",
+      "user":"joaomoreno"
+    },
+    {
+      "comment":"😇 Is there any estimated release date for this patch? Because it's very annoying bug.",
+      "user":"themisir"
+    },
+    {
+      "comment":"@TheMisir in insiders it will be later today.\r\nIn stable it will be early February.",
+      "user":"isidorn"
+    },
+    {
+      "comment":"Users did anybody get a chance to try this with VS Code insiders?\r\nAsking because we would like to get the fix verified. Thanks",
+      "user":"isidorn"
+    },
+    {
+      "comment":"@isidorn Just tried a debug session on the same code in code-insiders as well as code (stable) for control. Can confirm that code-insiders has the issue fixed in my case! Thanks!",
+      "user":"lwestfall"
+    },
+    {
+      "comment":"Awesome, thanks for verifiying. Thus adding verified label",
+      "user":"isidorn"
+    }
+  ],
+  "repository":"vscode",
+  "user":"acoutts"
+}
