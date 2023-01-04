@@ -1,6 +1,6 @@
-from Process_text import Process_text
-from Remove_single_crase import Remove_single_crase
-from Remove_three_crase import Remove_three_crase
+from filters.Process_text import Process_text
+from filters.Remove_single_crase import Remove_single_crase
+from filters.Remove_three_crase import Remove_three_crase
 
 def remover_code()-> Process_text:
     process = Process_text() 

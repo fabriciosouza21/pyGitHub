@@ -1,0 +1,20 @@
+{
+  "analyzed_text":"@jeevatkm While I'm testing it, it looks and behave really fast with ton of features.",
+  "emotion":{
+    "document":{
+      "emotion":{
+        "anger":0.020822,
+        "disgust":0.014775,
+        "fear":0.038742,
+        "joy":0.705544,
+        "sadness":0.400984
+      }
+    }
+  },
+  "language":"en",
+  "usage":{
+    "features":1,
+    "text_characters":85,
+    "text_units":1
+  }
+}

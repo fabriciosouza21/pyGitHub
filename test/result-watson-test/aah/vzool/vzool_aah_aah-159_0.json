@@ -1,0 +1,20 @@
+{
+  "analyzed_text":"Hi,..I'm trying to make a \"**Restful Web**\" and I followed the documentation to do these End-Points:..- List Countries         - GET    /country.- Show Create Form     - GET   /country/create.- Create Country       - POST   /country.- Get Country            - GET    /country/:country_id.- Show Country Edit Form  - GET    /country/:country_id/edit.- Update Country       - PUT  /country/:country_id.- Delete Country       - DELETE /country/:country_id...But I can't make it right, here is my routes:....And here is my controller:....What I did wrong?..Thanks",
+  "emotion":{
+    "document":{
+      "emotion":{
+        "anger":0.022824,
+        "disgust":0.01274,
+        "fear":0.025643,
+        "joy":0.271238,
+        "sadness":0.343147
+      }
+    }
+  },
+  "language":"en",
+  "usage":{
+    "features":1,
+    "text_characters":559,
+    "text_units":1
+  }
+}

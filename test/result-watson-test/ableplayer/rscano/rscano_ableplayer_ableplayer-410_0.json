@@ -1,0 +1,20 @@
+{
+  "analyzed_text":"Yep for Italian\n\nIl dom 23 feb 2020, 18:40 Terrill Thompson <notifications@github.com> ha\nscritto:\n\n> @GERMANOCARELLA <link @rococode\n> <link @Egyrs <link @ylahav\n> <link @motchie <link\n> @jannrobert <link @vierkantemeter\n> <link @ShadowBB\n> <link @mgmar22 <link\n> @JediLin <link @rscano <link\n>\n> I just added several new words and phrases to the end of each of the\n> translation files, all related to search, which previously wasn't\n> localized. This is currently only on the develop branch, committed in\n> c3cf0ad\n> <link\n> .\n>\n> There are essentially two parts that need to be localized, each of which\n> is comprised of various smaller parts:\n>\n>    1. Summary text\n>    2. Label for the button that shows the start time for each search\n>    result.\n>\n> A functioning demo of the search interface can be sampled on the Video\n> Player with Search\n> <link example page.\n> That's using the latest official release of Able Player and has now been\n> updated on the develop branch, but the text to be translated is the same.\n>\n> For now, I've added placeholder text in English to all translation files.\n> I have questions though about whether it's appropriate to concatenate all\n> the parts in the same order for all languages that I'm using for English.\n> Here's what I'm doing in English:\n>\n> ** For summary text: ***\n> *Formula:* 'Found ' + numberOfSearchResults + ' matching items.'\n> *Example:* Found 12 items.\n>\n> ** For button labels **\n> *Formula:* 'Play at ' + hours + ' hours ' + minutes + ' minutes ' +\n> seconds + ' seconds'\n> *Example:* Play at 2 hours 12 minutes 17 seconds\n>\n> If we translate all text that appears in single quotes in the formulas, do\n> the formulas work in all languages?\n>\n> Thanks!\n>\n> —\n> You are receiving this because you were mentioned.\n> Reply to this email directly, view it on GitHub\n> <link\n> or unsubscribe\n> <link\n> .\n>\n",
+  "emotion":{
+    "document":{
+      "emotion":{
+        "anger":0.074223,
+        "disgust":0.020324,
+        "fear":0.088413,
+        "joy":0.380297,
+        "sadness":0.23255
+      }
+    }
+  },
+  "language":"en",
+  "usage":{
+    "features":1,
+    "text_characters":1863,
+    "text_units":1
+  }
+}

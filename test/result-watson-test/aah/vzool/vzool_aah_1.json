@@ -1,0 +1,20 @@
+{
+  "analyzed_text":"Hi,..I'm trying to make a \"**Restful Web**\" and I followed the documentation to do these End-Points:..- List Countries         - GET    /country.- Show Create Form     - GET   /country/create.- Create Country       - POST   /country.- Get Country            - GET    /country/:country_id.- Show Country Edit Form  - GET    /country/:country_id/edit.- Update Country       - PUT  /country/:country_id.- Delete Country       - DELETE /country/:country_id...But I can't make it right, here is my routes:..```.domains {..  localhost {..    static {.      # ...    }..    routes {.        # ....        index {.            # ...        }..        country{.        .            path = \"/country\".            controller = \"CountryController\"..            routes{..               path = \"/\".               .                country_create{.                    path = \"/create\".                    action = \"Create\".                }.                country_store{.                    action = \"Store\".                    method = \"POST\".                }..                routes{.                    path = \"/:country_id\".                    routes{.                        country_show{.                            action = \"Show\".                        }.                        country_edit{.                            path = \"/edit\".                            action = \"Edit\".                        }.                        country_update{.                            method = \"PUT\".                        }.                        country_delete{.                            method = \"Delete\".                        }.                    }.                }.            }.        }..    } # end - routes..  } # end - localhost..} # end - domains.```..And here is my controller:..```golang.package controllers..import (.\t\"aahframework.org/aah.v0\".)..// CountryController struct application controller.type CountryController struct {.\t*aah.Context.}..// Index method is country list page..func (a *CountryController) Index() {.\ta.Reply().Ok().Text(\"Country Index Page\").}..// Create method is a form to create new country record page..func (a *CountryController) Create() {.\ta.Reply().Ok().Text(\"Country Create Page\").}..// Store method is country create record..func (a *CountryController) Store() {.\ta.Reply().Ok().Text(\"Country Store Page\").}..// Show method is country one record page..func (a *CountryController) Show() {.\ta.Reply().Ok().Text(\"Country Show Page\").}..// Edit method is country edit form record page..func (a *CountryController) Edit() {.\ta.Reply().Ok().Text(\"Country Edit Page\").}..// Update method is country to do update record page..func (a *CountryController) Update() {.\ta.Reply().Ok().Text(\"Country Update Page\").}..// Delete method is country to delete record..func (a *CountryController) Delete() {.\ta.Reply().Ok().Text(\"Country Delete Page\").}.```..What I did wrong?..Thanks",
+  "emotion":{
+    "document":{
+      "emotion":{
+        "anger":0.060816,
+        "disgust":0.025312,
+        "fear":0.197538,
+        "joy":0.289469,
+        "sadness":0.205046
+      }
+    }
+  },
+  "language":"en",
+  "usage":{
+    "features":1,
+    "text_characters":2905,
+    "text_units":1
+  }
+}

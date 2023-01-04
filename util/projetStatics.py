@@ -16,7 +16,9 @@ def projetc_statics(files:list, path)-> dict:
     return {
         "qtde_commentaries": len(comments_total),
         "qtde_users": len(users),
-        "top_users": top_users(comments_total, users,len(users) )        
+        "top_users": top_users(comments_total, users,3),  
+        "comments": comments_total,
+        "qtd_issues": len(files),     
     }
 
 def top_users(comments, users, rank=3) -> list: 

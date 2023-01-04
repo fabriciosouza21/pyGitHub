@@ -9,3 +9,13 @@ def get_repositories_name(path):
             repositories.append(subpasta)           
    
     return repositories
+
+def get_directories(path):
+    directories = []
+    for diretorio, subpastas, arquivos in os.walk(path):
+        directory = {}
+        directory["path"] = diretorio
+        directory["subdirectories"] = subpastas
+        directories.append(directory)
+   
+    return directories
