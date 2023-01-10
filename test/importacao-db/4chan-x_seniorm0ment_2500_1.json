@@ -1,0 +1,25 @@
+{
+  "analyzed_text":"Same issue on Firefox running Violentmonkey, latest everything..Disabling Noscript fixes, but I don't want to have to do that..Kuroba is also affected for me.",
+  "emotion":{
+    "document":{
+      "emotion":{
+        "anger":0.060971,
+        "disgust":0.010903,
+        "fear":0.054654,
+        "joy":0.026971,
+        "sadness":0.697781
+      }
+    }
+  },
+  "info":{
+    "issue":2500,
+    "repository":"4chan-x",
+    "user":"seniorm0ment"
+  },
+  "language":"en",
+  "usage":{
+    "features":1,
+    "text_characters":158,
+    "text_units":1
+  }
+}

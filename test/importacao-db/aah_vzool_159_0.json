@@ -1,0 +1,25 @@
+{
+  "analyzed_text":"@jeevatkm Aha, I see...Request 1: should send to page that Show Create Form.Request 2: should send to page that Show one record..Ok, I will looking for a different naming to ...But, when I remove  and access   by  call it returns an error back:.\"**405 Method Not Allowed**\"..In fact, I felt it's a little strange to me at first time!",
+  "emotion":{
+    "document":{
+      "emotion":{
+        "anger":0.051284,
+        "disgust":0.026113,
+        "fear":0.064129,
+        "joy":0.125533,
+        "sadness":0.368725
+      }
+    }
+  },
+  "info":{
+    "issue":159,
+    "repository":"aah",
+    "user":"vzool"
+  },
+  "language":"en",
+  "usage":{
+    "features":1,
+    "text_characters":333,
+    "text_units":1
+  }
+}

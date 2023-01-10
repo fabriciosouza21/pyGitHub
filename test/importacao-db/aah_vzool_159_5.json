@@ -1,0 +1,25 @@
+{
+  "analyzed_text":"@jeevatkm Of course, I'm totally fine with that plan..Let's give any idea a proper time to complete its shape into reality..",
+  "emotion":{
+    "document":{
+      "emotion":{
+        "anger":0.437694,
+        "disgust":0.016089,
+        "fear":0.041693,
+        "joy":0.522478,
+        "sadness":0.050035
+      }
+    }
+  },
+  "info":{
+    "issue":159,
+    "repository":"aah",
+    "user":"vzool"
+  },
+  "language":"en",
+  "usage":{
+    "features":1,
+    "text_characters":124,
+    "text_units":1
+  }
+}
