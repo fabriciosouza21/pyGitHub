@@ -1,0 +1,20 @@
+{
+  "analyzed_text":"1. Does  work?.2. Does  work?..(You probably need to uninstall between each attempt.)",
+  "emotion":{
+    "document":{
+      "emotion":{
+        "anger":0.074302,
+        "disgust":0.021594,
+        "fear":0.191115,
+        "joy":0.169148,
+        "sadness":0.398097
+      }
+    }
+  },
+  "language":"en",
+  "usage":{
+    "features":1,
+    "text_characters":85,
+    "text_units":1
+  }
+}

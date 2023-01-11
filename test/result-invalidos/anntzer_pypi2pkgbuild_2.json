@@ -1,0 +1,20 @@
+{
+  "analyzed_text":"Try running the following shell script (basically what pypi2pkgbuild generates):...What does it say?",
+  "emotion":{
+    "document":{
+      "emotion":{
+        "anger":0.032915,
+        "disgust":0.006216,
+        "fear":0.51152,
+        "joy":0.226836,
+        "sadness":0.20654
+      }
+    }
+  },
+  "language":"en",
+  "usage":{
+    "features":1,
+    "text_characters":100,
+    "text_units":1
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "analyzed_text":"@jeevatkm Thanks for your suggestions, it's  helpful...In fact, I'm trying to implement a \"**Pyramid Hierarchy URL**\" for a situation like this:.. ..or simply.. ..So, the routes would be something like this:....But, I don't know how can I do that with current routing system! I think we need new routing system as an option to cover this area...What do you think?",
+  "emotion":{
+    "document":{
+      "emotion":{
+        "anger":0.049788,
+        "disgust":0.0228,
+        "fear":0.073604,
+        "joy":0.234916,
+        "sadness":0.389242
+      }
+    }
+  },
+  "language":"en",
+  "usage":{
+    "features":1,
+    "text_characters":363,
+    "text_units":1
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "analyzed_text":"Actually even that issue (packages built out of order) should be fixed now.  Pass  (skip building dependencies) for that.",
+  "emotion":{
+    "document":{
+      "emotion":{
+        "anger":0.071783,
+        "disgust":0.035555,
+        "fear":0.08694,
+        "joy":0.37513,
+        "sadness":0.248773
+      }
+    }
+  },
+  "language":"en",
+  "usage":{
+    "features":1,
+    "text_characters":121,
+    "text_units":1
+  }
+}

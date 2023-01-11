@@ -1,7 +1,7 @@
 from github import Github, UnknownObjectException,GithubException
 import sys
 import os
-from IssueRepositoryUtills import IssueRepositoryUtils
+from util.IssueRepositoryUtills import IssueRepositoryUtils
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from util.readJson import readJson
 from util.instantiate_comments_dict import instantiate_comments_dict

@@ -1,0 +1,20 @@
+{
+  "analyzed_text":"That looks like some ABI mistmatch error.  Does  or just  raise the same error?..As a side note I've squashed some commits among the recent fixes as they were becoming quite small.  If you keep reusing the same repo you'll need to do something like  next time to update.  (Haven't changed anything for now regarding your issue.)",
+  "emotion":{
+    "document":{
+      "emotion":{
+        "anger":0.104292,
+        "disgust":0.026139,
+        "fear":0.124487,
+        "joy":0.032161,
+        "sadness":0.55285
+      }
+    }
+  },
+  "language":"en",
+  "usage":{
+    "features":1,
+    "text_characters":328,
+    "text_units":1
+  }
+}

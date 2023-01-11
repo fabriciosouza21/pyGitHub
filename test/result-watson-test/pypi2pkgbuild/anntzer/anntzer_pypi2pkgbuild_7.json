@@ -1,0 +1,20 @@
+{
+  "analyzed_text":"Say your wheel ($pkgname-$pkgver-$etc.whl) is in the local directory, then do..This basically makes pip believe that the local dir is a pypi repository.",
+  "emotion":{
+    "document":{
+      "emotion":{
+        "anger":0.047829,
+        "disgust":0.012311,
+        "fear":0.044381,
+        "joy":0.552508,
+        "sadness":0.052868
+      }
+    }
+  },
+  "language":"en",
+  "usage":{
+    "features":1,
+    "text_characters":152,
+    "text_units":1
+  }
+}

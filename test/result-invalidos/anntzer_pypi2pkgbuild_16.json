@@ -1,0 +1,20 @@
+{
+  "analyzed_text":"Done.  Unfortunately I don't think it'll be easy to lift that restriction -- I added a sentence explaining why, too.  (I guess an alternative would be to default to normalize using pypi normalization (i.e. \"-\" replacing runs of non-alnum characters.  This seems used by a majority of arch packages...)",
+  "emotion":{
+    "document":{
+      "emotion":{
+        "anger":0.1756,
+        "disgust":0.077172,
+        "fear":0.081553,
+        "joy":0.228675,
+        "sadness":0.126403
+      }
+    }
+  },
+  "language":"en",
+  "usage":{
+    "features":1,
+    "text_characters":301,
+    "text_units":1
+  }
+}

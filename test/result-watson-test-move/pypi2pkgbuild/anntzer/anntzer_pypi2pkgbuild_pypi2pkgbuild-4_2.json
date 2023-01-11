@@ -1,0 +1,20 @@
+{
+  "analyzed_text":"fwiw kolibri 0.2.0a2 from pypi does not appear to need to rebuild from my own experiments.",
+  "emotion":{
+    "document":{
+      "emotion":{
+        "anger":0.071086,
+        "disgust":0.010995,
+        "fear":0.032362,
+        "joy":0.469894,
+        "sadness":0.151547
+      }
+    }
+  },
+  "language":"en",
+  "usage":{
+    "features":1,
+    "text_characters":90,
+    "text_units":1
+  }
+}

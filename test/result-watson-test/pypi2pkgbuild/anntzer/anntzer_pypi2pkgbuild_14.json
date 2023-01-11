@@ -1,0 +1,20 @@
+{
+  "analyzed_text":"Actually I have been able to hack something quickly for local wheels.  See the last entry in the Usage Notes.  (It may have some minor issues in which case we'll need to go through a few iterations, please let me know.)..Note that there are *three* slashes and an *absolute* path is required.  Additionally, if a local wheel depends on other local wheels, they need to be built one at a time in topological order (even if  is passed).",
+  "emotion":{
+    "document":{
+      "emotion":{
+        "anger":0.133405,
+        "disgust":0.018962,
+        "fear":0.085695,
+        "joy":0.204479,
+        "sadness":0.325993
+      }
+    }
+  },
+  "language":"en",
+  "usage":{
+    "features":1,
+    "text_characters":434,
+    "text_units":1
+  }
+}

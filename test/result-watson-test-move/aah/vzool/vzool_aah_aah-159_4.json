@@ -1,0 +1,20 @@
+{
+  "analyzed_text":"@jeevatkm I feel that \"**Pyramid Hierarchy URL**\" looks and behave just like \"**BTree**\", as I think  did it too...But, why the  is missing here, algorithm just care about naming and forget the  entirely!..BTY, I found an interesting library can implement this new way, it's called [Bone](link and I really did a testing for it [here](link tag](link picture used for the library, ha ha ha..",
+  "emotion":{
+    "document":{
+      "emotion":{
+        "anger":0.023896,
+        "disgust":0.025443,
+        "fear":0.054616,
+        "joy":0.251619,
+        "sadness":0.129885
+      }
+    }
+  },
+  "language":"en",
+  "usage":{
+    "features":1,
+    "text_characters":390,
+    "text_units":1
+  }
+}

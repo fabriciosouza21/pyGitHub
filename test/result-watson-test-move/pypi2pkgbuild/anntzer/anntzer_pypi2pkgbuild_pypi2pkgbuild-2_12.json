@@ -1,0 +1,20 @@
+{
+  "analyzed_text":"Looks like the package only has prereleases, which are excluded by default.   does pull the prerelease.  In fact I strongly believe that  itself should not install prereleases by default, even though it does (see link",
+  "emotion":{
+    "document":{
+      "emotion":{
+        "anger":0.061975,
+        "disgust":0.020016,
+        "fear":0.110912,
+        "joy":0.102935,
+        "sadness":0.426261
+      }
+    }
+  },
+  "language":"en",
+  "usage":{
+    "features":1,
+    "text_characters":217,
+    "text_units":1
+  }
+}

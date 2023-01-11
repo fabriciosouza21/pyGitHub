@@ -1,0 +1,20 @@
+{
+  "analyzed_text":"Yes.  This is because pypi2pkgbuild runs  on the first built package in order to detect binary dependencies (if one extension module loads another extension module provided by another package, which may be a non-python package).  (Also, if it finds any extension modules -- the presence of which is not so easy to predict otherwise when you are starting from a source package -- it switches the  field from  to the correct arch, but this is arguably less important.)  The second run uses , so it should be very quick (it's just rereading the metadata from  and reing the contents of ) as long as you set PKGEXT to  (which you should do in general, unless you plan to keep the built packages around)...I guess I could skip this step if no update actually needs to be done...",
+  "emotion":{
+    "document":{
+      "emotion":{
+        "anger":0.059095,
+        "disgust":0.013933,
+        "fear":0.057526,
+        "joy":0.407282,
+        "sadness":0.133937
+      }
+    }
+  },
+  "language":"en",
+  "usage":{
+    "features":1,
+    "text_characters":773,
+    "text_units":1
+  }
+}

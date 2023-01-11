@@ -1,0 +1,20 @@
+{
+  "analyzed_text":"Try with the last version.  It will NOT fix the issue (which I cannot reproduce locally), but hopefully it'll print out more info about the error and we'll know how to go from there...PS: You should use three backtracks for pasting multiline output.",
+  "emotion":{
+    "document":{
+      "emotion":{
+        "anger":0.043559,
+        "disgust":0.019173,
+        "fear":0.073356,
+        "joy":0.196165,
+        "sadness":0.220342
+      }
+    }
+  },
+  "language":"en",
+  "usage":{
+    "features":1,
+    "text_characters":249,
+    "text_units":1
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "analyzed_text":"I added an entry at the bottom of the usage notes (link on this topic.  How does it look to you?",
+  "emotion":{
+    "document":{
+      "emotion":{
+        "anger":0.055329,
+        "disgust":0.035575,
+        "fear":0.144345,
+        "joy":0.209273,
+        "sadness":0.129293
+      }
+    }
+  },
+  "language":"en",
+  "usage":{
+    "features":1,
+    "text_characters":96,
+    "text_units":1
+  }
+}

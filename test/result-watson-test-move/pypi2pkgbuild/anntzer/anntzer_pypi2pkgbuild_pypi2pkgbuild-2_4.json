@@ -1,0 +1,20 @@
+{
+  "analyzed_text":"Indeed, I had missed that there is a dependency on [namcap](link  Please first try the new version before installing namcap, it should give you a clearer error message (please confirm).  Then install namcap and try again...It's a bit strange that makepkg is different in the docker image, but I guess I can live with that...",
+  "emotion":{
+    "document":{
+      "emotion":{
+        "anger":0.013774,
+        "disgust":0.047451,
+        "fear":0.06517,
+        "joy":0.135406,
+        "sadness":0.510111
+      }
+    }
+  },
+  "language":"en",
+  "usage":{
+    "features":1,
+    "text_characters":324,
+    "text_units":1
+  }
+}

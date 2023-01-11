@@ -1,0 +1,20 @@
+{
+  "analyzed_text":"Sorry, I was incorrect.  The correct flag for a local folder is  / .  Unfortunately the later is not supported right now by pypi2pkgbuild.py; it should be possible to add that but that'll need a bit of work so it won't happen right now.",
+  "emotion":{
+    "document":{
+      "emotion":{
+        "anger":0.03381,
+        "disgust":0.024302,
+        "fear":0.073121,
+        "joy":0.106429,
+        "sadness":0.661496
+      }
+    }
+  },
+  "language":"en",
+  "usage":{
+    "features":1,
+    "text_characters":236,
+    "text_units":1
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "analyzed_text":"I downloaded the whl from pypi first, so my build was also local.",
+  "emotion":{
+    "document":{
+      "emotion":{
+        "anger":0.016176,
+        "disgust":0.003974,
+        "fear":0.030091,
+        "joy":0.686967,
+        "sadness":0.570777
+      }
+    }
+  },
+  "language":"en",
+  "usage":{
+    "features":1,
+    "text_characters":65,
+    "text_units":1
+  }
+}

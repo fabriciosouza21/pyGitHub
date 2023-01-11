@@ -9,7 +9,7 @@ from util.indentify_arquivo_invalido import identify_arquivo_invalido
 class test_arquivos_test(unittest.TestCase):
 
     def test_arquivo_invalido_tres_file_indentify(self):
-        path = "test/result-watson-test/"
+        path = "test/result-watson-test-move/"
         path_destino = "test/result-invalidos" 
         tree_path_projetos = get_directories(path)
         projetos = tree_path_projetos[0]["subdirectories"]

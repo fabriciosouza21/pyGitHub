@@ -1,0 +1,20 @@
+{
+  "analyzed_text":"It looks like you have a slightly different version of makepkg that I do (mine accepts empty pkgnames -- this is just a temporary PKGBUILD use to retrieve some info from makepkg.conf (which can be in various places) without having to parse it).  What did you install Arch from?..In any case, I just pushed a fix that should work even in your case.  Please give it a try.  For me django-braces appears correctly packaged (your usage is correct).",
+  "emotion":{
+    "document":{
+      "emotion":{
+        "anger":0.242573,
+        "disgust":0.02481,
+        "fear":0.085284,
+        "joy":0.281219,
+        "sadness":0.173076
+      }
+    }
+  },
+  "language":"en",
+  "usage":{
+    "features":1,
+    "text_characters":444,
+    "text_units":1
+  }
+}

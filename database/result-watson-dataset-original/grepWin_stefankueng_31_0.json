@@ -1,0 +1,25 @@
+{
+  "analyzed_text":"you have to use '/' for _executereplace_ and _closedialog_:...but instead, you've used a backslash.",
+  "emotion":{
+    "document":{
+      "emotion":{
+        "anger":0.129728,
+        "disgust":0.015499,
+        "fear":0.075077,
+        "joy":0.141683,
+        "sadness":0.490243
+      }
+    }
+  },
+  "info":{
+    "issue":31,
+    "repository":"grepWin",
+    "user":"stefankueng"
+  },
+  "language":"en",
+  "usage":{
+    "features":1,
+    "text_characters":99,
+    "text_units":1
+  }
+}

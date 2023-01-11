@@ -1,0 +1,20 @@
+{
+  "analyzed_text":"You can also install from a git repository that contains the source (i.e., including a ) via pypi2pkgbuild.py git+file://<blah>`.",
+  "emotion":{
+    "document":{
+      "emotion":{
+        "anger":0.049036,
+        "disgust":0.003487,
+        "fear":0.05037,
+        "joy":0.121788,
+        "sadness":0.6498
+      }
+    }
+  },
+  "language":"en",
+  "usage":{
+    "features":1,
+    "text_characters":129,
+    "text_units":1
+  }
+}

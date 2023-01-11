@@ -1,0 +1,20 @@
+{
+  "analyzed_text":"No worries.  I don't think this library is very widely used (yet?), so feedback (including about general usability) is very welcome.",
+  "emotion":{
+    "document":{
+      "emotion":{
+        "anger":0.042956,
+        "disgust":0.029237,
+        "fear":0.406822,
+        "joy":0.332398,
+        "sadness":0.140999
+      }
+    }
+  },
+  "language":"en",
+  "usage":{
+    "features":1,
+    "text_characters":132,
+    "text_units":1
+  }
+}

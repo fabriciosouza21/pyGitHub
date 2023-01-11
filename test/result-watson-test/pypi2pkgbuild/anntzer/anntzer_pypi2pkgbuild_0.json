@@ -1,0 +1,20 @@
+{
+  "analyzed_text":"Thanks for the report...This is due to  no longer vendoring  since two days ago (link  Now fixed, please check whether it works for you.",
+  "emotion":{
+    "document":{
+      "emotion":{
+        "anger":0.030136,
+        "disgust":0.019819,
+        "fear":0.067195,
+        "joy":0.056556,
+        "sadness":0.540944
+      }
+    }
+  },
+  "language":"en",
+  "usage":{
+    "features":1,
+    "text_characters":136,
+    "text_units":1
+  }
+}

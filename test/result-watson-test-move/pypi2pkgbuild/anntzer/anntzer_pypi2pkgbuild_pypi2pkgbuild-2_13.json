@@ -1,0 +1,20 @@
+{
+  "analyzed_text":"I added a clearer error message (suggesting to use --pre) when such a case happens.",
+  "emotion":{
+    "document":{
+      "emotion":{
+        "anger":0.023688,
+        "disgust":0.046464,
+        "fear":0.024391,
+        "joy":0.080304,
+        "sadness":0.693924
+      }
+    }
+  },
+  "language":"en",
+  "usage":{
+    "features":1,
+    "text_characters":83,
+    "text_units":1
+  }
+}

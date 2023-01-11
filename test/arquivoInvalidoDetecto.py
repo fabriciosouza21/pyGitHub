@@ -13,14 +13,13 @@ class arquivo_invalido_detector_test(unittest.TestCase):
         projetos = tree_path_projetos[0]["subdirectories"]
 
         
-        path_projeto = path + projetos[2]
+        path_projeto = path + projetos[3]
         usuarios = get_directories(path_projeto)[0]["subdirectories"]
         path_usuario = path_projeto + "/" + usuarios[0]
-        arquivos_deletar = identify_arquivo_invalido(path_usuario, projetos[2])
+        arquivos_deletar = identify_arquivo_invalido(path_usuario, projetos[3])
         self.assertEqual(arquivos_deletar, ['vzool_aah_1.json','vzool_aah_2.json'])
-            
 
-    def test_arquivo_invalido_vazio_indentify(self):
+    def test_arquivo_invalido_pypi(self):
         path = "test/result-watson-test/"
         tree_path_projetos = get_directories(path)
         projetos = tree_path_projetos[0]["subdirectories"]
@@ -28,11 +27,24 @@ class arquivo_invalido_detector_test(unittest.TestCase):
         
         path_projeto = path + projetos[0]
         usuarios = get_directories(path_projeto)[0]["subdirectories"]
+        path_usuario = path_projeto + "/" + usuarios[0]
+        arquivos_deletar = identify_arquivo_invalido(path_usuario, projetos[0])
+        self.assertEqual(18, len(arquivos_deletar))
+  
+
+    def test_arquivo_invalido_vazio_indentify(self):
+        path = "test/result-watson-test/"
+        tree_path_projetos = get_directories(path)
+        projetos = tree_path_projetos[0]["subdirectories"]
+
+        
+        path_projeto = path + projetos[1]
+        usuarios = get_directories(path_projeto)[0]["subdirectories"]
         path_usuario = path_projeto + "/" + usuarios[1]
         arquivos_deletar = identify_arquivo_invalido(path_usuario, projetos[0])
         self.assertEqual(arquivos_deletar, [])
         path_usuario = path_projeto + "/" + usuarios[0]
-        arquivos_deletar = identify_arquivo_invalido(path_usuario, projetos[0])
+        arquivos_deletar = identify_arquivo_invalido(path_usuario, projetos[1])
         self.assertEqual(arquivos_deletar, [])
          
     def test_arquivo_invalido_tres_file_indentify(self):
@@ -41,10 +53,10 @@ class arquivo_invalido_detector_test(unittest.TestCase):
         projetos = tree_path_projetos[0]["subdirectories"]
 
         
-        path_projeto = path + projetos[1]
+        path_projeto = path + projetos[2]
         usuarios = get_directories(path_projeto)[0]["subdirectories"]
         path_usuario = path_projeto + "/" + usuarios[0]
-        arquivos_deletar = identify_arquivo_invalido(path_usuario, projetos[1])
+        arquivos_deletar = identify_arquivo_invalido(path_usuario, projetos[2])
         self.assertEqual(arquivos_deletar, ["rscano_ableplayer_1.json", "rscano_ableplayer_2.json"])
 
 
@@ -68,7 +80,7 @@ class arquivo_invalido_detector_test(unittest.TestCase):
                     arquivos_deletar_dict.append(path_user_dict)
 
 
-        self.assertEquals(4, len(arquivos_deletar_all))
+        self.assertEquals(20, len(arquivos_deletar_all))
 
         
 

@@ -1,0 +1,20 @@
+{
+  "analyzed_text":"Pushed a version that skips the rebuild if it appears to be not necessary.",
+  "emotion":{
+    "document":{
+      "emotion":{
+        "anger":0.040123,
+        "disgust":0.00874,
+        "fear":0.066318,
+        "joy":0.041379,
+        "sadness":0.797828
+      }
+    }
+  },
+  "language":"en",
+  "usage":{
+    "features":1,
+    "text_characters":74,
+    "text_units":1
+  }
+}

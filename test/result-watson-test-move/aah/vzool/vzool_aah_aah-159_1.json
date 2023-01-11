@@ -1,0 +1,20 @@
+{
+  "analyzed_text":"By the way, I did try to figured it how to be fixed and I found it in [radix_tree.go](link and I commented lines from [245](link to [248](link after that the problem gone. But, there is a conflict between  & ...I think [radix_tree.go](link can't distinguish between 2 level and 3 level urls seperation! Is this a bug?",
+  "emotion":{
+    "document":{
+      "emotion":{
+        "anger":0.07223,
+        "disgust":0.030638,
+        "fear":0.20953,
+        "joy":0.065044,
+        "sadness":0.248124
+      }
+    }
+  },
+  "language":"en",
+  "usage":{
+    "features":1,
+    "text_characters":317,
+    "text_units":1
+  }
+}
