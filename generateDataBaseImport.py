@@ -2,10 +2,13 @@ from util.getRepositoriesName import get_directories
 from util.ImportacaoSql import importacao_sql
 from util.getArquivosDirectory import get_arquivo_directory
 from util.writeDictToJson import writeDictToJson
+from util.readJson import readJson
 
 def sql_import_json():
     path = "resultWatson/comments-toxico/"
     path_destino = "database/importacao-db/" 
+    path_projec = "database/projects"
+    projetos_owner = readJson("projects", path_projec)
     tree_path_projetos = get_directories(path)
     projetos = tree_path_projetos[0]["subdirectories"]
 
@@ -18,7 +21,11 @@ def sql_import_json():
             qtd_comentarios = 0
             for arquivo in arquivos:
                 issue = importacao_sql(projeto, usuario, arquivo, path_usuario)
+                
                 info = issue['info']
+                repository = info["repository"]
+                owner = projetos_owner.get(repository)
+                issue['info']['owner'] = owner
                 writeDictToJson(issue, f"{info['repository']}_{info['user']}_{info['issue']}_{qtd_comentarios}", path_destino)
                 qtd_comentarios += 1
 
