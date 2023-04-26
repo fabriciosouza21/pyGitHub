@@ -1,0 +1,16 @@
+@startuml
+class TextFrequence {
+  -String input
+  -Array[String] textFrequence
+  -String textBreak
+  -Integer currentIndex
+  -String currentText
+  -void GenerateTextFrequence()
+  +boolean isSequence(String textComparation)
+  -String getCurrentText()
+  -boolean isSameLength()
+  +nextSequence(Integer offset)
+
+}
+
+@enduml
