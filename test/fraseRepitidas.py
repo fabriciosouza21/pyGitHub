@@ -14,18 +14,19 @@ class test_arquivos_test(unittest.TestCase):
 
 	def test_basic(self):
 		text_frequence = TextFrequence(self.text_source, 4)
+		text_frequence.next_offset()
 		text = text_frequence.get_text_current()
 		self.assertEqual(text, "o sol brilha radiante,")
 		result = text_frequence.compare_text_fragment(self.text_target)
 		self.assertEqual(True, result)
 		text_frequence.next_offset()
 		text = text_frequence.get_text_current()
-		self.assertEqual(text, "iluminando tudo ao seu")
+		self.assertEqual(text, "sol brilha radiante, iluminando")
 		result = text_frequence.compare_text_fragment(self.text_target)
 		self.assertEqual(True, result)
 		text_frequence.next_offset()
 		text = text_frequence.get_text_current()
-		self.assertEqual(text, "redor e transmitindo")
+		self.assertEqual(text, "brilha radiante, iluminando tudo")
 		result = text_frequence.compare_text_fragment(self.text_target)
 		self.assertEqual(True, result)
 
@@ -33,12 +34,13 @@ class test_arquivos_test(unittest.TestCase):
 
 	def test_step(self):
 		text_frequence = TextFrequence(self.text_source, 4)
+		text_frequence.next_offset()
 		self.assertEqual(text_frequence.get_text_current(), "o sol brilha radiante,")
 		text_frequence.next_offset()
 		text = text_frequence.get_text_current()
-		self.assertEqual(text, "iluminando tudo ao seu")
+		self.assertEqual(text, "sol brilha radiante, iluminando")
 		text_frequence.next_offset()
-		self.assertEqual(text_frequence.get_text_current(), "redor e transmitindo")
+		self.assertEqual(text_frequence.get_text_current(), "brilha radiante, iluminando tudo")
 		text_frequence.next_offset()
 
 if __name__ == '__main__':
