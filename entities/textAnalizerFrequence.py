@@ -21,9 +21,10 @@ class TextAnaliserFrequence:
 			if(text == None or not arquivos):
 				raise AttributeError("TextAnaliserFrequence: execute: arquivo is None")
 
-			text_frequence = TextFrequence(text, 4)
+			text_frequence = TextFrequence(text, 7)
+
 			while(text_frequence.next_offset() != -1):
-				print("step current: ", text_frequence.get_text_current())
+				print("----------> texto: ", text_frequence.get_text_current())
 				self.get_repeticoes(arquivos, text_frequence)
 			return self.repeticoes
 
